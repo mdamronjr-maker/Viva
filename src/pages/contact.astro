@@ -80,14 +80,14 @@ const faqs = [
           every page goes straight there.
         </p>
 
-        <form class="contact-form" action="mailto:info@vivawellnessco.com" method="post" enctype="text/plain">
+        <form class="contact-form" id="contact-form" novalidate>
           <div class="field">
             <label for="name">Name</label>
-            <input type="text" id="name" name="name" required />
+            <input type="text" id="name" name="name" required autocomplete="name" />
           </div>
           <div class="field">
             <label for="email">Email</label>
-            <input type="email" id="email" name="email" required />
+            <input type="email" id="email" name="email" required autocomplete="email" />
           </div>
           <div class="field">
             <label for="state">State</label>
@@ -113,8 +113,70 @@ const faqs = [
             <label for="message">Message</label>
             <textarea id="message" name="message" rows="5"></textarea>
           </div>
-          <button type="submit" class="btn btn--bronze form-submit">Send message</button>
+
+          {/* Honeypot — hidden from real users, bots fill it */}
+          <div class="hp" aria-hidden="true">
+            <label for="_honey">Leave this blank</label>
+            <input type="text" id="_honey" name="_honey" tabindex="-1" autocomplete="off" />
+          </div>
+
+          <button type="submit" class="btn btn--bronze form-submit" id="submit-btn">
+            Send message
+          </button>
+
+          <div class="form-status" id="form-status" role="status" aria-live="polite"></div>
         </form>
+
+        <script is:inline>
+          (() => {
+            const form = document.getElementById('contact-form');
+            const status = document.getElementById('form-status');
+            const btn = document.getElementById('submit-btn');
+            if (!form) return;
+
+            form.addEventListener('submit', async (e) => {
+              e.preventDefault();
+              status.className = 'form-status';
+              status.textContent = '';
+
+              const data = Object.fromEntries(new FormData(form).entries());
+
+              if (!data.name || !data.email || !data.email.includes('@')) {
+                status.className = 'form-status form-status--err';
+                status.textContent = 'Please add your name and a valid email.';
+                return;
+              }
+
+              btn.disabled = true;
+              const original = btn.textContent;
+              btn.textContent = 'Sending…';
+
+              try {
+                const res = await fetch('/api/contact', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify(data),
+                });
+                const json = await res.json().catch(() => ({}));
+
+                if (res.ok && json.ok) {
+                  status.className = 'form-status form-status--ok';
+                  status.textContent = 'Message sent. We will reply within one business day.';
+                  form.reset();
+                } else {
+                  status.className = 'form-status form-status--err';
+                  status.textContent = json.error || 'Something went wrong. Please email us directly.';
+                }
+              } catch (err) {
+                status.className = 'form-status form-status--err';
+                status.textContent = 'Network error. Please email us directly at info@vivawellnessco.com.';
+              } finally {
+                btn.disabled = false;
+                btn.textContent = original;
+              }
+            });
+          })();
+        </script>
       </div>
 
       <aside class="contact-aside">
@@ -298,6 +360,31 @@ const faqs = [
   }
   .field option { background: var(--ink); color: var(--paper); }
   .form-submit { grid-column: 1 / -1; justify-self: start; margin-top: 1rem; }
+
+  /* Honeypot: hidden from humans, visible to dumb bots */
+  .hp {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  /* Inline status feedback */
+  .form-status {
+    grid-column: 1 / -1;
+    margin-top: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    min-height: 1.2em;
+  }
+  .form-status--ok {
+    color: var(--bronze-bright);
+  }
+  .form-status--err {
+    color: #e8704a;
+  }
 
   @media (max-width: 600px) {
     .contact-form { grid-template-columns: 1fr; }
