@@ -1,0 +1,468 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const categories = [
+  {
+    num: '01',
+    eyebrow: 'Hormone Optimization',
+    title: 'Hormones, calibrated.',
+    italic: 'calibrated',
+    body: 'Energy, body composition, recovery, libido, mood, and sleep all run through the endocrine system. When hormones drift, performance follows. Our protocols restore optimal function for how you actually want to feel and train, not just where the lab range starts.',
+    programs: [
+      {
+        name: 'HRT Guidance',
+        price: 199,
+        priceLabel: '$99',
+        body: 'Provider-led hormone management for patients using insurance for labs and prescriptions. Includes evaluation, dosing guidance, and ongoing oversight of testosterone, estradiol, progesterone, and thyroid hormones. Medication not included.',
+      },
+      {
+        name: 'TRT All Inclusive',
+        price: 199,
+        priceLabel: '$199',
+        featured: true,
+        body: 'Foundational testosterone optimization for men and women. Includes compounded testosterone, supplies, home delivery, provider consults, and biannual labs. Adjuncts available as add-ons.',
+      },
+    ],
+  },
+  {
+    num: '02',
+    eyebrow: 'Metabolic Reset & Weight Loss',
+    title: 'A ladder, not a one-size-fits-all.',
+    italic: 'one-size-fits-all',
+    body: 'Compounded GLP-1 protocols stepped to your physiology and goals. Real appetite control, steady fat loss, and provider supervision so you keep the muscle you trained for. Most clients move up the tiers as tolerance and goals evolve.',
+    programs: [
+      {
+        name: 'Metabolic Micro-Dose',
+        price: 199,
+        priceLabel: '$199',
+        body: 'Maintenance-level metabolic support. Compounded micro-dosed medication for stable insulin sensitivity and weight maintenance.',
+      },
+      {
+        name: 'Metabolic Essential',
+        price: 249,
+        priceLabel: '$249',
+        body: 'Foundational fat-loss protocol. Compounded semaglutide at any dose, or upgraded multi-compound micro-dose tirzepatide. Supplies and home delivery included.',
+      },
+      {
+        name: 'Metabolic Core',
+        price: 349,
+        priceLabel: '$349',
+        featured: true,
+        body: 'Stepped-up protocol for stronger appetite control and consistent fat loss while preserving energy and muscle. Upgraded multi-compound at low to moderate dosing.',
+      },
+      {
+        name: 'Metabolic Advanced',
+        price: 399,
+        priceLabel: '$399',
+        body: 'Higher-dose protocol for patients ready to push fat loss further. Tirzepatide or retatrutide at moderate to high dosing with ongoing provider follow-up.',
+      },
+      {
+        name: 'Metabolic Elite',
+        price: 499,
+        priceLabel: '$499',
+        body: 'Top-tier metabolic protocol using retatrutide at moderate to high dosing for patients who need maximum appetite control and fat-loss support.',
+      },
+    ],
+  },
+  {
+    num: '03',
+    eyebrow: 'Recovery & Repair',
+    title: 'Heal faster than rest alone allows.',
+    italic: 'rest alone',
+    body: 'Provider-led peptide stacks for athletes, lifters, and post-surgical recovery. Reduce inflammation, protect joints, accelerate tissue repair. Real protocols, sourced from FDA-regulated 503A pharmacies, with medical oversight.',
+    programs: [
+      {
+        name: 'Foundational Recovery',
+        price: 349,
+        priceLabel: '$349',
+        body: 'Heal faster, reduce inflammation, protect joints, and improve post-workout recovery. Provider-led protocols for athletes, lifters, and high performers.',
+      },
+      {
+        name: 'Regenerative Healing',
+        price: 499,
+        priceLabel: '$499',
+        body: 'Higher-level regenerative support for athletes, post-surgical patients, and adults managing delayed healing or chronic joint pain. Layers advanced therapies for cellular-level repair.',
+      },
+    ],
+  },
+  {
+    num: '04',
+    eyebrow: 'Recomp & Performance',
+    title: 'Lose fat. Build muscle. Both.',
+    italic: 'Both',
+    body: 'For patients who want more than weight loss alone. Combine metabolic optimization with muscle-supporting therapies for true body recomposition. Designed for athletes, hybrid trainees, and high performers.',
+    programs: [
+      {
+        name: 'Total Recomp',
+        price: 599,
+        priceLabel: '$599',
+        body: 'Advanced body recomposition combining metabolic optimization with muscle-supporting therapies. For patients who want fat loss and muscle preservation in one plan.',
+      },
+      {
+        name: 'Peak Performance',
+        price: 699,
+        priceLabel: '$699',
+        featured: true,
+        body: 'Most comprehensive plan. Combines recovery, performance, and lifestyle protocols. Includes Viva Concierge, one Essential + one Core + one Elite protocol, and priority provider access.',
+      },
+    ],
+  },
+  {
+    num: '05',
+    eyebrow: 'Lifestyle & Longevity',
+    title: 'The slow compounding.',
+    italic: 'compounding',
+    body: 'Programs built around the long-game variables: cellular health, energy, cognition, skin, hair, and sexual wellness. Rotate essential protocols based on goals with ongoing provider guidance and personalized adjustments.',
+    programs: [
+      {
+        name: 'Vitality Protocol',
+        price: 249,
+        priceLabel: '$249',
+        body: 'Designed to support cellular health, energy, metabolism, recovery, cognition, skin, hair, and sexual wellness. Rotate essential protocols based on goals with ongoing provider guidance.',
+      },
+    ],
+  },
+];
+
+const includedAlways = [
+  'One complimentary telehealth visit per quarter',
+  'Direct messaging access to your provider',
+  'Supplies and home delivery',
+  'Routine follow-ups and dose adjustments',
+  'Priority scheduling',
+  'Member pricing on add-ons',
+];
+---
+
+<Layout title="Services & Programs — Viva Wellness Co." description="Twelve provider-led programs for hormone optimization, metabolic reset, recovery, recomposition, and longevity. From $99 to $699 per month, all inclusive.">
+
+  {/* HERO */}
+  <section class="services-hero">
+    <div class="container services-hero__inner">
+      <span class="eyebrow reveal" style="--d: 100ms;">— Programs &amp; memberships</span>
+      <h1 class="services-hero__title reveal" style="--d: 250ms;">
+        Twelve protocols.<br/>
+        <span class="italic-display">One ladder.</span>
+      </h1>
+      <p class="lead reveal" style="--d: 500ms;">
+        Every Viva membership is a flat monthly fee with everything included.
+        Medication, supplies, home delivery, follow-ups, provider access. No
+        surprises. A 12-week minimum gives the protocol enough runway to
+        actually work.
+      </p>
+    </div>
+  </section>
+
+  {/* INCLUDED-EVERYWHERE STRIP */}
+  <section class="included">
+    <div class="container">
+      <div class="included__inner">
+        <div class="included__head">
+          <span class="index" data-num="—">Every membership includes</span>
+        </div>
+        <ul class="included__list">
+          {includedAlways.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  {/* CATEGORIES */}
+  {categories.map((cat) => (
+    <section class="category section">
+      <div class="container">
+        <div class="category__head">
+          <span class="index" data-num={cat.num}>{cat.eyebrow}</span>
+          <h2 class="category__title" set:html={cat.title.replace(cat.italic, `<span class="italic-display">${cat.italic}</span>`)}></h2>
+          <p class="lead">{cat.body}</p>
+        </div>
+
+        <div class="tiers">
+          {cat.programs.map((prog) => (
+            <article class:list={["tier", prog.featured && 'tier--featured']}>
+              <header class="tier__head">
+                <h3 class="tier__name">{prog.name}</h3>
+                <div class="tier__price">
+                  <span class="tier__amt">{prog.priceLabel}</span>
+                  <span class="tier__cad">/mo</span>
+                </div>
+              </header>
+              <p class="tier__body">{prog.body}</p>
+              <a href="https://vivawellnessco.glossgenius.com/" target="_blank" rel="noopener" class="tier__cta">Start protocol →</a>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  ))}
+
+  {/* POLICIES */}
+  <section class="section section--paper">
+    <div class="container policies">
+      <div>
+        <span class="index" data-num="06">The fine print</span>
+        <h2 class="policies__title">Membership policies, plainly stated.</h2>
+      </div>
+      <ul class="policies__list">
+        <li>Provider review and approval required prior to initiating any therapy.</li>
+        <li>All programs require a 12-week minimum commitment to allow adequate time for measurable results.</li>
+        <li>Memberships renew automatically every 30 days. Cancel any time after the initial 12 weeks.</li>
+        <li>A valid card on file is required. Payments are securely processed through GlossGenius.</li>
+        <li>Medication, supplies, and shipments are provided while membership remains active.</li>
+        <li>FSA and HSA accepted. Insurance not accepted for memberships, but can be applied to labs and non-compounded medications.</li>
+      </ul>
+    </div>
+  </section>
+
+  {/* CTA */}
+  <section class="services-cta">
+    <div class="container services-cta__inner">
+      <h2 class="services-cta__title">
+        Not sure which tier? <span class="italic-display">Start with a visit.</span>
+      </h2>
+      <p class="lead">
+        Your first telehealth consult is the diagnostic step. Liliana reviews
+        your goals, history, and labs, then recommends the protocol that fits.
+        No commitment to a tier until you've talked to a provider.
+      </p>
+      <div class="services-cta__ctas">
+        <a href="https://vivawellnessco.glossgenius.com/" target="_blank" rel="noopener" class="btn btn--bronze">Book your first visit</a>
+        <a href="/contact" class="btn">Ask a question</a>
+      </div>
+    </div>
+  </section>
+
+</Layout>
+
+<style>
+  /* HERO */
+  .services-hero {
+    padding: clamp(6rem, 12vw, 10rem) 0 clamp(4rem, 8vw, 6rem);
+    position: relative;
+    overflow: hidden;
+  }
+  .services-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(800px 500px at 80% 30%, rgba(201, 120, 58, 0.15), transparent 60%);
+    pointer-events: none;
+  }
+  .services-hero__inner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    max-width: 1100px;
+  }
+  .services-hero__title {
+    font-size: clamp(3rem, 9vw, 7rem);
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+  }
+  .services-hero__title .italic-display { color: var(--bronze); }
+
+  /* INCLUDED */
+  .included {
+    background: var(--ink-2);
+    border-top: 1px solid var(--rule-strong);
+    border-bottom: 1px solid var(--rule-strong);
+    padding: 2.5rem 0;
+  }
+  .included__inner {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 2rem;
+    align-items: start;
+  }
+  @media (max-width: 800px) {
+    .included__inner { grid-template-columns: 1fr; }
+  }
+  .included__head { padding-top: 0.4rem; }
+  .included__list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem 2rem;
+    color: rgba(245, 241, 234, 0.85);
+    font-size: 0.95rem;
+  }
+  @media (max-width: 600px) { .included__list { grid-template-columns: 1fr; } }
+  .included__list li {
+    padding-left: 1.2rem;
+    position: relative;
+  }
+  .included__list li::before {
+    content: '✦';
+    position: absolute;
+    left: 0;
+    color: var(--bronze);
+    font-size: 0.7rem;
+    top: 0.4rem;
+  }
+
+  /* CATEGORY */
+  .category__head {
+    max-width: 800px;
+    margin-bottom: 3.5rem;
+  }
+  .category__head .index { margin-bottom: 1rem; display: inline-flex; }
+  .category__title {
+    font-size: clamp(2.2rem, 5.5vw, 4rem);
+    margin: 0.6rem 0 1.5rem;
+    max-width: 18ch;
+    line-height: 1;
+  }
+  .category__title .italic-display { color: var(--bronze); }
+
+  /* TIERS */
+  .tiers {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1px;
+    background: var(--rule-strong);
+    border: 1px solid var(--rule-strong);
+  }
+  .tier {
+    background: var(--ink);
+    padding: 2rem 1.7rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    transition: background 240ms var(--ease);
+    min-height: 280px;
+  }
+  .tier:hover { background: var(--ink-2); }
+  .tier--featured {
+    background: var(--ink-2);
+    box-shadow: inset 0 2px 0 0 var(--bronze);
+    position: relative;
+  }
+  .tier--featured::before {
+    content: 'Most chosen';
+    position: absolute;
+    top: -1px;
+    right: 1.5rem;
+    transform: translateY(-100%);
+    background: var(--bronze);
+    color: var(--ink);
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.4rem 0.7rem;
+    font-weight: 500;
+  }
+  .tier__head {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 0.4rem;
+  }
+  .tier__name {
+    font-size: 1.4rem;
+    line-height: 1.1;
+  }
+  .tier__price { display: flex; align-items: baseline; gap: 0.3rem; }
+  .tier__amt {
+    font-family: var(--font-display);
+    font-size: 2.6rem;
+    font-weight: 360;
+    color: var(--paper);
+    line-height: 1;
+  }
+  .tier__cad {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--mute);
+  }
+  .tier__body {
+    color: rgba(245, 241, 234, 0.65);
+    font-size: 0.92rem;
+    flex-grow: 1;
+    line-height: 1.55;
+  }
+  .tier__cta {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--bronze);
+    margin-top: 0.5rem;
+    align-self: flex-start;
+    transition: color 200ms var(--ease);
+  }
+  .tier__cta:hover { color: var(--bronze-bright); }
+
+  /* POLICIES */
+  .policies {
+    display: grid;
+    grid-template-columns: 5fr 7fr;
+    gap: clamp(2rem, 5vw, 5rem);
+  }
+  @media (max-width: 800px) { .policies { grid-template-columns: 1fr; } }
+  .policies__title {
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    margin: 1rem 0 0;
+    max-width: 14ch;
+    line-height: 1.05;
+  }
+  .policies__list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .policies__list li {
+    padding: 1rem 0 1rem 2rem;
+    border-bottom: 1px solid rgba(12, 10, 9, 0.1);
+    position: relative;
+    color: rgba(12, 10, 9, 0.78);
+    font-size: 0.98rem;
+  }
+  .policies__list li::before {
+    content: counter(p);
+    counter-increment: p;
+    position: absolute;
+    left: 0;
+    top: 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--bronze-deep);
+    letter-spacing: 0.1em;
+  }
+  .policies__list { counter-reset: p; }
+
+  /* CTA */
+  .services-cta {
+    padding: clamp(5rem, 10vw, 9rem) 0;
+    text-align: center;
+    background: var(--ink);
+    position: relative;
+    overflow: hidden;
+    border-top: 1px solid var(--rule);
+  }
+  .services-cta::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(700px 400px at 50% 0%, rgba(201, 120, 58, 0.18), transparent 60%);
+    pointer-events: none;
+  }
+  .services-cta__inner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.2rem;
+  }
+  .services-cta__inner .lead { text-align: center; }
+  .services-cta__title {
+    font-size: clamp(2rem, 5vw, 3.6rem);
+    max-width: 22ch;
+  }
+  .services-cta__title .italic-display { color: var(--bronze-bright); }
+  .services-cta__ctas { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; margin-top: 0.8rem; }
+</style>

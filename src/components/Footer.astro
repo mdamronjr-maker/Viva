@@ -1,0 +1,140 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col footer-col--brand">
+        <div class="footer-brand">
+          <span class="brand__mark">V</span>
+          <span class="footer-brand__word">Viva Wellness Co.</span>
+        </div>
+        <p class="footer-tag italic-display">
+          You bring the goals.<br/>We&rsquo;ll bring the protocol.
+        </p>
+        <a href="https://vivawellnessco.glossgenius.com/" class="btn btn--bronze" target="_blank" rel="noopener">Start Protocol</a>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="footer-h">Site</h4>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/about">About</a></li>
+          <li><a href="/services">Services</a></li>
+          <li><a href="/contact">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="footer-h">Contact</h4>
+        <ul>
+          <li><a href="tel:7372107283">(737) 210-7283</a></li>
+          <li><a href="mailto:info@vivawellnessco.com">info@vivawellnessco.com</a></li>
+          <li><a href="https://wa.me/15128002794" target="_blank" rel="noopener">WhatsApp</a></li>
+          <li><a href="https://www.instagram.com/vivawellnessatx" target="_blank" rel="noopener">Instagram</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="footer-h">Service Area</h4>
+        <ul class="footer-states">
+          <li>Texas</li>
+          <li>Colorado</li>
+          <li>Florida</li>
+        </ul>
+        <p class="footer-addr">
+          5900 Balcones Dr #19640<br/>
+          Austin, TX 78731
+        </p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>&copy; {year} Viva Wellness Co.</span>
+      <span class="footer-disclaimer">
+        Not medical advice. All therapies require provider review and approval.
+      </span>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--ink-2);
+    border-top: 1px solid var(--rule-strong);
+    padding: clamp(3rem, 7vw, 5rem) 0 2rem;
+    margin-top: 0;
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr;
+    gap: 3rem;
+    padding-bottom: 3rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  @media (max-width: 860px) {
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 2.5rem; }
+    .footer-col--brand { grid-column: 1 / -1; }
+  }
+  .footer-brand {
+    display: flex; align-items: center; gap: 0.7rem;
+    font-family: var(--font-display);
+    font-weight: 480; font-size: 1.05rem;
+    margin-bottom: 1.2rem;
+  }
+  .brand__mark {
+    width: 32px; height: 32px;
+    display: grid; place-items: center;
+    background: var(--bronze); color: var(--ink);
+    font-weight: 600; border-radius: 2px;
+  }
+  .footer-tag {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+    color: var(--paper);
+    max-width: 22ch;
+  }
+  .footer-h {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--bronze);
+    margin-bottom: 1rem;
+    font-weight: 500;
+  }
+  .footer-col ul { display: flex; flex-direction: column; gap: 0.55rem; }
+  .footer-col a {
+    color: rgba(245, 241, 234, 0.7);
+    transition: color 180ms var(--ease);
+    font-size: 0.95rem;
+  }
+  .footer-col a:hover { color: var(--paper); }
+  .footer-states { color: rgba(245, 241, 234, 0.7); font-size: 0.95rem; }
+  .footer-addr {
+    color: rgba(245, 241, 234, 0.55);
+    font-size: 0.85rem;
+    line-height: 1.5;
+    margin-top: 1rem;
+  }
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--mute);
+  }
+  .footer-disclaimer { max-width: 50ch; text-align: right; }
+  @media (max-width: 720px) {
+    .footer-disclaimer { text-align: left; }
+  }
+</style>

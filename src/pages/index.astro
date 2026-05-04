@@ -1,11 +1,460 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const pillars = [
+  { num: '01', title: 'Hormone Optimization', body: 'TRT and HRT protocols calibrated to how you want to feel and perform, not just where the lab range starts.' },
+  { num: '02', title: 'Metabolic Reset', body: 'Compounded GLP-1 protocols stepped to your physiology. Real appetite control without losing the muscle you trained for.' },
+  { num: '03', title: 'Recovery & Repair', body: 'Provider-led peptide stacks for athletes, lifters, and high performers who need to come back faster than rest alone allows.' },
+  { num: '04', title: 'Recomp & Performance', body: 'Comprehensive protocols that combine fat loss, muscle preservation, and recovery into one fully managed plan.' },
+];
+
+const programs = [
+  { tier: 'Entry', name: 'HRT Guidance', price: '$99', cadence: '/mo', body: 'Provider-led hormone management using your insurance for labs and prescriptions.' },
+  { tier: 'Foundational', name: 'TRT All Inclusive', price: '$199', cadence: '/mo', body: 'Personalized testosterone optimization with compounded medication, supplies, and biannual labs.' },
+  { tier: 'Core', name: 'Metabolic Core', price: '$349', cadence: '/mo', body: 'Stepped-up GLP-1 protocol for stronger appetite control and consistent fat loss.', featured: true },
+  { tier: 'Premium', name: 'Peak Performance', price: '$699', cadence: '/mo', body: 'Total-body optimization combining metabolic, recovery, and performance protocols in one plan.' },
+];
 ---
 
-<Layout>
-	<Welcome />
+<Layout title="Viva Wellness Co. — Performance medicine, delivered virtually from Austin, TX">
+
+  {/* ============ HERO ============ */}
+  <section class="hero">
+    <div class="container hero__inner">
+      <div class="hero__meta reveal" style="--d: 100ms;">
+        <span class="eyebrow">Telehealth · TX · CO · FL</span>
+      </div>
+
+      <h1 class="hero__title">
+        <span class="reveal" style="--d: 200ms;">Performance</span><br/>
+        <span class="reveal" style="--d: 360ms;">medicine,</span><br/>
+        <span class="italic-display reveal" style="--d: 540ms;">engineered</span><br/>
+        <span class="reveal" style="--d: 700ms;">for the body</span><br/>
+        <span class="reveal" style="--d: 860ms;">you train.</span>
+      </h1>
+
+      <div class="hero__foot reveal" style="--d: 1100ms;">
+        <p class="lead">
+          Provider-led protocols for hormone optimization, metabolic reset,
+          recovery, and recomposition. Concierge care, delivered virtually
+          from Austin.
+        </p>
+        <div class="hero__ctas">
+          <a href="https://vivawellnessco.glossgenius.com/" target="_blank" rel="noopener" class="btn btn--bronze">Start Your Protocol</a>
+          <a href="/services" class="btn">Explore Programs</a>
+        </div>
+      </div>
+
+      <div class="hero__index reveal" style="--d: 1300ms;">
+        <span class="index" data-num="00">— Founded by Liliana Damron, APRN, FNP-BC</span>
+      </div>
+    </div>
+  </section>
+
+  {/* ============ MARQUEE ============ */}
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <span>Recover smarter</span>
+      <span>Train harder</span>
+      <span>Live longer</span>
+      <span>Optimize hormones</span>
+      <span>Reset metabolism</span>
+      <span>Rebuild stronger</span>
+      <span>Recover smarter</span>
+      <span>Train harder</span>
+      <span>Live longer</span>
+      <span>Optimize hormones</span>
+      <span>Reset metabolism</span>
+      <span>Rebuild stronger</span>
+    </div>
+  </div>
+
+  {/* ============ PILLARS ============ */}
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <span class="index" data-num="01">The work</span>
+        <h2 class="section-head__title">
+          Four pillars. <span class="italic-display">One protocol.</span>
+        </h2>
+        <p class="lead section-head__lead">
+          We don't believe in piecing it together. Every Viva membership is built
+          around a defined goal and a single provider who knows the whole picture.
+        </p>
+      </div>
+
+      <ul class="pillars">
+        {pillars.map((p) => (
+          <li class="pillar">
+            <span class="pillar__num">{p.num}</span>
+            <h3 class="pillar__title">{p.title}</h3>
+            <p class="pillar__body">{p.body}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  {/* ============ PROVIDER ============ */}
+  <section class="section section--paper">
+    <div class="container provider">
+      <div class="provider__media">
+        <div class="provider__photo" aria-hidden="true">
+          <span class="provider__photo-mono">L</span>
+        </div>
+        <span class="provider__caption">
+          Liliana Damron, APRN, FNP-BC<br/>
+          Founder &amp; Lead Provider
+        </span>
+      </div>
+      <div class="provider__copy">
+        <span class="index" data-num="02">The provider</span>
+        <h2 class="provider__title">
+          Founded by a nurse practitioner who watched <span class="italic-display">preventable disease</span> steal people's lives.
+        </h2>
+        <p class="lead">
+          With a background in geriatric medicine, Liliana built Viva to do the
+          opposite of what she saw every day. The goal isn't to manage decline. It
+          is to extend strength, function, and capacity, so your healthspan
+          finally matches your lifespan.
+        </p>
+        <p>
+          Every protocol is reviewed and approved by a licensed provider. Every
+          medication is sourced from FDA-regulated 503A compounding pharmacies
+          with third-party testing for potency and sterility. No sketchy vials.
+          No shady websites. Just performance medicine done correctly.
+        </p>
+        <a href="/about" class="btn btn--ink">Read the story</a>
+      </div>
+    </div>
+  </section>
+
+  {/* ============ PROGRAMS PREVIEW ============ */}
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <span class="index" data-num="03">The programs</span>
+        <h2 class="section-head__title">
+          Twelve protocols. <span class="italic-display">One ladder.</span>
+        </h2>
+        <p class="lead section-head__lead">
+          From a $99 hormone management track to a $699 fully-loaded performance
+          plan. Every tier includes provider access, home delivery, and protocol
+          adjustments built in.
+        </p>
+      </div>
+
+      <ul class="programs">
+        {programs.map((p) => (
+          <li class:list={["program", p.featured && 'program--featured']}>
+            <span class="program__tier">{p.tier}</span>
+            <h3 class="program__name">{p.name}</h3>
+            <div class="program__price">
+              <span class="program__price-amt">{p.price}</span>
+              <span class="program__price-cad">{p.cadence}</span>
+            </div>
+            <p class="program__body">{p.body}</p>
+            <a href="/services" class="program__link">Learn more →</a>
+          </li>
+        ))}
+      </ul>
+
+      <div class="programs-foot">
+        <a href="/services" class="btn">See all 12 programs</a>
+      </div>
+    </div>
+  </section>
+
+  {/* ============ CTA ============ */}
+  <section class="cta">
+    <div class="container cta__inner">
+      <span class="eyebrow">Begin</span>
+      <h2 class="cta__title">
+        Your <span class="italic-display">first telehealth visit</span><br/>
+        is the only step you have to plan.
+      </h2>
+      <p class="lead">
+        We'll handle labs, the protocol, the medication, the shipping, and the
+        follow-ups. Direct provider access by message. Routine check-ins built
+        in. One plan. Nothing left to piece together.
+      </p>
+      <div class="cta__ctas">
+        <a href="https://vivawellnessco.glossgenius.com/" target="_blank" rel="noopener" class="btn btn--bronze">Book Your First Visit</a>
+        <a href="/contact" class="btn">Ask a Question</a>
+      </div>
+    </div>
+  </section>
+
 </Layout>
+
+<style>
+  /* ============ HERO ============ */
+  .hero {
+    position: relative;
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    padding: 6rem 0 4rem;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(800px 500px at 80% 20%, rgba(201, 120, 58, 0.18), transparent 60%),
+      radial-gradient(600px 400px at 10% 90%, rgba(201, 120, 58, 0.10), transparent 60%);
+    pointer-events: none;
+  }
+  .hero__inner {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+  .hero__title {
+    font-size: clamp(3.2rem, 11vw, 9rem);
+    font-weight: 320;
+    line-height: 0.92;
+    letter-spacing: -0.035em;
+    max-width: 14ch;
+  }
+  .hero__title span { display: inline-block; }
+  .hero__title .italic-display { color: var(--bronze-bright); }
+  .hero__foot {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: end;
+    margin-top: 2rem;
+  }
+  .hero__ctas { display: flex; gap: 1rem; flex-wrap: wrap; justify-self: end; }
+  .hero__index {
+    border-top: 1px solid var(--rule-strong);
+    padding-top: 1rem;
+    margin-top: 1rem;
+  }
+  @media (max-width: 760px) {
+    .hero { min-height: 80vh; }
+    .hero__foot { grid-template-columns: 1fr; gap: 1.8rem; }
+    .hero__ctas { justify-self: start; }
+  }
+
+  /* ============ SECTION HEAD ============ */
+  .section-head {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+    margin-bottom: 4rem;
+    max-width: 100%;
+  }
+  .section-head__title {
+    font-size: clamp(2.2rem, 5.5vw, 4.5rem);
+    max-width: 16ch;
+  }
+  .section-head__title .italic-display { color: var(--bronze); }
+  .section--paper .section-head__title .italic-display { color: var(--bronze-deep); }
+  .section-head__lead { margin-top: 0.5rem; }
+
+  /* ============ PILLARS ============ */
+  .pillars {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--rule-strong);
+  }
+  .pillar {
+    padding: 2rem 1.5rem 2rem 0;
+    border-right: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule-strong);
+    transition: background 240ms var(--ease);
+  }
+  .pillar:last-child { border-right: 0; }
+  .pillar:hover { background: rgba(201, 120, 58, 0.04); }
+  .pillar__num {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--bronze);
+    letter-spacing: 0.1em;
+    display: block;
+    margin-bottom: 1.5rem;
+  }
+  .pillar__title {
+    font-size: 1.55rem;
+    margin-bottom: 1rem;
+    color: var(--paper);
+  }
+  .pillar__body {
+    color: rgba(245, 241, 234, 0.7);
+    font-size: 0.97rem;
+    line-height: 1.55;
+  }
+  @media (max-width: 960px) {
+    .pillars { grid-template-columns: repeat(2, 1fr); }
+    .pillar:nth-child(2n) { border-right: 0; }
+    .pillar { padding-left: 1.5rem; padding-right: 1.5rem; }
+    .pillar:nth-child(2n+1) { padding-left: 0; }
+  }
+  @media (max-width: 600px) {
+    .pillars { grid-template-columns: 1fr; }
+    .pillar { border-right: 0 !important; padding-left: 0; }
+  }
+
+  /* ============ PROVIDER ============ */
+  .provider {
+    display: grid;
+    grid-template-columns: 5fr 7fr;
+    gap: clamp(2.5rem, 6vw, 6rem);
+    align-items: center;
+  }
+  @media (max-width: 900px) {
+    .provider { grid-template-columns: 1fr; gap: 2.5rem; }
+  }
+  .provider__media { display: flex; flex-direction: column; gap: 1rem; }
+  .provider__photo {
+    aspect-ratio: 4/5;
+    background: linear-gradient(135deg, var(--bronze-deep), var(--ink-3));
+    display: grid;
+    place-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .provider__photo::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E");
+    mix-blend-mode: overlay;
+    opacity: 0.4;
+  }
+  .provider__photo-mono {
+    font-family: var(--font-display);
+    font-size: clamp(7rem, 15vw, 14rem);
+    font-style: italic;
+    font-weight: 300;
+    color: var(--paper);
+    opacity: 0.94;
+    position: relative;
+    z-index: 1;
+    font-variation-settings: 'opsz' 144, 'SOFT' 80, 'WONK' 1;
+  }
+  .provider__caption {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink);
+    line-height: 1.7;
+  }
+  .provider__title {
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    margin-bottom: 1.5rem;
+    max-width: 22ch;
+  }
+  .provider__title .italic-display { color: var(--bronze-deep); }
+  .provider__copy p { margin-bottom: 1.2rem; max-width: 60ch; }
+  .provider__copy .btn { margin-top: 1rem; }
+
+  /* ============ PROGRAMS ============ */
+  .programs {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--rule-strong);
+    border: 1px solid var(--rule-strong);
+  }
+  @media (max-width: 1000px) { .programs { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 600px) { .programs { grid-template-columns: 1fr; } }
+  .program {
+    background: var(--ink);
+    padding: 2rem 1.7rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    transition: background 240ms var(--ease);
+  }
+  .program:hover { background: var(--ink-2); }
+  .program--featured {
+    background: var(--ink-2);
+    box-shadow: inset 0 2px 0 0 var(--bronze);
+  }
+  .program__tier {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--bronze);
+  }
+  .program__name {
+    font-size: 1.45rem;
+    line-height: 1.1;
+  }
+  .program__price {
+    display: flex;
+    align-items: baseline;
+    gap: 0.2rem;
+    margin: 0.5rem 0 0.7rem;
+  }
+  .program__price-amt {
+    font-family: var(--font-display);
+    font-size: 2.4rem;
+    font-weight: 360;
+    color: var(--paper);
+  }
+  .program__price-cad {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--mute);
+  }
+  .program__body {
+    color: rgba(245, 241, 234, 0.65);
+    font-size: 0.92rem;
+    flex-grow: 1;
+    margin-bottom: 1rem;
+  }
+  .program__link {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--bronze);
+    align-self: flex-start;
+  }
+  .program__link:hover { color: var(--bronze-bright); }
+  .programs-foot {
+    margin-top: 3rem;
+    text-align: center;
+  }
+
+  /* ============ CTA ============ */
+  .cta {
+    padding: clamp(5rem, 10vw, 9rem) 0;
+    background: var(--ink);
+    position: relative;
+    overflow: hidden;
+    border-top: 1px solid var(--rule);
+  }
+  .cta::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(700px 400px at 50% 100%, rgba(201, 120, 58, 0.22), transparent 70%);
+    pointer-events: none;
+  }
+  .cta__inner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1.2rem;
+  }
+  .cta__title {
+    font-size: clamp(2.2rem, 5vw, 4rem);
+    max-width: 20ch;
+    margin: 0.5rem 0 0.5rem;
+  }
+  .cta__title .italic-display { color: var(--bronze-bright); }
+  .cta__inner .lead { text-align: center; }
+  .cta__ctas { display: flex; gap: 1rem; margin-top: 1rem; flex-wrap: wrap; justify-content: center; }
+</style>

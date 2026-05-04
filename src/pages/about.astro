@@ -1,0 +1,380 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const standards = [
+  { num: '01', title: 'Provider-led, not algorithm-led', body: 'Every protocol is reviewed and approved by a licensed nurse practitioner. No automated questionnaire dispensing prescriptions.' },
+  { num: '02', title: 'FDA-regulated 503A pharmacies', body: 'Every compounded medication comes from sterile pharmacies with third-party testing for potency and sterility. No grey-market peptides.' },
+  { num: '03', title: 'Concierge access', body: 'Direct messaging with your provider. Routine follow-ups built in. Priority scheduling. No call center, no hold times.' },
+  { num: '04', title: 'Transparent pricing', body: 'Flat monthly memberships with everything included. Medication, supplies, home delivery, follow-ups. No surprise charges.' },
+];
+---
+
+<Layout title="About — Viva Wellness Co." description="Founded by Liliana Damron, APRN, FNP-BC, Viva Wellness Co. delivers concierge telehealth and provider-led performance medicine from Austin, Texas.">
+
+  {/* HERO */}
+  <section class="about-hero">
+    <div class="container about-hero__inner">
+      <span class="eyebrow reveal" style="--d: 100ms;">— The story</span>
+      <h1 class="about-hero__title">
+        <span class="reveal" style="--d: 200ms;">We treat health</span><br/>
+        <span class="reveal" style="--d: 360ms;">like</span>
+        <span class="italic-display reveal" style="--d: 500ms;"> training.</span>
+      </h1>
+      <p class="lead reveal" style="--d: 700ms;">
+        Intentional. Optimized. Built to perform. Viva Wellness Co. is a
+        concierge telehealth practice for runners, lifters, hybrid athletes,
+        parents, and high performers who expect their bodies to keep up with
+        their ambition.
+      </p>
+    </div>
+  </section>
+
+  {/* FOUNDER */}
+  <section class="section section--paper">
+    <div class="container founder">
+      <div class="founder__media">
+        <div class="founder__frame">
+          <span class="founder__mono">L</span>
+        </div>
+        <div class="founder__caption">
+          <div>Liliana Damron</div>
+          <div class="founder__creds">APRN, FNP-BC · Founder</div>
+        </div>
+      </div>
+      <div class="founder__copy">
+        <span class="index" data-num="01">The founder</span>
+        <h2 class="founder__title">
+          What you see in geriatrics is the <span class="italic-display">end of the road.</span>
+        </h2>
+        <p class="lead">
+          Liliana spent her early career caring for people whose bodies had
+          stopped working. Strength gone. Independence gone. Quality of life
+          eroded by metabolic dysfunction and chronic disease that had been
+          decades in the making.
+        </p>
+        <p>
+          Most of it was preventable. Not all, but most. The pattern was
+          impossible to unsee: insulin resistance, hormone decline, sarcopenia,
+          inflammation, the slow grind of small things ignored. By the time
+          someone arrived in her clinic, the window for prevention had closed
+          twenty years earlier.
+        </p>
+        <p>
+          Viva Wellness Co. exists to do the opposite. Catch dysfunction early.
+          Build function deliberately. Treat the body the way an athlete treats
+          training: with measurement, intention, and a plan that adapts. The
+          goal is to extend the years where you feel like yourself, so your
+          healthspan finally matches your lifespan.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  {/* MARQUEE */}
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <span>Function over decline</span>
+      <span>Prevention over rescue</span>
+      <span>Measurement over guessing</span>
+      <span>Performance over maintenance</span>
+      <span>Function over decline</span>
+      <span>Prevention over rescue</span>
+      <span>Measurement over guessing</span>
+      <span>Performance over maintenance</span>
+    </div>
+  </div>
+
+  {/* STANDARDS */}
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <span class="index" data-num="02">The standards</span>
+        <h2 class="section-head__title">
+          What concierge <span class="italic-display">actually</span> means.
+        </h2>
+        <p class="lead section-head__lead">
+          The category is full of telehealth brands selling the cheapest version
+          of medicine that the law allows. Viva is built on a different premise.
+        </p>
+      </div>
+
+      <ol class="standards">
+        {standards.map((s) => (
+          <li class="standard">
+            <span class="standard__num">{s.num}</span>
+            <div class="standard__content">
+              <h3 class="standard__title">{s.title}</h3>
+              <p class="standard__body">{s.body}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  {/* SERVICE AREA */}
+  <section class="section">
+    <div class="container service-area">
+      <div>
+        <span class="index" data-num="03">The reach</span>
+        <h2 class="service-area__title">
+          Licensed where you <span class="italic-display">already are.</span>
+        </h2>
+        <p class="lead">
+          Viva is a 100% telehealth practice. Visits happen by secure video.
+          Medications and supplies ship to your door. Follow-ups happen by
+          message or video. No commute, no waiting room.
+        </p>
+        <p>
+          We are currently licensed to see patients in Texas, Colorado, and
+          Florida, with new states added regularly. If your state isn't listed,
+          tell us. It helps us prioritize where to expand next.
+        </p>
+      </div>
+      <div class="states">
+        <div class="state state--active">
+          <div class="state__abbrev">TX</div>
+          <div class="state__name">Texas</div>
+          <div class="state__status">Active</div>
+        </div>
+        <div class="state state--active">
+          <div class="state__abbrev">CO</div>
+          <div class="state__name">Colorado</div>
+          <div class="state__status">Active</div>
+        </div>
+        <div class="state state--active">
+          <div class="state__abbrev">FL</div>
+          <div class="state__name">Florida</div>
+          <div class="state__status">Active</div>
+        </div>
+        <div class="state">
+          <div class="state__abbrev">+</div>
+          <div class="state__name">Your state</div>
+          <div class="state__status">Tell us</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* CTA */}
+  <section class="about-cta">
+    <div class="container about-cta__inner">
+      <h2 class="about-cta__title">
+        The protocol starts with <span class="italic-display">one visit.</span>
+      </h2>
+      <div class="about-cta__ctas">
+        <a href="https://vivawellnessco.glossgenius.com/" target="_blank" rel="noopener" class="btn btn--bronze">Book your first visit</a>
+        <a href="/services" class="btn">See programs</a>
+      </div>
+    </div>
+  </section>
+
+</Layout>
+
+<style>
+  /* HERO */
+  .about-hero {
+    padding: clamp(6rem, 12vw, 10rem) 0 clamp(4rem, 8vw, 7rem);
+    position: relative;
+    overflow: hidden;
+  }
+  .about-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(900px 500px at 75% 0%, rgba(201, 120, 58, 0.16), transparent 65%);
+    pointer-events: none;
+  }
+  .about-hero__inner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    max-width: 1100px;
+  }
+  .about-hero__title {
+    font-size: clamp(3rem, 9vw, 7.5rem);
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    max-width: 14ch;
+  }
+
+  /* FOUNDER */
+  .founder {
+    display: grid;
+    grid-template-columns: 5fr 7fr;
+    gap: clamp(2.5rem, 6vw, 6rem);
+    align-items: start;
+  }
+  @media (max-width: 900px) { .founder { grid-template-columns: 1fr; } }
+  .founder__media {
+    position: sticky;
+    top: 100px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+  @media (max-width: 900px) { .founder__media { position: static; } }
+  .founder__frame {
+    aspect-ratio: 4/5;
+    background: linear-gradient(135deg, var(--bronze-deep) 0%, var(--ink-3) 100%);
+    display: grid;
+    place-items: center;
+    position: relative;
+    overflow: hidden;
+    border-radius: 2px;
+  }
+  .founder__frame::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+    mix-blend-mode: overlay;
+  }
+  .founder__mono {
+    font-family: var(--font-display);
+    font-size: clamp(8rem, 16vw, 16rem);
+    font-style: italic;
+    color: var(--paper);
+    font-variation-settings: 'opsz' 144, 'SOFT' 80, 'WONK' 1;
+    position: relative;
+    z-index: 1;
+  }
+  .founder__caption {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    color: var(--ink);
+    line-height: 1.4;
+  }
+  .founder__creds {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--bronze-deep);
+    margin-top: 0.4rem;
+  }
+  .founder__title {
+    font-size: clamp(2rem, 4.8vw, 3.5rem);
+    margin-bottom: 1.8rem;
+    max-width: 20ch;
+  }
+  .founder__title .italic-display { color: var(--bronze-deep); }
+  .founder__copy p { margin-bottom: 1.3rem; max-width: 62ch; }
+
+  /* STANDARDS */
+  .standards {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+    border-top: 1px solid var(--rule-strong);
+  }
+  .standard {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: clamp(1.5rem, 4vw, 4rem);
+    padding: 2.5rem 0;
+    border-bottom: 1px solid var(--rule);
+    align-items: start;
+  }
+  .standard__num {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--bronze);
+    letter-spacing: 0.12em;
+    padding-top: 0.5rem;
+  }
+  .standard__title {
+    font-size: clamp(1.6rem, 2.8vw, 2.4rem);
+    margin-bottom: 0.7rem;
+    line-height: 1.1;
+  }
+  .standard__body {
+    color: rgba(245, 241, 234, 0.7);
+    max-width: 60ch;
+    font-size: 1.05rem;
+  }
+  @media (max-width: 600px) {
+    .standard { grid-template-columns: 1fr; gap: 0.8rem; padding: 2rem 0; }
+  }
+
+  /* SERVICE AREA */
+  .service-area {
+    display: grid;
+    grid-template-columns: 6fr 5fr;
+    gap: clamp(2rem, 5vw, 5rem);
+    align-items: start;
+  }
+  @media (max-width: 900px) { .service-area { grid-template-columns: 1fr; } }
+  .service-area__title {
+    font-size: clamp(2rem, 4.5vw, 3.4rem);
+    margin: 1rem 0 1.2rem;
+    max-width: 18ch;
+  }
+  .service-area__title .italic-display { color: var(--bronze); }
+  .service-area p { margin-bottom: 1.2rem; max-width: 56ch; }
+  .states {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--rule-strong);
+    border: 1px solid var(--rule-strong);
+  }
+  .state {
+    background: var(--ink);
+    padding: 2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    transition: background 220ms var(--ease);
+  }
+  .state__abbrev {
+    font-family: var(--font-display);
+    font-size: 3rem;
+    font-weight: 360;
+    line-height: 1;
+    color: var(--paper);
+  }
+  .state--active .state__abbrev { color: var(--bronze); }
+  .state__name {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    color: var(--paper);
+    margin-top: 0.3rem;
+  }
+  .state__status {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--mute);
+  }
+  .state--active .state__status { color: var(--bronze); }
+
+  /* CTA */
+  .about-cta {
+    padding: clamp(5rem, 10vw, 9rem) 0;
+    text-align: center;
+    background: var(--ink);
+    position: relative;
+    overflow: hidden;
+    border-top: 1px solid var(--rule);
+  }
+  .about-cta::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(700px 400px at 50% 0%, rgba(201, 120, 58, 0.18), transparent 60%);
+    pointer-events: none;
+  }
+  .about-cta__inner { position: relative; }
+  .about-cta__title {
+    font-size: clamp(2rem, 5vw, 4rem);
+    margin-bottom: 2rem;
+    max-width: 18ch;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .about-cta__title .italic-display { color: var(--bronze-bright); }
+  .about-cta__ctas { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+</style>
