@@ -609,7 +609,7 @@ import Layout from '../layouts/Layout.astro';
 })();
 </script>
 
-<style>
+<style is:global>
   .quiz-shell {
     padding: clamp(3rem, 7vw, 6rem) 0 clamp(4rem, 9vw, 7rem);
     min-height: 80vh;
@@ -623,7 +623,7 @@ import Layout from '../layouts/Layout.astro';
     background: radial-gradient(800px 500px at 80% 20%, rgba(201, 120, 58, 0.12), transparent 60%);
     pointer-events: none;
   }
-  .container { position: relative; }
+  .quiz-shell .container { position: relative; }
 
   /* SCREEN MANAGEMENT */
   .screen { display: none; }
