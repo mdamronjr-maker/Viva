@@ -216,7 +216,7 @@ const programs = [
           <article class="rotator__slide is-active" data-slide>
             <div class="rotator__media rotator__media--portrait">
               <img
-                src="/partners/team-perez.jpg"
+                src="/partners/team-perez.avif"
                 alt="Team Perez photo"
                 onerror="this.style.display='none'; this.parentElement.classList.add('is-empty')"
               />
@@ -243,7 +243,7 @@ const programs = [
           <article class="rotator__slide" data-slide>
             <div class="rotator__media rotator__media--logo">
               <img
-                src="/partners/voltex-pt.png"
+                src="/partners/voltex-pt.svg"
                 alt="Voltex PT logo"
                 onerror="this.style.display='none'; this.parentElement.classList.add('is-empty')"
               />
@@ -264,7 +264,7 @@ const programs = [
           </article>
 
           <article class="rotator__slide" data-slide>
-            <div class="rotator__media rotator__media--logo">
+            <div class="rotator__media rotator__media--logo rotator__media--logo-dark">
               <img
                 src="/partners/austin-sports-therapy.png"
                 alt="Austin Sports Therapy logo"
@@ -714,6 +714,7 @@ const programs = [
   }
   .rotator__media--portrait { background: linear-gradient(135deg, var(--bronze-deep) 0%, var(--ink-3) 100%); }
   .rotator__media--logo { background: var(--paper); }
+  .rotator__media--logo-dark { background: var(--ink); }
   @media (max-width: 760px) {
     .rotator__media { aspect-ratio: 16/10; min-height: 0; }
   }
@@ -762,6 +763,9 @@ const programs = [
     font-style: normal;
     font-variation-settings: 'opsz' 144, 'SOFT' 0;
     font-weight: 380;
+  }
+  .rotator__media--logo-dark .rotator__media-mono {
+    color: var(--paper);
   }
 
   .rotator__copy {
