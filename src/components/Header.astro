@@ -15,6 +15,7 @@ const isActive = (p: string) => path === p || (p !== '/' && path.startsWith(p));
       <a href="/about" class:list={["nav__link", isActive('/about') && 'is-active']}>About</a>
       <a href="/services" class:list={["nav__link", isActive('/services') && 'is-active']}>Services</a>
       <a href="/quiz" class:list={["nav__link", isActive('/quiz') && 'is-active']}>Find Protocol</a>
+      <a href="/blog" class:list={["nav__link", isActive('/blog') && 'is-active']}>Blog</a>
       <a href="/contact" class:list={["nav__link", isActive('/contact') && 'is-active']}>Contact</a>
     </nav>
 
@@ -68,7 +69,7 @@ const isActive = (p: string) => path === p || (p !== '/' && path.startsWith(p));
   }
   .nav {
     display: flex;
-    gap: 2.2rem;
+    gap: 1.6rem;
     justify-content: center;
   }
   .nav__link {
@@ -113,6 +114,7 @@ const isActive = (p: string) => path === p || (p !== '/' && path.startsWith(p));
   <a href="/about">About</a>
   <a href="/services">Services</a>
   <a href="/quiz">Find Protocol</a>
+  <a href="/blog">Blog</a>
   <a href="/contact">Contact</a>
   <a href="https://vivawellnessco.glossgenius.com/" target="_blank" rel="noopener" class="mobile-cta">Start Protocol →</a>
 </nav>

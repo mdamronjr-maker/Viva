@@ -1,0 +1,240 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  return posts.map(post => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  '@id': `https://vivawellnessco.com/blog/${post.id}#article`,
+  headline: post.data.title,
+  description: post.data.description,
+  url: `https://vivawellnessco.com/blog/${post.id}`,
+  datePublished: post.data.publishDate.toISOString(),
+  dateModified: (post.data.modifiedDate || post.data.publishDate).toISOString(),
+  author: {
+    '@type': 'Person',
+    '@id': 'https://vivawellnessco.com/about#liliana',
+    name: post.data.author,
+  },
+  publisher: { '@id': 'https://vivawellnessco.com/#organization' },
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': `https://vivawellnessco.com/blog/${post.id}`,
+  },
+  inLanguage: 'en-US',
+  keywords: post.data.keywords,
+};
+
+const formattedDate = post.data.publishDate.toLocaleDateString('en-US', {
+  month: 'long', day: 'numeric', year: 'numeric'
+});
+---
+
+<Layout
+  title={`${post.data.title} | Viva Wellness Co.`}
+  description={post.data.description}
+  ogType="article"
+  publishDate={post.data.publishDate.toISOString()}
+  modifiedDate={(post.data.modifiedDate || post.data.publishDate).toISOString()}
+  author={post.data.author}
+  schema={articleSchema}
+>
+
+  <article class="post">
+    <header class="post-hero">
+      <div class="container post-hero__inner">
+        <a href="/blog" class="post-back">← Back to all articles</a>
+        <span class="eyebrow">— {post.data.category}</span>
+        <h1 class="post-title">{post.data.title}</h1>
+        <p class="post-lede">{post.data.description}</p>
+        <div class="post-meta">
+          <span class="post-meta__author">{post.data.author}</span>
+          <span class="post-meta__sep">·</span>
+          <time class="post-meta__date" datetime={post.data.publishDate.toISOString()}>{formattedDate}</time>
+        </div>
+      </div>
+    </header>
+
+    <div class="post-body">
+      <div class="container post-body__inner">
+        <Content />
+      </div>
+    </div>
+
+    <footer class="post-foot">
+      <div class="container post-foot__inner">
+        <h2 class="post-foot__title">
+          Ready to <span class="italic-display">start the conversation?</span>
+        </h2>
+        <p class="lead">
+          The protocol begins with one telehealth visit. Forty-five minutes,
+          provider-led, no pressure to commit.
+        </p>
+        <div class="post-foot__ctas">
+          <a href="https://vivawellnessco.glossgenius.com/" target="_blank" rel="noopener" class="btn btn--bronze">Book your first visit</a>
+          <a href="/quiz" class="btn">Find your protocol</a>
+        </div>
+      </div>
+    </footer>
+  </article>
+
+</Layout>
+
+<style is:global>
+  .post-hero {
+    padding: clamp(3rem, 7vw, 5rem) 0 clamp(2rem, 5vw, 3.5rem);
+    position: relative;
+    overflow: hidden;
+  }
+  .post-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(900px 500px at 80% 0%, rgba(201, 120, 58, 0.14), transparent 65%);
+    pointer-events: none;
+  }
+  .post-hero__inner { position: relative; max-width: 800px; }
+  .post-back {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    color: var(--bronze);
+    margin-bottom: 2rem;
+    text-transform: uppercase;
+    border-bottom: 1px solid rgba(201, 120, 58, 0.3);
+    padding-bottom: 0.2rem;
+    transition: color 200ms var(--ease);
+  }
+  .post-back:hover { color: var(--bronze-bright); }
+
+  .post-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.4rem, 6vw, 4.5rem);
+    font-weight: 360;
+    line-height: 1.0;
+    letter-spacing: -0.025em;
+    margin: 1rem 0 1.5rem;
+  }
+  .post-lede {
+    font-size: 1.2rem;
+    line-height: 1.55;
+    color: rgba(245, 241, 234, 0.85);
+    margin-bottom: 2rem;
+    max-width: 60ch;
+  }
+  .post-meta {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    color: var(--mute);
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--rule-strong);
+  }
+  .post-meta__author { color: var(--paper); }
+  .post-meta__sep { margin: 0 0.6rem; }
+
+  .post-body { padding: clamp(2rem, 5vw, 4rem) 0; }
+  .post-body__inner {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .post-body h2 {
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+    font-weight: 420;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin: 3rem 0 1rem;
+    color: var(--paper);
+  }
+  .post-body h2:first-child { margin-top: 0; }
+  .post-body h3 {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    font-weight: 460;
+    line-height: 1.2;
+    margin: 2rem 0 0.7rem;
+    color: var(--paper);
+  }
+  .post-body p {
+    font-size: 1.08rem;
+    line-height: 1.7;
+    color: rgba(245, 241, 234, 0.86);
+    margin-bottom: 1.3rem;
+  }
+  .post-body p strong {
+    color: var(--paper);
+    font-weight: 600;
+  }
+  .post-body ul, .post-body ol {
+    margin: 1rem 0 1.5rem;
+    padding-left: 1.5rem;
+  }
+  .post-body li {
+    font-size: 1.05rem;
+    line-height: 1.65;
+    color: rgba(245, 241, 234, 0.86);
+    margin-bottom: 0.6rem;
+  }
+  .post-body li::marker { color: var(--bronze); }
+  .post-body a {
+    color: var(--bronze);
+    border-bottom: 1px solid rgba(201, 120, 58, 0.4);
+    transition: color 200ms var(--ease), border-color 200ms var(--ease);
+  }
+  .post-body a:hover {
+    color: var(--bronze-bright);
+    border-color: var(--bronze-bright);
+  }
+  .post-body blockquote {
+    border-left: 2px solid var(--bronze);
+    padding: 0.5rem 0 0.5rem 1.5rem;
+    margin: 1.5rem 0;
+    font-style: italic;
+    color: rgba(245, 241, 234, 0.92);
+  }
+
+  .post-foot {
+    padding: clamp(4rem, 8vw, 6rem) 0;
+    background: var(--ink-2);
+    border-top: 1px solid var(--rule);
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+  }
+  .post-foot::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(700px 400px at 50% 0%, rgba(201, 120, 58, 0.15), transparent 60%);
+    pointer-events: none;
+  }
+  .post-foot__inner { position: relative; }
+  .post-foot__title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, 3.4rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin: 0 auto 1rem;
+    max-width: 18ch;
+  }
+  .post-foot .lead { margin: 0 auto 2rem; max-width: 50ch; }
+  .post-foot__ctas {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+</style>

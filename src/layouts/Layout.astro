@@ -3,7 +3,83 @@ import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 
-const { title = 'Viva Wellness Co.', description = 'Performance medicine, delivered virtually from Austin, TX. Provider-led protocols for hormone optimization, weight loss, recovery, and recomposition.' } = Astro.props;
+const {
+  title = 'Concierge Telehealth in Austin | Viva Wellness Co.',
+  description = 'Performance medicine delivered virtually from Austin, TX. Provider-led GLP-1 weight loss, hormone optimization, recovery, and recomposition protocols. Texas, Colorado, and Florida.',
+  ogImage = '/og-image.jpg',
+  ogType = 'website',
+  publishDate,
+  modifiedDate,
+  author = 'Liliana Damron, APRN, FNP-BC',
+  schema,
+  noindex = false,
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site).href;
+const ogImageURL = new URL(ogImage, Astro.site).href;
+const siteName = 'Viva Wellness Co.';
+
+// Sitewide Organization + WebSite schema (always present)
+const orgSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'MedicalBusiness',
+      '@id': 'https://vivawellnessco.com/#organization',
+      name: 'Viva Wellness Co.',
+      alternateName: 'Viva Wellness',
+      url: 'https://vivawellnessco.com',
+      logo: 'https://vivawellnessco.com/favicon.svg',
+      description: 'Concierge telehealth practice delivering performance medicine, hormone optimization, GLP-1 weight loss protocols, and recovery therapy. Austin, Texas.',
+      founder: {
+        '@type': 'Person',
+        '@id': 'https://vivawellnessco.com/about#liliana',
+        name: 'Liliana Damron',
+        honorificSuffix: 'APRN, FNP-BC',
+        jobTitle: 'Family Nurse Practitioner, Founder',
+      },
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: 'Austin',
+        addressRegion: 'TX',
+        addressCountry: 'US',
+      },
+      areaServed: [
+        { '@type': 'State', name: 'Texas' },
+        { '@type': 'State', name: 'Colorado' },
+        { '@type': 'State', name: 'Florida' },
+      ],
+      medicalSpecialty: [
+        'Hormone Therapy',
+        'Weight Management',
+        'Performance Medicine',
+        'Regenerative Medicine',
+      ],
+      priceRange: '$$$',
+      telephone: '+1-737-210-7283',
+      email: 'info@vivawellnessco.com',
+      sameAs: [
+        'https://www.instagram.com/vivawellnessatx',
+      ],
+      aggregateRating: {
+        '@type': 'AggregateRating',
+        ratingValue: '5.0',
+        reviewCount: '86',
+        bestRating: '5',
+        worstRating: '1',
+      },
+    },
+    {
+      '@type': 'WebSite',
+      '@id': 'https://vivawellnessco.com/#website',
+      url: 'https://vivawellnessco.com',
+      name: siteName,
+      description: 'Concierge telehealth performance medicine.',
+      publisher: { '@id': 'https://vivawellnessco.com/#organization' },
+      inLanguage: 'en-US',
+    },
+  ],
+};
 ---
 
 <!DOCTYPE html>
@@ -11,16 +87,45 @@ const { title = 'Viva Wellness Co.', description = 'Performance medicine, delive
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content={description} />
   <meta name="theme-color" content="#0c0a09" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <title>{title}</title>
 
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonicalURL} />
+
+  {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+  {/* Open Graph */}
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
-  <meta property="og:type" content="website" />
+  <meta property="og:type" content={ogType} />
+  <meta property="og:url" content={canonicalURL} />
+  <meta property="og:site_name" content={siteName} />
   <meta property="og:locale" content="en_US" />
+  <meta property="og:image" content={ogImageURL} />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+
+  {publishDate && <meta property="article:published_time" content={publishDate} />}
+  {modifiedDate && <meta property="article:modified_time" content={modifiedDate} />}
+  {ogType === 'article' && <meta property="article:author" content={author} />}
+
+  {/* Twitter */}
   <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={ogImageURL} />
+
+  {/* Schema.org JSON-LD - sitewide org + website */}
+  <script type="application/ld+json" set:html={JSON.stringify(orgSchema)} />
+
+  {/* Page-specific schema, passed in via props */}
+  {schema && <script type="application/ld+json" set:html={JSON.stringify(schema)} />}
+
+  {/* Preconnect to fonts to speed up first paint */}
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 </head>
 <body>
   <Header />

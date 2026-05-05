@@ -1,0 +1,169 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+const posts = (await getCollection('blog'))
+  .filter(p => !p.data.draft)
+  .sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
+
+const blogSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Blog',
+  '@id': 'https://vivawellnessco.com/blog#blog',
+  name: 'Viva Wellness Co. Blog',
+  description: 'Educational articles on performance medicine, GLP-1 weight loss, hormone optimization, and concierge telehealth.',
+  publisher: { '@id': 'https://vivawellnessco.com/#organization' },
+  blogPost: posts.map(p => ({
+    '@type': 'BlogPosting',
+    headline: p.data.title,
+    url: `https://vivawellnessco.com/blog/${p.id}`,
+    datePublished: p.data.publishDate.toISOString(),
+    author: { '@type': 'Person', name: p.data.author },
+  })),
+};
+---
+
+<Layout
+  title="Patient Education | Viva Wellness Co. Blog"
+  description="Educational articles on GLP-1 weight loss, tirzepatide vs semaglutide, concierge telehealth, hormone optimization, and performance medicine. Written from a clinical perspective."
+  schema={blogSchema}
+>
+
+  <section class="blog-hero">
+    <div class="container blog-hero__inner">
+      <span class="eyebrow">— Patient education</span>
+      <h1 class="blog-hero__title">
+        Real answers,<br/>
+        <span class="italic-display">written by a clinician.</span>
+      </h1>
+      <p class="lead">
+        Performance medicine is full of marketing dressed up as information.
+        These articles are the opposite. Educational, clinical, written so you
+        can make informed decisions about your own care.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <ul class="post-list">
+        {posts.map((post, i) => (
+          <li class="post-card">
+            <a href={`/blog/${post.id}`} class="post-card__link">
+              <span class="post-card__num">{String(i + 1).padStart(2, '0')}</span>
+              <div class="post-card__body">
+                <span class="post-card__cat">{post.data.category}</span>
+                <h2 class="post-card__title">{post.data.title}</h2>
+                <p class="post-card__desc">{post.data.description}</p>
+                <div class="post-card__meta">
+                  <time datetime={post.data.publishDate.toISOString()}>
+                    {post.data.publishDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+                  </time>
+                  <span class="post-card__author">{post.data.author}</span>
+                </div>
+              </div>
+              <span class="post-card__arrow" aria-hidden="true">→</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+</Layout>
+
+<style>
+  .blog-hero {
+    padding: clamp(5rem, 11vw, 9rem) 0 clamp(3rem, 6vw, 5rem);
+    position: relative;
+    overflow: hidden;
+  }
+  .blog-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(900px 500px at 75% 0%, rgba(201, 120, 58, 0.16), transparent 65%);
+    pointer-events: none;
+  }
+  .blog-hero__inner { position: relative; max-width: 900px; }
+  .blog-hero__title {
+    font-size: clamp(3rem, 8vw, 6rem);
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    margin: 1rem 0 1.5rem;
+    max-width: 18ch;
+  }
+
+  .post-list {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid var(--rule-strong);
+  }
+  .post-card { border-bottom: 1px solid var(--rule); }
+  .post-card__link {
+    display: grid;
+    grid-template-columns: 70px 1fr 40px;
+    gap: clamp(1rem, 3vw, 2.5rem);
+    padding: clamp(1.6rem, 4vw, 2.5rem) 0;
+    align-items: center;
+    transition: background 220ms var(--ease);
+  }
+  .post-card__link:hover { background: rgba(201, 120, 58, 0.04); }
+  .post-card__num {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--bronze);
+    letter-spacing: 0.12em;
+    align-self: start;
+    padding-top: 0.6rem;
+  }
+  .post-card__cat {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--bronze);
+    display: block;
+    margin-bottom: 0.6rem;
+  }
+  .post-card__title {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 3.5vw, 2.4rem);
+    font-weight: 380;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin: 0 0 0.8rem;
+    max-width: 28ch;
+  }
+  .post-card__link:hover .post-card__title { color: var(--bronze-bright); }
+  .post-card__desc {
+    color: rgba(245, 241, 234, 0.7);
+    font-size: 1rem;
+    line-height: 1.55;
+    max-width: 60ch;
+    margin: 0 0 0.8rem;
+  }
+  .post-card__meta {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    color: var(--mute);
+  }
+  .post-card__arrow {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    color: var(--bronze);
+    transition: transform 280ms var(--ease);
+    text-align: center;
+  }
+  .post-card__link:hover .post-card__arrow { transform: translateX(8px); }
+
+  @media (max-width: 600px) {
+    .post-card__link { grid-template-columns: 1fr; gap: 0.5rem; }
+    .post-card__num { padding-top: 0; }
+    .post-card__arrow { display: none; }
+  }
+</style>

@@ -9,7 +9,23 @@ const standards = [
 ];
 ---
 
-<Layout title="About — Viva Wellness Co." description="Founded by Liliana Damron, APRN, FNP-BC, Viva Wellness Co. delivers concierge telehealth and provider-led performance medicine from Austin, Texas.">
+<Layout
+  title="About Liliana Damron, APRN, FNP-BC | Founder | Viva Wellness Co."
+  description="Liliana Damron, APRN, FNP-BC, founded Viva Wellness Co. to deliver concierge performance medicine via telehealth. Background in geriatric medicine. Practicing in Austin, TX, Colorado, and Florida."
+  schema={{
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    '@id': 'https://vivawellnessco.com/about#liliana',
+    name: 'Liliana Damron',
+    honorificSuffix: 'APRN, FNP-BC',
+    jobTitle: 'Family Nurse Practitioner, Founder',
+    description: 'Founder and lead provider of Viva Wellness Co., a concierge telehealth practice delivering performance medicine in Austin, Texas.',
+    worksFor: { '@id': 'https://vivawellnessco.com/#organization' },
+    image: 'https://vivawellnessco.com/liliana.webp',
+    url: 'https://vivawellnessco.com/about',
+    knowsAbout: ['Hormone Replacement Therapy', 'GLP-1 Weight Loss', 'Performance Medicine', 'Geriatric Medicine'],
+  }}
+>
 
   {/* HERO */}
   <section class="about-hero">

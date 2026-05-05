@@ -29,7 +29,17 @@ const faqs = [
 ];
 ---
 
-<Layout title="Contact — Viva Wellness Co." description="Get in touch with Viva Wellness Co. Concierge telehealth, performance medicine, and provider-led protocols, delivered virtually from Austin, TX.">
+<Layout
+  title="Contact Viva Wellness Co. | Concierge Telehealth Austin"
+  description="Contact Viva Wellness Co. by phone, email, or text. Concierge telehealth performance medicine. Austin, TX. Serving Texas, Colorado, and Florida."
+  schema={{
+    '@context': 'https://schema.org',
+    '@type': 'ContactPage',
+    '@id': 'https://vivawellnessco.com/contact#contact',
+    url: 'https://vivawellnessco.com/contact',
+    mainEntity: { '@id': 'https://vivawellnessco.com/#organization' },
+  }}
+>
 
   {/* HERO */}
   <section class="contact-hero">
