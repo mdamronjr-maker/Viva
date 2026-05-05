@@ -264,7 +264,7 @@ const programs = [
           </article>
 
           <article class="rotator__slide" data-slide>
-            <div class="rotator__media rotator__media--logo rotator__media--logo-dark">
+            <div class="rotator__media rotator__media--logo">
               <img
                 src="/partners/austin-sports-therapy.png"
                 alt="Austin Sports Therapy logo"
@@ -308,7 +308,7 @@ const programs = [
       const dots = rotator.querySelectorAll('[data-dot]');
       let i = 0;
       let timer;
-      const INTERVAL = 6000;
+      const INTERVAL = 3000;
 
       function show(idx) {
         slides.forEach((s, n) => s.classList.toggle('is-active', n === idx));
@@ -713,8 +713,7 @@ const programs = [
     min-height: 320px;
   }
   .rotator__media--portrait { background: linear-gradient(135deg, var(--bronze-deep) 0%, var(--ink-3) 100%); }
-  .rotator__media--logo { background: var(--paper); }
-  .rotator__media--logo-dark { background: var(--ink); }
+  .rotator__media--logo { background: linear-gradient(135deg, var(--bronze-deep) 0%, var(--ink-3) 100%); }
   @media (max-width: 760px) {
     .rotator__media { aspect-ratio: 16/10; min-height: 0; }
   }
@@ -729,15 +728,18 @@ const programs = [
   }
   .rotator__media--logo img {
     object-fit: contain;
-    padding: 2.5rem;
+    padding: clamp(2.5rem, 5vw, 4rem);
   }
   .rotator__media-fallback {
     position: absolute;
     inset: 0;
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
     z-index: 1;
+  }
+  .rotator__media.is-empty .rotator__media-fallback {
+    display: flex;
   }
   .rotator__media-fallback::before {
     content: '';
@@ -747,7 +749,6 @@ const programs = [
     mix-blend-mode: overlay;
     opacity: 0.5;
   }
-  .rotator__media--logo .rotator__media-fallback::before { display: none; }
   .rotator__media-mono {
     font-family: var(--font-display);
     font-size: clamp(4rem, 8vw, 6rem);
@@ -757,15 +758,6 @@ const programs = [
     font-variation-settings: 'opsz' 144, 'SOFT' 80, 'WONK' 1;
     z-index: 1;
     letter-spacing: -0.04em;
-  }
-  .rotator__media--logo .rotator__media-mono {
-    color: var(--ink);
-    font-style: normal;
-    font-variation-settings: 'opsz' 144, 'SOFT' 0;
-    font-weight: 380;
-  }
-  .rotator__media--logo-dark .rotator__media-mono {
-    color: var(--paper);
   }
 
   .rotator__copy {
