@@ -34,7 +34,7 @@ const standards = [
     <div class="container founder">
       <div class="founder__media">
         <div class="founder__frame">
-          <span class="founder__mono">L</span>
+          <img src="/liliana.webp" alt="Liliana Damron, APRN, FNP-BC" loading="lazy" />
         </div>
         <div class="founder__caption">
           <div>Liliana Damron</div>
@@ -163,7 +163,7 @@ const standards = [
         The protocol starts with <span class="italic-display">one visit.</span>
       </h2>
       <div class="about-cta__ctas">
-        <a href="https://vivawellnessco.glossgenius.com/" target="_blank" rel="noopener" class="btn btn--bronze">Book your first visit</a>
+        <a href="/book" class="btn btn--bronze">Book your first visit</a>
         <a href="/quiz" class="btn">Find your protocol</a>
         <a href="/services" class="btn">See programs</a>
       </div>
@@ -224,6 +224,15 @@ const standards = [
     position: relative;
     overflow: hidden;
     border-radius: 2px;
+  }
+  .founder__frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+    position: relative;
+    z-index: 2;
   }
   .founder__frame::before {
     content: '';
