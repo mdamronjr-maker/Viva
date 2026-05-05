@@ -375,9 +375,7 @@ import Layout from '../layouts/Layout.astro';
       card.className = 'option' + (isSelected ? ' is-selected' : '');
       card.dataset.idx = String(i);
       card.innerHTML = `
-        <span class="option__check" aria-hidden="true">
-          <svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </span>
+        <span class="option__check" aria-hidden="true"></span>
         <span class="option__body">
           <span class="option__label">${opt.label}</span>
           ${opt.desc ? `<span class="option__desc">${opt.desc}</span>` : ''}
@@ -761,31 +759,31 @@ import Layout from '../layouts/Layout.astro';
     height: 26px;
     border-radius: 50%;
     border: 1.5px solid var(--rule-strong);
-    display: grid;
-    place-items: center;
     transition: background 220ms var(--ease), border-color 220ms var(--ease);
     flex-shrink: 0;
     margin-top: 0.15rem;
-  }
-  .option__check svg {
-    width: 16px !important;
-    height: 16px !important;
-    max-width: 16px;
-    max-height: 16px;
+    position: relative;
     display: block;
-    flex-shrink: 0;
-    opacity: 0;
-    transform: scale(0.6);
-    transition: opacity 200ms var(--ease), transform 280ms var(--ease);
-    color: var(--ink);
+  }
+  .option__check::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 45%;
+    width: 5px;
+    height: 10px;
+    border: solid var(--ink);
+    border-width: 0 2px 2px 0;
+    transform: translate(-50%, -55%) rotate(45deg) scale(0);
+    transition: transform 280ms var(--ease);
+    box-sizing: border-box;
   }
   .option.is-selected .option__check {
     background: var(--bronze);
     border-color: var(--bronze);
   }
-  .option.is-selected .option__check svg {
-    opacity: 1;
-    transform: scale(1);
+  .option.is-selected .option__check::after {
+    transform: translate(-50%, -55%) rotate(45deg) scale(1);
   }
   .option__body { display: flex; flex-direction: column; gap: 0.3rem; }
   .option__label {

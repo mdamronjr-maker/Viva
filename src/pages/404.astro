@@ -1,0 +1,113 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Page not found — Viva Wellness Co." description="The page you were looking for isn't here. Find your protocol, book a visit, or head back home.">
+
+  <section class="notfound">
+    <div class="container notfound__inner">
+      <span class="eyebrow">— 404</span>
+      <h1 class="notfound__title">
+        This page<br/>
+        <span class="italic-display">isn't here.</span>
+      </h1>
+      <p class="lead">
+        Either the link is stale or we moved something. Either way, here's where to go next.
+      </p>
+
+      <div class="notfound__cards">
+        <a class="nf-card" href="/">
+          <span class="nf-card__num">01</span>
+          <span class="nf-card__title">Back to home</span>
+          <span class="nf-card__desc">Start over from the top.</span>
+        </a>
+        <a class="nf-card nf-card--featured" href="/quiz">
+          <span class="nf-card__num">02</span>
+          <span class="nf-card__title">Find your protocol</span>
+          <span class="nf-card__desc">Five questions, ninety seconds.</span>
+        </a>
+        <a class="nf-card" href="/services">
+          <span class="nf-card__num">03</span>
+          <span class="nf-card__title">See programs</span>
+          <span class="nf-card__desc">All twelve, with pricing.</span>
+        </a>
+        <a class="nf-card" href="/contact">
+          <span class="nf-card__num">04</span>
+          <span class="nf-card__title">Get in touch</span>
+          <span class="nf-card__desc">Call, message, or email.</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+</Layout>
+
+<style>
+  .notfound {
+    padding: clamp(5rem, 10vw, 9rem) 0 clamp(4rem, 8vw, 7rem);
+    position: relative;
+    overflow: hidden;
+    min-height: 70vh;
+  }
+  .notfound::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(800px 500px at 75% 30%, rgba(201, 120, 58, 0.14), transparent 60%);
+    pointer-events: none;
+  }
+  .notfound__inner {
+    position: relative;
+    max-width: 1100px;
+  }
+  .notfound__title {
+    font-size: clamp(3rem, 9vw, 7rem);
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    margin: 1rem 0 1.5rem;
+  }
+  .notfound__title .italic-display { color: var(--bronze-bright); }
+
+  .notfound__cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--rule-strong);
+    border: 1px solid var(--rule-strong);
+    margin-top: 3rem;
+  }
+  @media (max-width: 800px) { .notfound__cards { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 480px) { .notfound__cards { grid-template-columns: 1fr; } }
+  .nf-card {
+    background: var(--ink);
+    padding: 2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    transition: background 220ms var(--ease);
+    border-bottom: none;
+  }
+  .nf-card:hover { background: var(--ink-2); }
+  .nf-card--featured {
+    background: var(--ink-2);
+    box-shadow: inset 0 2px 0 0 var(--bronze);
+  }
+  .nf-card__num {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+    color: var(--bronze);
+    margin-bottom: 0.4rem;
+  }
+  .nf-card__title {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    line-height: 1.1;
+    color: var(--paper);
+  }
+  .nf-card__desc {
+    font-size: 0.9rem;
+    color: rgba(245, 241, 234, 0.6);
+    line-height: 1.5;
+  }
+</style>
