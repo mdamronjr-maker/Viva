@@ -195,8 +195,8 @@ const programs = [
     </div>
   </section>
 
-  {/* ============ NETWORK TEASER ============ */}
-  <section class="network">
+  {/* ============ NETWORK ROTATOR ============ */}
+  <section class="network" id="network">
     <div class="container">
       <div class="network__head">
         <span class="index" data-num="04">The network</span>
@@ -210,34 +210,127 @@ const programs = [
         </p>
       </div>
 
-      <ul class="network__cards">
-        <li class="net-card">
-          <span class="net-card__cat">Strength &amp; Conditioning</span>
-          <h3 class="net-card__name">Team Perez</h3>
-          <p class="net-card__desc">Online and in-person strength coaching for serious lifters.</p>
-        </li>
-        <li class="net-card">
-          <span class="net-card__cat">Physical Therapy</span>
-          <h3 class="net-card__name">Voltex PT</h3>
-          <p class="net-card__desc">Hands-on rehabilitation for what telemedicine can't reach.</p>
-        </li>
-        <li class="net-card">
-          <span class="net-card__cat">Sports Recovery</span>
-          <h3 class="net-card__name">Austin Sports Therapy</h3>
-          <p class="net-card__desc">Specialized injury recovery for athletes and active adults.</p>
-        </li>
-        <li class="net-card">
-          <span class="net-card__cat">Primary Care</span>
-          <h3 class="net-card__name">Premier Family Physicians</h3>
-          <p class="net-card__desc">The foundational care every Viva patient maintains.</p>
-        </li>
-      </ul>
+      <div class="rotator" data-rotator>
+        <div class="rotator__track" data-rotator-track>
 
-      <div class="network__foot">
-        <a href="/partners" class="btn">Meet the network</a>
+          <article class="rotator__slide is-active" data-slide>
+            <div class="rotator__media rotator__media--portrait">
+              <img
+                src="/partners/team-perez.jpg"
+                alt="Team Perez photo"
+                onerror="this.style.display='none'; this.parentElement.classList.add('is-empty')"
+              />
+              <div class="rotator__media-fallback" aria-hidden="true">
+                <span class="rotator__media-mono">TP</span>
+              </div>
+            </div>
+            <div class="rotator__copy">
+              <span class="rotator__cat">Strength &amp; Conditioning</span>
+              <h3 class="rotator__name">Team Perez</h3>
+              <div class="rotator__operator">Run by Jorge Luis</div>
+              <p class="rotator__desc">
+                Online and in-person strength coaching for serious lifters and
+                hybrid athletes. The training side of the equation Viva doesn't
+                cover — pairs perfectly with metabolic and recomp protocols.
+              </p>
+              <div class="rotator__links">
+                <a href="https://www.pontelaspilas.co/" target="_blank" rel="noopener" class="rotator__link">pontelaspilas.co →</a>
+                <a href="https://www.instagram.com/jorge_luis_pt/" target="_blank" rel="noopener" class="rotator__link">@jorge_luis_pt →</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="rotator__slide" data-slide>
+            <div class="rotator__media rotator__media--logo">
+              <img
+                src="/partners/voltex-pt.png"
+                alt="Voltex PT logo"
+                onerror="this.style.display='none'; this.parentElement.classList.add('is-empty')"
+              />
+              <div class="rotator__media-fallback" aria-hidden="true">
+                <span class="rotator__media-mono">VPT</span>
+              </div>
+            </div>
+            <div class="rotator__copy">
+              <span class="rotator__cat">Physical Therapy</span>
+              <h3 class="rotator__name">Voltex PT</h3>
+              <div class="rotator__operator">Austin, TX</div>
+              <p class="rotator__desc">
+                Physical therapy and rehabilitation when a Viva patient needs
+                in-person, hands-on care that no telehealth visit can replace.
+                Movement assessments, manual therapy, return-to-sport protocols.
+              </p>
+            </div>
+          </article>
+
+          <article class="rotator__slide" data-slide>
+            <div class="rotator__media rotator__media--logo">
+              <img
+                src="/partners/austin-sports-therapy.png"
+                alt="Austin Sports Therapy logo"
+                onerror="this.style.display='none'; this.parentElement.classList.add('is-empty')"
+              />
+              <div class="rotator__media-fallback" aria-hidden="true">
+                <span class="rotator__media-mono">AST</span>
+              </div>
+            </div>
+            <div class="rotator__copy">
+              <span class="rotator__cat">Sports Recovery</span>
+              <h3 class="rotator__name">Austin Sports Therapy</h3>
+              <div class="rotator__operator">Austin, TX</div>
+              <p class="rotator__desc">
+                Specialized sports injury recovery for athletes and active
+                adults. Soft tissue work, joint rehabilitation, performance
+                restoration. The kind of care that gets people back to training,
+                not just out of pain.
+              </p>
+            </div>
+          </article>
+
+        </div>
+
+        <div class="rotator__controls">
+          <div class="rotator__dots" data-dots role="tablist" aria-label="Featured partners">
+            <button class="rotator__dot is-active" data-dot="0" aria-label="Show Team Perez"></button>
+            <button class="rotator__dot" data-dot="1" aria-label="Show Voltex PT"></button>
+            <button class="rotator__dot" data-dot="2" aria-label="Show Austin Sports Therapy"></button>
+          </div>
+        </div>
       </div>
     </div>
   </section>
+
+  <script is:inline>
+    (() => {
+      const rotator = document.querySelector('[data-rotator]');
+      if (!rotator) return;
+      const slides = rotator.querySelectorAll('[data-slide]');
+      const dots = rotator.querySelectorAll('[data-dot]');
+      let i = 0;
+      let timer;
+      const INTERVAL = 6000;
+
+      function show(idx) {
+        slides.forEach((s, n) => s.classList.toggle('is-active', n === idx));
+        dots.forEach((d, n) => d.classList.toggle('is-active', n === idx));
+        i = idx;
+      }
+      function next() { show((i + 1) % slides.length); }
+      function start() { stop(); timer = setInterval(next, INTERVAL); }
+      function stop() { if (timer) clearInterval(timer); }
+
+      dots.forEach((d, n) => d.addEventListener('click', () => { show(n); start(); }));
+      rotator.addEventListener('mouseenter', stop);
+      rotator.addEventListener('mouseleave', start);
+
+      // Pause when tab not visible (saves CPU)
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) stop(); else start();
+      });
+
+      start();
+    })();
+  </script>
 
   {/* ============ CTA ============ */}
   <section class="cta">
@@ -562,7 +655,7 @@ const programs = [
     text-align: center;
   }
 
-  /* ============ NETWORK ============ */
+  /* ============ NETWORK ROTATOR ============ */
   .network {
     padding: var(--section-pad) 0;
     border-top: 1px solid var(--rule);
@@ -579,47 +672,179 @@ const programs = [
   }
   .network__title .italic-display { color: var(--bronze); }
 
-  .network__cards {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1px;
-    background: var(--rule-strong);
-    border: 1px solid var(--rule-strong);
+  .rotator {
+    max-width: 1100px;
+    margin: 0 auto;
   }
-  @media (max-width: 900px) { .network__cards { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 540px) { .network__cards { grid-template-columns: 1fr; } }
-  .net-card {
-    background: var(--ink);
-    padding: 1.7rem 1.4rem;
+  .rotator__track {
+    position: relative;
+    background: var(--ink-2);
+    border: 1px solid var(--rule-strong);
+    border-radius: 2px;
+    overflow: hidden;
+    min-height: 360px;
+  }
+  .rotator__slide {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-columns: 5fr 7fr;
+    gap: 0;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 700ms var(--ease), transform 700ms var(--ease);
+    pointer-events: none;
+  }
+  .rotator__slide.is-active {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+    position: relative;
+  }
+  @media (max-width: 760px) {
+    .rotator__slide { grid-template-columns: 1fr; }
+    .rotator__track { min-height: auto; }
+  }
+
+  .rotator__media {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--bronze-deep) 0%, var(--ink-3) 100%);
+    min-height: 320px;
+  }
+  .rotator__media--portrait { background: linear-gradient(135deg, var(--bronze-deep) 0%, var(--ink-3) 100%); }
+  .rotator__media--logo { background: var(--paper); }
+  @media (max-width: 760px) {
+    .rotator__media { aspect-ratio: 16/10; min-height: 0; }
+  }
+
+  .rotator__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    position: relative;
+    z-index: 2;
+  }
+  .rotator__media--logo img {
+    object-fit: contain;
+    padding: 2.5rem;
+  }
+  .rotator__media-fallback {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+  }
+  .rotator__media-fallback::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+    mix-blend-mode: overlay;
+    opacity: 0.5;
+  }
+  .rotator__media--logo .rotator__media-fallback::before { display: none; }
+  .rotator__media-mono {
+    font-family: var(--font-display);
+    font-size: clamp(4rem, 8vw, 6rem);
+    font-weight: 320;
+    font-style: italic;
+    color: var(--paper);
+    font-variation-settings: 'opsz' 144, 'SOFT' 80, 'WONK' 1;
+    z-index: 1;
+    letter-spacing: -0.04em;
+  }
+  .rotator__media--logo .rotator__media-mono {
+    color: var(--ink);
+    font-style: normal;
+    font-variation-settings: 'opsz' 144, 'SOFT' 0;
+    font-weight: 380;
+  }
+
+  .rotator__copy {
+    padding: clamp(1.8rem, 3.5vw, 2.5rem);
     display: flex;
     flex-direction: column;
-    gap: 0.4rem;
-    transition: background 220ms var(--ease);
+    justify-content: center;
+    gap: 0.7rem;
   }
-  .net-card:hover { background: var(--ink-2); }
-  .net-card__cat {
+  .rotator__cat {
     font-family: var(--font-mono);
-    font-size: 0.65rem;
-    letter-spacing: 0.14em;
+    font-size: 0.7rem;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
     color: var(--bronze);
   }
-  .net-card__name {
+  .rotator__name {
     font-family: var(--font-display);
-    font-size: 1.35rem;
-    line-height: 1.15;
-    margin-top: 0.3rem;
+    font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+    font-weight: 380;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin: 0.2rem 0 0.2rem;
   }
-  .net-card__desc {
-    color: rgba(245, 241, 234, 0.65);
-    font-size: 0.9rem;
-    line-height: 1.5;
-    margin-top: 0.3rem;
+  .rotator__operator {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--mute);
+    margin-bottom: 0.5rem;
+  }
+  .rotator__desc {
+    color: rgba(245, 241, 234, 0.78);
+    font-size: 0.98rem;
+    line-height: 1.55;
+    max-width: 50ch;
+    margin: 0;
+  }
+  .rotator__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-top: 0.7rem;
+  }
+  .rotator__link {
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    letter-spacing: 0.1em;
+    color: var(--bronze);
+    text-transform: lowercase;
+    border-bottom: 1px solid rgba(201, 120, 58, 0.4);
+    padding-bottom: 0.15rem;
+    transition: color 200ms var(--ease), border-color 200ms var(--ease);
+  }
+  .rotator__link:hover {
+    color: var(--bronze-bright);
+    border-color: var(--bronze-bright);
   }
 
-  .network__foot {
-    margin-top: 2.5rem;
-    text-align: center;
+  .rotator__controls {
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5rem;
+  }
+  .rotator__dots {
+    display: flex;
+    gap: 0.5rem;
+  }
+  .rotator__dot {
+    width: 28px;
+    height: 4px;
+    background: var(--rule-strong);
+    border: 0;
+    border-radius: 0;
+    cursor: pointer;
+    padding: 0;
+    transition: background 280ms var(--ease), width 280ms var(--ease);
+  }
+  .rotator__dot:hover { background: var(--mute); }
+  .rotator__dot.is-active {
+    background: var(--bronze);
+    width: 56px;
   }
 
   /* ============ CTA ============ */
