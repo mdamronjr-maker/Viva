@@ -69,6 +69,36 @@ const programs = [
     </div>
   </div>
 
+  {/* ============ QUIZ TEASER ============ */}
+  <section class="quiz-teaser">
+    <div class="container quiz-teaser__inner">
+      <div class="quiz-teaser__copy">
+        <span class="eyebrow">— Not sure where to start?</span>
+        <h2 class="quiz-teaser__title">
+          Five questions.<br/>
+          <span class="italic-display">One protocol.</span>
+        </h2>
+        <p class="lead">
+          Answer five quick questions about your goals, training, and starting
+          point. We'll match you with the protocol and tier that fits, in about
+          ninety seconds.
+        </p>
+        <a href="/quiz" class="btn btn--bronze">Find your protocol</a>
+      </div>
+      <div class="quiz-teaser__visual" aria-hidden="true">
+        <div class="quiz-teaser__num">01</div>
+        <div class="quiz-teaser__line"></div>
+        <div class="quiz-teaser__num">02</div>
+        <div class="quiz-teaser__line"></div>
+        <div class="quiz-teaser__num">03</div>
+        <div class="quiz-teaser__line"></div>
+        <div class="quiz-teaser__num">04</div>
+        <div class="quiz-teaser__line"></div>
+        <div class="quiz-teaser__num">05</div>
+      </div>
+    </div>
+  </section>
+
   {/* ============ PILLARS ============ */}
   <section class="section">
     <div class="container">
@@ -255,6 +285,68 @@ const programs = [
   .section-head__title .italic-display { color: var(--bronze); }
   .section--paper .section-head__title .italic-display { color: var(--bronze-deep); }
   .section-head__lead { margin-top: 0.5rem; }
+
+  /* ============ QUIZ TEASER ============ */
+  .quiz-teaser {
+    padding: clamp(4rem, 8vw, 6rem) 0;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    position: relative;
+    overflow: hidden;
+  }
+  .quiz-teaser::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(700px 400px at 20% 50%, rgba(201, 120, 58, 0.12), transparent 60%);
+    pointer-events: none;
+  }
+  .quiz-teaser__inner {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: clamp(2rem, 5vw, 5rem);
+    align-items: center;
+  }
+  @media (max-width: 800px) {
+    .quiz-teaser__inner { grid-template-columns: 1fr; }
+  }
+  .quiz-teaser__title {
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    margin: 1rem 0 1.2rem;
+    max-width: 14ch;
+  }
+  .quiz-teaser__title .italic-display { color: var(--bronze-bright); }
+  .quiz-teaser__copy .btn { margin-top: 0.5rem; }
+  .quiz-teaser__visual {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+  }
+  .quiz-teaser__num {
+    font-family: var(--font-display);
+    font-size: clamp(1.4rem, 2.5vw, 2rem);
+    font-weight: 360;
+    color: var(--bronze);
+    width: 3rem;
+    height: 3rem;
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--rule-strong);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .quiz-teaser__line {
+    width: 1.5rem;
+    height: 1px;
+    background: var(--rule-strong);
+    flex-shrink: 0;
+  }
+  @media (max-width: 800px) {
+    .quiz-teaser__visual { display: none; }
+  }
 
   /* ============ PILLARS ============ */
   .pillars {
