@@ -1,0 +1,356 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const partners = [
+  {
+    num: '01',
+    name: 'Team Perez',
+    operator: 'Jorge Luis',
+    category: 'Strength & Conditioning',
+    role: 'The training partner.',
+    body: "Online and in-person strength coaching for serious lifters and hybrid athletes. The training side of the equation Viva doesn't cover. When clients need a coach who'll write the program, hold the standard, and teach the lifts, Jorge is who we send them to.",
+    why: 'Pairs perfectly with metabolic and recomp protocols. The medication does its work; the training makes it stick.',
+    links: [
+      { label: 'pontelaspilas.co', href: 'https://www.pontelaspilas.co/' },
+      { label: '@jorge_luis_pt', href: 'https://www.instagram.com/jorge_luis_pt/' },
+    ],
+  },
+  {
+    num: '02',
+    name: 'Voltex PT',
+    operator: '',
+    category: 'Physical Therapy',
+    role: 'The hands-on care.',
+    body: 'Physical therapy and rehabilitation in Austin. The team we trust when a Viva patient needs in-person, hands-on care that no telehealth visit can replace. Movement assessments, manual therapy, return-to-sport protocols.',
+    why: "Telemedicine has a ceiling. When a patient hits it, Voltex is the trusted handoff so care doesn't fragment.",
+    links: [],
+  },
+  {
+    num: '03',
+    name: 'Austin Sports Therapy',
+    operator: '',
+    category: 'Sports Recovery',
+    role: 'The injury specialists.',
+    body: 'Specialized sports injury recovery for athletes and active adults in Austin. Soft tissue work, joint rehabilitation, performance restoration. The kind of care that gets people back to training, not just out of pain.',
+    why: 'Recovery protocols accelerate healing. Hands-on therapists rebuild function. Both matter.',
+    links: [],
+  },
+  {
+    num: '04',
+    name: 'Premier Family Physicians',
+    operator: '',
+    category: 'Primary Care',
+    role: 'The foundation.',
+    body: 'Comprehensive primary care for adults and families in the Austin area. We require every Viva patient to maintain a primary care relationship for the foundational health needs that fall outside our scope, and Premier is who we trust to provide that care.',
+    why: 'Concierge performance medicine works because primary care is handled elsewhere. Premier handles it well.',
+    links: [],
+  },
+];
+---
+
+<Layout title="The Network — Viva Wellness Co." description="The Austin partners we work with. Strength coaches, physical therapists, sports recovery specialists, and primary care physicians who share our commitment to performance, recovery, and whole-body wellness.">
+
+  {/* HERO */}
+  <section class="partners-hero">
+    <div class="container partners-hero__inner">
+      <span class="eyebrow reveal" style="--d: 100ms;">— The network</span>
+      <h1 class="partners-hero__title">
+        <span class="reveal" style="--d: 200ms;">No one practice</span><br/>
+        <span class="reveal" style="--d: 360ms;">covers</span>
+        <span class="italic-display reveal" style="--d: 500ms;">everything.</span>
+      </h1>
+      <p class="lead reveal" style="--d: 700ms;">
+        Viva is concierge performance medicine. Hormones, metabolism, recovery,
+        recomposition. We do that, and we do it well. For everything that sits
+        outside our scope, we partner with Austin practitioners we'd send our
+        own family to.
+      </p>
+    </div>
+  </section>
+
+  {/* PARTNERS */}
+  <section class="section">
+    <div class="container">
+      {partners.map((p, i) => (
+        <article class="partner">
+          <div class="partner__head">
+            <span class="partner__num">{p.num}</span>
+            <span class="partner__category">{p.category}</span>
+          </div>
+
+          <div class="partner__body">
+            <div class="partner__title-block">
+              <h2 class="partner__name">{p.name}</h2>
+              {p.operator && <div class="partner__operator">Run by {p.operator}</div>}
+              <div class="partner__role italic-display">{p.role}</div>
+            </div>
+
+            <div class="partner__copy">
+              <p>{p.body}</p>
+              <div class="partner__why">
+                <span class="partner__why-label">Why we partner</span>
+                <p>{p.why}</p>
+              </div>
+              {p.links.length > 0 && (
+                <div class="partner__links">
+                  {p.links.map((l) => (
+                    <a href={l.href} target="_blank" rel="noopener" class="partner__link">
+                      {l.label} <span aria-hidden="true">→</span>
+                    </a>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  {/* PARTNERSHIP CTA */}
+  <section class="section section--paper">
+    <div class="container partner-cta">
+      <div class="partner-cta__copy">
+        <span class="index" data-num="—">Are you a provider?</span>
+        <h2 class="partner-cta__title">
+          We're always open to <span class="italic-display">the right partners.</span>
+        </h2>
+        <p class="lead">
+          If you're an Austin practitioner whose work complements ours and you
+          believe in coordinated, patient-first care, we'd love to talk. Real
+          partnerships, not referral schemes. The bar is high, but the
+          conversation is easy.
+        </p>
+      </div>
+      <div class="partner-cta__action">
+        <a href="/contact" class="btn btn--ink">Start a conversation</a>
+      </div>
+    </div>
+  </section>
+
+  {/* CLOSING CTA */}
+  <section class="partners-close">
+    <div class="container partners-close__inner">
+      <h2 class="partners-close__title">
+        Care worth <span class="italic-display">connecting.</span>
+      </h2>
+      <p class="lead">
+        Concierge medicine should mean concierge coordination. Every Viva patient
+        gets recommendations to the partners that fit their goals, with personal
+        introductions when it helps.
+      </p>
+      <div class="partners-close__ctas">
+        <a href="https://vivawellnessco.glossgenius.com/" target="_blank" rel="noopener" class="btn btn--bronze">Become a Viva patient</a>
+        <a href="/quiz" class="btn">Find your protocol</a>
+      </div>
+    </div>
+  </section>
+
+</Layout>
+
+<style>
+  /* HERO */
+  .partners-hero {
+    padding: clamp(5rem, 11vw, 9rem) 0 clamp(3rem, 7vw, 6rem);
+    position: relative;
+    overflow: hidden;
+  }
+  .partners-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(900px 500px at 75% 0%, rgba(201, 120, 58, 0.16), transparent 65%);
+    pointer-events: none;
+  }
+  .partners-hero__inner {
+    position: relative;
+    max-width: 1100px;
+  }
+  .partners-hero__title {
+    font-size: clamp(3rem, 8vw, 6.5rem);
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    margin: 1.2rem 0 1.5rem;
+    max-width: 16ch;
+  }
+
+  /* PARTNERS */
+  .partner {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: clamp(1.5rem, 4vw, 4rem);
+    padding: clamp(3rem, 6vw, 4.5rem) 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .partner:first-child {
+    border-top: 1px solid var(--rule-strong);
+  }
+  @media (max-width: 700px) {
+    .partner { grid-template-columns: 1fr; gap: 1rem; }
+  }
+  .partner__head {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding-top: 0.4rem;
+  }
+  @media (max-width: 700px) {
+    .partner__head { flex-direction: row; align-items: center; gap: 1rem; }
+  }
+  .partner__num {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--bronze);
+    letter-spacing: 0.12em;
+  }
+  .partner__category {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--mute);
+  }
+
+  .partner__body {
+    display: grid;
+    grid-template-columns: 5fr 7fr;
+    gap: clamp(2rem, 4vw, 4rem);
+    align-items: start;
+  }
+  @media (max-width: 900px) {
+    .partner__body { grid-template-columns: 1fr; gap: 1.5rem; }
+  }
+
+  .partner__name {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4.5vw, 3.4rem);
+    font-weight: 380;
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.4rem;
+  }
+  .partner__operator {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--bronze);
+    margin-bottom: 1rem;
+  }
+  .partner__role {
+    font-size: 1.4rem;
+    color: var(--bronze-bright);
+    line-height: 1.2;
+  }
+
+  .partner__copy p {
+    color: rgba(245, 241, 234, 0.78);
+    font-size: 1.05rem;
+    line-height: 1.6;
+    max-width: 60ch;
+    margin-bottom: 1.5rem;
+  }
+  .partner__why {
+    border-left: 2px solid var(--bronze);
+    padding: 0.4rem 0 0.4rem 1.2rem;
+    margin: 1rem 0 1.5rem;
+    background: rgba(201, 120, 58, 0.04);
+  }
+  .partner__why-label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--bronze);
+    margin-bottom: 0.4rem;
+  }
+  .partner__why p {
+    margin-bottom: 0;
+    font-size: 0.98rem;
+    line-height: 1.55;
+    color: rgba(245, 241, 234, 0.85);
+  }
+  .partner__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-top: 1rem;
+  }
+  .partner__link {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    color: var(--bronze);
+    text-transform: lowercase;
+    border-bottom: 1px solid rgba(201, 120, 58, 0.4);
+    padding-bottom: 0.15rem;
+    transition: color 200ms var(--ease), border-color 200ms var(--ease);
+  }
+  .partner__link:hover {
+    color: var(--bronze-bright);
+    border-color: var(--bronze-bright);
+  }
+
+  /* PARTNERSHIP CTA */
+  .partner-cta {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: clamp(2rem, 5vw, 5rem);
+    align-items: center;
+  }
+  @media (max-width: 800px) {
+    .partner-cta { grid-template-columns: 1fr; }
+  }
+  .partner-cta__title {
+    font-size: clamp(2rem, 4.5vw, 3.4rem);
+    margin: 1rem 0 1.5rem;
+    max-width: 18ch;
+    line-height: 1.05;
+  }
+  .partner-cta__title .italic-display { color: var(--bronze-deep); }
+  .partner-cta__action {
+    display: flex;
+    justify-content: flex-end;
+  }
+  @media (max-width: 800px) {
+    .partner-cta__action { justify-content: flex-start; }
+  }
+
+  /* CLOSING */
+  .partners-close {
+    padding: clamp(5rem, 10vw, 9rem) 0;
+    text-align: center;
+    background: var(--ink);
+    position: relative;
+    overflow: hidden;
+    border-top: 1px solid var(--rule);
+  }
+  .partners-close::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(700px 400px at 50% 0%, rgba(201, 120, 58, 0.18), transparent 60%);
+    pointer-events: none;
+  }
+  .partners-close__inner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.2rem;
+  }
+  .partners-close__inner .lead { text-align: center; }
+  .partners-close__title {
+    font-size: clamp(2rem, 5vw, 3.6rem);
+    max-width: 18ch;
+  }
+  .partners-close__title .italic-display { color: var(--bronze-bright); }
+  .partners-close__ctas {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 1rem;
+  }
+</style>

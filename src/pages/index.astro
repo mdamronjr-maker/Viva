@@ -195,6 +195,50 @@ const programs = [
     </div>
   </section>
 
+  {/* ============ NETWORK TEASER ============ */}
+  <section class="network">
+    <div class="container">
+      <div class="network__head">
+        <span class="index" data-num="04">The network</span>
+        <h2 class="network__title">
+          The Austin partners <span class="italic-display">we trust</span> with our patients.
+        </h2>
+        <p class="lead">
+          Concierge medicine is a small piece of total care. For everything that
+          falls outside our scope, we work with practitioners we'd send our own
+          family to.
+        </p>
+      </div>
+
+      <ul class="network__cards">
+        <li class="net-card">
+          <span class="net-card__cat">Strength &amp; Conditioning</span>
+          <h3 class="net-card__name">Team Perez</h3>
+          <p class="net-card__desc">Online and in-person strength coaching for serious lifters.</p>
+        </li>
+        <li class="net-card">
+          <span class="net-card__cat">Physical Therapy</span>
+          <h3 class="net-card__name">Voltex PT</h3>
+          <p class="net-card__desc">Hands-on rehabilitation for what telemedicine can't reach.</p>
+        </li>
+        <li class="net-card">
+          <span class="net-card__cat">Sports Recovery</span>
+          <h3 class="net-card__name">Austin Sports Therapy</h3>
+          <p class="net-card__desc">Specialized injury recovery for athletes and active adults.</p>
+        </li>
+        <li class="net-card">
+          <span class="net-card__cat">Primary Care</span>
+          <h3 class="net-card__name">Premier Family Physicians</h3>
+          <p class="net-card__desc">The foundational care every Viva patient maintains.</p>
+        </li>
+      </ul>
+
+      <div class="network__foot">
+        <a href="/partners" class="btn">Meet the network</a>
+      </div>
+    </div>
+  </section>
+
   {/* ============ CTA ============ */}
   <section class="cta">
     <div class="container cta__inner">
@@ -515,6 +559,66 @@ const programs = [
   .program__link:hover { color: var(--bronze-bright); }
   .programs-foot {
     margin-top: 3rem;
+    text-align: center;
+  }
+
+  /* ============ NETWORK ============ */
+  .network {
+    padding: var(--section-pad) 0;
+    border-top: 1px solid var(--rule);
+  }
+  .network__head {
+    margin-bottom: 3rem;
+    max-width: 800px;
+  }
+  .network__title {
+    font-size: clamp(2rem, 4.8vw, 3.4rem);
+    margin: 0.7rem 0 1.2rem;
+    max-width: 22ch;
+    line-height: 1.05;
+  }
+  .network__title .italic-display { color: var(--bronze); }
+
+  .network__cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--rule-strong);
+    border: 1px solid var(--rule-strong);
+  }
+  @media (max-width: 900px) { .network__cards { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 540px) { .network__cards { grid-template-columns: 1fr; } }
+  .net-card {
+    background: var(--ink);
+    padding: 1.7rem 1.4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    transition: background 220ms var(--ease);
+  }
+  .net-card:hover { background: var(--ink-2); }
+  .net-card__cat {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--bronze);
+  }
+  .net-card__name {
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    line-height: 1.15;
+    margin-top: 0.3rem;
+  }
+  .net-card__desc {
+    color: rgba(245, 241, 234, 0.65);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-top: 0.3rem;
+  }
+
+  .network__foot {
+    margin-top: 2.5rem;
     text-align: center;
   }
 
