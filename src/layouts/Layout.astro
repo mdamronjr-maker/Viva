@@ -65,13 +65,10 @@ const orgSchema = {
       sameAs: [
         'https://www.instagram.com/vivawellnessatx',
       ],
-      aggregateRating: {
-        '@type': 'AggregateRating',
-        ratingValue: '5.0',
-        reviewCount: '86',
-        bestRating: '5',
-        worstRating: '1',
-      },
+      // aggregateRating intentionally omitted. Google requires schema ratings
+      // to be verifiable and current; hardcoded counts drift and can cost the
+      // entire structured-result eligibility. Wire a Worker to Places API on a
+      // schedule if you want this back in.
     },
     {
       '@type': 'WebSite',

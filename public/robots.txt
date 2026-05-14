@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://vivawellnessco.com/sitemap.xml
+Sitemap: https://vivawellnessco.com/sitemap-index.xml
