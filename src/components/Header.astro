@@ -156,27 +156,43 @@ const isActive = (p: string) => path === p || (p !== '/' && path.startsWith(p));
 </style>
 
 <script>
-  const toggle = document.querySelector('.nav-toggle') as HTMLButtonElement | null;
-  const mobileNav = document.getElementById('site-mobile-nav');
-  function setOpen(open: boolean) {
-    document.body.classList.toggle('menu-open', open);
-    toggle?.setAttribute('aria-expanded', open ? 'true' : 'false');
-    if (mobileNav) {
-      if (open) mobileNav.removeAttribute('inert');
-      else mobileNav.setAttribute('inert', '');
+  // Re-bind on every page navigation so view transitions work cleanly.
+  // Element-level listeners die with the DOM; document-level keydown is bound
+  // once via a module-scoped flag to avoid accumulating duplicates.
+  let escBound = false;
+
+  function bindHeader() {
+    const toggle = document.querySelector('.nav-toggle') as HTMLButtonElement | null;
+    const mobileNav = document.getElementById('site-mobile-nav');
+    if (!toggle || !mobileNav) return;
+
+    function setOpen(open: boolean) {
+      document.body.classList.toggle('menu-open', open);
+      toggle!.setAttribute('aria-expanded', open ? 'true' : 'false');
+      if (open) mobileNav!.removeAttribute('inert');
+      else mobileNav!.setAttribute('inert', '');
+    }
+
+    toggle.addEventListener('click', () => {
+      setOpen(!document.body.classList.contains('menu-open'));
+    });
+    mobileNav.querySelectorAll('a').forEach((a) =>
+      a.addEventListener('click', () => setOpen(false))
+    );
+
+    if (!escBound) {
+      escBound = true;
+      document.addEventListener('keydown', (e) => {
+        if (e.key !== 'Escape' || !document.body.classList.contains('menu-open')) return;
+        document.body.classList.remove('menu-open');
+        const t = document.querySelector('.nav-toggle') as HTMLButtonElement | null;
+        t?.setAttribute('aria-expanded', 'false');
+        document.getElementById('site-mobile-nav')?.setAttribute('inert', '');
+        t?.focus();
+      });
     }
   }
-  toggle?.addEventListener('click', () => {
-    setOpen(!document.body.classList.contains('menu-open'));
-  });
-  mobileNav?.querySelectorAll('a').forEach((a) =>
-    a.addEventListener('click', () => setOpen(false))
-  );
-  // Close on Escape
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && document.body.classList.contains('menu-open')) {
-      setOpen(false);
-      toggle?.focus();
-    }
-  });
+
+  // Astro fires astro:page-load on initial load AND every router navigation
+  document.addEventListener('astro:page-load', bindHeader);
 </script>

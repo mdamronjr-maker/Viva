@@ -87,6 +87,33 @@ const formattedDate = post.data.publishDate.toLocaleDateString('en-US', {
       </div>
     </div>
 
+    <aside class="post-author">
+      <div class="container post-author__inner">
+        <div class="post-author__media">
+          <img
+            src="/liliana.webp"
+            alt="Liliana Damron, APRN, FNP-BC"
+            width="120"
+            height="120"
+            loading="lazy"
+          />
+        </div>
+        <div class="post-author__body">
+          <span class="eyebrow">· About the author</span>
+          <p class="post-author__name">
+            {post.data.author}
+          </p>
+          <p class="post-author__bio">
+            Founder of Viva Wellness Co. Background in geriatric medicine, now
+            focused on the opposite end of the curve: catching dysfunction
+            early and extending the years where you feel like yourself.
+            Licensed in Texas, Colorado, and Florida.
+          </p>
+          <a href="/about" class="post-author__link">Read the full story →</a>
+        </div>
+      </div>
+    </aside>
+
     <footer class="post-foot">
       <div class="container post-foot__inner">
         <h2 class="post-foot__title">
@@ -220,6 +247,57 @@ const formattedDate = post.data.publishDate.toLocaleDateString('en-US', {
     font-style: italic;
     color: rgba(245, 241, 234, 0.92);
   }
+
+  .post-author {
+    padding: clamp(2.5rem, 5vw, 4rem) 0;
+    border-top: 1px solid var(--rule);
+    background: var(--ink);
+  }
+  .post-author__inner {
+    max-width: 720px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: clamp(1.2rem, 3vw, 2rem);
+    align-items: start;
+  }
+  @media (max-width: 540px) {
+    .post-author__inner { grid-template-columns: 80px 1fr; gap: 1rem; }
+  }
+  .post-author__media img {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    object-position: center top;
+    border-radius: 2px;
+    filter: grayscale(0.05);
+  }
+  .post-author__body { padding-top: 0.4rem; }
+  .post-author__body .eyebrow { display: block; margin-bottom: 0.6rem; }
+  .post-author__name {
+    font-family: var(--font-display-italic);
+    font-size: 1.4rem;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    color: var(--paper);
+    margin: 0 0 0.7rem;
+  }
+  .post-author__bio {
+    color: rgba(245, 241, 234, 0.78);
+    font-size: 0.98rem;
+    line-height: 1.6;
+    margin: 0 0 0.8rem;
+    max-width: 60ch;
+  }
+  .post-author__link {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--bronze);
+    transition: color 200ms var(--ease);
+  }
+  .post-author__link:hover { color: var(--bronze-bright); }
 
   .post-foot {
     padding: clamp(4rem, 8vw, 6rem) 0;

@@ -1,0 +1,71 @@
+---
+// Mobile-only sticky bottom CTA. Hides on routes where it would
+// duplicate the page's primary action.
+// Strip trailing slash for matching (Astro emits both /contact and /contact/)
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const hideOn = ['/contact', '/privacy', '/terms'];
+const hide = hideOn.includes(path);
+---
+
+{!hide && (
+  <div class="msc" aria-label="Quick actions">
+    <a
+      href="https://vivawellnessco.glossgenius.com/?utm_source=vivawellnessco&utm_medium=cta&utm_content=mobile_sticky"
+      target="_blank"
+      rel="noopener"
+      class="msc__btn msc__btn--bronze"
+    >
+      Book visit
+    </a>
+    <a href="/#quiz" class="msc__btn msc__btn--ghost">Find protocol</a>
+  </div>
+)}
+
+<style>
+  .msc {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 80;
+    padding: 0.7rem var(--gutter) calc(0.7rem + env(safe-area-inset-bottom));
+    gap: 0.6rem;
+    background: rgba(12, 10, 9, 0.92);
+    backdrop-filter: blur(14px) saturate(140%);
+    border-top: 1px solid var(--rule-strong);
+  }
+  @media (max-width: 720px) {
+    .msc { display: flex; }
+    /* Reserve space at page bottom so the CTA never covers final content */
+    :global(body) { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
+  }
+  .msc__btn {
+    flex: 1;
+    text-align: center;
+    padding: 0.85rem 0.6rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 500;
+    border: 1px solid currentColor;
+    transition: background 220ms var(--ease), color 220ms var(--ease);
+  }
+  .msc__btn--bronze {
+    background: var(--bronze);
+    color: var(--ink);
+    border-color: var(--bronze);
+  }
+  .msc__btn--ghost {
+    background: transparent;
+    color: var(--paper);
+    border-color: rgba(245, 241, 234, 0.35);
+  }
+  /* Tap states */
+  .msc__btn--bronze:active { background: var(--bronze-bright); border-color: var(--bronze-bright); }
+  .msc__btn--ghost:active { background: rgba(245, 241, 234, 0.08); }
+
+  /* Hide when mobile nav is open so it doesn't fight the menu */
+  :global(body.menu-open) .msc { display: none; }
+</style>

@@ -134,10 +134,12 @@ import Layout from '../layouts/Layout.astro';
 </Layout>
 
 <script>
-  const form = document.getElementById('contact-form') as HTMLFormElement | null;
-  const status = document.getElementById('c-status') as HTMLDivElement | null;
-  const submit = document.getElementById('c-submit') as HTMLButtonElement | null;
-  if (form && status && submit) {
+  // Re-bound on every astro:page-load so view transitions get fresh listeners.
+  function initContactForm() {
+    const form = document.getElementById('contact-form') as HTMLFormElement | null;
+    const status = document.getElementById('c-status') as HTMLDivElement | null;
+    const submit = document.getElementById('c-submit') as HTMLButtonElement | null;
+    if (!form || !status || !submit) return;
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       status.textContent = '';
@@ -193,6 +195,8 @@ import Layout from '../layouts/Layout.astro';
       }
     });
   }
+
+  document.addEventListener('astro:page-load', initContactForm);
 </script>
 
 <style>

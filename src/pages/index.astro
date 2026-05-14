@@ -624,34 +624,45 @@ const programs = [
 
 </Layout>
 
-<script is:inline>
-  // Network rotator
-  (() => {
-    const rotator = document.querySelector('[data-rotator]');
+<script>
+  // Network partner rotator. Wrapped + cleaned up on astro:before-swap so
+  // view transitions don't leak the interval across navigations.
+  let rotatorTimer: number | undefined;
+
+  function initRotator() {
+    const rotator = document.querySelector('[data-rotator]') as HTMLElement | null;
     if (!rotator) return;
     const slides = rotator.querySelectorAll('[data-slide]');
     const dots = rotator.querySelectorAll('[data-dot]');
     let i = 0;
-    let timer;
     const INTERVAL = 3000;
-    function show(idx) {
+    function show(idx: number) {
       slides.forEach((s, n) => s.classList.toggle('is-active', n === idx));
       dots.forEach((d, n) => d.classList.toggle('is-active', n === idx));
       i = idx;
     }
     function next() { show((i + 1) % slides.length); }
-    function start() { stop(); timer = setInterval(next, INTERVAL); }
-    function stop() { if (timer) clearInterval(timer); }
+    function start() { stop(); rotatorTimer = window.setInterval(next, INTERVAL); }
+    function stop() { if (rotatorTimer) clearInterval(rotatorTimer); rotatorTimer = undefined; }
     dots.forEach((d, n) => d.addEventListener('click', () => { show(n); start(); }));
     rotator.addEventListener('mouseenter', stop);
     rotator.addEventListener('mouseleave', start);
     document.addEventListener('visibilitychange', () => { if (document.hidden) stop(); else start(); });
     start();
-  })();
+  }
+
+  document.addEventListener('astro:page-load', initRotator);
+  document.addEventListener('astro:before-swap', () => {
+    if (rotatorTimer) { clearInterval(rotatorTimer); rotatorTimer = undefined; }
+  });
 </script>
 
 <script>
   import { match, type Answers } from '../lib/quiz';
+
+  // Wrapped in an init function and rebound on every astro:page-load so
+  // view transitions reset quiz state and rebind to the freshly-rendered DOM.
+  function initQuiz() {
   const TOTAL = 5;
   const state = { step: 1, answers: {} as Answers };
 
@@ -660,6 +671,9 @@ const programs = [
   const meta = document.getElementById('qx-step-label') as HTMLSpanElement | null;
   const back = document.getElementById('qx-back') as HTMLButtonElement | null;
   const section = document.getElementById('quiz') as HTMLElement | null;
+
+  // Only run on pages that have the quiz markup (home only)
+  if (stepEls.length === 0) return;
 
   function render() {
     stepEls.forEach((el) => {
@@ -751,6 +765,9 @@ const programs = [
       }
     });
   }
+  } // end initQuiz
+
+  document.addEventListener('astro:page-load', initQuiz);
 </script>
 
 <style>
