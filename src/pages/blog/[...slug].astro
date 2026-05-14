@@ -13,6 +13,17 @@ export async function getStaticPaths() {
 const { post } = Astro.props;
 const { Content } = await render(post);
 
+// Reading time: 200 words per minute (average reader)
+const wordCount = post.body?.split(/\s+/).filter(Boolean).length ?? 0;
+const readingMinutes = Math.max(1, Math.round(wordCount / 200));
+
+// Related posts: same category, exclude self, most recent 2
+const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const related = allPosts
+  .filter((p) => p.id !== post.id && p.data.category === post.data.category)
+  .sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf())
+  .slice(0, 2);
+
 const articleSchema = {
   '@context': 'https://schema.org',
   '@graph': [
@@ -77,6 +88,8 @@ const formattedDate = post.data.publishDate.toLocaleDateString('en-US', {
           <span class="post-meta__author">{post.data.author}</span>
           <span class="post-meta__sep">·</span>
           <time class="post-meta__date" datetime={post.data.publishDate.toISOString()}>{formattedDate}</time>
+          <span class="post-meta__sep">·</span>
+          <span class="post-meta__read">{readingMinutes} min read</span>
         </div>
       </div>
     </header>
@@ -86,6 +99,27 @@ const formattedDate = post.data.publishDate.toLocaleDateString('en-US', {
         <Content />
       </div>
     </div>
+
+    {related.length > 0 && (
+      <aside class="post-related">
+        <div class="container post-related__inner">
+          <span class="eyebrow">· Keep reading</span>
+          <h2 class="post-related__title">Related articles</h2>
+          <ul class="post-related__list">
+            {related.map((r) => (
+              <li class="post-related__item">
+                <a href={`/blog/${r.id}`} class="post-related__link">
+                  <span class="post-related__cat">{r.data.category}</span>
+                  <h3 class="post-related__h">{r.data.title}</h3>
+                  <p class="post-related__desc">{r.data.description}</p>
+                  <span class="post-related__arrow" aria-hidden="true">→</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </aside>
+    )}
 
     <aside class="post-author">
       <div class="container post-author__inner">
@@ -247,6 +281,72 @@ const formattedDate = post.data.publishDate.toLocaleDateString('en-US', {
     font-style: italic;
     color: rgba(245, 241, 234, 0.92);
   }
+
+  .post-meta__read { color: rgba(245, 241, 234, 0.65); }
+
+  .post-related {
+    padding: clamp(2.5rem, 5vw, 4rem) 0;
+    border-top: 1px solid var(--rule);
+    background: var(--ink);
+  }
+  .post-related__inner { max-width: 900px; margin: 0 auto; }
+  .post-related__title {
+    font-family: var(--font-display-italic);
+    font-size: clamp(1.6rem, 3.2vw, 2.2rem);
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    margin: 0.6rem 0 2rem;
+  }
+  .post-related__list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--rule-strong);
+    border: 1px solid var(--rule-strong);
+  }
+  @media (max-width: 700px) { .post-related__list { grid-template-columns: 1fr; } }
+  .post-related__item { background: var(--ink); transition: background 220ms var(--ease); }
+  .post-related__item:hover { background: var(--ink-2); }
+  .post-related__link {
+    display: grid;
+    grid-template-rows: auto auto 1fr auto;
+    gap: 0.5rem;
+    padding: 1.6rem 1.4rem;
+    height: 100%;
+    position: relative;
+  }
+  .post-related__cat {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--bronze);
+  }
+  .post-related__h {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 380;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    color: var(--paper);
+    margin: 0;
+  }
+  .post-related__item:hover .post-related__h { color: var(--bronze-bright); }
+  .post-related__desc {
+    color: rgba(245, 241, 234, 0.65);
+    font-size: 0.92rem;
+    line-height: 1.55;
+    margin: 0;
+    max-width: 48ch;
+  }
+  .post-related__arrow {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    color: var(--bronze);
+    transition: transform 280ms var(--ease);
+    align-self: end;
+  }
+  .post-related__item:hover .post-related__arrow { transform: translateX(6px); }
 
   .post-author {
     padding: clamp(2.5rem, 5vw, 4rem) 0;

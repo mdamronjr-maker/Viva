@@ -20,6 +20,7 @@ const {
 const normalizedPath = Astro.url.pathname === '/' ? '/' : Astro.url.pathname.replace(/\/$/, '');
 const canonicalURL = new URL(normalizedPath, Astro.site).href;
 const ogImageURL = new URL(ogImage, Astro.site).href;
+const isHome = normalizedPath === '/';
 const siteName = 'Viva Wellness Co.';
 
 // Sitewide Organization + WebSite schema (always present)
@@ -125,6 +126,21 @@ const orgSchema = {
 
   {/* Page-specific schema, passed in via props */}
   {schema && <script type="application/ld+json" set:html={JSON.stringify(schema)} />}
+
+  {/* Hero LCP preload · only the home page. Responsive via imagesrcset. */}
+  {isHome && (
+    <link
+      rel="preload"
+      as="image"
+      href="/matt-johnson.jpg"
+      imagesrcset="/matt-johnson-sm.jpg 800w, /matt-johnson.jpg 1600w"
+      imagesizes="100vw"
+      fetchpriority="high"
+    />
+  )}
+
+  {/* DNS prefetch for the booking destination */}
+  <link rel="dns-prefetch" href="https://vivawellnessco.glossgenius.com" />
 
   {/* Fonts · preconnect, then load stylesheet directly (faster than CSS @import) */}
   <link rel="preconnect" href="https://fonts.googleapis.com" />

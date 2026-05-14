@@ -306,6 +306,11 @@ p { max-width: 62ch; }
 .field__input::placeholder,
 .field__textarea::placeholder { color: rgba(245, 241, 234, 0.35); }
 .field__textarea { resize: vertical; min-height: 120px; }
+/* Subtle invalid state · only after user has typed something (not on empty fields) */
+.field__input:not(:placeholder-shown):invalid,
+.field__textarea:not(:placeholder-shown):invalid {
+  border-bottom-color: #e76e6e;
+}
 .field__hint {
   font-family: var(--font-mono);
   font-size: 0.7rem;
