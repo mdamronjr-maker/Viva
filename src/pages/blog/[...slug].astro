@@ -77,6 +77,8 @@ const formattedDate = post.data.publishDate.toLocaleDateString('en-US', {
   schema={articleSchema}
 >
 
+  <div class="reading-progress" aria-hidden="true"></div>
+
   <article class="post">
     <header class="post-hero">
       <div class="container post-hero__inner">
@@ -167,7 +169,43 @@ const formattedDate = post.data.publishDate.toLocaleDateString('en-US', {
 
 </Layout>
 
+<script>
+  function initReadingProgress() {
+    const bar = document.querySelector('.reading-progress') as HTMLElement | null;
+    const article = document.querySelector('.post-body') as HTMLElement | null;
+    if (!bar || !article) return;
+    let raf = 0;
+    function update() {
+      const rect = article!.getBoundingClientRect();
+      const total = Math.max(1, article!.offsetHeight - window.innerHeight);
+      const scrolled = -rect.top;
+      const pct = Math.max(0, Math.min(100, (scrolled / total) * 100));
+      bar!.style.width = pct + '%';
+    }
+    function onScroll() {
+      if (raf) return;
+      raf = requestAnimationFrame(() => { update(); raf = 0; });
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    update();
+  }
+  document.addEventListener('astro:page-load', initReadingProgress);
+</script>
+
 <style is:global>
+  .reading-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 2px;
+    width: 0;
+    background: var(--bronze);
+    z-index: 200;
+    transition: width 80ms linear;
+    pointer-events: none;
+  }
+
   .post-hero {
     padding: clamp(3rem, 7vw, 5rem) 0 clamp(2rem, 5vw, 3.5rem);
     position: relative;
