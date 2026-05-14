@@ -17,7 +17,7 @@
   --bronze: #c9783a;
   --bronze-bright: #e8a070;
   --bronze-deep: #8a4d22;
-  --mute: #8a7d72;
+  --mute: #b5a99c;
   --rule: rgba(245, 241, 234, 0.10);
   --rule-strong: rgba(245, 241, 234, 0.20);
 
@@ -56,7 +56,7 @@ html, body {
   color: var(--paper);
   font-family: var(--font-body);
   font-size: 17px;
-  line-height: 1.55;
+  line-height: 1.62;
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -91,7 +91,7 @@ h1, .h1 {
   font-family: var(--font-display);
   font-weight: 400;
   font-size: clamp(2.75rem, 8vw, 7rem);
-  line-height: 0.92;
+  line-height: 0.98;
   letter-spacing: 0.005em;
   text-transform: uppercase;
 }
@@ -120,14 +120,14 @@ h3, .h3 {
   font-weight: 360;
   letter-spacing: -0.015em;
   text-transform: none;
-  font-variation-settings: 'opsz' 144, 'SOFT' 70, 'WONK' 1;
+  font-variation-settings: 'opsz' 144, 'SOFT' 60;
 }
 
 p { max-width: 62ch; }
 .lead {
   font-size: clamp(1.1rem, 1.6vw, 1.35rem);
-  line-height: 1.5;
-  color: rgba(245, 241, 234, 0.85);
+  line-height: 1.55;
+  color: rgba(245, 241, 234, 0.92);
   max-width: 56ch;
 }
 
@@ -146,9 +146,10 @@ p { max-width: 62ch; }
 .section--paper {
   background: var(--paper);
   color: var(--ink);
+  --mute: #6e5d4e;
 }
 .section--paper .eyebrow { color: var(--bronze-deep); }
-.section--paper .lead { color: rgba(12, 10, 9, 0.72); }
+.section--paper .lead { color: rgba(12, 10, 9, 0.78); }
 
 /* Numbered index labels (editorial) */
 .index {
@@ -355,7 +356,7 @@ main:focus { outline: none; }
   border-bottom-color: var(--bronze);
 }
 .field__input::placeholder,
-.field__textarea::placeholder { color: rgba(245, 241, 234, 0.35); }
+.field__textarea::placeholder { color: rgba(245, 241, 234, 0.55); }
 .field__textarea { resize: vertical; min-height: 120px; }
 /* Subtle invalid state · only after user has typed something (not on empty fields) */
 .field__input:not(:placeholder-shown):invalid,
@@ -377,6 +378,6 @@ main:focus { outline: none; }
   border-bottom-color: rgba(12, 10, 9, 0.18);
 }
 .section--paper .field__input::placeholder,
-.section--paper .field__textarea::placeholder { color: rgba(12, 10, 9, 0.3); }
+.section--paper .field__textarea::placeholder { color: rgba(12, 10, 9, 0.5); }
 .section--paper .field__input:focus,
 .section--paper .field__textarea:focus { border-bottom-color: var(--bronze-deep); }

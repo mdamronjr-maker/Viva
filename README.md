@@ -77,7 +77,7 @@ CF Pages auto-builds. Test the new endpoints on the staging URL first:
 
 - **Logo size**: header logo is set to 32px tall. If it feels too tight or too big, tweak `.brand__logo { height: 32px }` in Header.astro.
 - **Matt photo crop**: I set `object-position: center 20%` so his face/torso anchors. Adjust if you want more of the running motion in frame.
-- **Anton vs Fraunces**: Anton handles h1 only (the big block hero/page titles). h2 and h3 stay in Fraunces italic. Anything inside `.italic-display` (accent words like "engineered", "preventable disease") uses Fraunces italic with the SOFT/WONK axes for that editorial pop. Quotes, prices, partner names · I patched the inline styles in index.astro so they don't accidentally pick up Anton.
+- **Anton vs Fraunces**: Anton handles h1 only (the big block hero/page titles). h2 and h3 stay in Fraunces italic. Anything inside `.italic-display` (accent words like "engineered", "preventable disease") uses Fraunces italic with a softened SOFT axis · the WONK axis was dropped after legibility feedback. Quotes, prices, partner names · I patched the inline styles in index.astro so they don't accidentally pick up Anton.
 
 ## Quiz matching logic
 
