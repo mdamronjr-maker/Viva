@@ -706,31 +706,41 @@ const programs = [
     overflow: hidden;
     isolation: isolate;
   }
-  .hero__bg { position: absolute; inset: 0; z-index: -1; }
+  .hero__bg { position: absolute; inset: 0; z-index: -1; overflow: hidden; background: var(--ink); }
   .hero__bg img {
-    width: 100%; height: 100%;
-    object-fit: cover; object-position: 72% 30%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: auto;
     display: block;
-    transform: scale(1.02);
+    transform: none;
   }
   .hero__bg-grad {
     position: absolute; inset: 0;
     background:
       linear-gradient(90deg,
-        rgba(12, 10, 9, 0.92) 0%,
-        rgba(12, 10, 9, 0.72) 28%,
-        rgba(12, 10, 9, 0.30) 55%,
-        rgba(12, 10, 9, 0.08) 75%,
-        rgba(12, 10, 9, 0.20) 100%),
+        rgba(12, 10, 9, 0.96) 0%,
+        rgba(12, 10, 9, 0.92) 25%,
+        rgba(12, 10, 9, 0.55) 45%,
+        rgba(12, 10, 9, 0.18) 60%,
+        rgba(12, 10, 9, 0.05) 80%,
+        rgba(12, 10, 9, 0.25) 100%),
       linear-gradient(180deg,
-        rgba(12, 10, 9, 0.55) 0%,
+        rgba(12, 10, 9, 0.35) 0%,
         rgba(12, 10, 9, 0) 18%,
         rgba(12, 10, 9, 0) 60%,
         rgba(12, 10, 9, 0.85) 100%);
     pointer-events: none;
   }
   @media (max-width: 760px) {
-    .hero__bg img { object-position: 65% 25%; }
+    .hero__bg img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 65% 25%;
+      right: 0;
+    }
     .hero__bg-grad {
       background:
         linear-gradient(180deg,
