@@ -3,960 +3,588 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout
-  title="Find Your Protocol | 5-Question Quiz | Viva Wellness Co."
-  description="Take our 5-question quiz to find the right concierge telehealth protocol for your goals. GLP-1, TRT, recovery, or recomposition. Match in 90 seconds."
+  title="Find Your Protocol · Viva Wellness Co."
+  description="Answer five quick questions about your goals and starting point. We'll match you with the Viva Wellness protocol and tier that fits. Concierge telehealth in Austin, TX."
 >
 
-  <section class="quiz-shell">
-    <div class="container">
+  <section class="quiz">
+    <div class="container quiz__inner">
 
-      {/* INTRO STATE */}
-      <div class="screen screen--intro is-active" data-screen="intro">
-        <div class="intro">
-          <span class="eyebrow reveal" style="--d: 100ms;">— Find your protocol</span>
-          <h1 class="intro__title reveal" style="--d: 250ms;">
-            Five questions.<br/>
-            <span class="italic-display">One recommendation.</span>
-          </h1>
-          <p class="lead reveal" style="--d: 450ms;">
-            Tell us about your goals, your training, and your starting point.
-            We'll match you with the protocol that fits — and the tier that
-            makes sense for where you are right now. Takes about ninety seconds.
-          </p>
-          <div class="intro__meta reveal" style="--d: 600ms;">
-            <div class="intro__stat">
-              <div class="intro__stat-num">5</div>
-              <div class="intro__stat-label">Questions</div>
-            </div>
-            <div class="intro__stat">
-              <div class="intro__stat-num">90s</div>
-              <div class="intro__stat-label">Average time</div>
-            </div>
-            <div class="intro__stat">
-              <div class="intro__stat-num">12</div>
-              <div class="intro__stat-label">Possible matches</div>
-            </div>
-          </div>
-          <button class="btn btn--bronze intro__cta reveal" style="--d: 800ms;" data-action="start">
-            Begin
+      {/* Progress */}
+      <div class="quiz__progress" aria-hidden="true">
+        <div class="quiz__progress-bar" id="q-bar"></div>
+      </div>
+      <div class="quiz__meta">
+        <span class="eyebrow" id="q-step">Question 1 of 5</span>
+      </div>
+
+      {/* ==== Step 1: goal ==== */}
+      <div class="quiz__step is-active" data-step="1">
+        <h2 class="quiz__q">
+          What is your <span class="italic-display">primary goal</span> right now?
+        </h2>
+        <div class="quiz__options">
+          <button class="quiz__opt" data-q="goal" data-v="weight">
+            <span class="quiz__opt-num">01</span>
+            <span class="quiz__opt-label">Lose weight or reset metabolism</span>
+          </button>
+          <button class="quiz__opt" data-q="goal" data-v="hormones">
+            <span class="quiz__opt-num">02</span>
+            <span class="quiz__opt-label">Optimize hormones (energy, libido, mood)</span>
+          </button>
+          <button class="quiz__opt" data-q="goal" data-v="recovery">
+            <span class="quiz__opt-num">03</span>
+            <span class="quiz__opt-label">Recover from training, surgery, or injury</span>
+          </button>
+          <button class="quiz__opt" data-q="goal" data-v="longevity">
+            <span class="quiz__opt-num">04</span>
+            <span class="quiz__opt-label">Longevity, anti-aging, sustained vitality</span>
+          </button>
+          <button class="quiz__opt" data-q="goal" data-v="performance">
+            <span class="quiz__opt-num">05</span>
+            <span class="quiz__opt-label">Performance and body recomposition</span>
           </button>
         </div>
       </div>
 
-      {/* QUESTION STATES — populated dynamically */}
-      <div class="screen" data-screen="question">
-        <div class="quiz-progress">
-          <div class="quiz-progress__count">
-            <span data-question-num>01</span> <span class="muted">/</span> <span>05</span>
-          </div>
-          <div class="quiz-progress__bar">
-            <div class="quiz-progress__fill" data-progress-fill></div>
-          </div>
-        </div>
-
-        <div class="question">
-          <div class="question__head">
-            <span class="index" data-num="—" data-question-eyebrow>Goal</span>
-            <h2 class="question__title" data-question-title>What are you here for?</h2>
-            <p class="question__lead" data-question-lead>Pick the one that's most true. There's no wrong answer.</p>
-          </div>
-
-          <div class="options" data-options></div>
-
-          <div class="quiz-nav">
-            <button class="btn-ghost" data-action="back" disabled>← Back</button>
-            <button class="btn btn--bronze" data-action="next" disabled>Continue →</button>
-          </div>
+      {/* ==== Step 2: age ==== */}
+      <div class="quiz__step" data-step="2">
+        <h2 class="quiz__q">
+          What is your <span class="italic-display">age range</span>?
+        </h2>
+        <div class="quiz__options">
+          <button class="quiz__opt" data-q="age" data-v="u35"><span class="quiz__opt-num">01</span><span class="quiz__opt-label">Under 35</span></button>
+          <button class="quiz__opt" data-q="age" data-v="35to44"><span class="quiz__opt-num">02</span><span class="quiz__opt-label">35 to 44</span></button>
+          <button class="quiz__opt" data-q="age" data-v="45to54"><span class="quiz__opt-num">03</span><span class="quiz__opt-label">45 to 54</span></button>
+          <button class="quiz__opt" data-q="age" data-v="55plus"><span class="quiz__opt-num">04</span><span class="quiz__opt-label">55 and up</span></button>
         </div>
       </div>
 
-      {/* RESULTS STATE */}
-      <div class="screen" data-screen="results">
-        <div class="results">
-          <span class="eyebrow">— Your match</span>
-          <div class="results__category" data-result-category>Metabolic Reset</div>
-          <h2 class="results__name italic-display" data-result-name>Metabolic Core</h2>
-          <div class="results__price">
-            <span class="results__amt" data-result-price>$349</span>
-            <span class="results__cad">/mo</span>
-          </div>
-
-          <div class="results__why">
-            <p data-result-why>Based on your answers...</p>
-          </div>
-
-          <div class="results__includes">
-            <h3>What's in this protocol</h3>
-            <ul data-result-includes></ul>
-          </div>
-
-          <div class="results__ctas">
-            <a href="https://vivawellnessco.glossgenius.com/" target="_blank" rel="noopener" class="btn btn--bronze">Book Your First Visit</a>
-            <button class="btn" data-action="restart">Retake the quiz</button>
-          </div>
-
-          {/* Soft email opt-in below the fold */}
-          <div class="email-opt">
-            <span class="eyebrow">— Stay in the loop</span>
-            <h3>Want this sent to your inbox?</h3>
-            <p>We'll email you the protocol details, what to expect from the first consult, and a couple of articles tailored to your goal. One email per week, max. Unsubscribe anytime.</p>
-
-            <form class="email-opt__form" id="email-opt-form" novalidate>
-              <input type="email" name="email" placeholder="your@email.com" required />
-              <input type="text" name="_honey" tabindex="-1" autocomplete="off" class="hp" aria-hidden="true" />
-              <button type="submit" class="btn btn--ink" id="email-opt-btn">Send it</button>
-            </form>
-            <div class="email-opt__status" id="email-opt-status" role="status" aria-live="polite"></div>
-          </div>
+      {/* ==== Step 3: sex ==== */}
+      <div class="quiz__step" data-step="3">
+        <h2 class="quiz__q">
+          For protocol routing, sex <span class="italic-display">assigned at birth</span>?
+        </h2>
+        <div class="quiz__options">
+          <button class="quiz__opt" data-q="sex" data-v="m"><span class="quiz__opt-num">01</span><span class="quiz__opt-label">Male</span></button>
+          <button class="quiz__opt" data-q="sex" data-v="f"><span class="quiz__opt-num">02</span><span class="quiz__opt-label">Female</span></button>
         </div>
       </div>
 
+      {/* ==== Step 4: activity ==== */}
+      <div class="quiz__step" data-step="4">
+        <h2 class="quiz__q">
+          How <span class="italic-display">active</span> are you?
+        </h2>
+        <div class="quiz__options">
+          <button class="quiz__opt" data-q="activity" data-v="sedentary"><span class="quiz__opt-num">01</span><span class="quiz__opt-label">Mostly sedentary right now</span></button>
+          <button class="quiz__opt" data-q="activity" data-v="moderate"><span class="quiz__opt-num">02</span><span class="quiz__opt-label">2 to 4 workouts a week</span></button>
+          <button class="quiz__opt" data-q="activity" data-v="athlete"><span class="quiz__opt-num">03</span><span class="quiz__opt-label">5+ sessions, training with intent</span></button>
+          <button class="quiz__opt" data-q="activity" data-v="competitive"><span class="quiz__opt-num">04</span><span class="quiz__opt-label">Competitive athlete or high performer</span></button>
+        </div>
+      </div>
+
+      {/* ==== Step 5: budget ==== */}
+      <div class="quiz__step" data-step="5">
+        <h2 class="quiz__q">
+          Where is your <span class="italic-display">monthly comfort</span>?
+        </h2>
+        <div class="quiz__options">
+          <button class="quiz__opt" data-q="budget" data-v="b99"><span class="quiz__opt-num">01</span><span class="quiz__opt-label">Up to $99 a month</span></button>
+          <button class="quiz__opt" data-q="budget" data-v="b199"><span class="quiz__opt-num">02</span><span class="quiz__opt-label">Up to $199 a month</span></button>
+          <button class="quiz__opt" data-q="budget" data-v="b349"><span class="quiz__opt-num">03</span><span class="quiz__opt-label">Up to $349 a month</span></button>
+          <button class="quiz__opt" data-q="budget" data-v="bmax"><span class="quiz__opt-num">04</span><span class="quiz__opt-label">$349 and up, build me the plan</span></button>
+        </div>
+      </div>
+
+      {/* ==== Step 6: gate form ==== */}
+      <div class="quiz__step" data-step="6">
+        <h2 class="quiz__q">
+          Almost done. <span class="italic-display">Three details</span> to see your match.
+        </h2>
+        <p class="lead quiz__lede">
+          We'll email your matched protocol plus the Precision Hormone &amp;
+          Peptide Therapy eBook. Liliana will follow up personally only if you
+          want her to.
+        </p>
+        <form class="quiz__form" id="quiz-form" novalidate>
+          <div class="field">
+            <label for="q-name" class="field__label">Your name</label>
+            <input id="q-name" name="name" type="text" class="field__input" autocomplete="name" required placeholder="First and last" />
+          </div>
+          <div class="field">
+            <label for="q-email" class="field__label">Email</label>
+            <input id="q-email" name="email" type="email" class="field__input" autocomplete="email" required placeholder="you@example.com" />
+          </div>
+          <div class="field">
+            <label for="q-phone" class="field__label">Phone</label>
+            <input id="q-phone" name="phone" type="tel" class="field__input" autocomplete="tel" placeholder="(512) 555-0123" />
+            <span class="field__hint">Optional. Only used if you ask us to call or text.</span>
+          </div>
+          {/* honeypot */}
+          <div class="hp" aria-hidden="true">
+            <label>Leave empty<input name="company" type="text" tabindex="-1" autocomplete="off" /></label>
+          </div>
+
+          <button type="submit" class="btn btn--bronze" id="q-submit">Reveal my protocol</button>
+          <div class="quiz__status" id="q-status" role="status" aria-live="polite"></div>
+        </form>
+      </div>
+
+      {/* ==== Step 7: result ==== */}
+      <div class="quiz__step" data-step="7">
+        <span class="eyebrow" id="r-eyebrow">Your match</span>
+        <h2 class="quiz__result-title">
+          <span class="italic-display">Recommended:</span><br/>
+          <span id="r-name">Viva Concierge</span>
+        </h2>
+        <div class="quiz__result-card">
+          <div class="quiz__result-price">
+            <span class="quiz__result-amt" id="r-price">$99</span>
+            <span class="quiz__result-cad">/mo</span>
+          </div>
+          <p class="quiz__result-body" id="r-body">A starting protocol calibrated to your answers.</p>
+          <ul class="quiz__result-list" id="r-list"></ul>
+          <div class="quiz__result-ctas">
+            <a href="https://vivawellnessco.glossgenius.com/" target="_blank" rel="noopener" class="btn btn--bronze">Book your first visit</a>
+            <a href="/services" class="btn">See all programs</a>
+          </div>
+          <p class="quiz__result-note">
+            The eBook is on its way to your inbox. This match is a starting
+            point, your final protocol will be tailored during your consult.
+          </p>
+        </div>
+      </div>
+
+      {/* ==== Back button ==== */}
+      <button class="quiz__back" id="q-back" aria-label="Previous question" hidden>
+        ← Back
+      </button>
     </div>
   </section>
+
 </Layout>
 
-<script is:inline>
-(() => {
-  // ============ QUIZ DATA ============
-  const QUESTIONS = [
-    {
-      eyebrow: 'Goal',
-      title: 'What are you here for?',
-      lead: "Pick the one that's most true. There's no wrong answer.",
-      type: 'category',
-      options: [
-        { label: 'Lose fat / reset metabolism',     desc: 'GLP-1 protocols, appetite control, sustainable fat loss', value: 'metabolic' },
-        { label: 'Optimize hormones',               desc: 'TRT or HRT calibrated to how you want to feel and perform', value: 'hormone' },
-        { label: 'Recover faster / reduce pain',    desc: 'Peptide stacks for joints, tissue repair, post-injury',     value: 'recovery' },
-        { label: 'Build muscle while losing fat',   desc: 'Body recomposition for athletes and lifters',               value: 'recomp' },
-        { label: 'General optimization / longevity', desc: 'Cellular health, energy, cognition, slow aging',           value: 'longevity' },
-      ],
-    },
-    {
-      eyebrow: 'Starting point',
-      title: 'Where are you right now?',
-      lead: 'How dialed in is your baseline?',
-      type: 'score',
-      options: [
-        { label: "I'm in good shape, just fine-tuning", desc: 'Looking for a small edge or maintenance-level support', score: 1 },
-        { label: 'Solid baseline, ready to commit',     desc: "Reasonable health, ready to invest in the next level",  score: 2 },
-        { label: 'I need real change',                  desc: "I'm not where I want to be and I'm done waiting",        score: 3 },
-      ],
-    },
-    {
-      eyebrow: 'Training',
-      title: 'How active are you?',
-      lead: 'Be honest. This helps us calibrate intensity.',
-      type: 'score',
-      options: [
-        { label: 'Mostly sedentary',           desc: 'Walks, gardening, occasional movement',                   score: 1 },
-        { label: 'Active a few times a week',  desc: 'Gym 2-3x, runs, yoga, cycling, recreational sports',     score: 2 },
-        { label: 'Train consistently',          desc: 'Lifter, runner, hybrid athlete, or competitive level',   score: 3 },
-      ],
-    },
-    {
-      eyebrow: 'Timeline',
-      title: 'How quickly do you want to see results?',
-      lead: 'Aggressive timelines mean more aggressive protocols.',
-      type: 'score',
-      options: [
-        { label: "I'm patient. Do it right.",      desc: 'Steady, sustainable, no rush',                        score: 1 },
-        { label: 'Steady progress over 3-6 months', desc: 'Real results over a quarter or two',                  score: 2 },
-        { label: 'Maximum impact, starting now',    desc: 'I want the strongest protocol I can responsibly run', score: 3 },
-      ],
-    },
-    {
-      eyebrow: 'Priorities',
-      title: 'What else matters to you?',
-      lead: 'Pick all that apply. Or none.',
-      type: 'multi',
-      options: [
-        { label: "I've tried programs that didn't work",  desc: "Need something that actually moves the needle", score: 1 },
-        { label: 'I want concierge-level provider access', desc: 'Direct messaging, priority scheduling',         score: 2 },
-        { label: "I'm motivated by data and tracking",     desc: 'Labs, biomarkers, measurable outcomes',         score: 1 },
-        { label: 'None of these',                          desc: 'Keep it simple',                                score: 0 },
-      ],
-    },
-  ];
-
-  // Tier definitions
-  const PROGRAMS = {
-    'hrt': {
-      category: 'Hormone Optimization',
-      name: 'HRT Guidance',
-      price: '$99',
-      includes: [
-        'Provider-led hormone management',
-        'Use your insurance for labs and prescriptions',
-        'Direct messaging with provider',
-        'Quarterly telehealth reviews',
-      ],
-    },
-    'trt': {
-      category: 'Hormone Optimization',
-      name: 'TRT All Inclusive',
-      price: '$199',
-      includes: [
-        'Compounded testosterone with home delivery',
-        'All supplies included (syringes, sharps disposal)',
-        'Biannual labs included',
-        'Direct messaging and quarterly reviews',
-        'Adjuncts available as add-ons',
-      ],
-    },
-    'metabolic-micro': {
-      category: 'Metabolic Reset',
-      name: 'Metabolic Micro-Dose',
-      price: '$199',
-      includes: [
-        'Micro-dosed compounded medication',
-        'Maintenance-level metabolic support',
-        'Home delivery and supplies',
-        'Provider follow-ups built in',
-      ],
-    },
-    'metabolic-essential': {
-      category: 'Metabolic Reset',
-      name: 'Metabolic Essential',
-      price: '$249',
-      includes: [
-        'Compounded semaglutide at any dose',
-        'Or upgraded multi-compound micro-dose tirzepatide',
-        'All supplies and home delivery',
-        'Direct provider access',
-      ],
-    },
-    'metabolic-core': {
-      category: 'Metabolic Reset',
-      name: 'Metabolic Core',
-      price: '$349',
-      includes: [
-        'Stepped-up multi-compound at low to moderate dosing',
-        'Stronger appetite control, consistent fat loss',
-        'Energy and muscle preservation built in',
-        'Provider access plus quarterly reviews',
-      ],
-    },
-    'metabolic-advanced': {
-      category: 'Metabolic Reset',
-      name: 'Metabolic Advanced',
-      price: '$399',
-      includes: [
-        'Tirzepatide or retatrutide at moderate-to-high dosing',
-        'For patients ready to push fat loss further',
-        'Close provider monitoring and labs',
-        'Adjustment cadence built in',
-      ],
-    },
-    'metabolic-elite': {
-      category: 'Metabolic Reset',
-      name: 'Metabolic Elite',
-      price: '$499',
-      includes: [
-        'Top-tier retatrutide at moderate-to-high dosing',
-        'Maximum appetite control and fat-loss support',
-        'Provider concierge-level access',
-        'Comprehensive labs and tracking',
-      ],
-    },
-    'recovery-foundational': {
-      category: 'Recovery & Repair',
-      name: 'Foundational Recovery',
-      price: '$349',
-      includes: [
-        'Provider-led peptide protocols',
-        'Reduce inflammation, protect joints',
-        'Improve post-workout recovery',
-        'Ideal for active patients and lifters',
-      ],
-    },
-    'recovery-regenerative': {
-      category: 'Recovery & Repair',
-      name: 'Regenerative Healing',
-      price: '$499',
-      includes: [
-        'Higher-level regenerative therapy stack',
-        'For post-surgical or chronic joint pain',
-        'Cellular-level repair support',
-        'Comprehensive provider monitoring',
-      ],
-    },
-    'recomp-total': {
-      category: 'Recomp & Performance',
-      name: 'Total Recomp',
-      price: '$599',
-      includes: [
-        'Metabolic optimization plus muscle support',
-        'Lose fat without losing strength',
-        'Designed for athletes and hybrid trainees',
-        'Direct provider access',
-      ],
-    },
-    'recomp-peak': {
-      category: 'Recomp & Performance',
-      name: 'Peak Performance',
-      price: '$699',
-      includes: [
-        'Most comprehensive Viva protocol',
-        'Combines metabolic, recovery, and longevity',
-        'Concierge-level access and priority scheduling',
-        'Includes Essential, Core, and Elite components',
-      ],
-    },
-    'vitality': {
-      category: 'Lifestyle & Longevity',
-      name: 'Vitality Protocol',
-      price: '$249',
-      includes: [
-        'Cellular health and energy support',
-        'Cognition, skin, hair, and sexual wellness',
-        'Rotating essential protocols',
-        'Personalized adjustments quarterly',
-      ],
-    },
-  };
-
-  // ============ STATE ============
+<script>
+  type Answers = Partial<{ goal: string; age: string; sex: string; activity: string; budget: string }>;
+  const TOTAL = 5; // five real questions before the gate
   const state = {
-    screen: 'intro',
-    qIndex: 0,
-    answers: [], // { score: number, value?: string, selected: number[] }
-    category: null,
+    step: 1,
+    answers: {} as Answers,
   };
 
-  // ============ DOM ============
-  const screens = {
-    intro: document.querySelector('[data-screen="intro"]'),
-    question: document.querySelector('[data-screen="question"]'),
-    results: document.querySelector('[data-screen="results"]'),
-  };
-  const optionsEl = document.querySelector('[data-options]');
-  const titleEl = document.querySelector('[data-question-title]');
-  const leadEl = document.querySelector('[data-question-lead]');
-  const eyebrowEl = document.querySelector('[data-question-eyebrow]');
-  const numEl = document.querySelector('[data-question-num]');
-  const fillEl = document.querySelector('[data-progress-fill]');
-  const nextBtn = document.querySelector('[data-action="next"]');
-  const backBtn = document.querySelector('[data-action="back"]');
+  const stepEls = document.querySelectorAll('.quiz__step') as NodeListOf<HTMLDivElement>;
+  const bar = document.getElementById('q-bar') as HTMLDivElement;
+  const meta = document.getElementById('q-step') as HTMLSpanElement;
+  const back = document.getElementById('q-back') as HTMLButtonElement;
 
-  // ============ HELPERS ============
-  function showScreen(name) {
-    Object.values(screens).forEach(s => s.classList.remove('is-active'));
-    screens[name].classList.add('is-active');
-    state.screen = name;
+  function render() {
+    stepEls.forEach((el) => {
+      el.classList.toggle('is-active', Number(el.dataset.step) === state.step);
+    });
+    // bar reflects the 5-question journey, then jumps to 100% at gate and result
+    const pct = state.step <= TOTAL
+      ? ((state.step - 1) / TOTAL) * 100
+      : 100;
+    bar.style.width = `${pct}%`;
+
+    if (state.step <= TOTAL) {
+      meta.textContent = `Question ${state.step} of ${TOTAL}`;
+    } else if (state.step === TOTAL + 1) {
+      meta.textContent = 'Almost there';
+    } else {
+      meta.textContent = 'Your match';
+    }
+
+    back.hidden = state.step <= 1 || state.step > TOTAL + 1;
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  function renderQuestion() {
-    const q = QUESTIONS[state.qIndex];
-    const total = QUESTIONS.length;
-    const num = state.qIndex + 1;
-
-    numEl.textContent = String(num).padStart(2, '0');
-    eyebrowEl.textContent = q.eyebrow;
-    eyebrowEl.setAttribute('data-num', String(num).padStart(2, '0'));
-    titleEl.textContent = q.title;
-    leadEl.textContent = q.lead;
-    fillEl.style.width = `${((num - 1) / total) * 100}%`;
-
-    // Restore previous selection if going back
-    const prev = state.answers[state.qIndex];
-
-    optionsEl.innerHTML = '';
-    optionsEl.dataset.type = q.type;
-
-    q.options.forEach((opt, i) => {
-      const isMulti = q.type === 'multi';
-      const isSelected = prev && (
-        isMulti
-          ? (prev.selected || []).includes(i)
-          : prev.selected === i
-      );
-
-      const card = document.createElement('button');
-      card.type = 'button';
-      card.className = 'option' + (isSelected ? ' is-selected' : '');
-      card.dataset.idx = String(i);
-      card.innerHTML = `
-        <span class="option__check" aria-hidden="true"></span>
-        <span class="option__body">
-          <span class="option__label">${opt.label}</span>
-          ${opt.desc ? `<span class="option__desc">${opt.desc}</span>` : ''}
-        </span>
-      `;
-      card.addEventListener('click', () => handleOptionClick(i));
-      optionsEl.appendChild(card);
+  // Option clicks
+  document.querySelectorAll('.quiz__opt').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const q = (btn as HTMLElement).dataset.q as keyof Answers;
+      const v = (btn as HTMLElement).dataset.v as string;
+      if (!q || !v) return;
+      state.answers[q] = v;
+      if (state.step < TOTAL + 1) state.step += 1;
+      render();
     });
-
-    backBtn.disabled = state.qIndex === 0;
-    updateNextBtn();
-  }
-
-  function updateNextBtn() {
-    const q = QUESTIONS[state.qIndex];
-    const a = state.answers[state.qIndex];
-    let valid = false;
-    if (q.type === 'multi') {
-      valid = a && Array.isArray(a.selected) && a.selected.length > 0;
-    } else {
-      valid = a && typeof a.selected === 'number';
-    }
-    nextBtn.disabled = !valid;
-    nextBtn.textContent = state.qIndex === QUESTIONS.length - 1 ? 'See your match →' : 'Continue →';
-  }
-
-  function handleOptionClick(idx) {
-    const q = QUESTIONS[state.qIndex];
-    const isMulti = q.type === 'multi';
-
-    if (isMulti) {
-      const current = state.answers[state.qIndex] || { selected: [], score: 0 };
-      let selected = [...(current.selected || [])];
-
-      // "None of these" is mutually exclusive with the others
-      const noneIdx = q.options.findIndex(o => /none/i.test(o.label));
-      if (idx === noneIdx) {
-        selected = selected.includes(idx) ? [] : [idx];
-      } else {
-        selected = selected.filter(i => i !== noneIdx);
-        if (selected.includes(idx)) {
-          selected = selected.filter(i => i !== idx);
-        } else {
-          selected.push(idx);
-        }
-      }
-
-      const score = selected.reduce((sum, i) => sum + (q.options[i].score || 0), 0);
-      state.answers[state.qIndex] = { selected, score };
-
-      // Re-render to update visual selection
-      const cards = optionsEl.querySelectorAll('.option');
-      cards.forEach((c, i) => c.classList.toggle('is-selected', selected.includes(i)));
-    } else {
-      const opt = q.options[idx];
-      const ans = { selected: idx };
-      if (q.type === 'category') ans.value = opt.value;
-      if (q.type === 'score') ans.score = opt.score;
-      state.answers[state.qIndex] = ans;
-
-      const cards = optionsEl.querySelectorAll('.option');
-      cards.forEach((c, i) => c.classList.toggle('is-selected', i === idx));
-    }
-
-    updateNextBtn();
-  }
-
-  // ============ SCORING / RESULT ============
-  function computeResult() {
-    const category = state.answers[0].value;
-    const totalScore =
-      (state.answers[1]?.score || 0) +
-      (state.answers[2]?.score || 0) +
-      (state.answers[3]?.score || 0) +
-      (state.answers[4]?.score || 0);
-
-    // totalScore range: 3 (1+1+1+0) to 11 (3+3+3+2)
-    let key;
-    if (category === 'hormone') {
-      key = totalScore >= 7 ? 'trt' : 'hrt';
-    } else if (category === 'metabolic') {
-      if (totalScore <= 4) key = 'metabolic-micro';
-      else if (totalScore <= 6) key = 'metabolic-essential';
-      else if (totalScore <= 8) key = 'metabolic-core';
-      else if (totalScore <= 10) key = 'metabolic-advanced';
-      else key = 'metabolic-elite';
-    } else if (category === 'recovery') {
-      key = totalScore >= 7 ? 'recovery-regenerative' : 'recovery-foundational';
-    } else if (category === 'recomp') {
-      key = totalScore >= 7 ? 'recomp-peak' : 'recomp-total';
-    } else {
-      key = 'vitality';
-    }
-
-    return { key, program: PROGRAMS[key], totalScore, category };
-  }
-
-  function buildWhy(result) {
-    const a = state.answers;
-    const cat = a[0];
-    const intensity = a[1].score + a[2].score + a[3].score;
-    const goalLabel = QUESTIONS[0].options[cat.selected].label.toLowerCase();
-
-    const intensityWord = intensity <= 5 ? 'measured' : intensity <= 7 ? 'committed' : 'aggressive';
-
-    let priorities = '';
-    const multiSelected = a[4].selected || [];
-    if (multiSelected.length && !multiSelected.includes(QUESTIONS[4].options.findIndex(o => /none/i.test(o.label)))) {
-      const labels = multiSelected.map(i => QUESTIONS[4].options[i].label.toLowerCase());
-      priorities = ` Plus, you flagged that ${labels.join(' and ')}, which the protocol is built to address.`;
-    }
-
-    return `You said you're here to ${goalLabel}, and your training, timeline, and starting point all point to a ${intensityWord} approach.${priorities}`;
-  }
-
-  // ============ NAVIGATION ============
-  document.querySelector('[data-action="start"]').addEventListener('click', () => {
-    state.qIndex = 0;
-    state.answers = [];
-    renderQuestion();
-    showScreen('question');
   });
 
-  nextBtn.addEventListener('click', () => {
-    if (state.qIndex < QUESTIONS.length - 1) {
-      state.qIndex++;
-      renderQuestion();
-    } else {
-      showResults();
+  back.addEventListener('click', () => {
+    if (state.step > 1) {
+      state.step -= 1;
+      render();
     }
   });
 
-  backBtn.addEventListener('click', () => {
-    if (state.qIndex > 0) {
-      state.qIndex--;
-      renderQuestion();
-    }
-  });
+  // ====== Matching logic ======
+  type Match = { key: string; name: string; price: string; body: string; bullets: string[] };
+  function match(a: Answers): Match {
+    const goal = a.goal || 'longevity';
+    const budget = a.budget || 'b199';
+    const activity = a.activity || 'moderate';
+    const sex = a.sex || 'm';
 
-  document.querySelector('[data-action="restart"]').addEventListener('click', () => {
-    state.qIndex = 0;
-    state.answers = [];
-    state.category = null;
-    showScreen('intro');
-    document.getElementById('email-opt-form').reset();
-    document.getElementById('email-opt-status').textContent = '';
-    document.getElementById('email-opt-status').className = 'email-opt__status';
-  });
-
-  function showResults() {
-    const r = computeResult();
-    document.querySelector('[data-result-category]').textContent = r.program.category;
-    document.querySelector('[data-result-name]').textContent = r.program.name;
-    document.querySelector('[data-result-price]').textContent = r.program.price;
-    document.querySelector('[data-result-why]').textContent = buildWhy(r);
-
-    const ul = document.querySelector('[data-result-includes]');
-    ul.innerHTML = '';
-    r.program.includes.forEach(item => {
-      const li = document.createElement('li');
-      li.textContent = item;
-      ul.appendChild(li);
-    });
-
-    // Stash result for the email handler
-    window.__quizResult = {
-      category: r.program.category,
-      name: r.program.name,
-      price: r.program.price,
-      key: r.key,
-      score: r.totalScore,
-      answers: state.answers.map((a, i) => ({
-        question: QUESTIONS[i].title,
-        choice: a.value || (typeof a.selected === 'number' ? QUESTIONS[i].options[a.selected].label : (a.selected || []).map(s => QUESTIONS[i].options[s].label).join(', ')),
-      })),
-    };
-
-    showScreen('results');
-  }
-
-  // ============ EMAIL OPT-IN ============
-  const optForm = document.getElementById('email-opt-form');
-  const optStatus = document.getElementById('email-opt-status');
-  const optBtn = document.getElementById('email-opt-btn');
-
-  optForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    optStatus.className = 'email-opt__status';
-    optStatus.textContent = '';
-    const data = Object.fromEntries(new FormData(optForm).entries());
-
-    if (data._honey) return; // bot, silently ignore
-    if (!data.email || !data.email.includes('@')) {
-      optStatus.className = 'email-opt__status err';
-      optStatus.textContent = 'Add a valid email address.';
-      return;
-    }
-
-    optBtn.disabled = true;
-    const original = optBtn.textContent;
-    optBtn.textContent = 'Sending…';
-
-    try {
-      const payload = {
-        email: data.email,
-        source: 'quiz',
-        result: window.__quizResult || null,
+    // Performance + serious activity + bigger budget → Peak Performance
+    if ((goal === 'performance' || activity === 'competitive') && (budget === 'bmax' || budget === 'b349')) {
+      return {
+        key: 'peak',
+        name: 'Peak Performance',
+        price: '$699',
+        body: 'Total-body optimization combining hormone, metabolic, recovery, and performance protocols in one fully managed plan.',
+        bullets: [
+          'Provider-led hormone foundation (TRT or HRT)',
+          'Recovery peptide stack (BPC-157, TB-500, GHK-Cu)',
+          'Performance support (CJC-1295 / Ipamorelin, MOTS-c)',
+          'Comprehensive labs, supplies, and home delivery',
+        ],
       };
-      const res = await fetch('/api/quiz', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
-      const json = await res.json().catch(() => ({}));
-      if (res.ok && json.ok) {
-        optStatus.className = 'email-opt__status ok';
-        optStatus.textContent = 'Sent. Check your inbox in the next few minutes.';
-        optForm.reset();
-      } else {
-        optStatus.className = 'email-opt__status err';
-        optStatus.textContent = json.error || 'Something went wrong.';
-      }
-    } catch (err) {
-      optStatus.className = 'email-opt__status err';
-      optStatus.textContent = 'Network error. Try again or email us directly.';
-    } finally {
-      optBtn.disabled = false;
-      optBtn.textContent = original;
     }
-  });
-})();
+
+    // Weight goal → Metabolic Core
+    if (goal === 'weight') {
+      return {
+        key: 'metabolic',
+        name: 'Metabolic Core',
+        price: '$349',
+        body: 'Stepped-up GLP-1 protocol for stronger appetite control, consistent fat loss, and preserved muscle.',
+        bullets: [
+          'Compounded GLP-1 protocol (Semaglutide or Tirzepatide)',
+          'Dose titration calibrated to your physiology',
+          'Tesamorelin option for visceral fat targeting',
+          'Supplies, sharps, and home delivery included',
+        ],
+      };
+    }
+
+    // Hormones + male + reasonable budget → TRT All Inclusive
+    if (goal === 'hormones' && sex === 'm' && (budget !== 'b99')) {
+      return {
+        key: 'trt',
+        name: 'TRT All Inclusive',
+        price: '$199',
+        body: 'Personalized testosterone optimization with compounded medication, supplies, and biannual labs.',
+        bullets: [
+          'Compounded testosterone (injection, cream, or gel)',
+          'Anastrozole and HCG when clinically indicated',
+          'Biannual labs and dose adjustments',
+          'Direct provider access by message',
+        ],
+      };
+    }
+
+    // Recovery focus → suggest the Core plan with recovery emphasis
+    if (goal === 'recovery' && (budget === 'b349' || budget === 'bmax')) {
+      return {
+        key: 'metabolic',
+        name: 'Metabolic Core',
+        price: '$349',
+        body: 'Provider-managed plan with recovery peptide emphasis. Combines metabolic support with our most-requested recovery stack.',
+        bullets: [
+          'BPC-157 + TB-500 recovery stack',
+          'GHK-Cu for tissue repair and collagen support',
+          'Optional GLP-1 for inflammation and body comp',
+          'Provider-led dose calibration',
+        ],
+      };
+    }
+
+    // Default → Viva Concierge
+    return {
+      key: 'concierge',
+      name: 'Viva Concierge',
+      price: '$99',
+      body: 'Concierge provider access for evaluation, ongoing guidance, and insurance-based labs across hormones, metabolic, and recovery.',
+      bullets: [
+        'Direct concierge provider access',
+        'Lab orders and prescriptions through your insurance',
+        'Guidance across hormones, metabolic, and recovery',
+        'Step up to compounded protocols any time',
+      ],
+    };
+  }
+
+  // ====== Form submit (gate) ======
+  const form = document.getElementById('quiz-form') as HTMLFormElement | null;
+  const status = document.getElementById('q-status') as HTMLDivElement | null;
+  const submit = document.getElementById('q-submit') as HTMLButtonElement | null;
+
+  if (form && status && submit) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      status.textContent = '';
+      status.className = 'quiz__status';
+
+      const data = new FormData(form);
+      const name = String(data.get('name') || '').trim();
+      const email = String(data.get('email') || '').trim();
+      const phone = String(data.get('phone') || '').trim();
+      const company = String(data.get('company') || '').trim();
+
+      if (!name || !email) {
+        status.textContent = 'Name and email are required.';
+        status.classList.add('is-error');
+        return;
+      }
+
+      const m = match(state.answers);
+
+      submit.disabled = true;
+      submit.textContent = 'Sending…';
+
+      try {
+        const res = await fetch('/api/lead', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            source: 'quiz',
+            name, email, phone, company,
+            quiz: state.answers,
+            match: { key: m.key, name: m.name, price: m.price },
+          }),
+        });
+        const json = await res.json().catch(() => ({}));
+        if (!res.ok || !json.ok) {
+          throw new Error(json.error || 'Send failed. Try again or email info@vivawellnessco.com.');
+        }
+        // Show result
+        const nameEl = document.getElementById('r-name')!;
+        const priceEl = document.getElementById('r-price')!;
+        const bodyEl = document.getElementById('r-body')!;
+        const listEl = document.getElementById('r-list')!;
+        nameEl.textContent = m.name;
+        priceEl.textContent = m.price;
+        bodyEl.textContent = m.body;
+        listEl.innerHTML = m.bullets.map((b) => `<li>${b}</li>`).join('');
+        state.step = TOTAL + 2;
+        render();
+      } catch (err) {
+        status.textContent = err instanceof Error ? err.message : 'Send failed. Try again.';
+        status.classList.add('is-error');
+      } finally {
+        submit.disabled = false;
+        submit.textContent = 'Reveal my protocol';
+      }
+    });
+  }
+
+  render();
 </script>
 
-<style is:global>
-  .quiz-shell {
-    padding: clamp(3rem, 7vw, 6rem) 0 clamp(4rem, 9vw, 7rem);
-    min-height: 80vh;
+<style>
+  .quiz {
+    padding: clamp(4rem, 10vw, 8rem) 0;
     position: relative;
-    overflow: hidden;
+    min-height: 80vh;
   }
-  .quiz-shell::before {
+  .quiz::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: radial-gradient(800px 500px at 80% 20%, rgba(201, 120, 58, 0.12), transparent 60%);
+    background:
+      radial-gradient(700px 400px at 80% 15%, rgba(201, 120, 58, 0.16), transparent 60%),
+      radial-gradient(500px 350px at 10% 85%, rgba(201, 120, 58, 0.08), transparent 60%);
     pointer-events: none;
   }
-  .quiz-shell .container { position: relative; }
-
-  /* SCREEN MANAGEMENT */
-  .screen { display: none; }
-  .screen.is-active { display: block; }
-
-  /* INTRO */
-  .intro { max-width: 820px; }
-  .intro__title {
-    font-size: clamp(3rem, 8vw, 6.5rem);
-    font-weight: 320;
-    line-height: 0.95;
-    letter-spacing: -0.03em;
-    margin: 1.2rem 0 1.5rem;
+  .quiz__inner {
+    position: relative;
+    max-width: 780px;
+    margin: 0 auto;
   }
-  .intro__title .italic-display { color: var(--bronze-bright); }
-  .intro__meta {
+
+  .quiz__progress {
+    height: 3px;
+    width: 100%;
+    background: var(--rule-strong);
+    overflow: hidden;
+    margin-bottom: 1.2rem;
+  }
+  .quiz__progress-bar {
+    height: 100%;
+    background: var(--bronze);
+    width: 0%;
+    transition: width 500ms var(--ease);
+  }
+
+  .quiz__meta {
     display: flex;
-    gap: 0;
-    margin: 3rem 0 2.5rem;
-    border-top: 1px solid var(--rule-strong);
-    border-bottom: 1px solid var(--rule-strong);
+    justify-content: space-between;
+    margin-bottom: 2.5rem;
   }
-  .intro__stat {
-    flex: 1;
-    padding: 1.5rem 0;
-    border-right: 1px solid var(--rule);
+
+  /* Steps · cross-fade between them */
+  .quiz__step {
+    display: none;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 500ms var(--ease), transform 500ms var(--ease);
   }
-  .intro__stat:last-child { border-right: 0; }
-  .intro__stat:not(:first-child) { padding-left: 1.5rem; }
-  .intro__stat-num {
-    font-family: var(--font-display);
-    font-size: 2.5rem;
-    font-weight: 360;
-    line-height: 1;
+  .quiz__step.is-active {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .quiz__q {
+    font-size: clamp(2rem, 5vw, 3.4rem);
+    line-height: 1.0;
+    letter-spacing: 0.005em;
+    margin-bottom: 2.5rem;
+    max-width: 22ch;
+  }
+  .quiz__q .italic-display { color: var(--bronze-bright); }
+
+  .quiz__lede { margin: -1.5rem 0 2rem; }
+
+  .quiz__options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+  .quiz__opt {
+    display: flex;
+    align-items: center;
+    gap: 1.4rem;
+    padding: 1.3rem 1.6rem;
+    background: var(--ink-2);
+    border: 1px solid var(--rule-strong);
+    border-radius: 2px;
+    text-align: left;
+    cursor: pointer;
+    transition: background 220ms var(--ease), border-color 220ms var(--ease), transform 280ms var(--ease);
+  }
+  .quiz__opt:hover {
+    background: var(--ink-3);
+    border-color: rgba(201, 120, 58, 0.5);
+    transform: translateX(4px);
+  }
+  .quiz__opt-num {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
     color: var(--bronze);
+    flex-shrink: 0;
+    width: 24px;
   }
-  .intro__stat-label {
+  .quiz__opt-label {
+    font-family: var(--font-display-italic);
+    font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+    letter-spacing: -0.01em;
+    color: var(--paper);
+    line-height: 1.3;
+  }
+
+  /* Gate form */
+  .quiz__form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.4rem;
+    max-width: 480px;
+  }
+  .quiz__form .btn { align-self: flex-start; margin-top: 0.4rem; }
+  .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  .quiz__status {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    letter-spacing: 0.04em;
+    min-height: 1.2em;
+    padding: 0.3rem 0;
+  }
+  .quiz__status.is-success { color: var(--bronze-bright); }
+  .quiz__status.is-error { color: #e76e6e; }
+
+  /* Result */
+  .quiz__result-title {
+    font-size: clamp(2.2rem, 5vw, 3.6rem);
+    line-height: 1.0;
+    margin: 1rem 0 2rem;
+    letter-spacing: 0.005em;
+  }
+  .quiz__result-title .italic-display { color: var(--bronze); }
+
+  .quiz__result-card {
+    background: var(--ink-2);
+    border: 1px solid var(--rule-strong);
+    box-shadow: inset 0 2px 0 0 var(--bronze);
+    padding: clamp(2rem, 4vw, 3rem);
+    border-radius: 2px;
+  }
+  .quiz__result-price {
+    display: flex;
+    align-items: baseline;
+    gap: 0.3rem;
+    margin-bottom: 1.5rem;
+  }
+  .quiz__result-amt {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 6vw, 4.5rem);
+    color: var(--paper);
+    line-height: 1;
+    letter-spacing: 0.005em;
+  }
+  .quiz__result-cad {
+    font-family: var(--font-mono);
+    color: var(--mute);
+    font-size: 1rem;
+  }
+  .quiz__result-body {
+    font-size: 1.1rem;
+    line-height: 1.55;
+    color: rgba(245, 241, 234, 0.85);
+    max-width: 56ch;
+    margin-bottom: 1.5rem;
+  }
+  .quiz__result-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    margin-bottom: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--rule);
+  }
+  .quiz__result-list li {
+    position: relative;
+    padding-left: 1.6rem;
+    color: rgba(245, 241, 234, 0.85);
+    font-size: 0.97rem;
+    line-height: 1.5;
+  }
+  .quiz__result-list li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: var(--bronze);
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+  }
+  .quiz__result-ctas {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+  }
+  .quiz__result-note {
+    font-size: 0.85rem;
+    color: var(--mute);
+    line-height: 1.55;
+    padding-top: 1.2rem;
+    border-top: 1px solid var(--rule);
+    max-width: 60ch;
+  }
+
+  .quiz__back {
+    display: inline-flex;
+    margin-top: 2.5rem;
     font-family: var(--font-mono);
     font-size: 0.7rem;
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--mute);
-    margin-top: 0.4rem;
-  }
-  @media (max-width: 600px) {
-    .intro__meta { flex-direction: column; }
-    .intro__stat { border-right: 0; border-bottom: 1px solid var(--rule); padding: 1.2rem 0; }
-    .intro__stat:last-child { border-bottom: 0; }
-    .intro__stat:not(:first-child) { padding-left: 0; }
-  }
-
-  /* PROGRESS */
-  .quiz-progress {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-    margin-bottom: 3rem;
-    max-width: 720px;
-  }
-  .quiz-progress__count {
-    font-family: var(--font-mono);
-    font-size: 0.8rem;
-    letter-spacing: 0.1em;
-    color: var(--paper);
-    flex-shrink: 0;
-  }
-  .quiz-progress__count .muted { color: var(--mute); margin: 0 0.3rem; }
-  .quiz-progress__bar {
-    flex: 1;
-    height: 1px;
-    background: var(--rule-strong);
-    position: relative;
-    overflow: hidden;
-  }
-  .quiz-progress__fill {
-    position: absolute;
-    inset: 0;
-    background: var(--bronze);
-    width: 0;
-    transition: width 600ms var(--ease);
-  }
-
-  /* QUESTION */
-  .question { max-width: 820px; }
-  .question__head { margin-bottom: 2.5rem; }
-  .question__title {
-    font-size: clamp(2.2rem, 5vw, 4rem);
-    font-weight: 360;
-    line-height: 1.0;
-    letter-spacing: -0.025em;
-    max-width: 18ch;
-    margin: 0.7rem 0 1rem;
-  }
-  .question__lead {
-    color: rgba(245, 241, 234, 0.7);
-    font-size: 1.08rem;
-    max-width: 50ch;
-  }
-
-  /* OPTIONS */
-  .options {
-    display: flex;
-    flex-direction: column;
-    gap: 0.6rem;
-    margin-bottom: 2.5rem;
-  }
-  .option {
-    display: grid;
-    grid-template-columns: 32px 1fr;
-    gap: 1.2rem;
-    align-items: start;
-    padding: 1.4rem 1.5rem;
-    background: var(--ink-2);
-    border: 1px solid var(--rule-strong);
-    text-align: left;
-    cursor: pointer;
-    transition: background 220ms var(--ease), border-color 220ms var(--ease), transform 320ms var(--ease);
-    color: var(--paper);
-    font: inherit;
-    border-radius: 2px;
-    width: 100%;
-  }
-  .option:hover {
-    background: var(--ink-3);
-    border-color: rgba(201, 120, 58, 0.5);
-  }
-  .option.is-selected {
-    background: rgba(201, 120, 58, 0.12);
-    border-color: var(--bronze);
-  }
-  .option__check {
-    width: 26px;
-    height: 26px;
-    border-radius: 50%;
-    border: 1.5px solid var(--rule-strong);
-    transition: background 220ms var(--ease), border-color 220ms var(--ease);
-    flex-shrink: 0;
-    margin-top: 0.15rem;
-    position: relative;
-    display: block;
-  }
-  .option__check::after {
-    content: '';
-    position: absolute;
-    left: 50%;
-    top: 45%;
-    width: 5px;
-    height: 10px;
-    border: solid var(--ink);
-    border-width: 0 2px 2px 0;
-    transform: translate(-50%, -55%) rotate(45deg) scale(0);
-    transition: transform 280ms var(--ease);
-    box-sizing: border-box;
-  }
-  .option.is-selected .option__check {
-    background: var(--bronze);
-    border-color: var(--bronze);
-  }
-  .option.is-selected .option__check::after {
-    transform: translate(-50%, -55%) rotate(45deg) scale(1);
-  }
-  .option__body { display: flex; flex-direction: column; gap: 0.3rem; }
-  .option__label {
-    font-family: var(--font-display);
-    font-size: 1.2rem;
-    font-weight: 420;
-    line-height: 1.2;
-    letter-spacing: -0.01em;
-  }
-  .option__desc {
-    font-size: 0.92rem;
-    color: rgba(245, 241, 234, 0.6);
-    line-height: 1.45;
-  }
-
-  /* QUIZ NAV */
-  .quiz-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 1rem;
-  }
-  .btn-ghost {
-    font-family: var(--font-mono);
-    font-size: 0.78rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: rgba(245, 241, 234, 0.6);
-    background: transparent;
-    border: 0;
-    padding: 1rem 0;
-    cursor: pointer;
+    padding: 0.5rem 0;
     transition: color 200ms var(--ease);
   }
-  .btn-ghost:hover:not(:disabled) { color: var(--paper); }
-  .btn-ghost:disabled { opacity: 0.3; cursor: not-allowed; }
-
-  .btn:disabled { opacity: 0.4; cursor: not-allowed; pointer-events: none; }
-
-  /* RESULTS */
-  .results { max-width: 820px; }
-  .results__category {
-    font-family: var(--font-mono);
-    font-size: 0.78rem;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--bronze);
-    margin: 1rem 0 0.7rem;
-  }
-  .results__name {
-    font-size: clamp(3rem, 8vw, 6rem);
-    line-height: 0.95;
-    letter-spacing: -0.025em;
-    color: var(--bronze-bright);
-    margin-bottom: 1rem;
-  }
-  .results__price {
-    display: flex;
-    align-items: baseline;
-    gap: 0.3rem;
-    margin-bottom: 2rem;
-    border-top: 1px solid var(--rule-strong);
-    padding-top: 1.5rem;
-  }
-  .results__amt {
-    font-family: var(--font-display);
-    font-size: 3.5rem;
-    font-weight: 360;
-    line-height: 1;
-    color: var(--paper);
-  }
-  .results__cad {
-    font-family: var(--font-mono);
-    font-size: 1rem;
-    color: var(--mute);
-  }
-  .results__why {
-    background: var(--ink-2);
-    border-left: 2px solid var(--bronze);
-    padding: 1.3rem 1.5rem;
-    margin-bottom: 2.5rem;
-  }
-  .results__why p {
-    color: rgba(245, 241, 234, 0.85);
-    font-size: 1.05rem;
-    line-height: 1.6;
-    margin: 0;
-  }
-  .results__includes {
-    margin-bottom: 2.5rem;
-  }
-  .results__includes h3 {
-    font-family: var(--font-mono);
-    font-size: 0.78rem;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--bronze);
-    font-weight: 500;
-    margin-bottom: 1rem;
-  }
-  .results__includes ul {
-    display: flex;
-    flex-direction: column;
-    gap: 0.7rem;
-  }
-  .results__includes li {
-    padding-left: 1.5rem;
-    position: relative;
-    color: rgba(245, 241, 234, 0.85);
-    line-height: 1.5;
-  }
-  .results__includes li::before {
-    content: '✦';
-    position: absolute;
-    left: 0;
-    top: 0.1rem;
-    color: var(--bronze);
-  }
-  .results__ctas {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-    padding-bottom: 3rem;
-    border-bottom: 1px solid var(--rule);
-    margin-bottom: 3rem;
-  }
-
-  /* EMAIL OPT-IN */
-  .email-opt {
-    max-width: 600px;
-  }
-  .email-opt h3 {
-    font-family: var(--font-display);
-    font-size: clamp(1.6rem, 3vw, 2.2rem);
-    margin: 0.7rem 0 0.7rem;
-    line-height: 1.1;
-  }
-  .email-opt p {
-    color: rgba(245, 241, 234, 0.7);
-    margin-bottom: 1.5rem;
-  }
-  .email-opt__form {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 0.7rem;
-    margin-bottom: 0.7rem;
-  }
-  @media (max-width: 540px) {
-    .email-opt__form { grid-template-columns: 1fr; }
-  }
-  .email-opt__form input[type="email"] {
-    background: var(--ink-2);
-    border: 1px solid var(--rule-strong);
-    color: var(--paper);
-    font-family: var(--font-body);
-    font-size: 1rem;
-    padding: 0.95rem 1.1rem;
-    transition: border-color 220ms var(--ease);
-  }
-  .email-opt__form input[type="email"]:focus {
-    outline: none;
-    border-color: var(--bronze);
-  }
-  .email-opt__status {
-    font-family: var(--font-mono);
-    font-size: 0.78rem;
-    letter-spacing: 0.06em;
-    min-height: 1.3em;
-  }
-  .email-opt__status.ok { color: var(--bronze-bright); }
-  .email-opt__status.err { color: #e8704a; }
-  .hp { position: absolute; left: -9999px; width: 1px; height: 1px; }
+  .quiz__back:hover { color: var(--paper); }
 </style>

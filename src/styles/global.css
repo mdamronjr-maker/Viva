@@ -1,9 +1,9 @@
 /* ============================================
-   VIVA WELLNESS CO. — DESIGN SYSTEM
-   Editorial / Clinical / Performance
+   VIVA WELLNESS CO. · DESIGN SYSTEM
+   Editorial · Clinical · Performance
    ============================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..900,0..100,0..1;1,9..144,300..900,0..100,0..1&family=Hanken+Grotesk:ital,wght@0,300..900;1,300..900&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..900,0..100,0..1;1,9..144,300..900,0..100,0..1&family=Hanken+Grotesk:ital,wght@0,300..900;1,300..900&family=JetBrains+Mono:wght@400;500&display=swap');
 
 :root {
   /* Color: warm-ink palette */
@@ -21,7 +21,8 @@
   --rule-strong: rgba(245, 241, 234, 0.20);
 
   /* Typography */
-  --font-display: 'Fraunces', 'Times New Roman', serif;
+  --font-display: 'Anton', 'Impact', 'Arial Narrow', sans-serif;
+  --font-display-italic: 'Fraunces', 'Times New Roman', serif;
   --font-body: 'Hanken Grotesk', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', 'Courier New', monospace;
 
@@ -41,6 +42,7 @@ img, svg, video { display: block; max-width: 100%; height: auto; }
 button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
 a { color: inherit; text-decoration: none; }
 ul, ol { list-style: none; }
+input, textarea, select { font: inherit; color: inherit; }
 
 /* Base */
 html, body {
@@ -77,17 +79,19 @@ body::before {
   font-weight: 500;
 }
 
+/* Anton on h1 only · matches the logo wordmark for hero and page titles.
+   h2 and h3 stay in Fraunces to preserve the editorial feel. */
 h1, .h1 {
   font-family: var(--font-display);
-  font-weight: 360;
+  font-weight: 400;
   font-size: clamp(2.75rem, 8vw, 7rem);
-  line-height: 0.95;
-  letter-spacing: -0.025em;
-  font-variation-settings: 'opsz' 144, 'SOFT' 30;
+  line-height: 0.92;
+  letter-spacing: 0.005em;
+  text-transform: uppercase;
 }
 
 h2, .h2 {
-  font-family: var(--font-display);
+  font-family: var(--font-display-italic);
   font-weight: 380;
   font-size: clamp(2rem, 5vw, 4rem);
   line-height: 1.0;
@@ -96,15 +100,20 @@ h2, .h2 {
 }
 
 h3, .h3 {
-  font-family: var(--font-display);
+  font-family: var(--font-display-italic);
   font-weight: 420;
   font-size: clamp(1.4rem, 2.4vw, 1.85rem);
   line-height: 1.15;
   letter-spacing: -0.015em;
 }
 
+/* Italic accent words inside h1/h2 use Fraunces for that editorial pop */
 .italic-display {
+  font-family: var(--font-display-italic);
   font-style: italic;
+  font-weight: 360;
+  letter-spacing: -0.015em;
+  text-transform: none;
   font-variation-settings: 'opsz' 144, 'SOFT' 70, 'WONK' 1;
 }
 
@@ -211,7 +220,7 @@ p { max-width: 62ch; }
   padding: 1.5rem 0;
   border-top: 1px solid var(--rule-strong);
   border-bottom: 1px solid var(--rule-strong);
-  font-family: var(--font-display);
+  font-family: var(--font-display-italic);
   font-style: italic;
   font-size: clamp(1.5rem, 3vw, 2.5rem);
   letter-spacing: -0.01em;
@@ -253,3 +262,57 @@ p { max-width: 62ch; }
 @media (max-width: 720px) {
   body { font-size: 16px; }
 }
+
+/* ============================================
+   FORM PRIMITIVES (used on /contact and /quiz)
+   ============================================ */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+.field__label {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--mute);
+}
+.field__input,
+.field__textarea {
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--rule-strong);
+  padding: 0.85rem 0;
+  font-size: 1.05rem;
+  color: var(--paper);
+  font-family: var(--font-body);
+  width: 100%;
+  transition: border-color 200ms var(--ease);
+}
+.field__input:focus,
+.field__textarea:focus {
+  outline: none;
+  border-bottom-color: var(--bronze);
+}
+.field__input::placeholder,
+.field__textarea::placeholder { color: rgba(245, 241, 234, 0.35); }
+.field__textarea { resize: vertical; min-height: 120px; }
+.field__hint {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  color: var(--mute);
+}
+
+/* Paper-section variants for forms on light bg */
+.section--paper .field__label { color: rgba(12, 10, 9, 0.55); }
+.section--paper .field__input,
+.section--paper .field__textarea {
+  color: var(--ink);
+  border-bottom-color: rgba(12, 10, 9, 0.18);
+}
+.section--paper .field__input::placeholder,
+.section--paper .field__textarea::placeholder { color: rgba(12, 10, 9, 0.3); }
+.section--paper .field__input:focus,
+.section--paper .field__textarea:focus { border-bottom-color: var(--bronze-deep); }

@@ -1,260 +1,194 @@
 ---
 import Layout from '../layouts/Layout.astro';
-
-const faqs = [
-  {
-    q: 'What happens after I book my first visit?',
-    a: 'You will receive a confirmation email with intake forms and consents. At your appointment time, a telehealth link arrives by text. During the visit, Liliana reviews your goals, history, and any concerns, then recommends labs and a protocol if appropriate.',
-  },
-  {
-    q: 'How do I receive my medications?',
-    a: 'Compounded medications and supplies ship directly to you from our partner pharmacies with tracking. Non-compounded prescriptions can be sent to your local retail pharmacy if applicable.',
-  },
-  {
-    q: 'Do you accept insurance?',
-    a: 'Memberships are private pay only. You can apply your insurance toward labs and non-compounded medications sent to your retail pharmacy. We accept FSA and HSA cards for memberships.',
-  },
-  {
-    q: 'Which states do you serve?',
-    a: 'Texas, Colorado, and Florida currently. We are actively expanding licensure. If your state isn\'t listed, contact us so we can prioritize where to expand next.',
-  },
-  {
-    q: 'Can Viva be my primary care provider?',
-    a: 'No. Viva specializes in performance medicine, hormone optimization, and metabolic health. We strongly encourage every patient to maintain a primary care provider for general health needs.',
-  },
-  {
-    q: 'Is there a referral program?',
-    a: 'Yes. Refer a friend and you both get $25 off your next consult.',
-  },
-];
 ---
 
 <Layout
-  title="Contact Viva Wellness Co. | Concierge Telehealth Austin"
-  description="Contact Viva Wellness Co. by phone, email, or text. Concierge telehealth performance medicine. Austin, TX. Serving Texas, Colorado, and Florida."
-  schema={{
-    '@context': 'https://schema.org',
-    '@type': 'ContactPage',
-    '@id': 'https://vivawellnessco.com/contact#contact',
-    url: 'https://vivawellnessco.com/contact',
-    mainEntity: { '@id': 'https://vivawellnessco.com/#organization' },
-  }}
+  title="Contact · Viva Wellness Co."
+  description="Get in touch with Viva Wellness Co. and receive our free Precision Hormone & Peptide Therapy eBook by email. Concierge telehealth in Austin, TX."
 >
 
-  {/* HERO */}
   <section class="contact-hero">
     <div class="container contact-hero__inner">
-      <div class="contact-hero__head">
-        <span class="eyebrow reveal" style="--d: 100ms;">— Get in touch</span>
-        <h1 class="contact-hero__title reveal" style="--d: 250ms;">
-          Slide into <span class="italic-display">our DMs.</span>
-        </h1>
-        <p class="lead reveal" style="--d: 450ms;">
-          Questions about a protocol, the membership, or whether Viva is the
-          right fit? Send a message. We answer everything personally.
-        </p>
-      </div>
-
-      <div class="contact-hero__channels reveal" style="--d: 600ms;">
-        <a class="channel" href="tel:7372107283">
-          <span class="channel__label">Call or text</span>
-          <span class="channel__value">(737) 210-7283</span>
-        </a>
-        <a class="channel" href="mailto:info@vivawellnessco.com">
-          <span class="channel__label">Email</span>
-          <span class="channel__value">info@vivawellnessco.com</span>
-        </a>
-        <a class="channel" href="https://wa.me/15128002794" target="_blank" rel="noopener">
-          <span class="channel__label">WhatsApp</span>
-          <span class="channel__value">+1 512-800-2794</span>
-        </a>
-        <a class="channel" href="https://www.instagram.com/vivawellnessatx" target="_blank" rel="noopener">
-          <span class="channel__label">Instagram</span>
-          <span class="channel__value">@vivawellnessatx</span>
-        </a>
-      </div>
+      <span class="eyebrow reveal" style="--d: 100ms;">Start the conversation</span>
+      <h1 class="contact-hero__title reveal" style="--d: 250ms;">
+        Get the <span class="italic-display">eBook.</span><br/>
+        Get a real reply.
+      </h1>
+      <p class="lead reveal" style="--d: 500ms;">
+        Drop your details. We'll email you our Precision Hormone &amp; Peptide
+        Therapy guide and Liliana will be in touch personally if you have
+        questions. No bots, no funnels, no spam.
+      </p>
     </div>
   </section>
 
-  {/* FORM + INFO */}
-  <section class="section">
-    <div class="container contact-grid">
-      <div class="contact-form-wrap">
-        <span class="index" data-num="01">Send a message</span>
-        <h2 class="contact-form__title">
-          Tell us what you're <span class="italic-display">working toward.</span>
-        </h2>
-        <p>
-          The more you tell us, the better we can point you to the right next
-          step. If you'd rather just book a consult, the button at the top of
-          every page goes straight there.
-        </p>
-
+  <section class="contact-body">
+    <div class="container contact-body__grid">
+      <div class="contact-body__form-wrap">
         <form class="contact-form" id="contact-form" novalidate>
           <div class="field">
-            <label for="name">Name</label>
-            <input type="text" id="name" name="name" required autocomplete="name" />
-          </div>
-          <div class="field">
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" required autocomplete="email" />
-          </div>
-          <div class="field">
-            <label for="state">State</label>
-            <select id="state" name="state">
-              <option>Texas</option>
-              <option>Colorado</option>
-              <option>Florida</option>
-              <option>Other (tell us in your message)</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="goal">Goal</label>
-            <select id="goal" name="goal">
-              <option>Lose fat / weight loss</option>
-              <option>Hormone optimization (TRT/HRT)</option>
-              <option>Recovery / injury</option>
-              <option>Body recomposition</option>
-              <option>Longevity / general optimization</option>
-              <option>Not sure yet</option>
-            </select>
-          </div>
-          <div class="field field--full">
-            <label for="message">Message</label>
-            <textarea id="message" name="message" rows="5"></textarea>
+            <label for="c-name" class="field__label">Your name</label>
+            <input
+              id="c-name"
+              name="name"
+              type="text"
+              class="field__input"
+              autocomplete="name"
+              required
+              placeholder="First and last"
+            />
           </div>
 
-          {/* Honeypot — hidden from real users, bots fill it */}
+          <div class="field">
+            <label for="c-email" class="field__label">Email</label>
+            <input
+              id="c-email"
+              name="email"
+              type="email"
+              class="field__input"
+              autocomplete="email"
+              required
+              placeholder="you@example.com"
+            />
+          </div>
+
+          <div class="field">
+            <label for="c-phone" class="field__label">Phone</label>
+            <input
+              id="c-phone"
+              name="phone"
+              type="tel"
+              class="field__input"
+              autocomplete="tel"
+              placeholder="(512) 555-0123"
+            />
+            <span class="field__hint">Optional. Used only if you ask us to call or text.</span>
+          </div>
+
+          <div class="field">
+            <label for="c-message" class="field__label">Anything to share?</label>
+            <textarea
+              id="c-message"
+              name="message"
+              class="field__textarea"
+              placeholder="Goals, current routine, questions about a specific protocol&hellip;"
+            ></textarea>
+            <span class="field__hint">Optional. Skip if you just want the eBook.</span>
+          </div>
+
+          {/* Honeypot · spam trap, hidden from real users */}
           <div class="hp" aria-hidden="true">
-            <label for="_honey">Leave this blank</label>
-            <input type="text" id="_honey" name="_honey" tabindex="-1" autocomplete="off" />
+            <label>Leave this empty
+              <input name="company" type="text" tabindex="-1" autocomplete="off" />
+            </label>
           </div>
 
-          <button type="submit" class="btn btn--bronze form-submit" id="submit-btn">
-            Send message
-          </button>
+          <button type="submit" class="btn btn--bronze" id="c-submit">Send &amp; get the eBook</button>
 
-          <div class="form-status" id="form-status" role="status" aria-live="polite"></div>
+          <div class="contact-form__status" id="c-status" role="status" aria-live="polite"></div>
         </form>
-
-        <script is:inline>
-          (() => {
-            const form = document.getElementById('contact-form');
-            const status = document.getElementById('form-status');
-            const btn = document.getElementById('submit-btn');
-            if (!form) return;
-
-            form.addEventListener('submit', async (e) => {
-              e.preventDefault();
-              status.className = 'form-status';
-              status.textContent = '';
-
-              const data = Object.fromEntries(new FormData(form).entries());
-
-              if (!data.name || !data.email || !data.email.includes('@')) {
-                status.className = 'form-status form-status--err';
-                status.textContent = 'Please add your name and a valid email.';
-                return;
-              }
-
-              btn.disabled = true;
-              const original = btn.textContent;
-              btn.textContent = 'Sending…';
-
-              try {
-                const res = await fetch('/api/contact', {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify(data),
-                });
-                const json = await res.json().catch(() => ({}));
-
-                if (res.ok && json.ok) {
-                  status.className = 'form-status form-status--ok';
-                  status.textContent = 'Message sent. We will reply within one business day.';
-                  form.reset();
-                } else {
-                  status.className = 'form-status form-status--err';
-                  status.textContent = json.error || 'Something went wrong. Please email us directly.';
-                }
-              } catch (err) {
-                status.className = 'form-status form-status--err';
-                status.textContent = 'Network error. Please email us directly at info@vivawellnessco.com.';
-              } finally {
-                btn.disabled = false;
-                btn.textContent = original;
-              }
-            });
-          })();
-        </script>
       </div>
 
-      <aside class="contact-aside">
-        <div class="aside-card">
-          <span class="index" data-num="—">The studio</span>
-          <p class="aside-addr">
-            5900 Balcones Dr #19640<br/>
-            Austin, TX 78731
-          </p>
-          <p class="aside-note">
-            Viva is a 100% telehealth practice. The Austin address is for mail
-            and shipping only. Visits happen by secure video, on your schedule.
-          </p>
-        </div>
-
-        <div class="aside-card">
-          <span class="index" data-num="—">Hours</span>
-          <ul class="hours">
-            <li><span>Mon–Thu</span><span>9 AM – 6 PM CT</span></li>
-            <li><span>Friday</span><span>9 AM – 4 PM CT</span></li>
-            <li><span>Sat–Sun</span><span>By message</span></li>
+      <aside class="contact-side">
+        <div class="contact-side__card">
+          <span class="eyebrow">Prefer to skip the form?</span>
+          <ul class="contact-side__list">
+            <li>
+              <span class="contact-side__k">Call or text</span>
+              <a href="tel:7372107283" class="contact-side__v">(737) 210-7283</a>
+            </li>
+            <li>
+              <span class="contact-side__k">Email</span>
+              <a href="mailto:info@vivawellnessco.com" class="contact-side__v">info@vivawellnessco.com</a>
+            </li>
+            <li>
+              <span class="contact-side__k">WhatsApp</span>
+              <a href="https://wa.me/15128002794" target="_blank" rel="noopener" class="contact-side__v">+1 512-800-2794</a>
+            </li>
+            <li>
+              <span class="contact-side__k">Book direct</span>
+              <a href="https://vivawellnessco.glossgenius.com/" target="_blank" rel="noopener" class="contact-side__v">vivawellnessco.glossgenius.com</a>
+            </li>
           </ul>
         </div>
 
-        <div class="aside-card aside-card--bronze">
-          <span class="aside-cta-eyebrow">Ready to start?</span>
-          <p class="aside-cta-body">
-            Skip the message and go straight to scheduling your first telehealth visit.
-          </p>
-          <a href="https://vivawellnessco.glossgenius.com/" target="_blank" rel="noopener" class="btn btn--ink">Book a Visit</a>
+        <div class="contact-side__panel">
+          <span class="contact-side__num">01</span>
+          <h3>What you get</h3>
+          <p>The Precision Hormone &amp; Peptide Therapy eBook (15 pages, 8 chapters) arrives in your inbox within a minute.</p>
+        </div>
+        <div class="contact-side__panel">
+          <span class="contact-side__num">02</span>
+          <h3>Service area</h3>
+          <p>Concierge telehealth licensed in Texas, Colorado, and Florida.</p>
+        </div>
+        <div class="contact-side__panel">
+          <span class="contact-side__num">03</span>
+          <h3>Response time</h3>
+          <p>Personal replies within 24 hours, business days. Often same day.</p>
         </div>
       </aside>
     </div>
   </section>
 
-  {/* FAQ */}
-  <section class="section section--paper">
-    <div class="container">
-      <div class="faq-head">
-        <span class="index" data-num="02">Frequent questions</span>
-        <h2 class="faq-head__title">
-          Answers, before <span class="italic-display">you have to ask.</span>
-        </h2>
-      </div>
-
-      <ul class="faqs">
-        {faqs.map((f, i) => (
-          <li class="faq">
-            <details>
-              <summary>
-                <span class="faq__num">{String(i + 1).padStart(2, '0')}</span>
-                <span class="faq__q">{f.q}</span>
-                <span class="faq__icon" aria-hidden="true">+</span>
-              </summary>
-              <div class="faq__a">{f.a}</div>
-            </details>
-          </li>
-        ))}
-      </ul>
-    </div>
-  </section>
-
 </Layout>
 
+<script>
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
+  const status = document.getElementById('c-status') as HTMLDivElement | null;
+  const submit = document.getElementById('c-submit') as HTMLButtonElement | null;
+  if (form && status && submit) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      status.textContent = '';
+      status.className = 'contact-form__status';
+
+      const data = new FormData(form);
+      const payload = {
+        source: 'contact',
+        name: String(data.get('name') || '').trim(),
+        email: String(data.get('email') || '').trim(),
+        phone: String(data.get('phone') || '').trim(),
+        message: String(data.get('message') || '').trim(),
+        company: String(data.get('company') || '').trim(), // honeypot
+      };
+
+      if (!payload.name || !payload.email) {
+        status.textContent = 'Name and email are required.';
+        status.classList.add('is-error');
+        return;
+      }
+
+      submit.disabled = true;
+      submit.textContent = 'Sending…';
+
+      try {
+        const res = await fetch('/api/lead', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        const json = await res.json().catch(() => ({}));
+        if (!res.ok || !json.ok) {
+          throw new Error(json.error || 'Something went wrong. Try again or email info@vivawellnessco.com.');
+        }
+        status.textContent = "Sent. Check your inbox in a minute for the eBook.";
+        status.classList.add('is-success');
+        form.reset();
+      } catch (err) {
+        status.textContent = err instanceof Error ? err.message : 'Send failed. Try again.';
+        status.classList.add('is-error');
+      } finally {
+        submit.disabled = false;
+        submit.textContent = 'Send & get the eBook';
+      }
+    });
+  }
+</script>
+
 <style>
-  /* HERO */
   .contact-hero {
-    padding: clamp(5rem, 10vw, 8rem) 0 clamp(3rem, 6vw, 5rem);
+    padding: clamp(5rem, 12vw, 9rem) 0 clamp(2rem, 5vw, 4rem);
     position: relative;
     overflow: hidden;
   }
@@ -262,268 +196,120 @@ const faqs = [
     content: '';
     position: absolute;
     inset: 0;
-    background: radial-gradient(800px 500px at 75% 30%, rgba(201, 120, 58, 0.14), transparent 60%);
+    background:
+      radial-gradient(700px 400px at 75% 10%, rgba(201, 120, 58, 0.18), transparent 60%),
+      radial-gradient(500px 350px at 5% 90%, rgba(201, 120, 58, 0.08), transparent 60%);
     pointer-events: none;
   }
   .contact-hero__inner {
     position: relative;
-    display: grid;
-    grid-template-columns: 1.2fr 1fr;
-    gap: clamp(2rem, 5vw, 5rem);
-    align-items: end;
-  }
-  @media (max-width: 900px) {
-    .contact-hero__inner { grid-template-columns: 1fr; gap: 3rem; }
+    max-width: 60ch;
   }
   .contact-hero__title {
-    font-size: clamp(3rem, 8vw, 6rem);
+    font-size: clamp(2.5rem, 7vw, 5rem);
     line-height: 0.95;
-    letter-spacing: -0.03em;
-    margin: 1.2rem 0 1.5rem;
+    letter-spacing: 0.005em;
+    margin: 1rem 0 1.5rem;
   }
-  .contact-hero__title .italic-display { color: var(--bronze); }
-  .contact-hero__channels {
+  .contact-hero__title .italic-display { color: var(--bronze-bright); }
+
+  .contact-body {
+    padding: clamp(2rem, 5vw, 4rem) 0 clamp(5rem, 10vw, 8rem);
+  }
+  .contact-body__grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1px;
-    background: var(--rule-strong);
-    border: 1px solid var(--rule-strong);
+    grid-template-columns: 1.4fr 1fr;
+    gap: clamp(2rem, 5vw, 5rem);
+    align-items: start;
   }
-  .channel {
-    background: var(--ink);
-    padding: 1.4rem 1.3rem;
+  @media (max-width: 900px) {
+    .contact-body__grid { grid-template-columns: 1fr; }
+  }
+
+  .contact-form {
     display: flex;
     flex-direction: column;
-    gap: 0.3rem;
-    transition: background 220ms var(--ease);
+    gap: 1.5rem;
+    max-width: 540px;
   }
-  .channel:hover { background: var(--ink-2); }
-  .channel__label {
+  .contact-form .btn { align-self: flex-start; margin-top: 0.5rem; }
+  .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+  .contact-form__status {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    letter-spacing: 0.04em;
+    min-height: 1.2em;
+    padding: 0.4rem 0;
+  }
+  .contact-form__status.is-success { color: var(--bronze-bright); }
+  .contact-form__status.is-error { color: #e76e6e; }
+
+  .contact-side {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+  .contact-side__card {
+    background: var(--ink-2);
+    border: 1px solid var(--rule-strong);
+    padding: 1.8rem 1.6rem;
+    border-radius: 2px;
+  }
+  .contact-side__card .eyebrow { display: block; margin-bottom: 1.2rem; }
+  .contact-side__list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+  }
+  .contact-side__list li {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+  .contact-side__k {
     font-family: var(--font-mono);
     font-size: 0.65rem;
     letter-spacing: 0.15em;
     text-transform: uppercase;
-    color: var(--bronze);
+    color: var(--mute);
   }
-  .channel__value {
-    font-family: var(--font-display);
-    font-size: 1.05rem;
-    font-weight: 400;
+  .contact-side__v {
+    font-family: var(--font-display-italic);
+    font-size: 1.1rem;
+    letter-spacing: -0.01em;
     color: var(--paper);
+    border-bottom: 1px solid transparent;
+    transition: border-color 200ms var(--ease), color 200ms var(--ease);
+    align-self: flex-start;
   }
-
-  /* FORM + INFO */
-  .contact-grid {
-    display: grid;
-    grid-template-columns: 1.5fr 1fr;
-    gap: clamp(2rem, 5vw, 5rem);
-    align-items: start;
-  }
-  @media (max-width: 900px) { .contact-grid { grid-template-columns: 1fr; } }
-
-  .contact-form__title {
-    font-size: clamp(2rem, 4.5vw, 3.4rem);
-    margin: 1rem 0 1rem;
-    max-width: 18ch;
-  }
-  .contact-form__title .italic-display { color: var(--bronze); }
-  .contact-form-wrap > p {
-    margin-bottom: 2rem;
-    color: rgba(245, 241, 234, 0.75);
-  }
-
-  .contact-form {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
-  }
-  .field { display: flex; flex-direction: column; gap: 0.5rem; }
-  .field--full { grid-column: 1 / -1; }
-  .field label {
-    font-family: var(--font-mono);
-    font-size: 0.7rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--bronze);
-  }
-  .field input, .field textarea, .field select {
-    background: transparent;
-    border: 0;
-    border-bottom: 1px solid var(--rule-strong);
-    color: var(--paper);
-    font-family: var(--font-body);
-    font-size: 1.05rem;
-    padding: 0.7rem 0;
-    transition: border-color 220ms var(--ease);
-  }
-  .field input:focus, .field textarea:focus, .field select:focus {
-    outline: none;
-    border-color: var(--bronze);
-  }
-  .field textarea { resize: vertical; }
-  .field select {
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23c9783a' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 0.6rem center;
-    padding-right: 2rem;
-  }
-  .field option { background: var(--ink); color: var(--paper); }
-  .form-submit { grid-column: 1 / -1; justify-self: start; margin-top: 1rem; }
-
-  /* Honeypot: hidden from humans, visible to dumb bots */
-  .hp {
-    position: absolute;
-    left: -9999px;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-  }
-
-  /* Inline status feedback */
-  .form-status {
-    grid-column: 1 / -1;
-    margin-top: 0.5rem;
-    font-family: var(--font-mono);
-    font-size: 0.78rem;
-    letter-spacing: 0.08em;
-    min-height: 1.2em;
-  }
-  .form-status--ok {
+  .contact-side__v:hover {
     color: var(--bronze-bright);
-  }
-  .form-status--err {
-    color: #e8704a;
+    border-bottom-color: var(--bronze);
   }
 
-  @media (max-width: 600px) {
-    .contact-form { grid-template-columns: 1fr; }
+  .contact-side__panel {
+    padding: 1.2rem 0;
+    border-top: 1px solid var(--rule);
   }
-
-  /* ASIDE */
-  .contact-aside {
-    display: flex;
-    flex-direction: column;
-    gap: 1px;
-    background: var(--rule-strong);
-    border: 1px solid var(--rule-strong);
-  }
-  .aside-card {
-    background: var(--ink);
-    padding: 2rem 1.7rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.8rem;
-  }
-  .aside-card .index { margin-bottom: 0.4rem; }
-  .aside-addr {
-    font-family: var(--font-display);
-    font-size: 1.2rem;
-    line-height: 1.4;
-    color: var(--paper);
-  }
-  .aside-note {
-    color: rgba(245, 241, 234, 0.6);
-    font-size: 0.9rem;
-    line-height: 1.55;
-  }
-  .hours {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    color: var(--paper);
-  }
-  .hours li {
-    display: flex;
-    justify-content: space-between;
-    padding: 0.5rem 0;
-    border-bottom: 1px solid var(--rule);
-    font-family: var(--font-mono);
-    font-size: 0.85rem;
-  }
-  .hours li:last-child { border-bottom: 0; }
-  .hours span:first-child {
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    font-size: 0.7rem;
-    color: var(--bronze);
-    align-self: center;
-  }
-  .aside-card--bronze {
-    background: var(--bronze);
-    color: var(--ink);
-  }
-  .aside-card--bronze .aside-cta-eyebrow {
-    font-family: var(--font-mono);
-    font-size: 0.7rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--ink);
-  }
-  .aside-cta-body {
-    color: var(--ink);
-    font-size: 1rem;
-    line-height: 1.55;
-  }
-  .aside-card--bronze .btn { align-self: flex-start; margin-top: 0.5rem; }
-
-  /* FAQ */
-  .faq-head {
-    margin-bottom: 3rem;
-    max-width: 800px;
-  }
-  .faq-head__title {
-    font-size: clamp(2rem, 4.8vw, 3.4rem);
-    margin-top: 1rem;
-    max-width: 16ch;
-  }
-  .faq-head__title .italic-display { color: var(--bronze-deep); }
-  .faqs {
-    border-top: 1px solid rgba(12, 10, 9, 0.15);
-  }
-  .faq {
-    border-bottom: 1px solid rgba(12, 10, 9, 0.15);
-  }
-  .faq summary {
-    list-style: none;
-    cursor: pointer;
-    padding: 1.6rem 0;
-    display: grid;
-    grid-template-columns: 60px 1fr auto;
-    gap: 1.5rem;
-    align-items: center;
-    transition: color 220ms var(--ease);
-  }
-  .faq summary::-webkit-details-marker { display: none; }
-  .faq summary:hover { color: var(--bronze-deep); }
-  .faq__num {
+  .contact-side__panel:first-of-type { border-top: 0; padding-top: 0.6rem; }
+  .contact-side__num {
     font-family: var(--font-mono);
     font-size: 0.7rem;
     letter-spacing: 0.12em;
-    color: var(--bronze-deep);
+    color: var(--bronze);
+    display: block;
+    margin-bottom: 0.6rem;
   }
-  .faq__q {
-    font-family: var(--font-display);
-    font-size: clamp(1.1rem, 2vw, 1.45rem);
-    line-height: 1.3;
-    color: var(--ink);
+  .contact-side__panel h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0.4rem;
+    color: var(--paper);
   }
-  .faq__icon {
-    font-size: 1.8rem;
-    font-weight: 200;
-    color: var(--bronze-deep);
-    transition: transform 280ms var(--ease);
-  }
-  .faq[open] .faq__icon, details[open] .faq__icon { transform: rotate(45deg); }
-  .faq__a {
-    padding: 0 0 1.8rem 80px;
-    color: rgba(12, 10, 9, 0.72);
-    max-width: 70ch;
-    line-height: 1.65;
-  }
-  @media (max-width: 600px) {
-    .faq summary { grid-template-columns: 1fr auto; gap: 0.8rem; }
-    .faq__num { display: none; }
-    .faq__a { padding-left: 0; }
+  .contact-side__panel p {
+    color: rgba(245, 241, 234, 0.7);
+    font-size: 0.93rem;
+    line-height: 1.55;
+    max-width: 36ch;
   }
 </style>

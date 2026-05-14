@@ -6,14 +6,19 @@ const year = new Date().getFullYear();
   <div class="container">
     <div class="footer-grid">
       <div class="footer-col footer-col--brand">
-        <div class="footer-brand">
-          <span class="brand__mark">V</span>
-          <span class="footer-brand__word">Viva Wellness Co.</span>
-        </div>
+        <a href="/" class="footer-brand" aria-label="Viva Wellness Co. · home">
+          <img
+            src="/viva-logo-paper.png"
+            alt="Viva Wellness Co."
+            class="footer-brand__logo"
+            width="220"
+            height="48"
+          />
+        </a>
         <p class="footer-tag italic-display">
           You bring the goals.<br/>We&rsquo;ll bring the protocol.
         </p>
-        <a href="https://vivawellnessco.glossgenius.com/" target="_blank" rel="noopener" class="btn btn--bronze">Start Protocol</a>
+        <a href="https://vivawellnessco.glossgenius.com/" target="_blank" rel="noopener" class="btn btn--bronze">Start Your Protocol</a>
       </div>
 
       <div class="footer-col">
@@ -22,7 +27,7 @@ const year = new Date().getFullYear();
           <li><a href="/">Home</a></li>
           <li><a href="/about">About</a></li>
           <li><a href="/services">Services</a></li>
-          <li><a href="/quiz">Find Your Protocol</a></li>
+          <li><a href="/programs-and-memberships">Programs</a></li>
           <li><a href="/#network">Our Network</a></li>
           <li><a href="/blog">Blog</a></li>
           <li><a href="/contact">Contact</a></li>
@@ -81,19 +86,17 @@ const year = new Date().getFullYear();
     .footer-col--brand { grid-column: 1 / -1; }
   }
   .footer-brand {
-    display: flex; align-items: center; gap: 0.7rem;
-    font-family: var(--font-display);
-    font-weight: 480; font-size: 1.05rem;
-    margin-bottom: 1.2rem;
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: 1.4rem;
+    line-height: 0;
   }
-  .brand__mark {
-    width: 32px; height: 32px;
-    display: grid; place-items: center;
-    background: var(--bronze); color: var(--ink);
-    font-weight: 600; border-radius: 2px;
+  .footer-brand__logo {
+    height: 32px;
+    width: auto;
+    display: block;
   }
   .footer-tag {
-    font-family: var(--font-display);
     font-size: 1.4rem;
     line-height: 1.2;
     margin-bottom: 1.5rem;
