@@ -11,7 +11,11 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
-const { Content } = await render(post);
+const { Content, headings } = await render(post);
+
+// Table of contents · only show for posts with 3+ h2 sections
+const tocItems = headings.filter((h) => h.depth === 2);
+const showToc = tocItems.length >= 3;
 
 // Reading time: 200 words per minute (average reader)
 const wordCount = post.body?.split(/\s+/).filter(Boolean).length ?? 0;
@@ -109,6 +113,29 @@ const formattedUpdate = hasUpdate
         </div>
       </div>
     </header>
+
+    {showToc && (
+      <nav class="post-toc" aria-label="Article contents">
+        <div class="container post-toc__inner">
+          <details open>
+            <summary class="post-toc__summary">
+              <span class="eyebrow">· Contents</span>
+              <span class="post-toc__count">{tocItems.length} sections</span>
+            </summary>
+            <ol class="post-toc__list">
+              {tocItems.map((h, i) => (
+                <li class="post-toc__item">
+                  <a href={`#${h.slug}`} class="post-toc__link">
+                    <span class="post-toc__num">{String(i + 1).padStart(2, '0')}</span>
+                    <span class="post-toc__text">{h.text}</span>
+                  </a>
+                </li>
+              ))}
+            </ol>
+          </details>
+        </div>
+      </nav>
+    )}
 
     <div class="post-body">
       <div class="container post-body__inner">
@@ -272,6 +299,74 @@ const formattedUpdate = hasUpdate
   }
   .post-meta__author { color: var(--paper); }
   .post-meta__sep { margin: 0 0.6rem; }
+
+  .post-toc {
+    padding: clamp(1rem, 3vw, 1.6rem) 0 0;
+  }
+  .post-toc__inner { max-width: 720px; margin: 0 auto; }
+  .post-toc details {
+    background: var(--ink-2);
+    border: 1px solid var(--rule);
+    border-left: 2px solid var(--bronze);
+    padding: 0.4rem 0;
+  }
+  .post-toc__summary {
+    list-style: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.8rem 1.4rem;
+    user-select: none;
+  }
+  .post-toc__summary::-webkit-details-marker { display: none; }
+  .post-toc__count {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    color: var(--mute);
+  }
+  .post-toc details[open] .post-toc__count::after {
+    content: ' ▾';
+    color: var(--bronze);
+  }
+  .post-toc details:not([open]) .post-toc__count::after {
+    content: ' ▸';
+    color: var(--bronze);
+  }
+  .post-toc__list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding: 0.6rem 0 1rem;
+    margin: 0 1.4rem;
+    border-top: 1px solid var(--rule);
+  }
+  .post-toc__item { border-bottom: 1px solid var(--rule); }
+  .post-toc__item:last-child { border-bottom: 0; }
+  .post-toc__link {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    gap: 0.8rem;
+    padding: 0.7rem 0;
+    align-items: baseline;
+    color: rgba(245, 241, 234, 0.78);
+    transition: color 200ms var(--ease);
+  }
+  .post-toc__link:hover { color: var(--bronze-bright); }
+  .post-toc__num {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    color: var(--bronze);
+  }
+  .post-toc__text {
+    font-family: var(--font-display-italic);
+    font-size: 1.02rem;
+    letter-spacing: -0.005em;
+    line-height: 1.35;
+  }
 
   .post-body { padding: clamp(2rem, 5vw, 4rem) 0; }
   .post-body__inner {
