@@ -1,0 +1,236 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const lastUpdated = 'May 13, 2026';
+---
+
+<Layout
+  title="Privacy Policy · Viva Wellness Co."
+  description="How Viva Wellness Co. collects, uses, and protects your information. Plain-language privacy practices for our concierge telehealth website."
+>
+
+  <section class="legal-hero">
+    <div class="container legal-hero__inner">
+      <span class="eyebrow">· Privacy</span>
+      <h1 class="legal-hero__title">
+        Your data, <span class="italic-display">your control.</span>
+      </h1>
+      <p class="lead">
+        Plain language. No dark patterns. Here is exactly what we collect, why,
+        and how to opt out at any time.
+      </p>
+      <p class="legal-hero__updated">Last updated · {lastUpdated}</p>
+    </div>
+  </section>
+
+  <section class="legal-body">
+    <div class="container legal-body__inner">
+
+      <div class="legal-callout">
+        <strong>The short version.</strong>
+        We collect contact details when you fill out a form on this site, plus
+        the answers you give to our protocol-match quiz. We use that information
+        to email you our eBook, reply to your inquiry, and occasionally send you
+        new articles. We never sell it. You can unsubscribe at any time.
+      </div>
+
+      <h2 class="legal-h">What we collect</h2>
+      <p>
+        From the <a href="/contact">contact page</a> and the home-page
+        protocol-match quiz, we collect the information you give us: your name,
+        email address, phone number (optional), the answers you choose in the
+        quiz, and any free-text message you send.
+      </p>
+      <p>
+        We also automatically receive limited technical information: which page
+        referred you (the HTTP <em>Referer</em> header) and the campaign tags in
+        your URL (UTM parameters). This is the same information any website
+        receives by default. We use it to understand which articles and ads are
+        useful so we can write more of what works.
+      </p>
+      <p>
+        We do <strong>not</strong> use analytics cookies on this site. We do
+        not track you across other websites.
+      </p>
+
+      <h2 class="legal-h">How we use it</h2>
+      <p>
+        To deliver the Precision Hormone &amp; Peptide Therapy eBook to the
+        email you provided, reply to questions you ask us, and follow up if
+        Liliana wants to introduce a relevant new article or protocol. That is
+        the entire scope of marketing communication from this website.
+      </p>
+
+      <h2 class="legal-h">Service providers we use</h2>
+      <ul class="legal-list">
+        <li>
+          <strong>Resend</strong> · sends our transactional email (eBook
+          delivery and inquiry replies). Your name and email pass through their
+          systems for that purpose.
+        </li>
+        <li>
+          <strong>Cloudflare</strong> · hosts this website. They process the
+          basic server logs and DDoS protection data that any web host needs.
+        </li>
+        <li>
+          <strong>GlossGenius</strong> · handles appointment booking and
+          payments when you book a visit. They have their own privacy policy
+          and we never see your full card details.
+        </li>
+      </ul>
+
+      <h2 class="legal-h">A note on health information</h2>
+      <p>
+        This website does <strong>not</strong> collect protected health
+        information (PHI). The quiz and contact forms are for marketing and
+        lead intake only. Once you become a patient, all clinical communication
+        moves into our HIPAA-compliant patient portal (Charm Health). Lab
+        orders, medication shipments, dose adjustments, and provider messaging
+        all happen there, never through this website or generic email.
+      </p>
+
+      <h2 class="legal-h">Email opt-out</h2>
+      <p>
+        Every email we send includes an unsubscribe link. You can also email
+        <a href="mailto:info@vivawellnessco.com">info@vivawellnessco.com</a>
+        and ask us to remove you from any list, and we will do so within one
+        business day.
+      </p>
+
+      <h2 class="legal-h">Children</h2>
+      <p>
+        Our services are for adults eighteen and older. We do not knowingly
+        collect information from anyone under eighteen.
+      </p>
+
+      <h2 class="legal-h">Updates</h2>
+      <p>
+        If we change how we handle information, we will update this page and
+        revise the date at the top. Material changes get an email to anyone on
+        our list.
+      </p>
+
+      <h2 class="legal-h">Questions</h2>
+      <p>
+        Email <a href="mailto:info@vivawellnessco.com">info@vivawellnessco.com</a>
+        or call <a href="tel:+17372107283">(737) 210-7283</a>.
+      </p>
+
+      <p class="legal-foot">
+        Viva Wellness Co. · 5900 Balcones Dr #19640, Austin, TX 78731
+      </p>
+    </div>
+  </section>
+
+</Layout>
+
+<style>
+  .legal-hero {
+    padding: clamp(5rem, 11vw, 9rem) 0 clamp(2rem, 5vw, 4rem);
+    position: relative;
+    overflow: hidden;
+  }
+  .legal-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(800px 500px at 75% 0%, rgba(201, 120, 58, 0.14), transparent 65%);
+    pointer-events: none;
+  }
+  .legal-hero__inner { position: relative; max-width: 70ch; }
+  .legal-hero__title {
+    font-size: clamp(2.8rem, 7vw, 5.5rem);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    margin: 1rem 0 1.5rem;
+  }
+  .legal-hero__title .italic-display { color: var(--bronze-bright); }
+  .legal-hero__updated {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--mute);
+    margin-top: 1.4rem;
+    padding-top: 1.2rem;
+    border-top: 1px solid var(--rule);
+    display: inline-block;
+  }
+
+  .legal-body { padding: clamp(2rem, 5vw, 4rem) 0 clamp(5rem, 10vw, 8rem); }
+  .legal-body__inner { max-width: 70ch; margin: 0 auto; }
+
+  .legal-callout {
+    background: var(--ink-2);
+    border-left: 2px solid var(--bronze);
+    padding: 1.6rem 1.8rem;
+    margin-bottom: 3rem;
+    line-height: 1.6;
+    color: rgba(245, 241, 234, 0.9);
+  }
+  .legal-callout strong {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--bronze);
+    margin-bottom: 0.6rem;
+  }
+
+  .legal-h {
+    font-family: var(--font-display-italic);
+    font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+    margin: 2.8rem 0 1rem;
+    color: var(--paper);
+  }
+  .legal-body p {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: rgba(245, 241, 234, 0.85);
+    margin-bottom: 1.1rem;
+    max-width: none;
+  }
+  .legal-body a {
+    color: var(--bronze);
+    border-bottom: 1px solid rgba(201, 120, 58, 0.4);
+    transition: color 200ms var(--ease), border-color 200ms var(--ease);
+  }
+  .legal-body a:hover {
+    color: var(--bronze-bright);
+    border-color: var(--bronze-bright);
+  }
+  .legal-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    margin: 0.5rem 0 1.5rem;
+  }
+  .legal-list li {
+    padding-left: 1.2rem;
+    position: relative;
+    color: rgba(245, 241, 234, 0.85);
+    font-size: 1.02rem;
+    line-height: 1.6;
+  }
+  .legal-list li::before {
+    content: '·';
+    position: absolute;
+    left: 0;
+    color: var(--bronze);
+    font-weight: 700;
+  }
+  .legal-list strong { color: var(--paper); }
+
+  .legal-foot {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--rule);
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    color: var(--mute);
+  }
+</style>

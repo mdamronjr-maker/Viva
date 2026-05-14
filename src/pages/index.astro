@@ -1,6 +1,51 @@
 ---
 import Layout from '../layouts/Layout.astro';
 
+const faqs = [
+  {
+    q: 'Is Viva Wellness Co. accepting new patients?',
+    a: "Yes. We're licensed in Texas, Colorado, and Florida and currently accepting new patients in all three states. New patient visits typically book within a week.",
+  },
+  {
+    q: 'Which states are you licensed in?',
+    a: 'Texas, Colorado, and Florida. We are a one-hundred-percent telehealth practice, so visits happen by secure video wherever you are physically located in one of those states at the time of the appointment.',
+  },
+  {
+    q: 'Do you accept insurance?',
+    a: 'Memberships are not billed to insurance. We accept FSA and HSA cards for membership fees. For labs and non-compounded medications outside the membership, insurance can be applied. Many patients use the Viva Concierge tier specifically to keep their existing insurance for labs and prescriptions.',
+  },
+  {
+    q: 'Where are your medications sourced from?',
+    a: 'Every compounded medication we dispense comes from FDA-regulated 503A compounding pharmacies that perform third-party testing for potency and sterility. We do not work with grey-market peptide vendors. Medications ship from the pharmacy directly to your home.',
+  },
+  {
+    q: 'How fast will I receive the eBook after submitting a form?',
+    a: 'The Precision Hormone & Peptide Therapy eBook is emailed automatically, usually within sixty seconds. If you do not see it, check your spam folder or email info@vivawellnessco.com and we will resend.',
+  },
+  {
+    q: 'Can I cancel my membership?',
+    a: 'Yes. Memberships require an initial twelve-week commitment so the protocol has enough runway to produce measurable results. After that, you can cancel any time with no penalty. Memberships renew automatically every thirty days until you cancel.',
+  },
+  {
+    q: "What's the difference between TRT All Inclusive and HRT Guidance?",
+    a: 'TRT All Inclusive ($199 per month) bundles compounded testosterone, supplies, biannual labs, and home delivery into one flat fee. HRT Guidance ($99 per month) is provider oversight only, designed for patients who want to use their insurance for labs and prescriptions. Same clinical attention; different financial structure.',
+  },
+  {
+    q: 'Is my health information private?',
+    a: "This website only collects marketing leads — name, email, phone, quiz answers. We do not collect protected health information here. Once you become a patient, all clinical communication moves into our HIPAA-compliant patient portal. Lab results, medication adjustments, and provider messaging happen there, not on this site or in regular email.",
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+
 const pillars = [
   { num: '01', title: 'Hormone Optimization', body: 'TRT and HRT protocols calibrated to how you want to feel and perform, not just where the lab range starts.' },
   { num: '02', title: 'Metabolic Reset', body: 'Compounded GLP-1 protocols stepped to your physiology. Real appetite control without losing the muscle you trained for.' },
@@ -21,6 +66,7 @@ const programs = [
 <Layout
   title="Concierge Telehealth in Austin | GLP-1, TRT, Performance Medicine | Viva Wellness Co."
   description="Provider-led concierge telehealth in Austin, TX. GLP-1 weight loss, TRT, hormone optimization, recovery, and recomposition protocols. Texas, Colorado, Florida. Founded by Liliana Damron, APRN, FNP-BC."
+  schema={faqSchema}
 >
 
   {/* ============ HERO · Matt Johnson full-bleed ============ */}
@@ -522,6 +568,40 @@ const programs = [
     </div>
   </section>
 
+  {/* ============ FAQ ============ */}
+  <section class="faq">
+    <div class="container">
+      <div class="faq__head">
+        <span class="index" data-num="07">Common questions</span>
+        <h2 class="faq__title">
+          The eight questions <span class="italic-display">we get most.</span>
+        </h2>
+        <p class="lead">
+          If yours is not here, ask. We reply personally inside a business day.
+        </p>
+      </div>
+
+      <ul class="faq__list">
+        {faqs.map((f, i) => (
+          <li class="faq__item">
+            <details>
+              <summary class="faq__q">
+                <span class="faq__q-num">{String(i + 1).padStart(2, '0')}</span>
+                <span class="faq__q-text">{f.q}</span>
+                <span class="faq__q-icon" aria-hidden="true">+</span>
+              </summary>
+              <p class="faq__a">{f.a}</p>
+            </details>
+          </li>
+        ))}
+      </ul>
+
+      <div class="faq__foot">
+        <a href="/contact" class="btn">Ask a question</a>
+      </div>
+    </div>
+  </section>
+
   {/* ============ CTA ============ */}
   <section class="cta">
     <div class="container cta__inner">
@@ -1019,6 +1099,65 @@ const programs = [
   .testimonial__author strong { font-family: var(--font-display-italic); font-size: 1rem; font-weight: 460; color: var(--paper); letter-spacing: -0.01em; }
   .testimonial__author span { font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mute); }
   .testimonials__foot { margin-top: 2.5rem; text-align: center; }
+
+  /* ============ FAQ ============ */
+  .faq { padding: var(--section-pad) 0; border-top: 1px solid var(--rule); position: relative; overflow: hidden; }
+  .faq::before { content: ''; position: absolute; inset: 0; background: radial-gradient(700px 400px at 80% 20%, rgba(201, 120, 58, 0.08), transparent 60%); pointer-events: none; }
+  .faq > .container { position: relative; }
+  .faq__head { max-width: 900px; margin-bottom: clamp(2.5rem, 5vw, 4rem); }
+  .faq__title { font-size: clamp(2rem, 5vw, 3.6rem); margin: 0.7rem 0 1.2rem; max-width: 22ch; line-height: 1.05; }
+  .faq__title .italic-display { color: var(--bronze); }
+  .faq__list { display: flex; flex-direction: column; border-top: 1px solid var(--rule-strong); max-width: 900px; }
+  .faq__item { border-bottom: 1px solid var(--rule); }
+  .faq__item details { padding: 0; }
+  .faq__item summary {
+    list-style: none;
+    cursor: pointer;
+    display: grid;
+    grid-template-columns: 60px 1fr 32px;
+    gap: clamp(1rem, 3vw, 2rem);
+    align-items: center;
+    padding: clamp(1.4rem, 3vw, 2rem) 0;
+    transition: background 220ms var(--ease);
+  }
+  .faq__item summary::-webkit-details-marker { display: none; }
+  .faq__item summary:hover { background: rgba(201, 120, 58, 0.04); }
+  .faq__q-num {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--bronze);
+    letter-spacing: 0.12em;
+  }
+  .faq__q-text {
+    font-family: var(--font-display-italic);
+    font-size: clamp(1.15rem, 2.2vw, 1.55rem);
+    line-height: 1.25;
+    letter-spacing: -0.015em;
+    color: var(--paper);
+  }
+  .faq__q-icon {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    color: var(--bronze);
+    text-align: center;
+    line-height: 1;
+    transition: transform 280ms var(--ease);
+  }
+  .faq__item details[open] .faq__q-icon { transform: rotate(45deg); }
+  .faq__a {
+    grid-column: 2;
+    padding: 0 0 clamp(1.4rem, 3vw, 2rem) clamp(1rem, 3vw, 2rem);
+    margin-left: 60px;
+    color: rgba(245, 241, 234, 0.78);
+    line-height: 1.65;
+    font-size: 1.02rem;
+    max-width: 65ch;
+  }
+  @media (max-width: 640px) {
+    .faq__item summary { grid-template-columns: 40px 1fr 28px; gap: 0.8rem; }
+    .faq__a { margin-left: 40px; padding-left: 0.8rem; padding-right: 0; }
+  }
+  .faq__foot { margin-top: 2.5rem; max-width: 900px; }
 
   /* ============ CTA ============ */
   .cta { padding: clamp(5rem, 10vw, 9rem) 0; background: var(--ink); position: relative; overflow: hidden; border-top: 1px solid var(--rule); }

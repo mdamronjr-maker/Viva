@@ -1,0 +1,247 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const lastUpdated = 'May 13, 2026';
+---
+
+<Layout
+  title="Terms of Service · Viva Wellness Co."
+  description="The terms that govern your use of vivawellnessco.com, including membership policies, medical disclaimers, and how clinical care is established."
+>
+
+  <section class="legal-hero">
+    <div class="container legal-hero__inner">
+      <span class="eyebrow">· Terms</span>
+      <h1 class="legal-hero__title">
+        How this <span class="italic-display">works.</span>
+      </h1>
+      <p class="lead">
+        The terms that govern your use of this website and our memberships.
+        Plain language, short paragraphs, no surprises.
+      </p>
+      <p class="legal-hero__updated">Last updated · {lastUpdated}</p>
+    </div>
+  </section>
+
+  <section class="legal-body">
+    <div class="container legal-body__inner">
+
+      <div class="legal-callout">
+        <strong>The short version.</strong>
+        This website is informational. Visiting it does not create a patient
+        relationship. To start care, you book a telehealth visit and complete
+        intake. Memberships have a twelve-week minimum and can be cancelled
+        any time after.
+      </div>
+
+      <h2 class="legal-h">By using this site, you agree</h2>
+      <p>
+        You are eighteen years or older. You are using this website for
+        personal, non-commercial purposes. You will not attempt to disrupt the
+        site, scrape it at scale, or use it in any way that violates law.
+      </p>
+
+      <h2 class="legal-h">This website is not medical advice</h2>
+      <p>
+        Everything on this site, including the protocol-match quiz, the eBook,
+        and the blog, is educational. Reading or downloading any of it does
+        <strong>not</strong> establish a doctor-patient or
+        provider-patient relationship. It is not a substitute for individual
+        clinical evaluation.
+      </p>
+      <p>
+        Clinical care begins when you book a telehealth visit, complete intake,
+        and the provider accepts you as a patient. From that point forward, all
+        clinical communication happens in our patient portal (Charm Health),
+        not on this website or in generic email.
+      </p>
+
+      <h2 class="legal-h">Memberships</h2>
+      <p>
+        Membership tiers, what they include, and our cancellation policy are
+        listed in detail on the <a href="/services">programs</a> page. The key
+        points:
+      </p>
+      <ul class="legal-list">
+        <li>All memberships require a twelve-week minimum. This gives the protocol enough runway to produce measurable results.</li>
+        <li>After the initial twelve weeks, you can cancel any time with no penalty.</li>
+        <li>Memberships renew automatically every thirty days. You can update or remove your card on file at any point.</li>
+        <li>Medication, supplies, and shipments continue while your membership is active.</li>
+        <li>We accept FSA and HSA. Insurance is not applied to membership fees but may apply to labs and non-compounded medications.</li>
+        <li>Every protocol requires provider review and approval. We do not dispense based on a checkbox.</li>
+      </ul>
+
+      <h2 class="legal-h">Provider licensure and service area</h2>
+      <p>
+        Viva Wellness Co. is a one-hundred-percent telehealth practice operated
+        by licensed providers. We currently see patients in Texas, Colorado,
+        and Florida. If you are physically located in a state where our
+        providers are not licensed at the time of a visit, that visit cannot
+        proceed.
+      </p>
+
+      <h2 class="legal-h">Medication sourcing</h2>
+      <p>
+        Compounded medications dispensed for our patients come from
+        FDA-regulated 503A compounding pharmacies that perform third-party
+        testing for potency and sterility. We do not work with grey-market
+        peptide vendors. If a medication is not appropriate for you clinically,
+        the provider will not prescribe it, regardless of the membership tier.
+      </p>
+
+      <h2 class="legal-h">Intellectual property</h2>
+      <p>
+        All content on this site, including text, images, the eBook, and the
+        Viva Wellness Co. wordmark, is our property or licensed to us. Personal
+        reading and reasonable sharing is encouraged. Republishing without
+        attribution or commercial use without written permission is not.
+      </p>
+
+      <h2 class="legal-h">Disclaimers and limitation of liability</h2>
+      <p>
+        This website is provided as-is. While we keep it accurate, we make no
+        warranty that it is error-free or always available. To the extent
+        permitted by law, our liability for any issue arising from your use of
+        this website is limited to the amount you paid to access it, which for
+        this website is zero. Clinical care under an active membership is
+        separately governed by the documents you sign at intake.
+      </p>
+
+      <h2 class="legal-h">Changes to these terms</h2>
+      <p>
+        We may update these terms. When we do, we will revise the date at the
+        top. Continued use of the site after an update means you accept the
+        revised terms.
+      </p>
+
+      <h2 class="legal-h">Governing law</h2>
+      <p>
+        These terms are governed by the laws of the State of Texas. Any dispute
+        that cannot be resolved by ordinary conversation will be handled in the
+        courts of Travis County, Texas.
+      </p>
+
+      <h2 class="legal-h">Questions</h2>
+      <p>
+        Email <a href="mailto:info@vivawellnessco.com">info@vivawellnessco.com</a>
+        or call <a href="tel:+17372107283">(737) 210-7283</a>.
+      </p>
+
+      <p class="legal-foot">
+        Viva Wellness Co. · 5900 Balcones Dr #19640, Austin, TX 78731
+      </p>
+    </div>
+  </section>
+
+</Layout>
+
+<style>
+  .legal-hero {
+    padding: clamp(5rem, 11vw, 9rem) 0 clamp(2rem, 5vw, 4rem);
+    position: relative;
+    overflow: hidden;
+  }
+  .legal-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(800px 500px at 75% 0%, rgba(201, 120, 58, 0.14), transparent 65%);
+    pointer-events: none;
+  }
+  .legal-hero__inner { position: relative; max-width: 70ch; }
+  .legal-hero__title {
+    font-size: clamp(2.8rem, 7vw, 5.5rem);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    margin: 1rem 0 1.5rem;
+  }
+  .legal-hero__title .italic-display { color: var(--bronze-bright); }
+  .legal-hero__updated {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--mute);
+    margin-top: 1.4rem;
+    padding-top: 1.2rem;
+    border-top: 1px solid var(--rule);
+    display: inline-block;
+  }
+
+  .legal-body { padding: clamp(2rem, 5vw, 4rem) 0 clamp(5rem, 10vw, 8rem); }
+  .legal-body__inner { max-width: 70ch; margin: 0 auto; }
+
+  .legal-callout {
+    background: var(--ink-2);
+    border-left: 2px solid var(--bronze);
+    padding: 1.6rem 1.8rem;
+    margin-bottom: 3rem;
+    line-height: 1.6;
+    color: rgba(245, 241, 234, 0.9);
+  }
+  .legal-callout strong {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--bronze);
+    margin-bottom: 0.6rem;
+  }
+
+  .legal-h {
+    font-family: var(--font-display-italic);
+    font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+    margin: 2.8rem 0 1rem;
+    color: var(--paper);
+  }
+  .legal-body p {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: rgba(245, 241, 234, 0.85);
+    margin-bottom: 1.1rem;
+    max-width: none;
+  }
+  .legal-body a {
+    color: var(--bronze);
+    border-bottom: 1px solid rgba(201, 120, 58, 0.4);
+    transition: color 200ms var(--ease), border-color 200ms var(--ease);
+  }
+  .legal-body a:hover {
+    color: var(--bronze-bright);
+    border-color: var(--bronze-bright);
+  }
+  .legal-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    margin: 0.5rem 0 1.5rem;
+  }
+  .legal-list li {
+    padding-left: 1.2rem;
+    position: relative;
+    color: rgba(245, 241, 234, 0.85);
+    font-size: 1.02rem;
+    line-height: 1.6;
+  }
+  .legal-list li::before {
+    content: '·';
+    position: absolute;
+    left: 0;
+    color: var(--bronze);
+    font-weight: 700;
+  }
+  .legal-list strong { color: var(--paper); }
+
+  .legal-foot {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--rule);
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    color: var(--mute);
+  }
+</style>

@@ -1,0 +1,38 @@
+# Cloudflare Pages _headers
+# Documentation: https://developers.cloudflare.com/pages/configuration/headers/
+
+/*
+  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: SAMEORIGIN
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), interest-cohort=()
+  X-DNS-Prefetch-Control: on
+
+# Cache the immutable Astro-built assets aggressively. Astro fingerprints these.
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# PDFs cached but with reasonable revalidation
+/viva-ebook.pdf
+  Cache-Control: public, max-age=86400
+/viva-brochure.pdf
+  Cache-Control: public, max-age=86400
+
+# Logos and hero images cached aggressively. Bust by renaming when updating.
+/viva-logo-paper.png
+  Cache-Control: public, max-age=2592000
+/viva-logo-red.png
+  Cache-Control: public, max-age=2592000
+/matt-johnson.jpg
+  Cache-Control: public, max-age=2592000
+/matt-johnson-sm.jpg
+  Cache-Control: public, max-age=2592000
+/liliana.jpg
+  Cache-Control: public, max-age=2592000
+/liliana-sm.jpg
+  Cache-Control: public, max-age=2592000
+/liliana.webp
+  Cache-Control: public, max-age=2592000
+/og-image.jpg
+  Cache-Control: public, max-age=2592000

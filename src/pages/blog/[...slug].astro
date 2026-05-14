@@ -15,25 +15,40 @@ const { Content } = await render(post);
 
 const articleSchema = {
   '@context': 'https://schema.org',
-  '@type': 'Article',
-  '@id': `https://vivawellnessco.com/blog/${post.id}#article`,
-  headline: post.data.title,
-  description: post.data.description,
-  url: `https://vivawellnessco.com/blog/${post.id}`,
-  datePublished: post.data.publishDate.toISOString(),
-  dateModified: (post.data.modifiedDate || post.data.publishDate).toISOString(),
-  author: {
-    '@type': 'Person',
-    '@id': 'https://vivawellnessco.com/about#liliana',
-    name: post.data.author,
-  },
-  publisher: { '@id': 'https://vivawellnessco.com/#organization' },
-  mainEntityOfPage: {
-    '@type': 'WebPage',
-    '@id': `https://vivawellnessco.com/blog/${post.id}`,
-  },
-  inLanguage: 'en-US',
-  keywords: post.data.keywords,
+  '@graph': [
+    {
+      '@type': 'BlogPosting',
+      '@id': `https://vivawellnessco.com/blog/${post.id}#article`,
+      headline: post.data.title,
+      description: post.data.description,
+      url: `https://vivawellnessco.com/blog/${post.id}`,
+      datePublished: post.data.publishDate.toISOString(),
+      dateModified: (post.data.modifiedDate || post.data.publishDate).toISOString(),
+      image: 'https://vivawellnessco.com/og-image.jpg',
+      articleSection: post.data.category,
+      author: {
+        '@type': 'Person',
+        '@id': 'https://vivawellnessco.com/about#liliana',
+        name: post.data.author,
+      },
+      publisher: { '@id': 'https://vivawellnessco.com/#organization' },
+      mainEntityOfPage: {
+        '@type': 'WebPage',
+        '@id': `https://vivawellnessco.com/blog/${post.id}`,
+      },
+      inLanguage: 'en-US',
+      keywords: post.data.keywords,
+    },
+    {
+      '@type': 'BreadcrumbList',
+      '@id': `https://vivawellnessco.com/blog/${post.id}#breadcrumb`,
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://vivawellnessco.com' },
+        { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://vivawellnessco.com/blog' },
+        { '@type': 'ListItem', position: 3, name: post.data.title, item: `https://vivawellnessco.com/blog/${post.id}` },
+      ],
+    },
+  ],
 };
 
 const formattedDate = post.data.publishDate.toLocaleDateString('en-US', {
