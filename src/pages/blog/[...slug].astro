@@ -65,6 +65,14 @@ const articleSchema = {
 const formattedDate = post.data.publishDate.toLocaleDateString('en-US', {
   month: 'long', day: 'numeric', year: 'numeric'
 });
+
+// Show an "Updated" badge only when modifiedDate is meaningfully after publishDate
+const hasUpdate =
+  post.data.modifiedDate &&
+  post.data.modifiedDate.valueOf() > post.data.publishDate.valueOf();
+const formattedUpdate = hasUpdate
+  ? post.data.modifiedDate!.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
+  : null;
 ---
 
 <Layout
@@ -92,6 +100,12 @@ const formattedDate = post.data.publishDate.toLocaleDateString('en-US', {
           <time class="post-meta__date" datetime={post.data.publishDate.toISOString()}>{formattedDate}</time>
           <span class="post-meta__sep">·</span>
           <span class="post-meta__read">{readingMinutes} min read</span>
+          {hasUpdate && (
+            <>
+              <span class="post-meta__sep">·</span>
+              <span class="post-meta__updated" title={`Updated ${formattedUpdate}`}>Updated {formattedUpdate}</span>
+            </>
+          )}
         </div>
       </div>
     </header>
@@ -333,6 +347,13 @@ const formattedDate = post.data.publishDate.toLocaleDateString('en-US', {
   }
 
   .post-meta__read { color: rgba(245, 241, 234, 0.65); }
+  .post-meta__updated {
+    color: var(--bronze);
+    border: 1px solid rgba(201, 120, 58, 0.3);
+    padding: 0.1rem 0.5rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+  }
 
   .post-related {
     padding: clamp(2.5rem, 5vw, 4rem) 0;
