@@ -8,18 +8,30 @@ const posts = (await getCollection('blog'))
 
 const blogSchema = {
   '@context': 'https://schema.org',
-  '@type': 'Blog',
-  '@id': 'https://vivawellnessco.com/blog#blog',
-  name: 'Viva Wellness Co. Blog',
-  description: 'Educational articles on performance medicine, GLP-1 weight loss, hormone optimization, and concierge telehealth.',
-  publisher: { '@id': 'https://vivawellnessco.com/#organization' },
-  blogPost: posts.map(p => ({
-    '@type': 'BlogPosting',
-    headline: p.data.title,
-    url: `https://vivawellnessco.com/blog/${p.id}`,
-    datePublished: p.data.publishDate.toISOString(),
-    author: { '@type': 'Person', name: p.data.author },
-  })),
+  '@graph': [
+    {
+      '@type': 'Blog',
+      '@id': 'https://vivawellnessco.com/blog#blog',
+      name: 'Viva Wellness Co. Blog',
+      description: 'Educational articles on performance medicine, GLP-1 weight loss, hormone optimization, and concierge telehealth.',
+      publisher: { '@id': 'https://vivawellnessco.com/#organization' },
+      blogPost: posts.map((p) => ({
+        '@type': 'BlogPosting',
+        headline: p.data.title,
+        url: `https://vivawellnessco.com/blog/${p.id}`,
+        datePublished: p.data.publishDate.toISOString(),
+        author: { '@type': 'Person', name: p.data.author },
+      })),
+    },
+    {
+      '@type': 'BreadcrumbList',
+      '@id': 'https://vivawellnessco.com/blog#breadcrumb',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://vivawellnessco.com' },
+        { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://vivawellnessco.com/blog' },
+      ],
+    },
+  ],
 };
 ---
 

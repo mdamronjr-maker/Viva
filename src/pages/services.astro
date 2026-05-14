@@ -132,11 +132,48 @@ const includedAlways = [
   'Priority scheduling',
   'Member pricing on add-ons',
 ];
+
+// Schema.org Service nodes for every program tier · each one indexable
+// independently. Google can surface a specific program in search.
+const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+const areaServed = [
+  { '@type': 'State', name: 'Texas' },
+  { '@type': 'State', name: 'Colorado' },
+  { '@type': 'State', name: 'Florida' },
+];
+const servicesSchema = {
+  '@context': 'https://schema.org',
+  '@graph': categories.flatMap((cat) =>
+    cat.programs.map((prog) => ({
+      '@type': 'MedicalProcedure',
+      '@id': `https://vivawellnessco.com/services#${slugify(prog.name)}`,
+      name: prog.name,
+      description: prog.body,
+      procedureType: cat.eyebrow,
+      bodyLocation: undefined,
+      provider: { '@id': 'https://vivawellnessco.com/#organization' },
+      offers: {
+        '@type': 'Offer',
+        priceCurrency: 'USD',
+        price: String(prog.price),
+        priceSpecification: {
+          '@type': 'UnitPriceSpecification',
+          price: String(prog.price),
+          priceCurrency: 'USD',
+          unitText: 'MONTH',
+        },
+        availability: 'https://schema.org/InStock',
+        areaServed,
+      },
+    }))
+  ),
+};
 ---
 
 <Layout
   title="GLP-1, TRT, Hormone Therapy & Performance Programs | Viva Wellness Co."
   description="Twelve concierge telehealth programs in Austin, TX. Compounded GLP-1 weight loss (semaglutide, tirzepatide, retatrutide), TRT, HRT, recovery peptides, and body recomposition. From $99 to $699 per month, all inclusive."
+  schema={servicesSchema}
 >
 
   {/* HERO */}
