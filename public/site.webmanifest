@@ -1,0 +1,25 @@
+{
+  "name": "Viva Wellness Co.",
+  "short_name": "Viva",
+  "description": "Concierge telehealth performance medicine. Provider-led GLP-1, TRT, hormone optimization, recovery, and recomposition protocols. Texas, Colorado, Florida.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0c0a09",
+  "theme_color": "#0c0a09",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/viva-logo-paper.png",
+      "sizes": "220x48",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "categories": ["medical", "health", "lifestyle"]
+}
