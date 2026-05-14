@@ -27,7 +27,7 @@ const isActive = (p: string) => path === p || (p !== '/' && path.startsWith(p));
       Start Your Protocol
     </a>
 
-    <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+    <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="site-mobile-nav">
       <span></span><span></span>
     </button>
   </div>
@@ -94,6 +94,14 @@ const isActive = (p: string) => path === p || (p !== '/' && path.startsWith(p));
     }
     .nav-toggle span {
       display: block; width: 22px; height: 1.5px; background: var(--paper);
+      transition: transform 240ms var(--ease), opacity 200ms var(--ease);
+      transform-origin: center;
+    }
+    :global(body.menu-open) .nav-toggle span:first-child {
+      transform: translateY(3.25px) rotate(45deg);
+    }
+    :global(body.menu-open) .nav-toggle span:last-child {
+      transform: translateY(-3.25px) rotate(-45deg);
     }
     .nav__cta { padding: 0.7rem 1rem; font-size: 0.68rem; }
   }
@@ -106,7 +114,7 @@ const isActive = (p: string) => path === p || (p !== '/' && path.startsWith(p));
   :global(body.menu-open) .site-mobile-nav { transform: translateY(0); }
 </style>
 
-<nav class="site-mobile-nav" aria-label="Mobile">
+<nav class="site-mobile-nav" id="site-mobile-nav" aria-label="Mobile" inert>
   <a href="/">Home</a>
   <a href="/about">About</a>
   <a href="/services">Programs</a>
@@ -148,12 +156,27 @@ const isActive = (p: string) => path === p || (p !== '/' && path.startsWith(p));
 </style>
 
 <script>
-  const toggle = document.querySelector('.nav-toggle');
+  const toggle = document.querySelector('.nav-toggle') as HTMLButtonElement | null;
+  const mobileNav = document.getElementById('site-mobile-nav');
+  function setOpen(open: boolean) {
+    document.body.classList.toggle('menu-open', open);
+    toggle?.setAttribute('aria-expanded', open ? 'true' : 'false');
+    if (mobileNav) {
+      if (open) mobileNav.removeAttribute('inert');
+      else mobileNav.setAttribute('inert', '');
+    }
+  }
   toggle?.addEventListener('click', () => {
-    const open = document.body.classList.toggle('menu-open');
-    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    setOpen(!document.body.classList.contains('menu-open'));
   });
-  document.querySelectorAll('.site-mobile-nav a').forEach(a =>
-    a.addEventListener('click', () => document.body.classList.remove('menu-open'))
+  mobileNav?.querySelectorAll('a').forEach((a) =>
+    a.addEventListener('click', () => setOpen(false))
   );
+  // Close on Escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && document.body.classList.contains('menu-open')) {
+      setOpen(false);
+      toggle?.focus();
+    }
+  });
 </script>

@@ -1,9 +1,10 @@
 /* ============================================
    VIVA WELLNESS CO. · DESIGN SYSTEM
    Editorial · Clinical · Performance
-   ============================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Anton&family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..900,0..100,0..1;1,9..144,300..900,0..100,0..1&family=Hanken+Grotesk:ital,wght@0,300..900;1,300..900&family=JetBrains+Mono:wght@400;500&display=swap');
+   Fonts are loaded via <link> in Layout.astro (not @import) so they
+   don't block CSS parsing. Keep the Fraunces axes narrow there too.
+   ============================================ */
 
 :root {
   /* Color: warm-ink palette */
@@ -250,6 +251,13 @@ p { max-width: 62ch; }
 
 /* Accessibility */
 :focus-visible { outline: 2px solid var(--bronze); outline-offset: 3px; }
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0,0,0,0);
+  white-space: nowrap; border: 0;
+}
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;

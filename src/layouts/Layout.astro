@@ -15,7 +15,8 @@ const {
   noindex = false,
 } = Astro.props;
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.site).href;
+const normalizedPath = Astro.url.pathname === '/' ? '/' : Astro.url.pathname.replace(/\/$/, '');
+const canonicalURL = new URL(normalizedPath, Astro.site).href;
 const ogImageURL = new URL(ogImage, Astro.site).href;
 const siteName = 'Viva Wellness Co.';
 
@@ -29,7 +30,8 @@ const orgSchema = {
       name: 'Viva Wellness Co.',
       alternateName: 'Viva Wellness',
       url: 'https://vivawellnessco.com',
-      logo: 'https://vivawellnessco.com/favicon.svg',
+      logo: 'https://vivawellnessco.com/viva-logo-paper.png',
+      image: 'https://vivawellnessco.com/viva-logo-paper.png',
       description: 'Concierge telehealth practice delivering performance medicine, hormone optimization, GLP-1 weight loss protocols, and recovery therapy. Austin, Texas.',
       founder: {
         '@type': 'Person',
@@ -40,8 +42,10 @@ const orgSchema = {
       },
       address: {
         '@type': 'PostalAddress',
+        streetAddress: '5900 Balcones Dr #19640',
         addressLocality: 'Austin',
         addressRegion: 'TX',
+        postalCode: '78731',
         addressCountry: 'US',
       },
       areaServed: [
@@ -123,9 +127,13 @@ const orgSchema = {
   {/* Page-specific schema, passed in via props */}
   {schema && <script type="application/ld+json" set:html={JSON.stringify(schema)} />}
 
-  {/* Preconnect to fonts to speed up first paint */}
+  {/* Fonts · preconnect, then load stylesheet directly (faster than CSS @import) */}
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Anton&family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,350..500,0..100,0..1;1,9..144,350..500,0..100,0..1&family=Hanken+Grotesk:ital,wght@0,400..600;1,400..600&family=JetBrains+Mono:wght@400;500&display=swap"
+  />
 </head>
 <body>
   <Header />

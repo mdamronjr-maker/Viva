@@ -60,6 +60,8 @@ export async function onRequestPost(context) {
     company = '',   // honeypot
     quiz = null,
     match = null,
+    utm = null,
+    referrer = '',
   } = payload || {};
 
   // Honeypot: if filled, silently succeed without sending.
@@ -101,7 +103,15 @@ export async function onRequestPost(context) {
     message: cleanMsg,
     quiz,
     match,
+    utm,
+    referrer: String(referrer || '').trim(),
   });
+
+  // Subject suffix from UTM content/source for fast triage in the inbox
+  const utmTag =
+    utm && (utm.utm_content || utm.utm_source)
+      ? ` [${utm.utm_content || utm.utm_source}]`
+      : '';
 
   // --- Send both emails in parallel ---
   const results = await Promise.allSettled([
@@ -117,7 +127,7 @@ export async function onRequestPost(context) {
     sendEmail(apiKey, {
       from: fromEmail,
       to: [notifyEmail],
-      subject: `New ${source === 'quiz' ? 'quiz match' : 'contact lead'}: ${cleanName}`,
+      subject: `New ${source === 'quiz' ? 'quiz match' : 'contact lead'}: ${cleanName}${utmTag}`,
       html: notifyEmailBody.html,
       text: notifyEmailBody.text,
       reply_to: cleanEmail,
@@ -160,14 +170,18 @@ export async function onRequestPost(context) {
 }
 
 // --- CORS preflight (in case forms are ever cross-origin) ---
+// Locked to the production origin. Same-origin requests (the actual forms
+// on vivawellnessco.com and on CF Pages preview URLs) don't trigger CORS,
+// so this only matters for cross-origin abuse attempts.
 export function onRequestOptions() {
   return new Response(null, {
     status: 204,
     headers: {
-      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Origin': 'https://vivawellnessco.com',
       'Access-Control-Allow-Methods': 'POST, OPTIONS',
       'Access-Control-Allow-Headers': 'Content-Type',
       'Access-Control-Max-Age': '86400',
+      'Vary': 'Origin',
     },
   });
 }
@@ -265,7 +279,7 @@ function buildLeadEmail({ name, ebookUrl }) {
         <tr><td style="background:#f5f1ea;padding:20px 32px;font-size:11px;color:#8a7d72;line-height:1.6;border-top:1px solid #ebe5db;">
           <strong>Viva Wellness Co.</strong> &nbsp;·&nbsp; Austin, TX &nbsp;·&nbsp; 100% Telehealth &nbsp;·&nbsp; TX, CO, FL<br/>
           <a href="https://vivawellnessco.com" style="color:#8a4d22;text-decoration:none;">vivawellnessco.com</a> &nbsp;·&nbsp;
-          <a href="tel:7372107283" style="color:#8a4d22;text-decoration:none;">(737) 210-7283</a> &nbsp;·&nbsp;
+          <a href="tel:+17372107283" style="color:#8a4d22;text-decoration:none;">(737) 210-7283</a> &nbsp;·&nbsp;
           <a href="https://instagram.com/vivawellnessatx" style="color:#8a4d22;text-decoration:none;">@vivawellnessatx</a>
           <br/><br/>
           This message was sent because you submitted a form on vivawellnessco.com.
@@ -280,7 +294,7 @@ function buildLeadEmail({ name, ebookUrl }) {
   return { html, text };
 }
 
-function buildNotifyEmail({ source, name, email, phone, message, quiz, match }) {
+function buildNotifyEmail({ source, name, email, phone, message, quiz, match, utm, referrer }) {
   const rows = [
     ['Source', source],
     ['Name', name],
@@ -304,6 +318,15 @@ function buildNotifyEmail({ source, name, email, phone, message, quiz, match }) 
   }
   if (message) {
     rows.push(['Message', message]);
+  }
+  if (utm && typeof utm === 'object') {
+    const order = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
+    for (const k of order) {
+      if (utm[k]) rows.push([k, String(utm[k])]);
+    }
+  }
+  if (referrer) {
+    rows.push(['Referrer', referrer]);
   }
   rows.push(['Submitted', new Date().toISOString()]);
 

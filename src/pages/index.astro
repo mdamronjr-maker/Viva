@@ -138,7 +138,7 @@ const programs = [
 
       {/* Step 1 */}
       <div class="qx__step is-active" data-step="1">
-        <h2 class="qx__q">What is your <span class="italic-display">primary goal</span> right now?</h2>
+        <p class="qx__q" role="heading" aria-level="3">What is your <span class="italic-display">primary goal</span> right now?</p>
         <div class="qx__options">
           <button class="qx__opt" data-q="goal" data-v="weight"><span class="qx__opt-num">01</span><span class="qx__opt-label">Lose weight or reset metabolism</span><span class="qx__opt-arrow">→</span></button>
           <button class="qx__opt" data-q="goal" data-v="hormones"><span class="qx__opt-num">02</span><span class="qx__opt-label">Optimize hormones · energy, libido, mood</span><span class="qx__opt-arrow">→</span></button>
@@ -150,7 +150,7 @@ const programs = [
 
       {/* Step 2 */}
       <div class="qx__step" data-step="2">
-        <h2 class="qx__q">What is your <span class="italic-display">age range</span>?</h2>
+        <p class="qx__q" role="heading" aria-level="3">What is your <span class="italic-display">age range</span>?</p>
         <div class="qx__options">
           <button class="qx__opt" data-q="age" data-v="u35"><span class="qx__opt-num">01</span><span class="qx__opt-label">Under 35</span><span class="qx__opt-arrow">→</span></button>
           <button class="qx__opt" data-q="age" data-v="35to44"><span class="qx__opt-num">02</span><span class="qx__opt-label">35 to 44</span><span class="qx__opt-arrow">→</span></button>
@@ -161,7 +161,7 @@ const programs = [
 
       {/* Step 3 */}
       <div class="qx__step" data-step="3">
-        <h2 class="qx__q">For protocol routing, sex <span class="italic-display">assigned at birth</span>?</h2>
+        <p class="qx__q" role="heading" aria-level="3">For protocol routing, sex <span class="italic-display">assigned at birth</span>?</p>
         <div class="qx__options">
           <button class="qx__opt" data-q="sex" data-v="m"><span class="qx__opt-num">01</span><span class="qx__opt-label">Male</span><span class="qx__opt-arrow">→</span></button>
           <button class="qx__opt" data-q="sex" data-v="f"><span class="qx__opt-num">02</span><span class="qx__opt-label">Female</span><span class="qx__opt-arrow">→</span></button>
@@ -170,7 +170,7 @@ const programs = [
 
       {/* Step 4 */}
       <div class="qx__step" data-step="4">
-        <h2 class="qx__q">How <span class="italic-display">active</span> are you?</h2>
+        <p class="qx__q" role="heading" aria-level="3">How <span class="italic-display">active</span> are you?</p>
         <div class="qx__options">
           <button class="qx__opt" data-q="activity" data-v="sedentary"><span class="qx__opt-num">01</span><span class="qx__opt-label">Mostly sedentary right now</span><span class="qx__opt-arrow">→</span></button>
           <button class="qx__opt" data-q="activity" data-v="moderate"><span class="qx__opt-num">02</span><span class="qx__opt-label">2 to 4 workouts a week</span><span class="qx__opt-arrow">→</span></button>
@@ -181,7 +181,7 @@ const programs = [
 
       {/* Step 5 */}
       <div class="qx__step" data-step="5">
-        <h2 class="qx__q">Where is your <span class="italic-display">monthly comfort</span>?</h2>
+        <p class="qx__q" role="heading" aria-level="3">Where is your <span class="italic-display">monthly comfort</span>?</p>
         <div class="qx__options">
           <button class="qx__opt" data-q="budget" data-v="b99"><span class="qx__opt-num">01</span><span class="qx__opt-label">Up to $99 a month</span><span class="qx__opt-arrow">→</span></button>
           <button class="qx__opt" data-q="budget" data-v="b199"><span class="qx__opt-num">02</span><span class="qx__opt-label">Up to $199 a month</span><span class="qx__opt-arrow">→</span></button>
@@ -192,7 +192,7 @@ const programs = [
 
       {/* Step 6 · gate */}
       <div class="qx__step" data-step="6">
-        <h2 class="qx__q">Almost done. <span class="italic-display">Three details</span> to see your match.</h2>
+        <p class="qx__q" role="heading" aria-level="3">Almost done. <span class="italic-display">Three details</span> to see your match.</p>
         <p class="qx__lede">
           We'll email your matched protocol plus the Precision Hormone &amp;
           Peptide Therapy eBook. Liliana follows up personally only if you want her to.
@@ -571,7 +571,7 @@ const programs = [
 </script>
 
 <script>
-  type Answers = Partial<{ goal: string; age: string; sex: string; activity: string; budget: string }>;
+  import { match, type Answers } from '../lib/quiz';
   const TOTAL = 5;
   const state = { step: 1, answers: {} as Answers };
 
@@ -611,37 +611,6 @@ const programs = [
     if (state.step > 1) { state.step -= 1; render(); }
   });
 
-  type Match = { key: string; name: string; price: string; body: string; bullets: string[] };
-  function match(a: Answers): Match {
-    const goal = a.goal || 'longevity';
-    const budget = a.budget || 'b199';
-    const activity = a.activity || 'moderate';
-    const sex = a.sex || 'm';
-    if ((goal === 'performance' || activity === 'competitive') && (budget === 'bmax' || budget === 'b349')) {
-      return { key: 'peak', name: 'Peak Performance', price: '$699',
-        body: 'Total-body optimization combining hormone, metabolic, recovery, and performance protocols in one fully managed plan.',
-        bullets: ['Provider-led hormone foundation (TRT or HRT)','Recovery peptide stack (BPC-157, TB-500, GHK-Cu)','Performance support (CJC-1295 / Ipamorelin, MOTS-c)','Comprehensive labs, supplies, and home delivery'] };
-    }
-    if (goal === 'weight') {
-      return { key: 'metabolic', name: 'Metabolic Core', price: '$349',
-        body: 'Stepped-up GLP-1 protocol for stronger appetite control, consistent fat loss, and preserved muscle.',
-        bullets: ['Compounded GLP-1 protocol (Semaglutide or Tirzepatide)','Dose titration calibrated to your physiology','Tesamorelin option for visceral fat targeting','Supplies, sharps, and home delivery included'] };
-    }
-    if (goal === 'hormones' && sex === 'm' && (budget !== 'b99')) {
-      return { key: 'trt', name: 'TRT All Inclusive', price: '$199',
-        body: 'Personalized testosterone optimization with compounded medication, supplies, and biannual labs.',
-        bullets: ['Compounded testosterone (injection, cream, or gel)','Anastrozole and HCG when clinically indicated','Biannual labs and dose adjustments','Direct provider access by message'] };
-    }
-    if (goal === 'recovery' && (budget === 'b349' || budget === 'bmax')) {
-      return { key: 'metabolic', name: 'Metabolic Core', price: '$349',
-        body: 'Provider-managed plan with recovery peptide emphasis. Combines metabolic support with our most-requested recovery stack.',
-        bullets: ['BPC-157 + TB-500 recovery stack','GHK-Cu for tissue repair and collagen support','Optional GLP-1 for inflammation and body comp','Provider-led dose calibration'] };
-    }
-    return { key: 'concierge', name: 'Viva Concierge', price: '$99',
-      body: 'Concierge provider access for evaluation, ongoing guidance, and insurance-based labs across hormones, metabolic, and recovery.',
-      bullets: ['Direct concierge provider access','Lab orders and prescriptions through your insurance','Guidance across hormones, metabolic, and recovery','Step up to compounded protocols any time'] };
-  }
-
   const form = document.getElementById('qx-form') as HTMLFormElement | null;
   const status = document.getElementById('qx-status') as HTMLDivElement | null;
   const submit = document.getElementById('qx-submit') as HTMLButtonElement | null;
@@ -662,6 +631,12 @@ const programs = [
         return;
       }
       const m = match(state.answers);
+      const utm: Record<string, string> = {};
+      const params = new URLSearchParams(window.location.search);
+      for (const k of ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'] as const) {
+        const v = params.get(k);
+        if (v) utm[k] = v;
+      }
       submit.disabled = true;
       submit.textContent = 'Sending…';
       try {
@@ -673,6 +648,8 @@ const programs = [
             name, email, phone, company,
             quiz: state.answers,
             match: { key: m.key, name: m.name, price: m.price },
+            utm,
+            referrer: document.referrer || '',
           }),
         });
         const json = await res.json().catch(() => ({}));

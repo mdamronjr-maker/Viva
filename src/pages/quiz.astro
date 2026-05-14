@@ -10,6 +10,8 @@ import Layout from '../layouts/Layout.astro';
   <section class="quiz">
     <div class="container quiz__inner">
 
+      <h1 class="sr-only">Protocol Match Quiz</h1>
+
       {/* Progress */}
       <div class="quiz__progress" aria-hidden="true">
         <div class="quiz__progress-bar" id="q-bar"></div>
@@ -166,7 +168,7 @@ import Layout from '../layouts/Layout.astro';
 </Layout>
 
 <script>
-  type Answers = Partial<{ goal: string; age: string; sex: string; activity: string; budget: string }>;
+  import { match, type Answers } from '../lib/quiz';
   const TOTAL = 5; // five real questions before the gate
   const state = {
     step: 1,
@@ -219,93 +221,6 @@ import Layout from '../layouts/Layout.astro';
     }
   });
 
-  // ====== Matching logic ======
-  type Match = { key: string; name: string; price: string; body: string; bullets: string[] };
-  function match(a: Answers): Match {
-    const goal = a.goal || 'longevity';
-    const budget = a.budget || 'b199';
-    const activity = a.activity || 'moderate';
-    const sex = a.sex || 'm';
-
-    // Performance + serious activity + bigger budget → Peak Performance
-    if ((goal === 'performance' || activity === 'competitive') && (budget === 'bmax' || budget === 'b349')) {
-      return {
-        key: 'peak',
-        name: 'Peak Performance',
-        price: '$699',
-        body: 'Total-body optimization combining hormone, metabolic, recovery, and performance protocols in one fully managed plan.',
-        bullets: [
-          'Provider-led hormone foundation (TRT or HRT)',
-          'Recovery peptide stack (BPC-157, TB-500, GHK-Cu)',
-          'Performance support (CJC-1295 / Ipamorelin, MOTS-c)',
-          'Comprehensive labs, supplies, and home delivery',
-        ],
-      };
-    }
-
-    // Weight goal → Metabolic Core
-    if (goal === 'weight') {
-      return {
-        key: 'metabolic',
-        name: 'Metabolic Core',
-        price: '$349',
-        body: 'Stepped-up GLP-1 protocol for stronger appetite control, consistent fat loss, and preserved muscle.',
-        bullets: [
-          'Compounded GLP-1 protocol (Semaglutide or Tirzepatide)',
-          'Dose titration calibrated to your physiology',
-          'Tesamorelin option for visceral fat targeting',
-          'Supplies, sharps, and home delivery included',
-        ],
-      };
-    }
-
-    // Hormones + male + reasonable budget → TRT All Inclusive
-    if (goal === 'hormones' && sex === 'm' && (budget !== 'b99')) {
-      return {
-        key: 'trt',
-        name: 'TRT All Inclusive',
-        price: '$199',
-        body: 'Personalized testosterone optimization with compounded medication, supplies, and biannual labs.',
-        bullets: [
-          'Compounded testosterone (injection, cream, or gel)',
-          'Anastrozole and HCG when clinically indicated',
-          'Biannual labs and dose adjustments',
-          'Direct provider access by message',
-        ],
-      };
-    }
-
-    // Recovery focus → suggest the Core plan with recovery emphasis
-    if (goal === 'recovery' && (budget === 'b349' || budget === 'bmax')) {
-      return {
-        key: 'metabolic',
-        name: 'Metabolic Core',
-        price: '$349',
-        body: 'Provider-managed plan with recovery peptide emphasis. Combines metabolic support with our most-requested recovery stack.',
-        bullets: [
-          'BPC-157 + TB-500 recovery stack',
-          'GHK-Cu for tissue repair and collagen support',
-          'Optional GLP-1 for inflammation and body comp',
-          'Provider-led dose calibration',
-        ],
-      };
-    }
-
-    // Default → Viva Concierge
-    return {
-      key: 'concierge',
-      name: 'Viva Concierge',
-      price: '$99',
-      body: 'Concierge provider access for evaluation, ongoing guidance, and insurance-based labs across hormones, metabolic, and recovery.',
-      bullets: [
-        'Direct concierge provider access',
-        'Lab orders and prescriptions through your insurance',
-        'Guidance across hormones, metabolic, and recovery',
-        'Step up to compounded protocols any time',
-      ],
-    };
-  }
-
   // ====== Form submit (gate) ======
   const form = document.getElementById('quiz-form') as HTMLFormElement | null;
   const status = document.getElementById('q-status') as HTMLDivElement | null;
@@ -330,6 +245,12 @@ import Layout from '../layouts/Layout.astro';
       }
 
       const m = match(state.answers);
+      const utm: Record<string, string> = {};
+      const params = new URLSearchParams(window.location.search);
+      for (const k of ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'] as const) {
+        const v = params.get(k);
+        if (v) utm[k] = v;
+      }
 
       submit.disabled = true;
       submit.textContent = 'Sending…';
@@ -343,6 +264,8 @@ import Layout from '../layouts/Layout.astro';
             name, email, phone, company,
             quiz: state.answers,
             match: { key: m.key, name: m.name, price: m.price },
+            utm,
+            referrer: document.referrer || '',
           }),
         });
         const json = await res.json().catch(() => ({}));
