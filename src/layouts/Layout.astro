@@ -19,8 +19,21 @@ const {
 
 const normalizedPath = Astro.url.pathname === '/' ? '/' : Astro.url.pathname.replace(/\/$/, '');
 const canonicalURL = new URL(normalizedPath, Astro.site).href;
-const ogImageURL = new URL(ogImage, Astro.site).href;
 const isHome = normalizedPath === '/';
+
+// Resolve the og:image. If a caller passed an explicit non-default value,
+// use it. Otherwise derive from the path: every static page and blog post
+// has its own PNG generated at build time by src/pages/og/[...route].png.ts.
+function ogForPath(p: string): string {
+  if (p === '/') return '/og/home.png';
+  if (['/about', '/services', '/contact', '/privacy', '/terms', '/blog'].includes(p)) {
+    return `/og${p}.png`;
+  }
+  if (p.startsWith('/blog/')) return `/og${p}.png`;
+  return '/og-image.jpg';
+}
+const resolvedOgImage = ogImage && ogImage !== '/og-image.jpg' ? ogImage : ogForPath(normalizedPath);
+const ogImageURL = new URL(resolvedOgImage, Astro.site).href;
 const siteName = 'Viva Wellness Co.';
 
 // Sitewide Organization + WebSite schema (always present)

@@ -36,3 +36,8 @@
   Cache-Control: public, max-age=2592000
 /og-image.jpg
   Cache-Control: public, max-age=2592000
+
+# Per-page OG cards (build-time generated PNGs). Cache for a week —
+# they regenerate when content or template changes and rebuilds happen.
+/og/*
+  Cache-Control: public, max-age=604800
