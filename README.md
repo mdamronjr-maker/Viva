@@ -77,7 +77,7 @@ CF Pages auto-builds. Test the new endpoints on the staging URL first:
 
 - **Logo size**: header logo is set to 32px tall. If it feels too tight or too big, tweak `.brand__logo { height: 32px }` in Header.astro.
 - **Matt photo crop**: I set `object-position: center 20%` so his face/torso anchors. Adjust if you want more of the running motion in frame.
-- **Anton vs Fraunces**: Anton handles h1 only (the big block hero/page titles). h2 and h3 stay in Fraunces italic. Anything inside `.italic-display` (accent words like "engineered", "preventable disease") uses Fraunces italic with a softened SOFT axis · the WONK axis was dropped after legibility feedback. Quotes, prices, partner names · I patched the inline styles in index.astro so they don't accidentally pick up Anton.
+- **Typography system (Editorial Premium)**: Fraunces (variable serif, opsz-tuned per size) for all display · h1, h2, h3, prices, drop caps. Inter (variable sans) for body, eyebrows, labels, buttons. Two font families total. Italic emphasis is opt-in via `.italic-display` wrapped around an accent word — italic is the *only* differentiator now that the whole display stack is one family, so use it sparingly. The Fraunces WONK axis is explicitly out (legibility). SOFT in the 50–70 range is fine for editorial accents. h1 is sentence-case (not uppercase) — Fraunces wants mixed case at display size. If a per-page hero h1 needs custom sizing, keep it under 5.5rem max with line-height ≥ 1.02 and negative tracking (~ -0.025em).
 
 ## Quiz matching logic
 

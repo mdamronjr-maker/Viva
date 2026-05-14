@@ -21,11 +21,15 @@
   --rule: rgba(245, 241, 234, 0.10);
   --rule-strong: rgba(245, 241, 234, 0.20);
 
-  /* Typography */
-  --font-display: 'Anton', 'Impact', 'Arial Narrow', sans-serif;
-  --font-display-italic: 'Fraunces', 'Times New Roman', serif;
-  --font-body: 'Hanken Grotesk', system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+  /* Typography · editorial-premium pairing
+     - display:  Fraunces (variable serif, opsz-tuned per size)
+     - body:     Inter (variable sans, optimal screen rendering)
+     - mono var: kept for backward compat — points at Inter, used for
+                 small-caps label treatment via letter-spacing + uppercase. */
+  --font-display: 'Fraunces', 'Iowan Old Style', Georgia, serif;
+  --font-display-italic: 'Fraunces', 'Iowan Old Style', Georgia, serif;
+  --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
 
   /* Layout */
   --max: 1400px;
@@ -56,7 +60,7 @@ html, body {
   color: var(--paper);
   font-family: var(--font-body);
   font-size: 17px;
-  line-height: 1.62;
+  line-height: 1.65;
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -85,35 +89,38 @@ body::before {
   font-weight: 500;
 }
 
-/* Anton on h1 only · matches the logo wordmark for hero and page titles.
-   h2 and h3 stay in Fraunces to preserve the editorial feel. */
+/* Editorial display scale · Fraunces, upright by default, opsz-tuned.
+   Italic emphasis is opt-in via .italic-display on accent words. */
 h1, .h1 {
   font-family: var(--font-display);
   font-weight: 400;
-  font-size: clamp(2.75rem, 8vw, 7rem);
-  line-height: 0.98;
-  letter-spacing: 0.005em;
-  text-transform: uppercase;
+  font-size: clamp(2.5rem, 6.5vw, 5.5rem);
+  line-height: 1.04;
+  letter-spacing: -0.025em;
+  font-variation-settings: 'opsz' 144;
 }
 
 h2, .h2 {
-  font-family: var(--font-display-italic);
-  font-weight: 380;
-  font-size: clamp(2rem, 5vw, 4rem);
-  line-height: 1.0;
-  letter-spacing: -0.02em;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.9rem, 4.2vw, 3.25rem);
+  line-height: 1.08;
+  letter-spacing: -0.022em;
   font-variation-settings: 'opsz' 96;
 }
 
 h3, .h3 {
-  font-family: var(--font-display-italic);
-  font-weight: 420;
-  font-size: clamp(1.4rem, 2.4vw, 1.85rem);
-  line-height: 1.15;
-  letter-spacing: -0.015em;
+  font-family: var(--font-display);
+  font-weight: 460;
+  font-size: clamp(1.35rem, 2.2vw, 1.75rem);
+  line-height: 1.22;
+  letter-spacing: -0.012em;
+  font-variation-settings: 'opsz' 36;
 }
 
-/* Italic accent words inside h1/h2 use Fraunces for that editorial pop */
+/* Italic accent: wrap an accent word/phrase to switch into Fraunces italic at
+   display optical size. Use sparingly · the italic is the differentiator now
+   that the whole display stack is one family. */
 .italic-display {
   font-family: var(--font-display-italic);
   font-style: italic;

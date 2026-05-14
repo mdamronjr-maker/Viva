@@ -838,13 +838,14 @@ const programs = [
   .hero__eyebrows { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; flex-wrap: wrap; }
   .hero__eyebrow-right { color: rgba(245, 241, 234, 0.5); }
   .hero__title {
-    font-size: clamp(2.6rem, 7.5vw, 6.5rem);
-    line-height: 0.95;
-    letter-spacing: 0.005em;
+    font-size: clamp(2.6rem, 6.8vw, 5.4rem);
+    line-height: 1.02;
+    letter-spacing: -0.028em;
     max-width: 14ch;
     align-self: end;
     margin-top: auto;
     margin-bottom: auto;
+    font-variation-settings: 'opsz' 144;
   }
   .hero__title span { display: block; }
   .hero__title .italic-display { color: var(--bronze-bright); }
@@ -1010,7 +1011,7 @@ const programs = [
     backdrop-filter: blur(8px);
   }
   .qx__result-price { display: flex; align-items: baseline; gap: 0.3rem; margin-bottom: 1.5rem; }
-  .qx__result-amt { font-family: var(--font-display); font-size: clamp(3rem, 6vw, 4.5rem); color: var(--paper); line-height: 1; letter-spacing: 0.005em; }
+  .qx__result-amt { font-family: var(--font-display); font-size: clamp(3rem, 6vw, 4.5rem); color: var(--paper); line-height: 1; letter-spacing: -0.025em; font-variation-settings: 'opsz' 144; font-feature-settings: 'tnum'; }
   .qx__result-cad { font-family: var(--font-mono); color: var(--mute); font-size: 1rem; }
   .qx__result-body { font-size: 1.1rem; line-height: 1.55; color: rgba(245, 241, 234, 0.85); max-width: 56ch; margin-bottom: 1.5rem; }
   .qx__result-list { display: flex; flex-direction: column; gap: 0.7rem; margin-bottom: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--rule); }
@@ -1044,7 +1045,7 @@ const programs = [
   .program__tier { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--bronze); }
   .program__name { font-size: 1.45rem; line-height: 1.1; }
   .program__price { display: flex; align-items: baseline; gap: 0.2rem; margin: 0.5rem 0 0.7rem; }
-  .program__price-amt { font-family: var(--font-display); font-size: 2.6rem; color: var(--paper); letter-spacing: 0.005em; }
+  .program__price-amt { font-family: var(--font-display); font-size: 2.6rem; color: var(--paper); letter-spacing: -0.022em; font-variation-settings: 'opsz' 96; font-feature-settings: 'tnum'; }
   .program__price-cad { font-family: var(--font-mono); font-size: 0.85rem; color: var(--mute); }
   .program__body { color: rgba(245, 241, 234, 0.65); font-size: 0.92rem; flex-grow: 1; margin-bottom: 1rem; }
   .program__link { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--bronze); align-self: flex-start; }
@@ -1098,7 +1099,7 @@ const programs = [
   .testimonials__stars { display: inline-flex; gap: 3px; }
   .star { width: 18px; height: 18px; background: var(--bronze-bright); display: inline-block; -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='black'%3E%3Cpath d='M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z'/%3E%3C/svg%3E"); mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='black'%3E%3Cpath d='M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z'/%3E%3C/svg%3E"); -webkit-mask-size: contain; mask-size: contain; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; flex-shrink: 0; }
   .testimonials__rating-meta { display: flex; align-items: baseline; gap: 0.5rem; flex-wrap: wrap; }
-  .testimonials__rating-meta strong { font-family: var(--font-display); font-size: 1.5rem; color: var(--paper); line-height: 1; letter-spacing: 0.005em; }
+  .testimonials__rating-meta strong { font-family: var(--font-display); font-size: 1.5rem; color: var(--paper); line-height: 1; letter-spacing: -0.015em; font-feature-settings: 'tnum'; }
   .testimonials__rating-meta > span:not(.testimonials__rating-link) { font-family: var(--font-mono); font-size: 0.78rem; letter-spacing: 0.06em; color: rgba(245, 241, 234, 0.7); }
   .testimonials__rating-link { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--bronze); margin-left: 0.5rem; border-left: 1px solid var(--rule-strong); padding-left: 1rem; }
   @media (max-width: 640px) { .testimonials__rating-link { border-left: 0; padding-left: 0; margin-left: 0; width: 100%; } }
