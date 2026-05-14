@@ -4,12 +4,12 @@
 // emails Liliana via Resend, and optionally fires a Zapier webhook.
 //
 // Required env vars (set in Cloudflare dashboard):
-//   RESEND_API_KEY      — from resend.com (free tier: 3000/mo)
-//   CONTACT_TO          — recipient (e.g. info@vivawellnessco.com)
-//   CONTACT_FROM        — sender on a verified domain (e.g. noreply@vivawellnessco.com)
+//   RESEND_API_KEY      · from resend.com (free tier: 3000/mo)
+//   CONTACT_TO          · recipient (e.g. info@vivawellnessco.com)
+//   CONTACT_FROM        · sender on a verified domain (e.g. noreply@vivawellnessco.com)
 //
 // Optional:
-//   ZAPIER_WEBHOOK_URL  — if set, fires this webhook with the form data as JSON
+//   ZAPIER_WEBHOOK_URL  · if set, fires this webhook with the form data as JSON
 
 export async function onRequestPost({ request, env }) {
   try {
@@ -34,7 +34,7 @@ export async function onRequestPost({ request, env }) {
     }
 
     // Build email body (plain text, predictable formatting).
-    const subject = `New inquiry from ${name}${goal ? ` — ${goal}` : ''}`;
+    const subject = `New inquiry from ${name}${goal ? `: ${goal}` : ''}`;
     const text = [
       'New contact form submission from vivawellnessco.com',
       '',
@@ -46,7 +46,7 @@ export async function onRequestPost({ request, env }) {
       'Message:',
       message || '(no message)',
       '',
-      `— Submitted ${new Date().toISOString()}`,
+      `· Submitted ${new Date().toISOString()}`,
     ].join('\n');
 
     // Send via Resend.

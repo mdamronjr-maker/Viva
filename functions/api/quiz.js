@@ -38,7 +38,7 @@ export async function onRequestPost({ request, env }) {
       '',
       answersText,
       '',
-      `— Submitted ${new Date().toISOString()}`,
+      `· Submitted ${new Date().toISOString()}`,
     ].join('\n');
 
     const leadRes = await fetch('https://api.resend.com/emails', {
@@ -51,7 +51,7 @@ export async function onRequestPost({ request, env }) {
         from: env.CONTACT_FROM,
         to: env.CONTACT_TO,
         reply_to: email,
-        subject: `Quiz lead: ${result.name} — ${email}`,
+        subject: `Quiz lead: ${result.name} · ${email}`,
         text: leadText,
       }),
     });
@@ -69,7 +69,7 @@ export async function onRequestPost({ request, env }) {
       ``,
       `Based on your answers, your match is:`,
       ``,
-      `  ${result.name} — ${result.price}/mo`,
+      `  ${result.name} · ${result.price}/mo`,
       `  Category: ${result.category}`,
       ``,
       `What's typically included:`,
@@ -83,7 +83,7 @@ export async function onRequestPost({ request, env }) {
       ``,
       `Questions before you book? Reply to this email and we'll get back to you.`,
       ``,
-      `— Viva Wellness Co.`,
+      `· Viva Wellness Co.`,
       `   Performance medicine, delivered virtually from Austin, TX`,
     ].join('\n');
 
