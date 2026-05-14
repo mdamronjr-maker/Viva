@@ -112,20 +112,23 @@ import Layout from '../layouts/Layout.astro';
           </ul>
         </div>
 
+        <div class="contact-side__heading">
+          <span class="eyebrow">· What happens next</span>
+        </div>
         <div class="contact-side__panel">
           <span class="contact-side__num">01</span>
-          <h3>What you get</h3>
-          <p>The Precision Hormone &amp; Peptide Therapy eBook (15 pages, 8 chapters) arrives in your inbox within a minute.</p>
+          <h3>The eBook lands</h3>
+          <p>Precision Hormone &amp; Peptide Therapy (fifteen pages, eight chapters) arrives in your inbox within sixty seconds.</p>
         </div>
         <div class="contact-side__panel">
           <span class="contact-side__num">02</span>
-          <h3>Service area</h3>
-          <p>Concierge telehealth licensed in Texas, Colorado, and Florida.</p>
+          <h3>Liliana reads your note</h3>
+          <p>Personally. Not a chatbot, not a triage form. If you asked a question, she sees it.</p>
         </div>
         <div class="contact-side__panel">
           <span class="contact-side__num">03</span>
-          <h3>Response time</h3>
-          <p>Personal replies within 24 hours, business days. Often same day.</p>
+          <h3>A real reply</h3>
+          <p>Inside one business day, often same day. Currently licensed in Texas, Colorado, and Florida.</p>
         </div>
       </aside>
     </div>
@@ -171,7 +174,8 @@ import Layout from '../layouts/Layout.astro';
       }
 
       submit.disabled = true;
-      submit.textContent = 'Sending…';
+      submit.setAttribute('aria-busy', 'true');
+      submit.textContent = 'Sending';
 
       try {
         const res = await fetch('/api/lead', {
@@ -191,6 +195,7 @@ import Layout from '../layouts/Layout.astro';
         status.classList.add('is-error');
       } finally {
         submit.disabled = false;
+        submit.removeAttribute('aria-busy');
         submit.textContent = 'Send & get the eBook';
       }
     });
@@ -301,11 +306,15 @@ import Layout from '../layouts/Layout.astro';
     border-bottom-color: var(--bronze);
   }
 
+  .contact-side__heading {
+    margin-top: 0.2rem;
+    padding-top: 0.4rem;
+  }
   .contact-side__panel {
     padding: 1.2rem 0;
     border-top: 1px solid var(--rule);
   }
-  .contact-side__panel:first-of-type { border-top: 0; padding-top: 0.6rem; }
+  .contact-side__heading + .contact-side__panel { border-top: 0; padding-top: 0.8rem; }
   .contact-side__num {
     font-family: var(--font-mono);
     font-size: 0.7rem;

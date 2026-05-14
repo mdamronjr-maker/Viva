@@ -732,7 +732,8 @@ const programs = [
         if (v) utm[k] = v;
       }
       submit.disabled = true;
-      submit.textContent = 'Sending…';
+      submit.setAttribute('aria-busy', 'true');
+      submit.textContent = 'Sending';
       try {
         const res = await fetch('/api/lead', {
           method: 'POST',
@@ -761,6 +762,7 @@ const programs = [
         status.classList.add('is-error');
       } finally {
         submit.disabled = false;
+        submit.removeAttribute('aria-busy');
         submit.textContent = 'Reveal my protocol';
       }
     });

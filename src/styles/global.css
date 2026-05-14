@@ -192,6 +192,27 @@ p { max-width: 62ch; }
 }
 .btn--bronze:hover { background: var(--bronze-bright); border-color: var(--bronze-bright); color: var(--ink); }
 
+/* Disabled state · forms hit this during submission. */
+.btn:disabled,
+.btn[aria-busy='true'] {
+  cursor: progress;
+  opacity: 0.72;
+  pointer-events: none;
+}
+.btn[aria-busy='true']::after {
+  content: '';
+  display: inline-block;
+  width: 0.95em;
+  height: 0.95em;
+  border: 1.5px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: btn-spin 720ms linear infinite;
+  transform: none;
+  font-size: 1rem;
+}
+@keyframes btn-spin { to { transform: rotate(360deg); } }
+
 .btn--ink {
   background: var(--ink);
   color: var(--paper);
@@ -212,6 +233,16 @@ p { max-width: 62ch; }
 @keyframes reveal {
   to { opacity: 1; transform: translateY(0); }
 }
+
+/* Scroll-driven reveal applied by JS to cards/items as they enter viewport.
+   Class is added by JS on astro:page-load (progressive enhancement: without
+   JS, elements stay visible). is-revealed re-shows them after observation. */
+.to-reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 700ms var(--ease), transform 700ms var(--ease);
+}
+.to-reveal.is-revealed { opacity: 1; transform: translateY(0); }
 
 /* Scrolling marquee text */
 .marquee {

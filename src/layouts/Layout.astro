@@ -160,5 +160,33 @@ const orgSchema = {
   </main>
   <Footer />
   <MobileStickyCta />
+
+  <script>
+    // Scroll-driven reveal for cards and grid items. Progressive enhancement:
+    // CSS keeps elements visible until JS opts them into the .to-reveal class,
+    // then the IntersectionObserver brings them back with .is-revealed.
+    function initScrollReveal() {
+      const selector = '.pillar, .program, .testimonial:not(.testimonial--lead), .faq__item, .post-card, .post-related__item, .nf-card, .standard, .tier, .state, .contact-side__panel';
+      const els = document.querySelectorAll(selector);
+      if (!els.length) return;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      els.forEach((el) => el.classList.add('to-reveal'));
+
+      const obs = new IntersectionObserver(
+        (entries) => {
+          for (const e of entries) {
+            if (e.isIntersecting) {
+              e.target.classList.add('is-revealed');
+              obs.unobserve(e.target);
+            }
+          }
+        },
+        { threshold: 0.05, rootMargin: '0px 0px -6% 0px' }
+      );
+      els.forEach((el) => obs.observe(el));
+    }
+    document.addEventListener('astro:page-load', initScrollReveal);
+  </script>
 </body>
 </html>

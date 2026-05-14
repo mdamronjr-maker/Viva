@@ -288,6 +288,18 @@ const formattedDate = post.data.publishDate.toLocaleDateString('en-US', {
     color: rgba(245, 241, 234, 0.86);
     margin-bottom: 1.3rem;
   }
+  /* Editorial drop cap on the first paragraph */
+  .post-body > p:first-of-type::first-letter {
+    font-family: var(--font-display-italic);
+    font-style: italic;
+    font-size: 4.2rem;
+    line-height: 0.85;
+    float: left;
+    padding: 0.4rem 0.7rem 0 0;
+    color: var(--bronze-bright);
+    font-variation-settings: 'opsz' 144, 'SOFT' 60, 'WONK' 1;
+    font-weight: 400;
+  }
   .post-body p strong {
     color: var(--paper);
     font-weight: 600;
