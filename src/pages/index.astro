@@ -961,11 +961,14 @@ const programs = [
   @keyframes qxFadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 
   .qx__q {
-    font-size: clamp(2.4rem, 5.5vw, 4rem);
-    line-height: 1.0;
-    letter-spacing: -0.015em;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(2.2rem, 4.5vw, 3.4rem);
+    line-height: 1.08;
+    letter-spacing: -0.025em;
     margin-bottom: 2.5rem;
     max-width: 20ch;
+    font-variation-settings: 'opsz' 96;
   }
   .qx__q .italic-display { color: var(--bronze-bright); }
   .qx__lede { color: rgba(245, 241, 234, 0.78); font-size: 1.1rem; line-height: 1.55; max-width: 52ch; margin: -1.5rem 0 2rem; }
