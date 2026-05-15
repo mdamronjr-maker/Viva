@@ -13,8 +13,8 @@ const blogPosts = await getCollection('blog', ({ data }) => !data.draft);
 const pages: Record<string, { title: string; description: string; eyebrow: string }> = {
   home: {
     eyebrow: 'Concierge Telehealth · Austin',
-    title: 'Performance medicine, engineered for the body you train.',
-    description: 'Provider-led protocols. GLP-1, TRT, recovery, recomposition. Texas, Colorado, Florida.',
+    title: 'Peptide therapy, engineered for the body you train.',
+    description: 'Provider-led protocols. Peptides, GLP-1, TRT, recovery. Texas, Colorado, Florida.',
   },
   about: {
     eyebrow: 'The story',
@@ -44,7 +44,7 @@ const pages: Record<string, { title: string; description: string; eyebrow: strin
   blog: {
     eyebrow: 'Patient education',
     title: 'Real answers, written by a clinician.',
-    description: 'Performance medicine without the marketing. Clinical perspective, plain language.',
+    description: 'Peptide therapy and hormone medicine without the marketing. Clinical perspective, plain language.',
   },
 };
 

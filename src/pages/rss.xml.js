@@ -8,8 +8,8 @@ export async function GET(context) {
   return rss({
     title: 'Viva Wellness Co. Blog',
     description:
-      'Educational articles on GLP-1 weight loss, hormone optimization, ' +
-      'concierge telehealth, and performance medicine. Written from a clinical perspective.',
+      'Educational articles on peptide therapy, GLP-1 weight loss, hormone optimization, ' +
+      'and concierge telehealth. Written from a clinical perspective.',
     site: context.site,
     items: posts.map((post) => ({
       title: post.data.title,

@@ -13,7 +13,7 @@ const blogSchema = {
       '@type': 'Blog',
       '@id': 'https://vivawellnessco.com/blog#blog',
       name: 'Viva Wellness Co. Blog',
-      description: 'Educational articles on performance medicine, GLP-1 weight loss, hormone optimization, and concierge telehealth.',
+      description: 'Educational articles on peptide therapy, GLP-1 weight loss, hormone optimization, and concierge telehealth.',
       publisher: { '@id': 'https://vivawellnessco.com/#organization' },
       blogPost: posts.map((p) => ({
         '@type': 'BlogPosting',
@@ -37,7 +37,7 @@ const blogSchema = {
 
 <Layout
   title="Patient Education | Viva Wellness Co. Blog"
-  description="Educational articles on GLP-1 weight loss, tirzepatide vs semaglutide, concierge telehealth, hormone optimization, and performance medicine. Written from a clinical perspective."
+  description="Educational articles on peptide therapy, GLP-1 weight loss, tirzepatide vs semaglutide, concierge telehealth, and hormone optimization. Written from a clinical perspective."
   schema={blogSchema}
 >
 
