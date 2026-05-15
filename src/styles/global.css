@@ -1,35 +1,37 @@
 /* ============================================
    VIVA WELLNESS CO. · DESIGN SYSTEM
-   Editorial · Clinical · Performance
+   Modern Clinical · Sans-led · Light theme
 
    Fonts are loaded via <link> in Layout.astro (not @import) so they
-   don't block CSS parsing. Keep the Fraunces axes narrow there too.
+   don't block CSS parsing.
    ============================================ */
 
 :root {
-  /* Color: warm-ink palette */
-  --ink: #0c0a09;
-  --ink-2: #1a1614;
-  --ink-3: #2a2420;
-  --paper: #f5f1ea;
-  --paper-2: #ebe5db;
-  --paper-3: #d9d0c2;
-  --bronze: #c9783a;
-  --bronze-bright: #e8a070;
-  --bronze-deep: #8a4d22;
-  --mute: #b5a99c;
-  --rule: rgba(245, 241, 234, 0.10);
-  --rule-strong: rgba(245, 241, 234, 0.20);
+  /* Color · refined dark theme. Sharpened blacks, cooler neutrals,
+     bronze accent retained for brand continuity. */
+  --ink: #0a0908;            /* page background, near-true-black */
+  --ink-2: #161412;          /* card / hover backgrounds */
+  --ink-3: #24201d;          /* tertiary background */
+  --paper: #f7f4ee;          /* primary type, warm off-white */
+  --paper-2: #ebe5db;        /* secondary surfaces if needed */
+  --paper-3: #d9d0c2;        /* deeper warm tone */
+  --bronze: #d6864a;         /* accent, brighter to read on dark */
+  --bronze-bright: #f0a877;  /* hover, lighter accent */
+  --bronze-deep: #a35c26;    /* pressed / muted accent */
+  --mute: #b8aea1;           /* warm gray, comfortable on dark */
+  --rule: rgba(247, 244, 238, 0.10);
+  --rule-strong: rgba(247, 244, 238, 0.20);
 
-  /* Typography · editorial-premium pairing
-     - display:  Fraunces (variable serif, opsz-tuned per size)
-     - body:     Inter (variable sans, optimal screen rendering)
-     - mono var: kept for backward compat — points at Inter, used for
-                 small-caps label treatment via letter-spacing + uppercase. */
-  --font-display: 'Fraunces', 'Iowan Old Style', Georgia, serif;
-  --font-display-italic: 'Fraunces', 'Iowan Old Style', Georgia, serif;
-  --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-mono: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  /* Typography · single-family discipline. All non-code uses are
+     Geist (variable 300–900). Geist Mono only for code/data. The
+     legacy var names (display, display-italic, mono) all point at
+     Geist for backward compat. Italic accent is via italic +
+     lighter weight + bronze color, not family switch. */
+  --font-display: 'Geist', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display-italic: 'Geist', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-body: 'Geist', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'Geist', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-code: 'Geist Mono', 'JetBrains Mono', 'Courier New', monospace;
 
   /* Layout */
   --max: 1400px;
@@ -60,21 +62,22 @@ html, body {
   color: var(--paper);
   font-family: var(--font-body);
   font-size: 17px;
-  line-height: 1.65;
+  line-height: 1.6;
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  font-feature-settings: 'cv11', 'ss01';
 }
 
-/* Subtle grain overlay for texture */
+/* Subtle grain overlay for warm depth on dark theme */
 body::before {
   content: '';
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 999;
-  opacity: 0.035;
+  opacity: 0.03;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
   mix-blend-mode: overlay;
 }
@@ -86,56 +89,55 @@ body::before {
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--bronze);
-  font-weight: 500;
+  font-weight: 600;
 }
 
-/* Editorial display scale · Fraunces, upright by default, opsz-tuned.
-   Italic emphasis is opt-in via .italic-display on accent words. */
+/* Modern display scale · Geist sans, heavy weight for hierarchy.
+   Italic accent is opt-in via .italic-display, which shifts to
+   italic + lighter weight + bronze color (no font swap). */
 h1, .h1 {
   font-family: var(--font-display);
-  font-weight: 400;
+  font-weight: 700;
   font-size: clamp(2.5rem, 6.5vw, 5.5rem);
-  line-height: 1.04;
-  letter-spacing: -0.025em;
-  font-variation-settings: 'opsz' 144;
+  line-height: 1.02;
+  letter-spacing: -0.035em;
 }
 
 h2, .h2 {
   font-family: var(--font-display);
-  font-weight: 400;
+  font-weight: 600;
   font-size: clamp(1.9rem, 4.2vw, 3.25rem);
   line-height: 1.08;
-  letter-spacing: -0.022em;
-  font-variation-settings: 'opsz' 96;
+  letter-spacing: -0.028em;
 }
 
 h3, .h3 {
   font-family: var(--font-display);
-  font-weight: 460;
-  font-size: clamp(1.35rem, 2.2vw, 1.75rem);
-  line-height: 1.22;
-  letter-spacing: -0.012em;
-  font-variation-settings: 'opsz' 36;
+  font-weight: 600;
+  font-size: clamp(1.3rem, 2.1vw, 1.65rem);
+  line-height: 1.25;
+  letter-spacing: -0.018em;
 }
 
-/* Italic accent: wrap an accent word/phrase to switch into Fraunces italic at
-   display optical size. Use sparingly · the italic is the differentiator now
-   that the whole display stack is one family. */
+/* Accent treatment for words wrapped inside a heading. Italic +
+   lighter weight + bronze color creates a clear visual punch
+   without leaving the family. Sparing use. */
 .italic-display {
-  font-family: var(--font-display-italic);
+  font-family: var(--font-display);
   font-style: italic;
-  font-weight: 360;
-  letter-spacing: -0.015em;
+  font-weight: 400;
+  color: var(--bronze);
+  letter-spacing: -0.025em;
   text-transform: none;
-  font-variation-settings: 'opsz' 144, 'SOFT' 60;
 }
 
 p { max-width: 62ch; }
 .lead {
-  font-size: clamp(1.1rem, 1.6vw, 1.35rem);
+  font-size: clamp(1.1rem, 1.55vw, 1.3rem);
   line-height: 1.55;
-  color: rgba(245, 241, 234, 0.92);
+  color: rgba(247, 244, 238, 0.86);
   max-width: 56ch;
+  font-weight: 400;
 }
 
 /* Sections / containers */
@@ -150,13 +152,17 @@ p { max-width: 62ch; }
   border-top: 1px solid var(--rule);
 }
 
+/* Light section inversion for breaks in the dark base. Used for
+   provider intros, founder callouts, anywhere we want contrast. */
 .section--paper {
   background: var(--paper);
   color: var(--ink);
   --mute: #6e5d4e;
+  --rule: rgba(10, 9, 8, 0.10);
+  --rule-strong: rgba(10, 9, 8, 0.20);
 }
 .section--paper .eyebrow { color: var(--bronze-deep); }
-.section--paper .lead { color: rgba(12, 10, 9, 0.78); }
+.section--paper .lead { color: rgba(10, 9, 8, 0.78); }
 
 /* Numbered index labels (editorial) */
 .index {
@@ -173,7 +179,7 @@ p { max-width: 62ch; }
   color: var(--bronze);
 }
 
-/* Buttons */
+/* Buttons · designed for dark base. Paper-section variant flips automatically. */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -181,9 +187,11 @@ p { max-width: 62ch; }
   padding: 1.05rem 1.6rem;
   font-family: var(--font-mono);
   font-size: 0.78rem;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  font-weight: 500;
+  font-weight: 600;
+  color: var(--paper);
+  background: transparent;
   border: 1px solid currentColor;
   transition: background 220ms var(--ease), color 220ms var(--ease), transform 400ms var(--ease);
   position: relative;
@@ -197,6 +205,9 @@ p { max-width: 62ch; }
 }
 .btn:hover { background: var(--paper); color: var(--ink); }
 .btn:hover::after { transform: translateX(4px); }
+
+.section--paper .btn { color: var(--ink); }
+.section--paper .btn:hover { background: var(--ink); color: var(--paper); }
 
 .btn--bronze {
   background: var(--bronze);
@@ -231,7 +242,7 @@ p { max-width: 62ch; }
   color: var(--paper);
   border-color: var(--ink);
 }
-.btn--ink:hover { background: var(--bronze); border-color: var(--bronze); color: var(--ink); }
+.btn--ink:hover { background: var(--bronze); border-color: var(--bronze); color: var(--paper); }
 
 /* Hairline rules used as section dividers / decoration */
 .rule { height: 1px; background: var(--rule-strong); border: 0; }
@@ -265,10 +276,10 @@ p { max-width: 62ch; }
   padding: 1.5rem 0;
   border-top: 1px solid var(--rule-strong);
   border-bottom: 1px solid var(--rule-strong);
-  font-family: var(--font-display-italic);
-  font-style: italic;
-  font-size: clamp(1.5rem, 3vw, 2.5rem);
-  letter-spacing: -0.01em;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(1.4rem, 2.8vw, 2.2rem);
+  letter-spacing: -0.02em;
   color: var(--paper);
 }
 .marquee-track {
@@ -314,6 +325,7 @@ p { max-width: 62ch; }
   font-size: 0.78rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
+  font-weight: 600;
 }
 .skip-link:focus { left: 0; }
 main:focus { outline: none; }
@@ -363,7 +375,7 @@ main:focus { outline: none; }
   border-bottom-color: var(--bronze);
 }
 .field__input::placeholder,
-.field__textarea::placeholder { color: rgba(245, 241, 234, 0.55); }
+.field__textarea::placeholder { color: rgba(247, 244, 238, 0.55); }
 .field__textarea { resize: vertical; min-height: 120px; }
 /* Subtle invalid state · only after user has typed something (not on empty fields) */
 .field__input:not(:placeholder-shown):invalid,
@@ -378,13 +390,13 @@ main:focus { outline: none; }
 }
 
 /* Paper-section variants for forms on light bg */
-.section--paper .field__label { color: rgba(12, 10, 9, 0.55); }
+.section--paper .field__label { color: rgba(10, 9, 8, 0.55); }
 .section--paper .field__input,
 .section--paper .field__textarea {
   color: var(--ink);
-  border-bottom-color: rgba(12, 10, 9, 0.18);
+  border-bottom-color: rgba(10, 9, 8, 0.18);
 }
 .section--paper .field__input::placeholder,
-.section--paper .field__textarea::placeholder { color: rgba(12, 10, 9, 0.5); }
+.section--paper .field__textarea::placeholder { color: rgba(10, 9, 8, 0.5); }
 .section--paper .field__input:focus,
 .section--paper .field__textarea:focus { border-bottom-color: var(--bronze-deep); }

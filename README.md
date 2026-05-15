@@ -77,7 +77,7 @@ CF Pages auto-builds. Test the new endpoints on the staging URL first:
 
 - **Logo size**: header logo is set to 32px tall. If it feels too tight or too big, tweak `.brand__logo { height: 32px }` in Header.astro.
 - **Matt photo crop**: I set `object-position: center 20%` so his face/torso anchors. Adjust if you want more of the running motion in frame.
-- **Typography system (Editorial Premium)**: Fraunces (variable serif, opsz-tuned per size) for all display · h1, h2, h3, prices, drop caps. Inter (variable sans) for body, eyebrows, labels, buttons. Two font families total. Italic emphasis is opt-in via `.italic-display` wrapped around an accent word — italic is the *only* differentiator now that the whole display stack is one family, so use it sparingly. The Fraunces WONK axis is explicitly out (legibility). SOFT in the 50–70 range is fine for editorial accents. h1 is sentence-case (not uppercase) — Fraunces wants mixed case at display size. If a per-page hero h1 needs custom sizing, keep it under 5.5rem max with line-height ≥ 1.02 and negative tracking (~ -0.025em).
+- **Typography system (Modern Sans)**: Geist (variable, 300–900) for everything · h1, h2, h3, body, labels, prices, marquee. Geist Mono is reserved for `var(--font-code)` if/when code blocks appear. Single family, single voice. Italic emphasis is opt-in via `.italic-display` — which switches to italic + weight 400 (vs surrounding 700) + bronze color, no family swap. h1 weight is 700, h2/h3 weight 600. Negative tracking everywhere (-0.025 to -0.035em on display). The legacy `--font-display`, `--font-display-italic`, `--font-mono`, `--font-body` variables all point at Geist for backward compat with ~100 call sites.
 
 ## Quiz matching logic
 

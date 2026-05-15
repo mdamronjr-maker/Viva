@@ -81,16 +81,17 @@ export const { getStaticPaths, GET } = await OGImageRoute({
     font: {
       title: {
         size: 64,
-        lineHeight: 1.1,
-        families: ['Georgia', 'Times New Roman', 'serif'],
-        weight: 'Normal',
-        color: [245, 241, 234],
+        lineHeight: 1.05,
+        families: ['Geist', 'Helvetica', 'Arial', 'sans-serif'],
+        weight: 'Bold',
+        color: [247, 244, 238],
       },
       description: {
         size: 28,
         lineHeight: 1.45,
-        families: ['Arial', 'sans-serif'],
-        color: [200, 192, 184],
+        families: ['Geist', 'Helvetica', 'Arial', 'sans-serif'],
+        weight: 'Normal',
+        color: [184, 174, 161],
       },
     },
   }),

@@ -80,7 +80,7 @@ const isActive = (p: string) => path === p || (p !== '/' && path.startsWith(p));
   }
   .nav__link:hover { color: var(--paper); }
   .nav__link.is-active { color: var(--paper); border-bottom-color: var(--bronze); }
-  .nav__cta { padding: 0.75rem 1.1rem; }
+  .nav__cta { padding: 0.75rem 1.1rem; white-space: nowrap; letter-spacing: 0.08em; }
 
   .nav-toggle { display: none; }
 
