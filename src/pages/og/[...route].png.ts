@@ -23,7 +23,7 @@ const pages: Record<string, { title: string; description: string; eyebrow: strin
   },
   services: {
     eyebrow: 'Programs & memberships',
-    title: 'Twelve protocols. One ladder.',
+    title: "You bring the goals, we'll bring the protocol.",
     description: 'Concierge telehealth memberships from $99 to $699 per month. Flat fee, everything included.',
   },
   contact: {
