@@ -62,6 +62,39 @@ const programs = [
   { tier: 'Premium', name: 'Peak Performance', price: '$699', cadence: '/mo', body: 'Total-body optimization combining metabolic, recovery, and performance protocols in one plan.' },
 ];
 
+const testimonials = [
+  {
+    quote: "Liliana has cared for my elderly parents since I moved them urgently from Florida. She has been amazing. She picked up on things the docs missed in the hospital and I did as well. She is very smart, capable, and super nice. As a physician, the best reference is that she cares for my family.",
+    name: 'Dr. Matt Phillips',
+    role: 'Physician · Verified Google review',
+  },
+  {
+    quote: "This company and Liliana have changed my life. As a medical provider myself, I can ensure you are in trustworthy hands.",
+    name: 'Kaitlin Trevino',
+    role: 'Medical provider · Verified Google review',
+  },
+  {
+    quote: "Lili has been an exceptional provider throughout my wellness treatment journey. From our very first consultation, she truly understood my needs. She carefully listened as I explained my symptoms.",
+    name: 'Priscilla Moraes',
+    role: 'Patient · Verified Google review',
+  },
+  {
+    quote: "The telehealth setup is incredibly convenient and made everything so easy. The care was professional, personal, and I felt truly supported throughout the process.",
+    name: 'Nancy Flores',
+    role: 'Telehealth patient · Verified Google review',
+  },
+  {
+    quote: "I am so very cautious when choosing medical providers to guide me through my own health journey. Liliana exceeded every expectation.",
+    name: 'Tobiah Vega',
+    role: 'Patient · Verified Google review',
+  },
+  {
+    quote: "Most competent, caring provider. I get personalized care that's effective and timely. The proof is in the results and in how I feel. Just grateful everyday I found her.",
+    name: 'Tiffany Plaster',
+    role: 'Patient · Verified Google review',
+  },
+];
+
 type Partner = {
   name: string;
   operator: string;
@@ -385,6 +418,7 @@ const partners: Partner[] = [
       </div>
 
       <button class="qx__back" id="qx-back" aria-label="Previous question" hidden>← Back</button>
+      <button class="qx__exit" id="qx-exit" type="button" aria-label="Exit quiz">×</button>
     </div>
   </section>
 
@@ -546,98 +580,31 @@ const partners: Partner[] = [
         </a>
       </div>
 
-      <div class="testimonials__grid">
-        <article class="testimonial testimonial--lead">
-          <div class="testimonial__stars" aria-label="5 stars">
-            <span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span>
-          </div>
-          <blockquote class="testimonial__quote">
-            "Liliana has cared for my elderly parents since I moved them
-            urgently from Florida. She has been amazing. She picked up on
-            things the docs missed in the hospital and I did as well. She
-            is very smart, capable, and super nice. As a physician, the
-            best reference is that she cares for my family."
-          </blockquote>
-          <footer class="testimonial__author">
-            <strong>Dr. Matt Phillips</strong>
-            <span>Physician · Verified Google review</span>
-          </footer>
-        </article>
+      <div class="t-rotator" data-trotator>
+        <div class="t-rotator__track" data-trotator-track>
+          {testimonials.map((t, i) => (
+            <article class:list={["t-slide", i === 0 && 'is-active']} data-tslide>
+              <div class="t-slide__stars" aria-label="5 stars">
+                <span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span>
+              </div>
+              <blockquote class="t-slide__quote">"{t.quote}"</blockquote>
+              <footer class="t-slide__author">
+                <strong>{t.name}</strong>
+                <span>{t.role}</span>
+              </footer>
+            </article>
+          ))}
+        </div>
 
-        <article class="testimonial">
-          <div class="testimonial__stars" aria-label="5 stars">
-            <span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span>
+        <div class="t-rotator__controls">
+          <button class="t-rotator__nav t-rotator__nav--prev" data-tprev aria-label="Previous review">←</button>
+          <div class="t-rotator__dots" data-tdots role="tablist" aria-label="Customer reviews">
+            {testimonials.map((t, i) => (
+              <button class:list={["t-dot", i === 0 && 'is-active']} data-tdot={i} aria-label={`Show review from ${t.name}`}></button>
+            ))}
           </div>
-          <blockquote class="testimonial__quote">
-            "This company and Liliana have changed my life. As a medical
-            provider myself, I can ensure you are in trustworthy hands."
-          </blockquote>
-          <footer class="testimonial__author">
-            <strong>Kaitlin Trevino</strong>
-            <span>Medical provider · Verified Google review</span>
-          </footer>
-        </article>
-
-        <article class="testimonial">
-          <div class="testimonial__stars" aria-label="5 stars">
-            <span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span>
-          </div>
-          <blockquote class="testimonial__quote">
-            "Lili has been an exceptional provider throughout my wellness
-            treatment journey. From our very first consultation, she truly
-            understood my needs. She carefully listened as I explained my
-            symptoms."
-          </blockquote>
-          <footer class="testimonial__author">
-            <strong>Priscilla Moraes</strong>
-            <span>Patient · Verified Google review</span>
-          </footer>
-        </article>
-
-        <article class="testimonial">
-          <div class="testimonial__stars" aria-label="5 stars">
-            <span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span>
-          </div>
-          <blockquote class="testimonial__quote">
-            "The telehealth setup is incredibly convenient and made
-            everything so easy. The care was professional, personal, and
-            I felt truly supported throughout the process."
-          </blockquote>
-          <footer class="testimonial__author">
-            <strong>Nancy Flores</strong>
-            <span>Telehealth patient · Verified Google review</span>
-          </footer>
-        </article>
-
-        <article class="testimonial">
-          <div class="testimonial__stars" aria-label="5 stars">
-            <span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span>
-          </div>
-          <blockquote class="testimonial__quote">
-            "I am so very cautious when choosing medical providers to guide
-            me through my own health journey. Liliana exceeded every
-            expectation."
-          </blockquote>
-          <footer class="testimonial__author">
-            <strong>Tobiah Vega</strong>
-            <span>Patient · Verified Google review</span>
-          </footer>
-        </article>
-
-        <article class="testimonial">
-          <div class="testimonial__stars" aria-label="5 stars">
-            <span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span>
-          </div>
-          <blockquote class="testimonial__quote">
-            "Most competent, caring provider. I get personalized care that's
-            effective and timely. The proof is in the results and in how I
-            feel. Just grateful everyday I found her."
-          </blockquote>
-          <footer class="testimonial__author">
-            <strong>Tiffany Plaster</strong>
-            <span>Patient · Verified Google review</span>
-          </footer>
-        </article>
+          <button class="t-rotator__nav t-rotator__nav--next" data-tnext aria-label="Next review">→</button>
+        </div>
       </div>
 
       <div class="testimonials__foot">
@@ -735,6 +702,45 @@ const partners: Partner[] = [
   document.addEventListener('astro:before-swap', () => {
     if (rotatorTimer) { clearInterval(rotatorTimer); rotatorTimer = undefined; }
   });
+
+  // Testimonial carousel · same pattern as the partner rotator but with
+  // prev/next arrows and a longer interval (reading quotes takes time).
+  let tRotatorTimer: number | undefined;
+
+  function initTestimonialsRotator() {
+    const rotator = document.querySelector('[data-trotator]') as HTMLElement | null;
+    if (!rotator) return;
+    const slides = rotator.querySelectorAll('[data-tslide]');
+    const dots = rotator.querySelectorAll('[data-tdot]');
+    const prev = rotator.querySelector('[data-tprev]') as HTMLButtonElement | null;
+    const next = rotator.querySelector('[data-tnext]') as HTMLButtonElement | null;
+    if (slides.length === 0) return;
+    let i = 0;
+    const INTERVAL = 6000;
+    function show(idx: number) {
+      const safe = ((idx % slides.length) + slides.length) % slides.length;
+      slides.forEach((s, n) => s.classList.toggle('is-active', n === safe));
+      dots.forEach((d, n) => d.classList.toggle('is-active', n === safe));
+      i = safe;
+    }
+    function go(delta: number) { show(i + delta); start(); }
+    function start() { stop(); tRotatorTimer = window.setInterval(() => show(i + 1), INTERVAL); }
+    function stop() { if (tRotatorTimer) clearInterval(tRotatorTimer); tRotatorTimer = undefined; }
+    dots.forEach((d, n) => d.addEventListener('click', () => { show(n); start(); }));
+    prev?.addEventListener('click', () => go(-1));
+    next?.addEventListener('click', () => go(1));
+    rotator.addEventListener('mouseenter', stop);
+    rotator.addEventListener('mouseleave', start);
+    document.addEventListener('visibilitychange', () => { if (document.hidden) stop(); else start(); });
+    start();
+  }
+
+  document.addEventListener('astro:page-load', initTestimonialsRotator);
+  document.addEventListener('astro:before-swap', () => {
+    if (tRotatorTimer) { clearInterval(tRotatorTimer); tRotatorTimer = undefined; }
+    // Always exit quiz focus mode before navigation so the next page renders normally
+    document.body.classList.remove('quiz-focus');
+  });
 </script>
 
 <script>
@@ -770,6 +776,19 @@ const partners: Partner[] = [
     section?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
+  // Focus mode · entered when the user clicks their first answer, exited via
+  // X / Escape / navigation. Idempotent class toggle.
+  function enterFocus() {
+    if (document.body.classList.contains('quiz-focus')) return;
+    document.body.classList.add('quiz-focus');
+    window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
+  }
+  function exitFocus() {
+    if (!document.body.classList.contains('quiz-focus')) return;
+    document.body.classList.remove('quiz-focus');
+    document.getElementById('quiz')?.scrollIntoView({ behavior: 'instant' as ScrollBehavior, block: 'start' });
+  }
+
   document.querySelectorAll('.qx__opt').forEach((btn) => {
     btn.addEventListener('click', () => {
       const q = (btn as HTMLElement).dataset.q as keyof Answers;
@@ -777,12 +796,18 @@ const partners: Partner[] = [
       if (!q || !v) return;
       state.answers[q] = v;
       if (state.step < TOTAL + 1) state.step += 1;
+      enterFocus();
       render();
     });
   });
 
   back?.addEventListener('click', () => {
     if (state.step > 1) { state.step -= 1; render(); }
+  });
+
+  document.getElementById('qx-exit')?.addEventListener('click', exitFocus);
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && document.body.classList.contains('quiz-focus')) exitFocus();
   });
 
   const form = document.getElementById('qx-form') as HTMLFormElement | null;
@@ -1105,6 +1130,52 @@ const partners: Partner[] = [
   .qx__back { display: inline-flex; margin-top: 2.5rem; font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mute); padding: 0.5rem 0; transition: color 200ms var(--ease); }
   .qx__back:hover { color: var(--paper); }
 
+  /* ============ QUIZ FOCUS MODE ============
+     Engaged when the user clicks their first answer. Header, footer, sticky
+     CTA, and all other home sections hide. The quiz fills the viewport with
+     a single-question feel. Exit via X (top-right), Escape, or any navigation. */
+  .qx__exit { display: none; }
+  :global(body.quiz-focus) {
+    overflow: hidden;
+    padding-bottom: 0 !important;
+  }
+  :global(body.quiz-focus) :global(.site-header),
+  :global(body.quiz-focus) :global(.site-footer),
+  :global(body.quiz-focus) :global(.msc) { display: none; }
+  :global(body.quiz-focus) :global(main) > :global(*:not(#quiz)) { display: none; }
+  :global(body.quiz-focus) .qx {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 4rem;
+    padding-bottom: 3rem;
+  }
+  :global(body.quiz-focus) .qx__exit {
+    display: grid;
+    place-items: center;
+    position: fixed;
+    top: 1.2rem;
+    right: 1.2rem;
+    z-index: 120;
+    width: 44px;
+    height: 44px;
+    background: rgba(247, 244, 238, 0.06);
+    border: 1px solid var(--rule-strong);
+    border-radius: 50%;
+    color: var(--paper);
+    font-size: 1.6rem;
+    line-height: 1;
+    cursor: pointer;
+    font-family: inherit;
+    padding: 0;
+    transition: background 200ms var(--ease), border-color 200ms var(--ease);
+  }
+  :global(body.quiz-focus) .qx__exit:hover {
+    background: rgba(247, 244, 238, 0.12);
+    border-color: var(--bronze);
+  }
+
   /* ============ PROVIDER ============ */
   .provider { display: grid; grid-template-columns: 5fr 7fr; gap: clamp(2.5rem, 6vw, 6rem); align-items: center; }
   @media (max-width: 900px) { .provider { grid-template-columns: 1fr; gap: 2.5rem; } }
@@ -1186,21 +1257,103 @@ const partners: Partner[] = [
   .testimonials__rating-meta > span:not(.testimonials__rating-link) { font-family: var(--font-mono); font-size: 0.78rem; letter-spacing: 0.06em; color: rgba(245, 241, 234, 0.7); }
   .testimonials__rating-link { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--bronze); margin-left: 0.5rem; border-left: 1px solid var(--rule-strong); padding-left: 1rem; }
   @media (max-width: 640px) { .testimonials__rating-link { border-left: 0; padding-left: 0; margin-left: 0; width: 100%; } }
-  .testimonials__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--rule-strong); border: 1px solid var(--rule-strong); }
-  @media (max-width: 900px) { .testimonials__grid { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 600px) { .testimonials__grid { grid-template-columns: 1fr; } }
-  .testimonial { background: var(--ink); padding: 2rem 1.7rem; display: flex; flex-direction: column; gap: 1.2rem; transition: background 220ms var(--ease); }
-  .testimonial:hover { background: var(--ink-2); }
-  .testimonial--lead { grid-column: span 2; background: var(--ink-2); padding: clamp(2rem, 4vw, 3rem); }
-  @media (max-width: 600px) { .testimonial--lead { grid-column: span 1; } }
-  .testimonial__stars { display: inline-flex; gap: 2px; }
-  .testimonial__stars .star { width: 14px; height: 14px; background: var(--bronze); }
-  .testimonial--lead .testimonial__stars .star { width: 16px; height: 16px; }
-  .testimonial__quote { font-family: var(--font-display-italic); font-size: 1.05rem; font-weight: 380; line-height: 1.55; letter-spacing: -0.005em; color: rgba(245, 241, 234, 0.9); flex-grow: 1; margin: 0; }
-  .testimonial--lead .testimonial__quote { font-size: clamp(1.2rem, 2vw, 1.5rem); line-height: 1.4; color: var(--paper); }
-  .testimonial__author { display: flex; flex-direction: column; gap: 0.2rem; padding-top: 1rem; border-top: 1px solid var(--rule); }
-  .testimonial__author strong { font-family: var(--font-display-italic); font-size: 1rem; font-weight: 460; color: var(--paper); letter-spacing: -0.01em; }
-  .testimonial__author span { font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mute); }
+  /* Carousel · one testimonial visible, auto-rotates, dots + arrows + hover-pause */
+  .t-rotator { max-width: 880px; margin: 0 auto; position: relative; }
+  .t-rotator__track {
+    position: relative;
+    background: var(--ink-2);
+    border: 1px solid var(--rule-strong);
+    border-radius: 2px;
+    min-height: 320px;
+    overflow: hidden;
+  }
+  @media (max-width: 600px) { .t-rotator__track { min-height: 380px; } }
+  .t-slide {
+    position: absolute;
+    inset: 0;
+    padding: clamp(2rem, 5vw, 3.5rem);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1.5rem;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 700ms var(--ease), transform 700ms var(--ease);
+    pointer-events: none;
+  }
+  .t-slide.is-active {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+    position: relative;
+  }
+  .t-slide__stars { display: inline-flex; gap: 4px; }
+  .t-slide__stars .star { width: 18px; height: 18px; background: var(--bronze-bright); }
+  .t-slide__quote {
+    font-family: var(--font-display-italic);
+    font-size: clamp(1.15rem, 2.2vw, 1.6rem);
+    font-weight: 380;
+    line-height: 1.5;
+    letter-spacing: -0.005em;
+    color: var(--paper);
+    margin: 0;
+    flex-grow: 1;
+    max-width: 65ch;
+  }
+  .t-slide__author {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    padding-top: 1.2rem;
+    border-top: 1px solid var(--rule);
+  }
+  .t-slide__author strong {
+    font-family: var(--font-display-italic);
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: var(--paper);
+    letter-spacing: -0.01em;
+  }
+  .t-slide__author span {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--mute);
+  }
+  .t-rotator__controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+  .t-rotator__nav {
+    background: transparent;
+    border: 1px solid var(--rule-strong);
+    color: var(--paper);
+    width: 40px;
+    height: 40px;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: background 200ms var(--ease), border-color 200ms var(--ease);
+    font-size: 1.05rem;
+  }
+  .t-rotator__nav:hover { background: rgba(214, 134, 74, 0.1); border-color: var(--bronze); }
+  .t-rotator__dots { display: flex; gap: 0.5rem; }
+  .t-dot {
+    width: 32px;
+    height: 4px;
+    background: var(--rule-strong);
+    border: 0;
+    cursor: pointer;
+    padding: 0;
+    transition: background 280ms var(--ease), width 280ms var(--ease);
+  }
+  .t-dot:hover { background: var(--mute); }
+  .t-dot.is-active { background: var(--bronze); width: 56px; }
   .testimonials__foot { margin-top: 2.5rem; text-align: center; }
 
   /* ============ FAQ ============ */
