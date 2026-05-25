@@ -52,10 +52,10 @@ export function match(a: Answers): Match {
       key: 'metabolic',
       name: 'Metabolic Core',
       price: '$349',
-      body: 'Stepped-up GLP-1 protocol for stronger appetite control, consistent fat loss, and preserved muscle.',
+      body: 'Compounded GLP-1 protocol stepped to your physiology. Patient-specific semaglutide or tirzepatide from a 503A pharmacy (same active molecule as Wegovy and Mounjaro, prepared individually under clinical supervision, not the brand-name product).',
       bullets: [
-        'Compounded GLP-1 protocol (Semaglutide or Tirzepatide)',
-        'Dose titration calibrated to your physiology',
+        'Compounded semaglutide or tirzepatide, 503A-sourced',
+        'Dose titration calibrated to your physiology, not a fixed protocol',
         'Tesamorelin option for visceral fat targeting',
         'Supplies, sharps, and home delivery included',
       ],
