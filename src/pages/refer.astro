@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import NoPhiNotice from '../components/NoPhiNotice.astro';
 
 // TODO: confirm the reward amount with the user before launch. $50 is a
 // reasonable default for a wellness practice; some peers run $100 or
@@ -58,6 +59,7 @@ const REFERRAL_REWARD_LABEL = `$${REFERRAL_REWARD_USD} credit`;
   <section class="refer-body">
     <div class="container refer-body__grid">
       <div class="refer-body__form-wrap">
+        <NoPhiNotice />
         <form class="refer-form" id="refer-form" novalidate>
           <fieldset class="refer-form__group">
             <legend class="refer-form__legend">About you</legend>
@@ -85,7 +87,7 @@ const REFERRAL_REWARD_LABEL = `$${REFERRAL_REWARD_USD} credit`;
             </div>
             <div class="field">
               <label for="r-note" class="field__label">Anything we should know? (optional)</label>
-              <textarea id="r-note" name="note" class="field__textarea" placeholder="Why you think they'd be a fit, what they're working on, anything else."></textarea>
+              <textarea id="r-note" name="note" class="field__textarea" maxlength="2000" placeholder="Why you think they'd be a fit, what they're working on, anything else."></textarea>
             </div>
           </fieldset>
 

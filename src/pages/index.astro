@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import NoPhiNotice from '../components/NoPhiNotice.astro';
 
 const faqs = [
   {
@@ -351,6 +352,7 @@ const partners: Partner[] = [
           We'll email your matched protocol plus the Precision Hormone &amp;
           Peptide Therapy eBook. Liliana follows up personally only if you want her to.
         </p>
+        <NoPhiNotice />
         <form class="qx__form" id="qx-form" novalidate>
           <div class="field"><label for="qx-name" class="field__label">Your name</label><input id="qx-name" name="name" type="text" class="field__input" autocomplete="name" required placeholder="First and last" /></div>
           <div class="field"><label for="qx-email" class="field__label">Email</label><input id="qx-email" name="email" type="email" class="field__input" autocomplete="email" required placeholder="you@example.com" /></div>

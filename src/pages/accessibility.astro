@@ -1,0 +1,217 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const lastUpdated = 'May 13, 2026';
+---
+
+<Layout
+  title="Accessibility · Viva Wellness Co."
+  description="Viva Wellness Co.'s commitment to accessibility, the standards we target (WCAG 2.2 AA), and how to report a barrier."
+>
+
+  <section class="legal-hero">
+    <div class="container legal-hero__inner">
+      <span class="eyebrow">· Accessibility</span>
+      <h1 class="legal-hero__title">
+        Built to be <span class="italic-display">used by everyone.</span>
+      </h1>
+      <p class="lead">
+        Healthcare information should not have barriers. Here is what we
+        target, what we have done, and how to tell us when we have missed
+        something.
+      </p>
+      <p class="legal-hero__updated">Last updated · {lastUpdated}</p>
+    </div>
+  </section>
+
+  <section class="legal-body">
+    <div class="container legal-body__inner">
+
+      <div class="legal-callout">
+        <strong>Our standard.</strong>
+        We target Web Content Accessibility Guidelines (WCAG) 2.2 Level AA
+        across this website, the patient portal, and any documents we
+        publish.
+      </div>
+
+      <h2 class="legal-h">What this means in practice</h2>
+      <ul class="legal-list">
+        <li>Keyboard navigation works across every interactive element, with a visible "Skip to main content" link at the top of every page</li>
+        <li>Focus indicators are visible on links, buttons, and form fields (bronze outline)</li>
+        <li>Color contrast meets AA on body and large text</li>
+        <li>Form inputs have associated labels; required fields are announced to assistive technology</li>
+        <li>Modal-style overlays (mobile menu, quiz focus mode) use the inert attribute so keyboard and screen-reader users cannot tab into hidden content</li>
+        <li>Motion is reduced when the operating system reports <code>prefers-reduced-motion</code></li>
+        <li>Images have alternative text where they carry meaning; decorative images are marked aria-hidden</li>
+        <li>The site is responsive from 320px viewports up to ultrawide, and zooms cleanly to 200% without horizontal scrolling</li>
+      </ul>
+
+      <h2 class="legal-h">Working with our team</h2>
+      <p>
+        If you cannot access information or complete a task on this website
+        or in our patient portal, contact us and we will provide the
+        information or perform the task in a different format. We do not
+        require you to use the website to become a patient.
+      </p>
+      <ul class="legal-list">
+        <li>Email <a href="mailto:info@vivawellnessco.com">info@vivawellnessco.com</a></li>
+        <li>Call or text <a href="tel:+17372107283">(737) 210-7283</a></li>
+        <li>WhatsApp <a href="https://wa.me/15128002794" target="_blank" rel="noopener">+1 512-800-2794</a></li>
+      </ul>
+
+      <h2 class="legal-h">Report a barrier</h2>
+      <p>
+        Found something that does not work for you? Tell us. Send the page
+        URL, what you were trying to do, what got in the way, and the
+        assistive technology you use (if any). We aim to acknowledge within
+        two business days and remediate or provide an alternative within
+        thirty.
+      </p>
+      <p>
+        Email <a href="mailto:info@vivawellnessco.com">info@vivawellnessco.com</a>
+        with "Accessibility" in the subject line.
+      </p>
+
+      <h2 class="legal-h">Ongoing work</h2>
+      <p>
+        Accessibility is not a one-time project. We test with automated
+        tools and with real assistive technology, and we re-audit at every
+        major design change. If you spot a regression on a page that worked
+        before, we want to hear about it.
+      </p>
+
+      <h2 class="legal-h">Formal complaints</h2>
+      <p>
+        If you believe the practice has not provided equal access to its
+        services based on disability, you may file a complaint with the
+        U.S. Department of Health and Human Services, Office for Civil
+        Rights, under Section 1557 of the Affordable Care Act:
+        <a href="https://www.hhs.gov/civil-rights/filing-a-complaint/" target="_blank" rel="noopener">hhs.gov/civil-rights/filing-a-complaint</a>.
+        You will not be retaliated against for filing a complaint.
+      </p>
+
+      <p class="legal-foot">
+        Viva Wellness Co. · 5900 Balcones Dr #19640, Austin, TX 78731
+      </p>
+    </div>
+  </section>
+
+</Layout>
+
+<style>
+  .legal-hero {
+    padding: clamp(5rem, 11vw, 9rem) 0 clamp(2rem, 5vw, 4rem);
+    position: relative;
+    overflow: hidden;
+  }
+  .legal-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(800px 500px at 75% 0%, rgba(214, 134, 74, 0.14), transparent 65%);
+    pointer-events: none;
+  }
+  .legal-hero__inner { position: relative; max-width: 70ch; }
+  .legal-hero__title {
+    font-size: clamp(2.6rem, 6.5vw, 5rem);
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    margin: 1rem 0 1.5rem;
+  }
+  .legal-hero__title .italic-display { color: var(--bronze-bright); }
+  .legal-hero__updated {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--mute);
+    margin-top: 1.4rem;
+    padding-top: 1.2rem;
+    border-top: 1px solid var(--rule);
+    display: inline-block;
+  }
+
+  .legal-body { padding: clamp(2rem, 5vw, 4rem) 0 clamp(5rem, 10vw, 8rem); }
+  .legal-body__inner { max-width: 70ch; margin: 0 auto; }
+
+  .legal-callout {
+    background: var(--ink-2);
+    border-left: 2px solid var(--bronze);
+    padding: 1.6rem 1.8rem;
+    margin-bottom: 3rem;
+    line-height: 1.6;
+    color: rgba(247, 244, 238, 0.9);
+  }
+  .legal-callout strong {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--bronze);
+    margin-bottom: 0.6rem;
+  }
+
+  .legal-h {
+    font-family: var(--font-display-italic);
+    font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+    margin: 2.8rem 0 1rem;
+    color: var(--paper);
+  }
+  .legal-body p {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: rgba(247, 244, 238, 0.85);
+    margin-bottom: 1.1rem;
+    max-width: none;
+  }
+  .legal-body a {
+    color: var(--bronze);
+    border-bottom: 1px solid rgba(214, 134, 74, 0.4);
+    transition: color 200ms var(--ease), border-color 200ms var(--ease);
+  }
+  .legal-body a:hover {
+    color: var(--bronze-bright);
+    border-color: var(--bronze-bright);
+  }
+  .legal-body code {
+    font-family: var(--font-code);
+    font-size: 0.9rem;
+    color: var(--bronze);
+    background: var(--ink-2);
+    padding: 0.1rem 0.35rem;
+    border-radius: 2px;
+  }
+  .legal-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    margin: 0.5rem 0 1.5rem;
+  }
+  .legal-list li {
+    padding-left: 1.2rem;
+    position: relative;
+    color: rgba(247, 244, 238, 0.85);
+    font-size: 1.02rem;
+    line-height: 1.6;
+  }
+  .legal-list li::before {
+    content: '·';
+    position: absolute;
+    left: 0;
+    color: var(--bronze);
+    font-weight: 700;
+  }
+
+  .legal-foot {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--rule);
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    color: var(--mute);
+  }
+</style>

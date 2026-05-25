@@ -31,8 +31,16 @@ const year = new Date().getFullYear();
           <li><a href="/blog">Blog</a></li>
           <li><a href="/contact">Contact</a></li>
           <li><a href="/refer">Refer a friend</a></li>
-          <li><a href="/privacy">Privacy</a></li>
-          <li><a href="/terms">Terms</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="footer-h">Compliance</h4>
+        <ul>
+          <li><a href="/privacy">Privacy Policy</a></li>
+          <li><a href="/notice">Notice of Privacy Practices</a></li>
+          <li><a href="/accessibility">Accessibility</a></li>
+          <li><a href="/terms">Terms of Service</a></li>
         </ul>
       </div>
 
@@ -65,6 +73,19 @@ const year = new Date().getFullYear();
       <span class="footer-disclaimer">
         Not medical advice. All therapies require provider review and approval.
         Clinical care happens in our HIPAA-compliant patient portal, not this website.
+        Not for emergencies — call 911.
+      </span>
+    </div>
+
+    <div class="footer-provider">
+      <span class="footer-provider__line">
+        <strong>Provider:</strong> Liliana Damron, APRN, FNP-BC
+        {/* TODO: fill in actual license numbers and NPI before launch */}
+        {/* · TX RN License #XXXXXXXX · APRN #XXXXX · NPI #XXXXXXXXXX */}
+      </span>
+      <span class="footer-provider__line">
+        Licensed to practice in Texas, Colorado, and Florida. Patients must
+        be physically located in a licensure state at the time of visit.
       </span>
     </div>
   </div>
@@ -79,14 +100,17 @@ const year = new Date().getFullYear();
   }
   .footer-grid {
     display: grid;
-    grid-template-columns: 1.5fr 1fr 1fr 1fr;
-    gap: 3rem;
+    grid-template-columns: 1.4fr 1fr 1fr 1fr 1fr;
+    gap: 2.5rem;
     padding-bottom: 3rem;
     border-bottom: 1px solid var(--rule);
   }
-  @media (max-width: 860px) {
-    .footer-grid { grid-template-columns: 1fr 1fr; gap: 2.5rem; }
+  @media (max-width: 1000px) {
+    .footer-grid { grid-template-columns: 1fr 1fr 1fr; gap: 2.5rem; }
     .footer-col--brand { grid-column: 1 / -1; }
+  }
+  @media (max-width: 700px) {
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
   }
   .footer-brand {
     display: inline-flex;
@@ -142,8 +166,29 @@ const year = new Date().getFullYear();
     text-transform: uppercase;
     color: var(--mute);
   }
-  .footer-disclaimer { max-width: 50ch; text-align: right; }
+  .footer-disclaimer { max-width: 56ch; text-align: right; }
   @media (max-width: 720px) {
     .footer-disclaimer { text-align: left; }
+  }
+  .footer-provider {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.05em;
+    color: rgba(247, 244, 238, 0.55);
+    line-height: 1.6;
+    text-transform: none;
+  }
+  .footer-provider__line strong {
+    color: rgba(247, 244, 238, 0.75);
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-right: 0.4rem;
   }
 </style>

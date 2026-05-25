@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import NoPhiNotice from '../components/NoPhiNotice.astro';
 
 // TODO: paste the Calendly URL for the free 15-minute discovery call.
 // While empty, the discovery card below won't render.
@@ -29,6 +30,7 @@ const DISCOVERY_CALL_URL = ''; // e.g. 'https://calendly.com/liliana-viva/intro'
   <section class="contact-body">
     <div class="container contact-body__grid">
       <div class="contact-body__form-wrap">
+        <NoPhiNotice />
         <form class="contact-form" id="contact-form" novalidate>
           <div class="field">
             <label for="c-name" class="field__label">Your name</label>
@@ -39,6 +41,7 @@ const DISCOVERY_CALL_URL = ''; // e.g. 'https://calendly.com/liliana-viva/intro'
               class="field__input"
               autocomplete="name"
               required
+              maxlength="200"
               placeholder="First and last"
             />
           </div>
@@ -75,9 +78,10 @@ const DISCOVERY_CALL_URL = ''; // e.g. 'https://calendly.com/liliana-viva/intro'
               id="c-message"
               name="message"
               class="field__textarea"
+              maxlength="5000"
               placeholder="Goals, current routine, questions about a specific protocol&hellip;"
             ></textarea>
-            <span class="field__hint">Optional. Skip if you just want the eBook.</span>
+            <span class="field__hint">Optional. Skip if you just want the eBook. Do not include medical details or test results — that channel is the patient portal.</span>
           </div>
 
           {/* Honeypot · spam trap, hidden from real users */}

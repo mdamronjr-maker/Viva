@@ -1,0 +1,74 @@
+---
+/**
+ * Reusable compliance notice shown above every form on the marketing site.
+ *
+ * Why this matters:
+ *  - Viva's email pipeline (Resend) is NOT HIPAA BAA-eligible.
+ *  - This site is for marketing leads only (name, email, phone, quiz answers).
+ *  - All clinical communication for enrolled patients lives in Charm Health.
+ *
+ * The notice tells visitors not to send PHI through these forms and points
+ * them at the right channel (911) if they are in a medical emergency.
+ * Placed above the form fields, not buried at the bottom.
+ */
+---
+
+<aside class="phi-notice" role="note">
+  <span class="phi-notice__label">Heads up</span>
+  <div class="phi-notice__body">
+    <p>
+      <strong>This is not a clinical channel.</strong> Please do not share
+      medical details, lab results, or symptoms here. After you enroll, all
+      clinical communication moves into our HIPAA-compliant patient portal.
+    </p>
+    <p class="phi-notice__er">
+      <strong>Not for emergencies.</strong> If you are experiencing a
+      medical emergency, call <a href="tel:911">911</a> or go to your
+      nearest emergency room.
+    </p>
+  </div>
+</aside>
+
+<style>
+  .phi-notice {
+    background: var(--ink-2);
+    border: 1px solid var(--rule);
+    border-left: 2px solid var(--bronze);
+    padding: 0.9rem 1.1rem;
+    margin-bottom: 1.6rem;
+    border-radius: 2px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.9rem;
+    align-items: start;
+    max-width: 560px;
+  }
+  .phi-notice__label {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--bronze);
+    padding: 0.25rem 0.5rem;
+    border: 1px solid var(--bronze);
+    border-radius: 2px;
+    line-height: 1;
+    align-self: center;
+  }
+  .phi-notice__body p {
+    color: rgba(247, 244, 238, 0.85);
+    font-size: 0.85rem;
+    line-height: 1.55;
+    margin: 0 0 0.5rem;
+    max-width: none;
+  }
+  .phi-notice__body p:last-child { margin-bottom: 0; }
+  .phi-notice strong { color: var(--paper); }
+  .phi-notice__er strong { color: #e76e6e; }
+  .phi-notice a {
+    color: var(--bronze);
+    border-bottom: 1px solid rgba(214, 134, 74, 0.4);
+    transition: color 200ms var(--ease);
+  }
+  .phi-notice a:hover { color: var(--bronze-bright); }
+</style>

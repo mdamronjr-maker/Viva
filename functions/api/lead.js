@@ -71,12 +71,40 @@ export async function onRequestPost(context) {
     return json({ ok: true, skipped: 'honeypot' });
   }
 
-  // Validation
+  // Validation · keep payloads small so a paste of PHI or any long-form
+  // content gets rejected at the edge before it reaches Resend (NOT
+  // BAA-eligible). These caps mirror the contact form's max-length attrs.
+  const MAX_NAME_LEN = 200;
+  const MAX_MSG_LEN = 5000;
+  const MAX_PHONE_LEN = 40;
+
   if (!name || !String(name).trim()) {
     return json({ ok: false, error: 'Name is required.' }, { status: 400 });
   }
+  if (String(name).length > MAX_NAME_LEN) {
+    return json({ ok: false, error: 'Name too long.' }, { status: 400 });
+  }
   if (!isEmail(email)) {
     return json({ ok: false, error: 'A valid email is required.' }, { status: 400 });
+  }
+  if (phone && String(phone).length > MAX_PHONE_LEN) {
+    return json({ ok: false, error: 'Phone field too long.' }, { status: 400 });
+  }
+  if (message && String(message).length > MAX_MSG_LEN) {
+    return json({ ok: false, error: 'Message too long. Please email info@vivawellnessco.com.' }, { status: 400 });
+  }
+
+  // Referrals · validate referee data
+  if (source === 'refer') {
+    if (!referee || !referee.email || !isEmail(referee.email)) {
+      return json({ ok: false, error: 'Referee email is required.' }, { status: 400 });
+    }
+    if (!referee.name || !String(referee.name).trim()) {
+      return json({ ok: false, error: 'Referee name is required.' }, { status: 400 });
+    }
+    if (String(referee.name).length > MAX_NAME_LEN) {
+      return json({ ok: false, error: 'Referee name too long.' }, { status: 400 });
+    }
   }
 
   // Env
