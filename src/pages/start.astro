@@ -1,0 +1,365 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+/* ============================================================
+   /start · the intake page that should sit between any "Book"
+   button and the GlossGenius scheduler. Adds the context that
+   concierge customers expect (duration, price, what to bring,
+   who their provider is) before they hand over a card.
+
+   To wire this as the universal booking destination, swap every
+   GlossGenius href across the site to /start. The Schedule CTA
+   below still routes to GlossGenius with a "start_page" UTM tag.
+   ============================================================ */
+
+// TODO: confirm with Liliana before publishing — these are placeholders.
+const FIRST_VISIT_DURATION_MIN = 45;
+const FIRST_VISIT_PRICE_USD = 175;
+const FIRST_VISIT_CREDIT_NOTE =
+  'Applied as credit toward your first month of any membership.';
+
+const bookingHref =
+  'https://vivawellnessco.glossgenius.com/?utm_source=vivawellnessco&utm_medium=cta&utm_content=start_page';
+
+const whatToBring = [
+  'Any labs from the last twelve months, even if outside their reference ranges',
+  'A list of current medications and supplements, with doses',
+  'Your goals in plain language (energy, body comp, performance, recovery, longevity)',
+  'A working webcam and a quiet space for forty-five minutes',
+];
+
+const visitSteps = [
+  {
+    num: '01',
+    title: 'Honest history',
+    body: 'We start with what you have actually tried, what worked, what did not, and what changed. No rushed checklists.',
+  },
+  {
+    num: '02',
+    title: 'Clinical assessment',
+    body: 'Liliana reviews your labs, symptoms, and goals together. If labs are missing or stale, she orders what is needed.',
+  },
+  {
+    num: '03',
+    title: 'Plain-language plan',
+    body: 'You leave with a written protocol recommendation and a transparent breakdown of what it includes, what it costs, and what to expect in the first ninety days.',
+  },
+  {
+    num: '04',
+    title: 'No pressure to commit',
+    body: 'You decide whether to enroll after the visit. If you do, your first-visit fee credits toward month one.',
+  },
+];
+---
+
+<Layout
+  title="Your first visit · Viva Wellness Co."
+  description="What to expect from your first telehealth visit with Viva Wellness Co. — duration, price, what to bring, and how Liliana works through your goals."
+>
+
+  <section class="start-hero">
+    <div class="container start-hero__inner">
+      <span class="eyebrow">· Your first visit</span>
+      <h1 class="start-hero__title">
+        Forty-five minutes <span class="italic-display">with Liliana.</span>
+      </h1>
+      <p class="lead">
+        Before you book, here is exactly what the first visit looks like, what it
+        costs, and what to bring. Concierge means transparent. Nothing hidden,
+        nothing surprise-billed.
+      </p>
+    </div>
+  </section>
+
+  <section class="start-headline">
+    <div class="container">
+      <ul class="start-headline__grid">
+        <li>
+          <span class="eyebrow">Duration</span>
+          <strong>{FIRST_VISIT_DURATION_MIN} min</strong>
+          <span class="start-headline__note">Secure video. No commute, no waiting room.</span>
+        </li>
+        <li>
+          <span class="eyebrow">Visit fee</span>
+          <strong>${FIRST_VISIT_PRICE_USD}</strong>
+          <span class="start-headline__note">{FIRST_VISIT_CREDIT_NOTE}</span>
+        </li>
+        <li>
+          <span class="eyebrow">Provider</span>
+          <strong>Liliana Damron, APRN, FNP-BC</strong>
+          <span class="start-headline__note">Founder. Every first visit is with her, not a delegate.</span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container start-grid">
+      <div class="start-grid__left">
+        <span class="index" data-num="01">What happens</span>
+        <h2 class="start-h2">
+          The visit, <span class="italic-display">step by step.</span>
+        </h2>
+        <ol class="start-steps">
+          {visitSteps.map((s) => (
+            <li class="start-step">
+              <span class="start-step__num">{s.num}</span>
+              <div>
+                <h3 class="start-step__title">{s.title}</h3>
+                <p class="start-step__body">{s.body}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+
+      <aside class="start-grid__right">
+        <div class="start-card">
+          <span class="eyebrow">· Bring with you</span>
+          <ul class="start-bring">
+            {whatToBring.map((item) => (
+              <li>{item}</li>
+            ))}
+          </ul>
+          <p class="start-card__note">
+            If you do not have recent labs, that is fine. Liliana will order
+            what we need at the first visit. Your insurance can typically be
+            applied to labs.
+          </p>
+        </div>
+
+        <div class="start-card start-card--quiet">
+          <span class="eyebrow">· Not ready to book?</span>
+          <p>
+            Take the protocol-match quiz first. Five questions, ninety seconds.
+            You will land on the program tier that fits your goals and budget,
+            and the eBook ships immediately.
+          </p>
+          <a href="/#quiz" class="start-link">Take the quiz →</a>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="start-cta">
+    <div class="container start-cta__inner">
+      <h2 class="start-cta__title">
+        Ready when you <span class="italic-display">are.</span>
+      </h2>
+      <p class="lead">
+        Booking takes about a minute. You will pick a time, complete a short
+        intake form, and receive a video link the day before your visit.
+      </p>
+      <div class="start-cta__ctas">
+        <a href={bookingHref} target="_blank" rel="noopener" class="btn btn--bronze">
+          Schedule my first visit
+        </a>
+        <a href="/contact" class="btn">Ask a question first</a>
+      </div>
+      <p class="start-cta__fine">
+        Texas, Colorado, and Florida residents only at time of visit. Visit fee
+        is paid through GlossGenius (HIPAA-eligible payment processor).
+      </p>
+    </div>
+  </section>
+
+</Layout>
+
+<style>
+  .start-hero {
+    padding: clamp(5rem, 11vw, 9rem) 0 clamp(2rem, 5vw, 3rem);
+    position: relative;
+    overflow: hidden;
+  }
+  .start-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(800px 500px at 75% 0%, rgba(214, 134, 74, 0.14), transparent 65%);
+    pointer-events: none;
+  }
+  .start-hero__inner { position: relative; max-width: 60ch; }
+  .start-hero__title {
+    font-size: clamp(2.6rem, 6vw, 4.5rem);
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    margin: 1rem 0 1.5rem;
+  }
+  .start-hero__title .italic-display { color: var(--bronze-bright); }
+
+  .start-headline {
+    padding: 0 0 clamp(2rem, 5vw, 3.5rem);
+  }
+  .start-headline__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border: 1px solid var(--rule-strong);
+    border-radius: 2px;
+    background: var(--rule-strong);
+  }
+  @media (max-width: 760px) { .start-headline__grid { grid-template-columns: 1fr; } }
+  .start-headline__grid li {
+    background: var(--ink-2);
+    padding: 1.5rem 1.7rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  .start-headline__grid strong {
+    font-family: var(--font-display);
+    font-size: 2.4rem;
+    font-weight: 460;
+    line-height: 1;
+    color: var(--paper);
+    letter-spacing: -0.015em;
+  }
+  .start-headline__note {
+    color: rgba(247, 244, 238, 0.7);
+    font-size: 0.92rem;
+    line-height: 1.5;
+    max-width: 32ch;
+  }
+
+  .start-grid {
+    display: grid;
+    grid-template-columns: 7fr 5fr;
+    gap: clamp(2rem, 5vw, 5rem);
+    align-items: start;
+  }
+  @media (max-width: 900px) { .start-grid { grid-template-columns: 1fr; } }
+
+  .start-h2 {
+    font-size: clamp(2rem, 4.5vw, 3rem);
+    margin: 0.6rem 0 2rem;
+    max-width: 18ch;
+    line-height: 1.05;
+  }
+  .start-h2 .italic-display { color: var(--bronze); }
+
+  .start-steps { display: flex; flex-direction: column; border-top: 1px solid var(--rule-strong); }
+  .start-step {
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    gap: 1.2rem;
+    padding: 1.6rem 0;
+    border-bottom: 1px solid var(--rule);
+    align-items: start;
+  }
+  .start-step__num {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--bronze);
+    letter-spacing: 0.12em;
+    padding-top: 0.4rem;
+  }
+  .start-step__title {
+    font-size: 1.25rem;
+    margin-bottom: 0.4rem;
+    color: var(--paper);
+  }
+  .start-step__body {
+    color: rgba(247, 244, 238, 0.78);
+    font-size: 0.98rem;
+    line-height: 1.6;
+    max-width: 56ch;
+  }
+
+  .start-card {
+    background: var(--ink-2);
+    border: 1px solid var(--rule);
+    border-left: 2px solid var(--bronze);
+    padding: 1.6rem 1.7rem;
+    margin-bottom: 1.4rem;
+  }
+  .start-card .eyebrow { display: block; margin-bottom: 1rem; }
+  .start-bring {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    margin-bottom: 1rem;
+  }
+  .start-bring li {
+    padding-left: 1.2rem;
+    position: relative;
+    color: rgba(247, 244, 238, 0.85);
+    font-size: 0.95rem;
+    line-height: 1.55;
+  }
+  .start-bring li::before {
+    content: '·';
+    position: absolute;
+    left: 0;
+    color: var(--bronze);
+    font-weight: 700;
+  }
+  .start-card__note {
+    color: rgba(247, 244, 238, 0.6);
+    font-size: 0.85rem;
+    line-height: 1.55;
+    padding-top: 1rem;
+    border-top: 1px solid var(--rule);
+  }
+  .start-card--quiet { border-left-color: var(--rule-strong); }
+  .start-card--quiet p {
+    color: rgba(247, 244, 238, 0.78);
+    font-size: 0.95rem;
+    line-height: 1.55;
+    margin-bottom: 0.8rem;
+  }
+  .start-link {
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--bronze);
+    transition: color 200ms var(--ease);
+  }
+  .start-link:hover { color: var(--bronze-bright); }
+
+  .start-cta {
+    padding: clamp(4rem, 8vw, 7rem) 0;
+    background: var(--ink);
+    border-top: 1px solid var(--rule);
+    position: relative;
+    overflow: hidden;
+  }
+  .start-cta::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(700px 400px at 50% 0%, rgba(214, 134, 74, 0.18), transparent 60%);
+    pointer-events: none;
+  }
+  .start-cta__inner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
+    max-width: 60ch;
+    margin: 0 auto;
+  }
+  .start-cta__title {
+    font-size: clamp(2rem, 5vw, 3.6rem);
+    margin: 0.4rem 0;
+    line-height: 1.05;
+  }
+  .start-cta__title .italic-display { color: var(--bronze-bright); }
+  .start-cta__ctas {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 0.8rem;
+  }
+  .start-cta__fine {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    color: var(--mute);
+    line-height: 1.55;
+    margin-top: 1.5rem;
+  }
+</style>
