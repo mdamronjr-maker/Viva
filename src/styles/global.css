@@ -7,28 +7,32 @@
    ============================================ */
 
 :root {
-  /* Color · refined dark theme. Sharpened blacks, cooler neutrals,
-     bronze accent retained for brand continuity. */
-  --ink: #0a0908;            /* page background, near-true-black */
-  --ink-2: #161412;          /* card / hover backgrounds */
-  --ink-3: #24201d;          /* tertiary background */
-  --paper: #f7f4ee;          /* primary type, warm off-white */
-  --paper-2: #ebe5db;        /* secondary surfaces if needed */
+  /* Color · warm dark theme. Inks shifted from neutral near-black toward a
+     brown undertone so dark sections feel candlelit instead of corporate-
+     black. Easier on older eyes; broader audience appeal vs the pure black
+     of the previous iteration. Bronze accent retained. */
+  --ink: #110e0b;            /* warm near-black page background */
+  --ink-2: #1c1814;          /* card / hover backgrounds */
+  --ink-3: #2a231e;          /* tertiary background */
+  --paper: #f7f3eb;          /* warm off-white, primary type on dark */
+  --paper-2: #ebe5db;        /* secondary surfaces */
   --paper-3: #d9d0c2;        /* deeper warm tone */
-  --bronze: #d6864a;         /* accent, brighter to read on dark */
-  --bronze-bright: #f0a877;  /* hover, lighter accent */
+  --bronze: #d6864a;         /* accent */
+  --bronze-bright: #f0a877;  /* hover */
   --bronze-deep: #a35c26;    /* pressed / muted accent */
-  --mute: #b8aea1;           /* warm gray, comfortable on dark */
-  --rule: rgba(247, 244, 238, 0.10);
-  --rule-strong: rgba(247, 244, 238, 0.20);
+  --mute: #b8aea1;           /* warm gray */
+  --rule: rgba(247, 243, 235, 0.10);
+  --rule-strong: rgba(247, 243, 235, 0.20);
 
-  /* Typography · single-family discipline. All non-code uses are
-     Geist (variable 300–900). Geist Mono only for code/data. The
-     legacy var names (display, display-italic, mono) all point at
-     Geist for backward compat. Italic accent is via italic +
-     lighter weight + bronze color, not family switch. */
-  --font-display: 'Geist', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-display-italic: 'Geist', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  /* Typography · serif + sans pair. Fraunces for headings and italic accents
+     (editorial warmth, broad-audience appeal, has the SOFT/WONK axes for
+     lyrical pops); Geist for body and UI (modern, clean, gender-neutral).
+     Standard pattern across clinical wellness brands serving mixed audiences
+     (Function uses Reckless serif + sans, Maven uses Tiempos + sans, etc).
+     The single-family Geist look skewed too tech-startup for the 35-65 mixed-
+     gender base. */
+  --font-display: 'Fraunces', 'Georgia', 'Times New Roman', serif;
+  --font-display-italic: 'Fraunces', 'Georgia', 'Times New Roman', serif;
   --font-body: 'Geist', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-mono: 'Geist', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-code: 'Geist Mono', 'JetBrains Mono', 'Courier New', monospace;
@@ -92,43 +96,48 @@ body::before {
   font-weight: 600;
 }
 
-/* Modern display scale · Geist sans, heavy weight for hierarchy.
-   Italic accent is opt-in via .italic-display, which shifts to
-   italic + lighter weight + bronze color (no font swap). */
+/* Display scale · Fraunces serif, deliberately light-to-medium weights
+   so the high-contrast letterforms breathe. Serifs at heavy weights
+   look like newspaper-front-page; mid weights with tight tracking
+   read editorial-modern (Function Health, The Cut, Substack-y). */
 h1, .h1 {
   font-family: var(--font-display);
-  font-weight: 700;
-  font-size: clamp(2.5rem, 6.5vw, 5.5rem);
-  line-height: 1.02;
-  letter-spacing: -0.035em;
+  font-weight: 380;
+  font-size: clamp(2.6rem, 7vw, 6rem);
+  line-height: 0.98;
+  letter-spacing: -0.025em;
+  font-variation-settings: 'opsz' 144, 'SOFT' 30;
 }
 
 h2, .h2 {
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: clamp(1.9rem, 4.2vw, 3.25rem);
-  line-height: 1.08;
-  letter-spacing: -0.028em;
+  font-weight: 400;
+  font-size: clamp(2rem, 4.5vw, 3.4rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  font-variation-settings: 'opsz' 144, 'SOFT' 30;
 }
 
 h3, .h3 {
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: clamp(1.3rem, 2.1vw, 1.65rem);
-  line-height: 1.25;
-  letter-spacing: -0.018em;
+  font-weight: 440;
+  font-size: clamp(1.3rem, 2.1vw, 1.7rem);
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  font-variation-settings: 'opsz' 72;
 }
 
-/* Accent treatment for words wrapped inside a heading. Italic +
-   lighter weight + bronze color creates a clear visual punch
-   without leaving the family. Sparing use. */
+/* Accent treatment · italic Fraunces with WONK on for the playful tail
+   characters that give the brand its lyrical-print quality. Bronze
+   color is the visual cue. Use sparingly inside headings. */
 .italic-display {
-  font-family: var(--font-display);
+  font-family: var(--font-display-italic);
   font-style: italic;
   font-weight: 400;
   color: var(--bronze);
-  letter-spacing: -0.025em;
+  letter-spacing: -0.018em;
   text-transform: none;
+  font-variation-settings: 'opsz' 144, 'SOFT' 60, 'WONK' 1;
 }
 
 p { max-width: 62ch; }
