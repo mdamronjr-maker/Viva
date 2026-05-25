@@ -70,7 +70,7 @@ Before signing up with any practice, DTC or concierge, ask these.
 
 What pharmacy do you use, and can I see their accreditation? Reputable answer: a clear answer with a verifiable pharmacy. Unreliable answer: vague language or "it varies."
 
-How is dose titration handled? Reputable answer: scheduled provider check-ins, clear protocol for dose changes. Unreliable answer: "you can message us" with no structure.
+How is dose titration handled? Reputable answer: scheduled provider check-ins, clear protocol for dose changes. Unreliable answer: vague messaging access with no structure.
 
 What labs are required, and how often? Reputable answer: baseline metabolic panel and lipids minimum, periodic re-checks. Unreliable answer: no labs, or labs are an extra cost not disclosed up front.
 
@@ -86,4 +86,4 @@ Tiers range from a metabolic micro-dose for patients fine-tuning, up through ret
 
 If you're trying to decide whether concierge is right for you versus a DTC platform, the simplest test is this: do you want a service that delivers a medication, or a relationship with a provider who happens to deliver the medication? Both are legitimate. They're not the same thing.
 
-If the second one matches what you're looking for, [book a consultation](/services) or [take our protocol quiz](/quiz) to see which tier fits where you are right now.
+If the second one matches what you're looking for, [book a consultation](/services) or [take the protocol quiz](/quiz) to see which tier fits where you are right now.

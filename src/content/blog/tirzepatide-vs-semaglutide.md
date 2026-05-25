@@ -80,4 +80,4 @@ If you're choosing from scratch and have flexibility, tirzepatide tends to produ
 
 The medication is a tool. The protocol around it (lab work, titration, support, training, sleep, protein) is what actually delivers durable results.
 
-If you're considering either and want a real conversation about which one fits where you are right now, [book a consultation](/services) or [take the protocol quiz](/quiz) and we'll match you with the right tier.
+If you're considering either and want a real conversation about which one fits where you are right now, [book a consultation](/services) or [take the protocol quiz](/quiz) and I'll match you with the right tier.

@@ -95,4 +95,4 @@ The protocols cover hormone optimization, GLP-1-based metabolic reset, recovery 
 
 Every tier includes provider access, home delivery, and the protocol itself. There are no hidden costs.
 
-If you're trying to decide whether the concierge model fits what you're looking for, [book a consultation](/services) and we'll spend forty-five minutes figuring out whether this is the right structure for where you are right now. If it isn't, we'll tell you.
+If you're trying to decide whether the concierge model fits what you're looking for, [book a consultation](/services) and I'll spend forty-five minutes figuring out whether this is the right structure for where you are right now. If it isn't, I'll tell you.

@@ -18,12 +18,12 @@ const pages: Record<string, { title: string; description: string; eyebrow: strin
   },
   about: {
     eyebrow: 'The story',
-    title: 'We treat health like training.',
+    title: 'I treat health like training.',
     description: 'Founded by Liliana Damron, APRN, FNP-BC. A concierge practice for people who expect their body to keep up with their ambition.',
   },
   services: {
     eyebrow: 'Programs & memberships',
-    title: "You bring the goals, we'll bring the protocol.",
+    title: "You bring the goals, I'll bring the protocol.",
     description: 'Concierge telehealth memberships from $99 to $699 per month. Flat fee, everything included.',
   },
   contact: {

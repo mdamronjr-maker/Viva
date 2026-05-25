@@ -21,9 +21,9 @@ const REFERRAL_REWARD_LABEL = `$${REFERRAL_REWARD_USD} credit`;
         Refer a friend, <span class="italic-display">get a credit.</span>
       </h1>
       <p class="lead">
-        If someone you know would benefit from concierge care, tell us about
+        If someone you know would benefit from concierge care, tell me about
         them. When they enroll, you get a {REFERRAL_REWARD_LABEL} toward your
-        next month. No cap, no expiration, no awkward conversations on our end.
+        next month. No cap, no expiration, no awkward conversations on my end.
       </p>
     </div>
   </section>
@@ -35,14 +35,14 @@ const REFERRAL_REWARD_LABEL = `$${REFERRAL_REWARD_USD} credit`;
           <span class="refer-step__num">01</span>
           <div>
             <h2>You introduce them</h2>
-            <p>Fill out the short form below. We reach out personally with the eBook and an invitation to take the protocol-match quiz. Your name is mentioned only if you say it is okay.</p>
+            <p>Fill out the short form below. I reach out personally with the eBook and an invitation to take the protocol-match quiz. Your name is mentioned only if you say it is okay.</p>
           </div>
         </li>
         <li class="refer-step">
           <span class="refer-step__num">02</span>
           <div>
             <h2>They book and enroll</h2>
-            <p>They schedule their first visit on their own timeline. Once they enroll in any membership tier, we tag the referral to your account.</p>
+            <p>They schedule their first visit on their own timeline. Once they enroll in any membership tier, I tag the referral to your account.</p>
           </div>
         </li>
         <li class="refer-step">
@@ -70,7 +70,7 @@ const REFERRAL_REWARD_LABEL = `$${REFERRAL_REWARD_USD} credit`;
             <div class="field">
               <label for="r-email" class="field__label">Your email</label>
               <input id="r-email" name="referrer_email" type="email" class="field__input" autocomplete="email" required placeholder="you@example.com" />
-              <span class="field__hint">So we can credit your account when your referral enrolls.</span>
+              <span class="field__hint">So I can credit your account when your referral enrolls.</span>
             </div>
           </fieldset>
 
@@ -83,10 +83,10 @@ const REFERRAL_REWARD_LABEL = `$${REFERRAL_REWARD_USD} credit`;
             <div class="field">
               <label for="r-friend-email" class="field__label">Their email</label>
               <input id="r-friend-email" name="referee_email" type="email" class="field__input" required placeholder="friend@example.com" />
-              <span class="field__hint">We'll email them an introduction. You'll get a copy.</span>
+              <span class="field__hint">I'll email them an introduction. You'll get a copy.</span>
             </div>
             <div class="field">
-              <label for="r-note" class="field__label">Anything we should know? (optional)</label>
+              <label for="r-note" class="field__label">Anything I should know? (optional)</label>
               <textarea id="r-note" name="note" class="field__textarea" maxlength="2000" placeholder="Why you think they'd be a fit, what they're working on, anything else."></textarea>
             </div>
           </fieldset>
@@ -107,7 +107,7 @@ const REFERRAL_REWARD_LABEL = `$${REFERRAL_REWARD_USD} credit`;
             <li>{REFERRAL_REWARD_LABEL} applied automatically when your referral enrolls in any membership tier.</li>
             <li>No cap on how many friends you can refer.</li>
             <li>Credits don't expire and stack across referrals.</li>
-            <li>We never contact your friend without their consent. They choose whether to engage.</li>
+            <li>I never contact your friend without their consent. They choose whether to engage.</li>
             <li>Referrals must be new patients (not currently enrolled or in active intake).</li>
           </ul>
         </div>
@@ -174,7 +174,7 @@ const REFERRAL_REWARD_LABEL = `$${REFERRAL_REWARD_USD} credit`;
         if (!res.ok || !json.ok) {
           throw new Error(json.error || 'Something went wrong. Try again or email info&#64;vivawellnessco.com.');
         }
-        status.textContent = "Thanks. We'll reach out to your friend personally and you'll get a copy.";
+        status.textContent = "Thanks. I'll reach out to your friend personally and you'll get a copy.";
         status.classList.add('is-success');
         form.reset();
       } catch (err) {

@@ -111,7 +111,7 @@ export function match(a: Answers): Match {
       key: 'metabolic',
       name: 'Metabolic Core',
       price: '$349',
-      body: 'Provider-managed plan with recovery peptide emphasis. Combines metabolic support with our most-requested recovery stack.',
+      body: 'Provider-managed plan with recovery peptide emphasis. Combines metabolic support with the most-requested recovery stack.',
       bullets: [
         'BPC-157 + TB-500 recovery stack',
         'GHK-Cu for tissue repair and collagen support',

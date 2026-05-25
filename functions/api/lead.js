@@ -386,7 +386,7 @@ function buildReferrerConfirmEmail({ referrerName, referee }) {
     ``,
     `Here is what happens next:`,
     `  1. Liliana reaches out to ${refereeName} personally with the eBook and a quick intro.`,
-    `  2. If they enroll in any Viva membership tier, we credit your account automatically.`,
+    `  2. If they enroll in any Viva membership tier, I credit your account automatically.`,
     `  3. You get an email when that happens so you know to expect it on your next invoice.`,
     ``,
     `There is no cap on referrals. Credits do not expire.`,
@@ -415,13 +415,13 @@ function buildReferrerConfirmEmail({ referrerName, referee }) {
             Thanks for the intro, ${esc(first)}.
           </h1>
           <p style="font-size:16px;line-height:1.6;color:#2a2420;margin:0 0 16px 0;">
-            We received your referral for <strong>${esc(refereeName)}</strong>. Here is what happens next.
+            I received your referral for <strong>${esc(refereeName)}</strong>. Here is what happens next.
           </p>
         </td></tr>
         <tr><td style="padding:0 32px 24px 32px;">
           <ol style="font-size:15px;line-height:1.6;color:#2a2420;padding-left:18px;margin:0;">
             <li style="margin-bottom:10px;">Liliana reaches out to ${esc(refereeName)} personally with the eBook and a brief introduction.</li>
-            <li style="margin-bottom:10px;">If they enroll in any Viva membership tier, we credit your account automatically.</li>
+            <li style="margin-bottom:10px;">If they enroll in any Viva membership tier, I credit your account automatically.</li>
             <li>You get an email confirmation when the credit lands on your next invoice.</li>
           </ol>
           <p style="font-size:14px;color:#8a7d72;margin:20px 0 0 0;">No cap on referrals. Credits do not expire.</p>
@@ -521,7 +521,7 @@ function nurtureWrap({ eyebrow, title, bodyHtml }) {
           <a href="https://vivawellnessco.com" style="color:#8a4d22;text-decoration:none;">vivawellnessco.com</a> &nbsp;·&nbsp;
           <a href="tel:+17372107283" style="color:#8a4d22;text-decoration:none;">(737) 210-7283</a>
           <br/><br/>
-          Not in the mood for follow-ups? Just reply with "stop" and we will take you off the sequence.
+          Not in the mood for follow-ups? Just reply with "stop" and I will take you off the sequence.
           <br/>Not medical advice. All therapies require provider review and approval.
         </td></tr>
       </table>
@@ -547,7 +547,7 @@ function buildNurtureDay3({ name, match }) {
     intro = `You looked at Peak Performance, so here are three things that trip people up most often when they stack peptides and hormones together.`;
     items = [
       ['Skipping the hormone baseline.', `Recovery and performance peptides work better on top of a tuned hormone foundation. Stack them first and you get uneven results without knowing why.`],
-      ['Running too many things at once.', `Three peptides at once means you cannot tell what is working. We sequence and cycle on purpose, not to be cautious.`],
+      ['Running too many things at once.', `Three peptides at once means you cannot tell what is working. I sequence and cycle on purpose, not to be cautious.`],
       ['Expecting recovery peptides to drop body fat.', `BPC-157 and TB-500 are repair tools. They are not GLP-1. If body composition is the goal, the metabolic side has to be addressed directly.`],
     ];
   } else if (key === 'metabolic') {
@@ -556,14 +556,14 @@ function buildNurtureDay3({ name, match }) {
     items = [
       ['Starting too high.', `Most of the side effects · nausea, fatigue, hitting a wall · come from jumping doses too fast. Slow titration is not being cautious. It is how the protocol works.`],
       ['Treating GLP-1 like willpower in a vial.', `It quiets the food noise, which is real and measurable. It does not replace strength training or protein. Skip both and you lose muscle along with fat.`],
-      ['Stopping cold turkey.', `The taper matters as much as the ramp. We plan the exit at the start, not at the end.`],
+      ['Stopping cold turkey.', `The taper matters as much as the ramp. I plan the exit at the start, not at the end.`],
     ];
   } else if (key === 'trt') {
     subject = 'Three things I wish more people knew about hormone therapy';
     intro = `You looked at the TRT & HRT tier. A few things I wish more people heard before they start, whether the question is testosterone, estradiol, or both.`;
     items = [
-      ['Chasing a number instead of how you feel.', `Lab ranges are population averages. A man feeling great at 700 ng/dL beats one at 1200 with sleep apnea and acne. A woman with controlled symptoms on a modest estradiol dose beats one chasing a higher serum number. We tune to symptoms first.`],
-      ['Hormone therapy is more than one molecule.', `Most people picture TRT as testosterone alone, or HRT as estradiol alone. In practice there is a small toolkit · anastrozole, enclomiphene, progesterone, estradiol, HCG · that we add selectively based on labs and symptoms, not routinely. HCG sits in its own category · it shows up in aggressive fertility protocols and comes from a standard pharmacy rather than a compounder. The rest can be compounded through the pharmacies we work with. The right plan is the smallest protocol that gets you where you want to be, not the longest.`],
+      ['Chasing a number instead of how you feel.', `Lab ranges are population averages. A man feeling great at 700 ng/dL beats one at 1200 with sleep apnea and acne. A woman with controlled symptoms on a modest estradiol dose beats one chasing a higher serum number. I tune to symptoms first.`],
+      ['Hormone therapy is more than one molecule.', `Most people picture TRT as testosterone alone, or HRT as estradiol alone. In practice there is a small toolkit · anastrozole, enclomiphene, progesterone, estradiol, HCG · that I add selectively based on labs and symptoms, not routinely. HCG sits in its own category · it shows up in aggressive fertility protocols and comes from a standard pharmacy rather than a compounder. The rest can be compounded through the pharmacies I work with. The right plan is the smallest protocol that gets you where you want to be, not the longest.`],
       ['Outdated risk framing.', `"TRT is steroids" and "estradiol causes cancer" are two of the most common things I hear, and both are decades behind the current data. Modern protocols, modern dosing, modern monitoring · the risk profile looks nothing like what most people read about online.`],
     ];
   } else if (key === 'concierge') {
@@ -578,7 +578,7 @@ function buildNurtureDay3({ name, match }) {
     subject = 'Three things people get wrong when they start';
     intro = `You reached out a few days ago, so I wanted to share three things that trip most people up at the start. These apply regardless of which protocol you are considering.`;
     items = [
-      ['Doing too much at once.', `Hormones, peptides, GLP-1, supplements. Stack everything at the same time and you cannot tell what is working. We sequence intentionally.`],
+      ['Doing too much at once.', `Hormones, peptides, GLP-1, supplements. Stack everything at the same time and you cannot tell what is working. I sequence intentionally.`],
       ['Chasing numbers over symptoms.', `Lab ranges are population averages. Your numbers exist to inform how you feel, not to replace it.`],
       ['Skipping the conversation.', `Most of what makes a protocol succeed is the part before the first prescription. The questions, the history, the goals. That happens on the first call.`],
     ];
@@ -638,11 +638,11 @@ function buildNurtureDay7({ name }) {
 
     <p style="margin:0 0 16px 0;">The honest answer has three parts.</p>
 
-    <p style="margin:0 0 16px 0;"><strong>First, we do not do anything you cannot stop.</strong> Every protocol has an off-ramp planned in. We do not trap people on therapy they do not want.</p>
+    <p style="margin:0 0 16px 0;"><strong>First, I do not do anything you cannot stop.</strong> Every protocol has an off-ramp planned in. I do not trap people on therapy they do not want.</p>
 
     <p style="margin:0 0 16px 0;"><strong>Second, the data is encouraging but not infinite.</strong> Bioidentical hormone replacement has good long-term safety data when done right. GLP-1 medications have five-plus years of population data and growing. Peptides like BPC-157 have decades of research behind them but less human trial volume. I tell you which bucket your protocol falls in before you start, not after.</p>
 
-    <p style="margin:0 0 16px 0;"><strong>Third, the labs are the safety net.</strong> Biannual blood work catches trends early. If something needs to change, we change it. The plan is a starting point, not a contract.</p>
+    <p style="margin:0 0 16px 0;"><strong>Third, the labs are the safety net.</strong> Biannual blood work catches trends early. If something needs to change, I change it. The plan is a starting point, not a contract.</p>
 
     <p style="margin:0 0 16px 0;">The thing most people do not expect is how much of the first visit is spent listening, not prescribing. I want to know what you have tried, what did not work, and what you are hoping for. Before I have an opinion on what should change.</p>
 
@@ -656,11 +656,11 @@ function buildNurtureDay7({ name }) {
     ``,
     `The honest answer has three parts.`,
     ``,
-    `First, we do not do anything you cannot stop. Every protocol has an off-ramp planned in. We do not trap people on therapy they do not want.`,
+    `First, I do not do anything you cannot stop. Every protocol has an off-ramp planned in. I do not trap people on therapy they do not want.`,
     ``,
     `Second, the data is encouraging but not infinite. Bioidentical hormone replacement has good long-term safety data when done right. GLP-1 medications have five-plus years of population data and growing. Peptides like BPC-157 have decades of research behind them but less human trial volume. I tell you which bucket your protocol falls in before you start, not after.`,
     ``,
-    `Third, the labs are the safety net. Biannual blood work catches trends early. If something needs to change, we change it. The plan is a starting point, not a contract.`,
+    `Third, the labs are the safety net. Biannual blood work catches trends early. If something needs to change, I change it. The plan is a starting point, not a contract.`,
     ``,
     `The thing most people do not expect is how much of the first visit is spent listening, not prescribing. I want to know what you have tried, what did not work, and what you are hoping for. Before I have an opinion on what should change.`,
     ``,
