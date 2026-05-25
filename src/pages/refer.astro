@@ -172,7 +172,7 @@ const REFERRAL_REWARD_LABEL = `$${REFERRAL_REWARD_USD} credit`;
         });
         const json = await res.json().catch(() => ({}));
         if (!res.ok || !json.ok) {
-          throw new Error(json.error || 'Something went wrong. Try again or email info@vivawellnessco.com.');
+          throw new Error(json.error || 'Something went wrong. Try again or email info&#64;vivawellnessco.com.');
         }
         status.textContent = "Thanks. We'll reach out to your friend personally and you'll get a copy.";
         status.classList.add('is-success');

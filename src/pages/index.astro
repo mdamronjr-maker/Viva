@@ -25,7 +25,7 @@ const faqs = [
   },
   {
     q: 'How fast will I receive the eBook after submitting a form?',
-    a: 'The Precision Hormone & Peptide Therapy eBook is emailed automatically, usually within sixty seconds. If you do not see it, check your spam folder or email info@vivawellnessco.com and we will resend.',
+    a: 'The Precision Hormone & Peptide Therapy eBook is emailed automatically, usually within sixty seconds. If you do not see it, check your spam folder or email info&#64;vivawellnessco.com and we will resend.',
   },
   {
     q: 'Can I cancel my membership?',
@@ -395,45 +395,11 @@ const partners: Partner[] = [
     </div>
   </section>
 
-  {/* ============ PROVIDER ============ */}
-  <section class="section section--paper">
-    <div class="container provider">
-      <div class="provider__media">
-        <div class="provider__photo" transition:name="provider-photo">
-          <img
-            src="/liliana.jpg"
-            srcset="/liliana-sm.jpg 600w, /liliana.jpg 1200w"
-            sizes="(max-width: 900px) 100vw, 42vw"
-            alt="Liliana Damron, APRN, FNP-BC, founder of Viva Wellness Co."
-            loading="lazy"
-          />
-        </div>
-        <span class="provider__caption">
-          Liliana Damron, APRN, FNP-BC<br/>
-          Founder &amp; Lead Provider
-        </span>
-      </div>
-      <div class="provider__copy">
-        <span class="index" data-num="02">The provider</span>
-        <h2 class="provider__title">
-          Founded by a nurse practitioner who watched <span class="italic-display">preventable disease</span> steal people's lives.
-        </h2>
-        <p class="lead">
-          With a background in geriatric medicine, Liliana built Viva to do the
-          opposite of what she saw every day. The goal isn't to manage decline. It
-          is to extend strength, function, and capacity, so your healthspan
-          finally matches your lifespan.
-        </p>
-        <a href="/about" class="btn btn--ink">Meet the provider</a>
-      </div>
-    </div>
-  </section>
-
   {/* ============ PROGRAMS ============ */}
   <section class="section">
     <div class="container">
       <div class="section-head">
-        <span class="index" data-num="03">The programs</span>
+        <span class="index" data-num="02">The programs</span>
         <h2 class="section-head__title">
           Explore our programs <span class="italic-display">and memberships.</span>
         </h2>
@@ -469,7 +435,7 @@ const partners: Partner[] = [
   <section class="network" id="network">
     <div class="container">
       <div class="network__head">
-        <span class="index" data-num="04">The network</span>
+        <span class="index" data-num="03">The network</span>
         <h2 class="network__title">
           The Austin partners <span class="italic-display">we trust</span> with our patients.
         </h2>
@@ -536,7 +502,7 @@ const partners: Partner[] = [
   <section class="testimonials">
     <div class="container">
       <div class="testimonials__head">
-        <span class="index" data-num="05">In their words</span>
+        <span class="index" data-num="04">In their words</span>
         <h2 class="testimonials__title">
           Five stars. <span class="italic-display">Eighty-six reviews.</span><br/>
           Zero exceptions.
@@ -592,7 +558,7 @@ const partners: Partner[] = [
   <section class="faq">
     <div class="container">
       <div class="faq__head">
-        <span class="index" data-num="06">Common questions</span>
+        <span class="index" data-num="05">Common questions</span>
         <h2 class="faq__title">
           The questions <span class="italic-display">we get most.</span>
         </h2>
@@ -827,7 +793,7 @@ const partners: Partner[] = [
         });
         const json = await res.json().catch(() => ({}));
         if (!res.ok || !json.ok) {
-          throw new Error(json.error || 'Send failed. Try again or email info@vivawellnessco.com.');
+          throw new Error(json.error || 'Send failed. Try again or email info&#64;vivawellnessco.com.');
         }
         document.getElementById('qx-r-name')!.textContent = m.name;
         document.getElementById('qx-r-price')!.textContent = m.price;

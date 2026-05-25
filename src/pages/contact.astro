@@ -115,7 +115,7 @@ const DISCOVERY_CALL_URL = ''; // e.g. 'https://calendly.com/liliana-viva/intro'
             </li>
             <li>
               <span class="contact-side__k">Email</span>
-              <a href="mailto:info@vivawellnessco.com" class="contact-side__v">info@vivawellnessco.com</a>
+              <a href="mailto:info&#64;vivawellnessco.com" class="contact-side__v">info&#64;vivawellnessco.com</a>
             </li>
             <li>
               <span class="contact-side__k">WhatsApp</span>
@@ -201,7 +201,7 @@ const DISCOVERY_CALL_URL = ''; // e.g. 'https://calendly.com/liliana-viva/intro'
         });
         const json = await res.json().catch(() => ({}));
         if (!res.ok || !json.ok) {
-          throw new Error(json.error || 'Something went wrong. Try again or email info@vivawellnessco.com.');
+          throw new Error(json.error || 'Something went wrong. Try again or email info&#64;vivawellnessco.com.');
         }
         status.textContent = "Sent. Check your inbox in a minute for the eBook.";
         status.classList.add('is-success');
