@@ -74,19 +74,33 @@ export function match(a: Answers): Match {
     };
   }
 
-  // 3. Hormones + male + budget != $99 -> TRT & HRT All Inclusive
-  if (goal === 'hormones' && sex === 'm' && budget !== 'b99') {
+  // 3. Hormones + budget != $99 -> TRT & HRT All Inclusive
+  // Routes men (TRT) and women (HRT) to the same flat-fee hormone tier; the
+  // provider tailors the actual protocol in the first visit.
+  if (goal === 'hormones' && budget !== 'b99') {
+    const isFemale = sex === 'f';
     return {
       key: 'trt',
       name: 'TRT & HRT All Inclusive',
       price: '$199',
-      body: 'Personalized testosterone optimization with compounded medication, supplies, and biannual labs.',
-      bullets: [
-        'Compounded testosterone (injection, cream, or gel)',
-        'Anastrozole and HCG when clinically indicated',
-        'Biannual labs and dose adjustments',
-        'Direct provider access by message',
-      ],
+      body: isFemale
+        ? 'Personalized hormone optimization with compounded estradiol, progesterone, and adjunct protocols (DHEA, thyroid, low-dose testosterone) when clinically indicated. Supplies, biannual labs, and home delivery included.'
+        : 'Personalized testosterone optimization with compounded medication. Anastrozole, HCG, and thyroid adjuncts when clinically indicated. Supplies, biannual labs, and home delivery included.',
+      bullets: isFemale
+        ? [
+            'Compounded estradiol + progesterone (cream, troche, or pellet)',
+            'DHEA, low-dose testosterone, thyroid adjuncts when clinically indicated',
+            'Perimenopause and menopause symptom management',
+            'Biannual labs and dose adjustments',
+            'Direct provider access by message',
+          ]
+        : [
+            'Compounded testosterone (injection, cream, or gel)',
+            'Anastrozole, HCG, and thyroid adjuncts when clinically indicated',
+            'Biannual labs and dose adjustments',
+            'Supplies, sharps, and home delivery',
+            'Direct provider access by message',
+          ],
       ebookPath: DEFAULT_EBOOK, // TODO: /ebooks/viva-trt-guide.pdf
     };
   }
