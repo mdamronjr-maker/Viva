@@ -504,6 +504,10 @@ const partners: Partner[] = [
             <span class="testimonials__rating-link">Verify on Google →</span>
           </span>
         </a>
+        <p class="testimonials__disclaimer">
+          Individual results vary. Testimonials reflect each patient's personal
+          experience and are not guarantees of outcome.
+        </p>
       </div>
 
       <div class="t-rotator" data-trotator>
@@ -1207,6 +1211,16 @@ const partners: Partner[] = [
   .testimonials__rating-meta > span:not(.testimonials__rating-link) { font-family: var(--font-mono); font-size: 0.78rem; letter-spacing: 0.06em; color: rgba(245, 241, 234, 0.7); }
   .testimonials__rating-link { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--bronze); margin-left: 0.5rem; border-left: 1px solid var(--rule-strong); padding-left: 1rem; }
   @media (max-width: 640px) { .testimonials__rating-link { border-left: 0; padding-left: 0; margin-left: 0; width: 100%; } }
+  /* FTC Endorsement Guides · individual-results disclaimer beneath the rating
+     block. Small, muted, doesn't fight for visual weight. */
+  .testimonials__disclaimer {
+    font-size: 0.72rem;
+    line-height: 1.5;
+    color: rgba(245, 241, 234, 0.45);
+    max-width: 56ch;
+    margin: 1rem 0 0;
+    letter-spacing: 0.01em;
+  }
   /* Carousel · one testimonial visible, auto-rotates, dots + arrows + hover-pause */
   .t-rotator { max-width: 880px; margin: 0 auto; position: relative; }
   .t-rotator__track {

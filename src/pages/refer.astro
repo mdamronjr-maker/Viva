@@ -85,6 +85,12 @@ const REFERRAL_REWARD_LABEL = `$${REFERRAL_REWARD_USD} credit`;
               <input id="r-friend-email" name="referee_email" type="email" class="field__input" required placeholder="friend@example.com" />
               <span class="field__hint">I'll email them an introduction. You'll get a copy.</span>
             </div>
+            <div class="field field--checkbox">
+              <label class="consent" for="r-friend-consent">
+                <input id="r-friend-consent" type="checkbox" name="referee_consent" required />
+                <span>I have asked them for permission to send this introduction.</span>
+              </label>
+            </div>
             <div class="field">
               <label for="r-note" class="field__label">Anything I should know? (optional)</label>
               <textarea id="r-note" name="note" class="field__textarea" maxlength="2000" placeholder="Why you think they'd be a fit, what they're working on, anything else."></textarea>
@@ -320,4 +326,32 @@ const REFERRAL_REWARD_LABEL = `$${REFERRAL_REWARD_USD} credit`;
     color: var(--bronze);
     font-weight: 700;
   }
+
+  /* Referee consent checkbox · explicit confirmation the referrer has
+     asked the referee for permission before we send any intro. Keeps the
+     referral flow on the right side of TCPA-adjacent state laws and the
+     general "no unconsented commercial outreach" expectation. */
+  .field--checkbox { padding-top: 0.2rem; }
+  .consent {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.7rem;
+    cursor: pointer;
+    color: rgba(247, 244, 238, 0.85);
+    font-size: 0.92rem;
+    line-height: 1.5;
+  }
+  .consent input[type="checkbox"] {
+    flex-shrink: 0;
+    width: 1.05rem;
+    height: 1.05rem;
+    margin-top: 0.18rem;
+    accent-color: var(--bronze);
+    cursor: pointer;
+  }
+  .consent input[type="checkbox"]:focus-visible {
+    outline: 2px solid var(--bronze);
+    outline-offset: 2px;
+  }
+  .section--paper .consent { color: rgba(10, 9, 8, 0.85); }
 </style>

@@ -120,6 +120,15 @@ export async function onRequestPost(context) {
   // when no Calendly/booking URL is configured. Same pattern as the page
   // constants in src/pages/start.astro and src/pages/contact.astro.
   const discoveryUrl = env.DISCOVERY_CALL_URL || `${origin}/start`;
+  // Federal CAN-SPAM Act requires a "valid physical postal address" in every
+  // commercial email · $51,744 max civil penalty per violation. Set
+  // CAN_SPAM_ADDRESS env var in Cloudflare Pages dashboard to the real
+  // registered business mailing address (street or PO Box, city, state, zip).
+  // The placeholder fallback is intentionally obvious so unset deployments
+  // self-flag rather than silently shipping non-compliant emails.
+  const canSpamAddress =
+    env.CAN_SPAM_ADDRESS ||
+    '[postal address not configured · set CAN_SPAM_ADDRESS env var]';
   // Per-vertical lead magnet: the quiz match can specify its own ebookPath
   // (see src/lib/quiz.ts). Defaults to the generic eBook. Path is validated
   // to start with a single leading slash to prevent open-redirect abuse.
@@ -147,8 +156,8 @@ export async function onRequestPost(context) {
     : null;
 
   const leadEmail = isReferral
-    ? buildReferrerConfirmEmail({ referrerName: cleanName, referee: cleanReferee })
-    : buildLeadEmail({ name: cleanName, ebookUrl });
+    ? buildReferrerConfirmEmail({ referrerName: cleanName, referee: cleanReferee, canSpamAddress })
+    : buildLeadEmail({ name: cleanName, ebookUrl, canSpamAddress });
   const notifyEmailBody = buildNotifyEmail({
     source,
     name: cleanName,
@@ -245,6 +254,7 @@ export async function onRequestPost(context) {
       match,
       notifyEmail,
       discoveryUrl,
+      canSpamAddress,
     });
   }
 
@@ -286,7 +296,7 @@ async function sendEmail(apiKey, body) {
 }
 
 // --- Email body builders ---
-function buildLeadEmail({ name, ebookUrl }) {
+function buildLeadEmail({ name, ebookUrl, canSpamAddress }) {
   const first = (name || '').split(/\s+/)[0] || 'there';
   const text = [
     `Hi ${first},`,
@@ -359,7 +369,8 @@ function buildLeadEmail({ name, ebookUrl }) {
         </td></tr>
 
         <tr><td style="background:#f5f1ea;padding:20px 32px;font-size:11px;color:#8a7d72;line-height:1.6;border-top:1px solid #ebe5db;">
-          <strong>Viva Wellness Co.</strong> &nbsp;·&nbsp; Austin, TX &nbsp;·&nbsp; 100% Telehealth &nbsp;·&nbsp; TX, CO, FL<br/>
+          <strong>Viva Wellness Co.</strong> &nbsp;·&nbsp; 100% Telehealth &nbsp;·&nbsp; TX, CO, FL<br/>
+          ${esc(canSpamAddress)}<br/>
           <a href="https://vivawellnessco.com" style="color:#8a4d22;text-decoration:none;">vivawellnessco.com</a> &nbsp;·&nbsp;
           <a href="tel:+17372107283" style="color:#8a4d22;text-decoration:none;">(737) 210-7283</a> &nbsp;·&nbsp;
           <a href="https://instagram.com/vivawellnessatx" style="color:#8a4d22;text-decoration:none;">@vivawellnessatx</a>
@@ -376,7 +387,7 @@ function buildLeadEmail({ name, ebookUrl }) {
   return { html, text };
 }
 
-function buildReferrerConfirmEmail({ referrerName, referee }) {
+function buildReferrerConfirmEmail({ referrerName, referee, canSpamAddress }) {
   const first = (referrerName || '').split(/\s+/)[0] || 'there';
   const refereeName = (referee && referee.name) || 'your friend';
   const text = [
@@ -432,7 +443,8 @@ function buildReferrerConfirmEmail({ referrerName, referee }) {
           <p style="font-size:13px;color:#8a7d72;margin:0;">Founder &amp; Provider, Viva Wellness Co.</p>
         </td></tr>
         <tr><td style="background:#f5f1ea;padding:20px 32px;font-size:11px;color:#8a7d72;line-height:1.6;border-top:1px solid #ebe5db;">
-          <strong>Viva Wellness Co.</strong> &nbsp;·&nbsp; Austin, TX &nbsp;·&nbsp; 100% Telehealth &nbsp;·&nbsp; TX, CO, FL<br/>
+          <strong>Viva Wellness Co.</strong> &nbsp;·&nbsp; 100% Telehealth &nbsp;·&nbsp; TX, CO, FL<br/>
+          ${esc(canSpamAddress)}<br/>
           <a href="https://vivawellnessco.com" style="color:#8a4d22;text-decoration:none;">vivawellnessco.com</a> &nbsp;·&nbsp;
           <a href="tel:+17372107283" style="color:#8a4d22;text-decoration:none;">(737) 210-7283</a>
         </td></tr>
@@ -449,14 +461,14 @@ function buildReferrerConfirmEmail({ referrerName, referee }) {
 // Three emails scheduled via Resend `scheduled_at` after the Day 0 send.
 // Each one stands on its own · they don't reference prior emails, in case
 // any of them get filtered out or skimmed past.
-async function scheduleNurture(apiKey, { from, to, name, match, notifyEmail, discoveryUrl }) {
+async function scheduleNurture(apiKey, { from, to, name, match, notifyEmail, discoveryUrl, canSpamAddress }) {
   const now = Date.now();
   const DAY = 24 * 60 * 60 * 1000;
 
   const sends = [
-    { delayMs: 3 * DAY, build: () => buildNurtureDay3({ name, match }) },
-    { delayMs: 7 * DAY, build: () => buildNurtureDay7({ name, notifyEmail }) },
-    { delayMs: 14 * DAY, build: () => buildNurtureDay14({ name, discoveryUrl, notifyEmail }) },
+    { delayMs: 3 * DAY, build: () => buildNurtureDay3({ name, match, canSpamAddress }) },
+    { delayMs: 7 * DAY, build: () => buildNurtureDay7({ name, canSpamAddress }) },
+    { delayMs: 14 * DAY, build: () => buildNurtureDay14({ name, discoveryUrl, canSpamAddress }) },
   ];
 
   // Failures here don't fail the request · the Day 0 email already went
@@ -483,7 +495,7 @@ async function scheduleNurture(apiKey, { from, to, name, match, notifyEmail, dis
 
 // Shared HTML shell for nurture emails. Mirrors buildLeadEmail's visual
 // language so the sequence reads as one voice across all four sends.
-function nurtureWrap({ eyebrow, title, bodyHtml }) {
+function nurtureWrap({ eyebrow, title, bodyHtml, canSpamAddress }) {
   return `
 <!doctype html>
 <html>
@@ -517,7 +529,8 @@ function nurtureWrap({ eyebrow, title, bodyHtml }) {
         </td></tr>
 
         <tr><td style="background:#f5f1ea;padding:20px 32px;font-size:11px;color:#8a7d72;line-height:1.6;border-top:1px solid #ebe5db;">
-          <strong>Viva Wellness Co.</strong> &nbsp;·&nbsp; Austin, TX &nbsp;·&nbsp; 100% Telehealth &nbsp;·&nbsp; TX, CO, FL<br/>
+          <strong>Viva Wellness Co.</strong> &nbsp;·&nbsp; 100% Telehealth &nbsp;·&nbsp; TX, CO, FL<br/>
+          ${esc(canSpamAddress)}<br/>
           <a href="https://vivawellnessco.com" style="color:#8a4d22;text-decoration:none;">vivawellnessco.com</a> &nbsp;·&nbsp;
           <a href="tel:+17372107283" style="color:#8a4d22;text-decoration:none;">(737) 210-7283</a>
           <br/><br/>
@@ -534,7 +547,7 @@ function nurtureWrap({ eyebrow, title, bodyHtml }) {
 // Day 3 · match-tailored. Body switches on match.key (and sex for TRT/HRT
 // to pick the male vs. female framing). Raw contact leads with no match
 // fall through to the generic three-point opener.
-function buildNurtureDay3({ name, match }) {
+function buildNurtureDay3({ name, match, canSpamAddress }) {
   const first = (name || '').split(/\s+/)[0] || 'there';
   const key = match && match.key;
 
@@ -620,14 +633,14 @@ function buildNurtureDay3({ name, match }) {
     `Founder, Viva Wellness Co.`,
   ].join('\n');
 
-  const html = nurtureWrap({ eyebrow: 'Follow-up · Day 3', title: subject, bodyHtml });
+  const html = nurtureWrap({ eyebrow: 'Follow-up · Day 3', title: subject, bodyHtml, canSpamAddress });
   return { subject, html, text };
 }
 
 // Day 7 · match-agnostic. The "is this safe long-term?" objection comes
 // up on every first call, so we address it head-on with three concrete
 // answers instead of generic reassurance.
-function buildNurtureDay7({ name }) {
+function buildNurtureDay7({ name, canSpamAddress }) {
   const first = (name || '').split(/\s+/)[0] || 'there';
   const subject = 'The question I get on every first call';
 
@@ -671,14 +684,14 @@ function buildNurtureDay7({ name }) {
     `Founder, Viva Wellness Co.`,
   ].join('\n');
 
-  const html = nurtureWrap({ eyebrow: 'Follow-up · Day 7', title: subject, bodyHtml });
+  const html = nurtureWrap({ eyebrow: 'Follow-up · Day 7', title: subject, bodyHtml, canSpamAddress });
   return { subject, html, text };
 }
 
 // Day 14 · soft close + discovery CTA. Explicitly the last automated
 // touch: "I will get out of your inbox" makes the gracefully-ending
 // nature of the sequence the point, not an apology.
-function buildNurtureDay14({ name, discoveryUrl }) {
+function buildNurtureDay14({ name, discoveryUrl, canSpamAddress }) {
   const first = (name || '').split(/\s+/)[0] || 'there';
   const subject = 'Still here if you want to talk';
 
@@ -727,7 +740,7 @@ function buildNurtureDay14({ name, discoveryUrl }) {
     `Founder, Viva Wellness Co.`,
   ].join('\n');
 
-  const html = nurtureWrap({ eyebrow: 'Follow-up · Day 14', title: subject, bodyHtml });
+  const html = nurtureWrap({ eyebrow: 'Follow-up · Day 14', title: subject, bodyHtml, canSpamAddress });
   return { subject, html, text };
 }
 
