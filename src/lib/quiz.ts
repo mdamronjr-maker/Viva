@@ -22,7 +22,17 @@ export type Match = {
   price: string;
   body: string;
   bullets: string[];
+  // Path to the lead magnet emailed to the user on this match.
+  // Defaults to the generic /viva-ebook.pdf; replace with vertical-specific
+  // PDFs once they exist (e.g. /ebooks/viva-glp-1-guide.pdf).
+  ebookPath: string;
 };
+
+// TODO: replace these with vertical-specific lead magnets when authored.
+//   Recommended path: /public/ebooks/viva-<slug>.pdf
+//   e.g. viva-glp-1-guide.pdf, viva-trt-guide.pdf, viva-peak-performance.pdf,
+//        viva-recovery-stack.pdf
+const DEFAULT_EBOOK = '/viva-ebook.pdf';
 
 export function match(a: Answers): Match {
   const goal = a.goal || 'longevity';
@@ -43,6 +53,7 @@ export function match(a: Answers): Match {
         'Performance support (CJC-1295 / Ipamorelin, MOTS-c)',
         'Comprehensive labs, supplies, and home delivery',
       ],
+      ebookPath: DEFAULT_EBOOK, // TODO: /ebooks/viva-peak-performance.pdf
     };
   }
 
@@ -59,6 +70,7 @@ export function match(a: Answers): Match {
         'Tesamorelin option for visceral fat targeting',
         'Supplies, sharps, and home delivery included',
       ],
+      ebookPath: DEFAULT_EBOOK, // TODO: /ebooks/viva-glp-1-guide.pdf
     };
   }
 
@@ -75,6 +87,7 @@ export function match(a: Answers): Match {
         'Biannual labs and dose adjustments',
         'Direct provider access by message',
       ],
+      ebookPath: DEFAULT_EBOOK, // TODO: /ebooks/viva-trt-guide.pdf
     };
   }
 
@@ -91,6 +104,7 @@ export function match(a: Answers): Match {
         'Optional GLP-1 for inflammation and body comp',
         'Provider-led dose calibration',
       ],
+      ebookPath: DEFAULT_EBOOK, // TODO: /ebooks/viva-recovery-stack.pdf
     };
   }
 
@@ -106,5 +120,6 @@ export function match(a: Answers): Match {
       'Guidance across hormones, metabolic, and recovery',
       'Step up to compounded protocols any time',
     ],
+    ebookPath: DEFAULT_EBOOK,
   };
 }

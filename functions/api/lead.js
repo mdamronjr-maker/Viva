@@ -86,7 +86,14 @@ export async function onRequestPost(context) {
   const notifyEmail = env.RESEND_NOTIFY_EMAIL || 'info@vivawellnessco.com';
   const audienceId = env.RESEND_AUDIENCE_ID || null;
   const origin = env.SITE_ORIGIN || 'https://vivawellnessco.com';
-  const ebookUrl = `${origin}/viva-ebook.pdf`;
+  // Per-vertical lead magnet: the quiz match can specify its own ebookPath
+  // (see src/lib/quiz.ts). Defaults to the generic eBook. Path is validated
+  // to start with a single leading slash to prevent open-redirect abuse.
+  const requestedEbook = match && typeof match.ebookPath === 'string' ? match.ebookPath : '';
+  const safeEbookPath = /^\/[A-Za-z0-9_\-./]+\.pdf$/.test(requestedEbook)
+    ? requestedEbook
+    : '/viva-ebook.pdf';
+  const ebookUrl = `${origin}${safeEbookPath}`;
 
   const cleanName = String(name).trim();
   const cleanEmail = String(email).trim().toLowerCase();

@@ -171,6 +171,18 @@ const orgSchema = {
   />
 
   <ClientRouter />
+
+  {/* Privacy-respecting analytics · loads only when PUBLIC_PLAUSIBLE_DOMAIN
+      is set in Cloudflare Pages env vars (e.g. "vivawellnessco.com"). No
+      cookies, no PII, no cookie banner needed. Tracks pageviews + the
+      built-in /api/lead form-submit event via the 404 / outbound plugins. */}
+  {import.meta.env.PUBLIC_PLAUSIBLE_DOMAIN && (
+    <script
+      defer
+      data-domain={import.meta.env.PUBLIC_PLAUSIBLE_DOMAIN}
+      src="https://plausible.io/js/script.outbound-links.js"
+    ></script>
+  )}
 </head>
 <body>
   <a href="#main" class="skip-link">Skip to main content</a>
