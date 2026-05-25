@@ -55,6 +55,15 @@ const programs = [
       'Supplies, sharps, and home delivery',
       'Direct provider access by message',
     ],
+    rightFor: [
+      'You want hormone optimization (TRT for men, HRT for women) at a flat monthly fee',
+      'You have known low-T, perimenopause, or menopause symptoms you want addressed',
+      'You want labs, supplies, and dose adjustments handled inside the membership',
+    ],
+    notRightFor: [
+      'You are focused primarily on weight loss (see Metabolic Core)',
+      'You want hormones, GLP-1, and performance peptides under one plan (see Peak Performance)',
+    ],
   },
   {
     tier: 'Core',
@@ -74,6 +83,15 @@ const programs = [
       'Supplies, sharps, and home delivery',
       'Provider-led monthly check-ins',
     ],
+    rightFor: [
+      'Compounded GLP-1 (semaglutide or tirzepatide) is your primary goal',
+      'You want a provider actively managing titration and side effects, not a five-minute refill',
+      'You want supplies, sharps, and shipments handled inside the membership',
+    ],
+    notRightFor: [
+      'You want testosterone or HRT as the focus (see TRT & HRT All Inclusive)',
+      'You want recovery and performance peptides combined with metabolic (see Peak Performance)',
+    ],
   },
   {
     tier: 'Premium',
@@ -91,6 +109,15 @@ const programs = [
       'Optional compounded GLP-1 layer',
       'Comprehensive labs, supplies, and home delivery',
       'Priority scheduling and provider access',
+    ],
+    rightFor: [
+      'You want hormones, metabolic, recovery, and performance under one fully-managed plan',
+      'You want priority scheduling and the most direct provider access available',
+      'You are already running pieces of this stack and want them coordinated by one provider',
+    ],
+    notRightFor: [
+      'You only need one protocol (start with TRT/HRT or Metabolic Core instead)',
+      'You want to test-drive peptides a la carte (see Concierge Access)',
     ],
   },
 ];
@@ -226,6 +253,24 @@ const servicesSchema = {
         </p>
       </div>
       <a href="/#quiz" class="btn btn--bronze">Take the quiz</a>
+    </div>
+  </section>
+
+  {/* PROVIDER STRIP · a beat of warmth before the pricing grid */}
+  <section class="section--paper provider-strip">
+    <div class="container provider-strip__inner">
+      <a href="/about" class="provider-strip__media" transition:name="provider-photo" aria-label="About Liliana Damron">
+        <img src="/liliana-sm.jpg" alt="Liliana Damron, APRN, FNP-BC" loading="lazy" />
+      </a>
+      <div class="provider-strip__copy">
+        <span class="eyebrow">· Your provider for every protocol</span>
+        <p class="provider-strip__line">
+          Every tier on this page is managed personally by
+          <strong>Liliana Damron, APRN, FNP-BC</strong>.
+          No mid-level handoffs.
+        </p>
+        <a href="/about" class="provider-strip__link">Meet your provider →</a>
+      </div>
     </div>
   </section>
 
@@ -446,6 +491,70 @@ const servicesSchema = {
     color: rgba(245, 241, 234, 0.7);
     max-width: 56ch;
   }
+
+  /* PROVIDER STRIP · between quiz banner and programs grid */
+  .provider-strip {
+    padding: clamp(2.4rem, 5vw, 3.8rem) 0;
+    border-bottom: 1px solid rgba(12, 10, 9, 0.08);
+  }
+  .provider-strip__inner {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: clamp(1.5rem, 4vw, 3rem);
+    align-items: center;
+  }
+  @media (max-width: 600px) {
+    .provider-strip__inner { grid-template-columns: 1fr; text-align: center; gap: 1.2rem; }
+  }
+  .provider-strip__media {
+    display: block;
+    width: clamp(96px, 14vw, 132px);
+    height: clamp(96px, 14vw, 132px);
+    border-radius: 50%;
+    overflow: hidden;
+    background: var(--ink);
+    text-decoration: none;
+    transition: transform 240ms var(--ease), box-shadow 240ms var(--ease);
+  }
+  @media (max-width: 600px) {
+    .provider-strip__media { justify-self: center; }
+  }
+  .provider-strip__media:hover {
+    transform: scale(1.02);
+    box-shadow: 0 6px 20px rgba(12, 10, 9, 0.12);
+  }
+  .provider-strip__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .provider-strip__copy {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+  }
+  .provider-strip__line {
+    font-family: var(--font-display);
+    font-size: clamp(1.05rem, 2vw, 1.35rem);
+    font-weight: 400;
+    line-height: 1.45;
+    color: var(--ink);
+    margin: 0;
+    max-width: 58ch;
+    letter-spacing: -0.005em;
+  }
+  .provider-strip__line strong { font-weight: 500; }
+  .provider-strip__link {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--bronze-deep);
+    text-decoration: none;
+    transition: color 200ms var(--ease);
+  }
+  .provider-strip__link:hover { color: var(--bronze); }
 
   /* PROGRAMS · four large quiz-aligned tier cards */
   .programs-section { padding: clamp(3rem, 7vw, 5rem) 0; }
