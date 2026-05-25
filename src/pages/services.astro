@@ -133,6 +133,15 @@ const includedAlways = [
   'Member pricing on add-ons',
 ];
 
+const pillars = [
+  { num: '01', title: 'Hormone Optimization', body: 'TRT and HRT protocols calibrated to how you want to feel and perform, not just where the lab range starts.' },
+  { num: '02', title: 'Metabolic Reset', body: 'Compounded GLP-1 protocols stepped to your physiology. Real appetite control without losing the muscle you trained for.' },
+  { num: '03', title: 'Recovery & Healing', body: 'Peptide stacks that close the gap between training load and what your body can actually recover from. BPC-157, TB-500, GHK-Cu.' },
+  { num: '04', title: 'Performance', body: 'Support for athletes and high-output professionals. Peptide and hormone protocols calibrated to keep you on the line, not behind it.' },
+  { num: '05', title: 'Recomp', body: 'Coordinated metabolic, hormone, and recovery support designed to shift body composition while keeping training intact.' },
+  { num: '06', title: 'Lifestyle & Longevity', body: 'Long-arc protocols for healthspan. Sleep, hormones, inflammation, and longevity peptides managed as one system.' },
+];
+
 // Schema.org Service nodes for every program tier · each one indexable
 // independently. Google can surface a specific program in search.
 const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
@@ -190,6 +199,33 @@ const servicesSchema = {
         surprises. A 12-week minimum gives the protocol enough runway to
         actually work.
       </p>
+    </div>
+  </section>
+
+  {/* PILLARS · the work, framed conceptually before the categorized tiers */}
+  <section class="section pillars-section">
+    <div class="container">
+      <div class="section-head">
+        <span class="index" data-num="01">The work</span>
+        <h2 class="section-head__title">
+          Six pillars. <span class="italic-display">Unlimited potential.</span>
+        </h2>
+        <p class="lead section-head__lead">
+          Viva treats the body as one system. Pull on hormones, metabolism,
+          recovery, or performance and the rest move. Every membership is
+          whole-body, managed by a single provider.
+        </p>
+      </div>
+
+      <ul class="pillars">
+        {pillars.map((p) => (
+          <li class="pillar">
+            <span class="pillar__num">{p.num}</span>
+            <h3 class="pillar__title">{p.title}</h3>
+            <p class="pillar__body">{p.body}</p>
+          </li>
+        ))}
+      </ul>
     </div>
   </section>
 
@@ -321,6 +357,18 @@ const servicesSchema = {
     letter-spacing: -0.028em;
   }
   .services-hero__title .italic-display { color: var(--bronze); }
+
+  /* PILLARS */
+  .pillars-section { padding: clamp(3rem, 7vw, 5rem) 0; }
+  .pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-top: 1px solid var(--rule-strong); }
+  .pillar { padding: 1.4rem 1.2rem 1.4rem 0; border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule-strong); transition: background 240ms var(--ease); }
+  .pillar:nth-child(3n) { border-right: 0; }
+  .pillar:hover { background: rgba(214, 134, 74, 0.04); }
+  .pillar__num { font-family: var(--font-mono); font-size: 0.7rem; color: var(--bronze); letter-spacing: 0.1em; display: block; margin-bottom: 0.9rem; }
+  .pillar__title { font-size: 1.2rem; margin-bottom: 0.5rem; color: var(--paper); line-height: 1.2; }
+  .pillar__body { color: rgba(245, 241, 234, 0.7); font-size: 0.9rem; line-height: 1.45; }
+  @media (max-width: 960px) { .pillars { grid-template-columns: repeat(2, 1fr); } .pillar { border-right: 1px solid var(--rule); padding: 1.4rem 1.2rem; } .pillar:nth-child(2n) { border-right: 0; } .pillar:nth-child(2n+1) { padding-left: 0; } }
+  @media (max-width: 600px) { .pillars { grid-template-columns: 1fr; } .pillar { border-right: 0 !important; padding-left: 0; } }
 
   /* INCLUDED */
   .included {
