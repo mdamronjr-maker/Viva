@@ -11,19 +11,29 @@ import Layout from '../layouts/Layout.astro';
 const programs = [
   {
     tier: 'Entry',
-    name: 'Viva Concierge',
+    name: 'Concierge Access',
     price: 99,
     priceLabel: '$99',
     annualLabel: '$999',
     annualSavingsLabel: 'save $189',
-    tagline: 'Provider access, insurance-friendly.',
-    body: 'Concierge provider access for evaluation, ongoing guidance, and insurance-based labs across hormones, metabolic, and recovery. The right entry tier when you want to use your insurance for labs and prescriptions and still get concierge attention.',
+    tagline: 'Provider attention without compounded medication in the price.',
+    body: 'Concierge-level oversight when you want a provider thinking about you across hormones, peptides, metabolic, or recovery, but prefer to use insurance (or pay separately) for the medications themselves. The right starting point when you are exploring before committing to a compounded protocol.',
     includes: [
       'Direct messaging access to your provider',
       'Quarterly telehealth visit included',
-      'Lab orders and prescriptions routed through your insurance',
-      'Guidance across hormones, metabolic, and recovery',
-      'Step up to a compounded protocol any time',
+      'Lab orders + prescriptions routed through your insurance',
+      'Guidance across hormones, peptides, metabolic, and recovery',
+      'Step up to TRT All Inclusive, Metabolic Core, or Peak any time',
+    ],
+    rightFor: [
+      'You want a provider thinking about you, not a one-off appointment',
+      'You have insurance that covers your labs and prescriptions',
+      'You are exploring peptides, hormones, or metabolic protocols before committing',
+    ],
+    notRightFor: [
+      'You want compounded GLP-1 included in the price (see Metabolic Core)',
+      'You want compounded testosterone included (see TRT All Inclusive)',
+      'You want compounded peptides (BPC-157, TB-500, CJC) included (see Peak Performance)',
     ],
   },
   {
@@ -252,6 +262,26 @@ const servicesSchema = {
                 <li>{item}</li>
               ))}
             </ul>
+            {(p.rightFor || p.notRightFor) && (
+              <div class="prog-card__fit">
+                {p.rightFor && (
+                  <div class="prog-card__fit-block">
+                    <span class="prog-card__fit-label prog-card__fit-label--yes">Right for you if</span>
+                    <ul class="prog-card__fit-list">
+                      {p.rightFor.map((item) => (<li>{item}</li>))}
+                    </ul>
+                  </div>
+                )}
+                {p.notRightFor && (
+                  <div class="prog-card__fit-block">
+                    <span class="prog-card__fit-label prog-card__fit-label--no">Not this tier if</span>
+                    <ul class="prog-card__fit-list prog-card__fit-list--no">
+                      {p.notRightFor.map((item) => (<li>{item}</li>))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            )}
             <a href="/start?utm_source=vivawellnessco&utm_medium=cta&utm_content=services_tier" class="btn btn--bronze prog-card__cta">
               Start with {p.name}
             </a>
@@ -554,9 +584,56 @@ const servicesSchema = {
     font-family: var(--font-mono);
     font-size: 0.85rem;
   }
+  .prog-card__fit {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    padding: 1rem 0 0.4rem;
+    border-top: 1px solid var(--rule);
+    margin-top: 0.2rem;
+  }
+  .prog-card__fit-block { display: flex; flex-direction: column; gap: 0.45rem; }
+  .prog-card__fit-label {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .prog-card__fit-label--yes { color: var(--bronze); }
+  .prog-card__fit-label--no { color: rgba(247, 244, 238, 0.55); }
+  .prog-card__fit-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+  .prog-card__fit-list li {
+    padding-left: 1.4rem;
+    position: relative;
+    color: rgba(247, 244, 238, 0.78);
+    font-size: 0.88rem;
+    line-height: 1.5;
+  }
+  .prog-card__fit-list li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: var(--bronze);
+    font-size: 0.82rem;
+  }
+  .prog-card__fit-list--no li {
+    color: rgba(247, 244, 238, 0.55);
+  }
+  .prog-card__fit-list--no li::before {
+    content: '×';
+    color: rgba(247, 244, 238, 0.5);
+    font-size: 1.05rem;
+    line-height: 1;
+    top: -0.05rem;
+  }
   .prog-card__cta {
     align-self: flex-start;
-    margin-top: 0.4rem;
+    margin-top: 0.6rem;
   }
 
   /* POLICIES */

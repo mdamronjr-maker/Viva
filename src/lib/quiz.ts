@@ -108,17 +108,18 @@ export function match(a: Answers): Match {
     };
   }
 
-  // 5. Default -> Viva Concierge
+  // 5. Default -> Concierge Access
   return {
     key: 'concierge',
-    name: 'Viva Concierge',
+    name: 'Concierge Access',
     price: '$99',
-    body: 'Concierge provider access for evaluation, ongoing guidance, and insurance-based labs across hormones, metabolic, and recovery.',
+    body: 'Concierge-level provider attention without compounded medication in the price. The right tier when you want guidance across hormones, peptides, metabolic, or recovery and prefer to use insurance for labs and any insurance-covered medications.',
     bullets: [
-      'Direct concierge provider access',
-      'Lab orders and prescriptions through your insurance',
-      'Guidance across hormones, metabolic, and recovery',
-      'Step up to compounded protocols any time',
+      'Direct messaging access to your provider',
+      'Lab orders and prescriptions routed through your insurance',
+      'Guidance across hormones, peptides, metabolic, and recovery',
+      'Step up to a compounded tier (TRT, Metabolic, Peak) any time',
+      'Note: compounded peptides and GLP-1 are not included at this tier',
     ],
     ebookPath: DEFAULT_EBOOK,
   };
