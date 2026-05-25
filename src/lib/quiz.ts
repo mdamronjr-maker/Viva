@@ -113,13 +113,13 @@ export function match(a: Answers): Match {
     key: 'concierge',
     name: 'Concierge Access',
     price: '$99',
-    body: 'Concierge-level provider attention without compounded medication in the price. The right tier when you want guidance across hormones, peptides, metabolic, or recovery and prefer to use insurance for labs and any insurance-covered medications.',
+    body: 'Provider access plus member pricing on compounded peptides, GLP-1, and add-ons. Pay a la carte for the protocols you want instead of committing to an all-inclusive monthly fee. The right tier when you want flexibility and provider expertise without a bundled price.',
     bullets: [
       'Direct messaging access to your provider',
-      'Lab orders and prescriptions routed through your insurance',
+      'Quarterly telehealth visit included',
+      'Member pricing on compounded peptides, GLP-1, and TRT add-ons',
+      'Lab orders + standard prescriptions routed through your insurance',
       'Guidance across hormones, peptides, metabolic, and recovery',
-      'Step up to a compounded tier (TRT, Metabolic, Peak) any time',
-      'Note: compounded peptides and GLP-1 are not included at this tier',
     ],
     ebookPath: DEFAULT_EBOOK,
   };
