@@ -17,7 +17,7 @@ const isActive = (p: string) => path === p || (p !== '/' && path.startsWith(p));
 
     <nav class="nav" aria-label="Primary">
       <a href="/" class:list={["nav__link", isActive('/') && 'is-active']}>Home</a>
-      <a href="/about" class:list={["nav__link", isActive('/about') && 'is-active']}>About</a>
+      <a href="/about" class:list={["nav__link", isActive('/about') && 'is-active']}>Provider</a>
       <a href="/services" class:list={["nav__link", isActive('/services') && 'is-active']}>Programs</a>
       <a href="/blog" class:list={["nav__link", isActive('/blog') && 'is-active']}>Blog</a>
       <a href="/contact" class:list={["nav__link", isActive('/contact') && 'is-active']}>Contact</a>
@@ -116,7 +116,7 @@ const isActive = (p: string) => path === p || (p !== '/' && path.startsWith(p));
 
 <nav class="site-mobile-nav" id="site-mobile-nav" aria-label="Mobile" inert>
   <a href="/">Home</a>
-  <a href="/about">About</a>
+  <a href="/about">Provider</a>
   <a href="/services">Programs</a>
   <a href="/blog">Blog</a>
   <a href="/contact">Contact</a>
