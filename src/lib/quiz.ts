@@ -74,11 +74,11 @@ export function match(a: Answers): Match {
     };
   }
 
-  // 3. Hormones + male + budget != $99 -> TRT All Inclusive
+  // 3. Hormones + male + budget != $99 -> TRT & HRT All Inclusive
   if (goal === 'hormones' && sex === 'm' && budget !== 'b99') {
     return {
       key: 'trt',
-      name: 'TRT All Inclusive',
+      name: 'TRT & HRT All Inclusive',
       price: '$199',
       body: 'Personalized testosterone optimization with compounded medication, supplies, and biannual labs.',
       bullets: [
