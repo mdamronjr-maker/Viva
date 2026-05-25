@@ -458,55 +458,37 @@ const partners: Partner[] = [
         </p>
       </div>
 
-      <div class="rotator" data-rotator>
-        <div class="rotator__track" data-rotator-track>
-          {partners.map((p, i) => (
-            <article class:list={["rotator__slide", i === 0 && 'is-active']} data-slide>
-              <div class:list={[
-                'rotator__media',
-                p.mediaType === 'portrait' && 'rotator__media--portrait',
-                p.mediaType === 'logo' && 'rotator__media--logo',
-                p.mediaType === 'logo-dark' && 'rotator__media--logo rotator__media--logo-dark',
-                !p.image && 'is-empty',
+      <ul class="net-grid">
+        {partners.map((p) => (
+          <li class="net-card">
+            <a
+              href={p.links[0]?.href || '#'}
+              target="_blank"
+              rel="noopener"
+              class="net-card__link"
+              aria-label={`${p.name} — ${p.category}`}
+            >
+              <span class:list={[
+                'net-card__thumb',
+                p.mediaType === 'portrait' && 'net-card__thumb--portrait',
+                p.mediaType === 'logo' && 'net-card__thumb--logo',
+                p.mediaType === 'logo-dark' && 'net-card__thumb--logo-dark',
               ]}>
-                {p.image && (
-                  <img
-                    src={p.image}
-                    alt={p.imageAlt || ''}
-                    loading="lazy"
-                    decoding="async"
-                    onerror="this.style.display='none'; this.parentElement.classList.add('is-empty')"
-                  />
-                )}
-                <div class="rotator__media-fallback" aria-hidden="true">
-                  <span class="rotator__media-mono">{p.fallback}</span>
-                </div>
-              </div>
-              <div class="rotator__copy">
-                <span class="rotator__cat">{p.category}</span>
-                <h3 class="rotator__name">{p.name}</h3>
-                <div class="rotator__operator">{p.operator}</div>
-                <p class="rotator__desc">{p.description}</p>
-                {p.links.length > 0 && (
-                  <div class="rotator__links">
-                    {p.links.map((l) => (
-                      <a href={l.href} target="_blank" rel="noopener" class="rotator__link">{l.label} →</a>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </article>
-          ))}
-        </div>
-
-        <div class="rotator__controls">
-          <div class="rotator__dots" data-dots role="tablist" aria-label="Featured partners">
-            {partners.map((p, i) => (
-              <button class:list={["rotator__dot", i === 0 && 'is-active']} data-dot={i} aria-label={`Show ${p.name}`}></button>
-            ))}
-          </div>
-        </div>
-      </div>
+                {p.image
+                  ? <img src={p.image} alt={p.imageAlt || p.name} loading="lazy" decoding="async" />
+                  : <span class="net-card__mono">{p.fallback}</span>
+                }
+              </span>
+              <span class="net-card__copy">
+                <span class="net-card__cat">{p.category}</span>
+                <span class="net-card__name">{p.name}</span>
+                <span class="net-card__operator">{p.operator}</span>
+              </span>
+              <span class="net-card__arrow" aria-hidden="true">↗</span>
+            </a>
+          </li>
+        ))}
+      </ul>
     </div>
   </section>
 
@@ -623,39 +605,7 @@ const partners: Partner[] = [
 </Layout>
 
 <script>
-  // Network partner rotator. Wrapped + cleaned up on astro:before-swap so
-  // view transitions don't leak the interval across navigations.
-  let rotatorTimer: number | undefined;
-
-  function initRotator() {
-    const rotator = document.querySelector('[data-rotator]') as HTMLElement | null;
-    if (!rotator) return;
-    const slides = rotator.querySelectorAll('[data-slide]');
-    const dots = rotator.querySelectorAll('[data-dot]');
-    let i = 0;
-    const INTERVAL = 3000;
-    function show(idx: number) {
-      slides.forEach((s, n) => s.classList.toggle('is-active', n === idx));
-      dots.forEach((d, n) => d.classList.toggle('is-active', n === idx));
-      i = idx;
-    }
-    function next() { show((i + 1) % slides.length); }
-    function start() { stop(); rotatorTimer = window.setInterval(next, INTERVAL); }
-    function stop() { if (rotatorTimer) clearInterval(rotatorTimer); rotatorTimer = undefined; }
-    dots.forEach((d, n) => d.addEventListener('click', () => { show(n); start(); }));
-    rotator.addEventListener('mouseenter', stop);
-    rotator.addEventListener('mouseleave', start);
-    document.addEventListener('visibilitychange', () => { if (document.hidden) stop(); else start(); });
-    start();
-  }
-
-  document.addEventListener('astro:page-load', initRotator);
-  document.addEventListener('astro:before-swap', () => {
-    if (rotatorTimer) { clearInterval(rotatorTimer); rotatorTimer = undefined; }
-  });
-
-  // Testimonial carousel · same pattern as the partner rotator but with
-  // prev/next arrows and a longer interval (reading quotes takes time).
+  // Testimonial carousel · prev/next arrows + longer interval for reading.
   let tRotatorTimer: number | undefined;
 
   function initTestimonialsRotator() {
@@ -1146,50 +1096,107 @@ const partners: Partner[] = [
   .program__link:hover { color: var(--bronze-bright); }
   .programs-foot { margin-top: 3rem; text-align: center; }
 
-  /* ============ NETWORK ROTATOR ============ */
+  /* ============ NETWORK GRID ============
+     Static 3-up wall of partner cards. No auto-advance, no demand for
+     attention. Each card links to the partner's site. */
   .network { padding: var(--section-pad) 0; border-top: 1px solid var(--rule); }
-  .network__head { margin-bottom: 3rem; max-width: 800px; }
+  .network__head { margin-bottom: clamp(2rem, 4vw, 3rem); max-width: 800px; }
   .network__title { font-size: clamp(2rem, 4.8vw, 3.4rem); margin: 0.7rem 0 1.2rem; max-width: 22ch; line-height: 1.05; }
   .network__title .italic-display { color: var(--bronze); }
-  .rotator { max-width: 1100px; margin: 0 auto; }
-  .rotator__track { position: relative; background: var(--ink-2); border: 1px solid var(--rule-strong); border-radius: 2px; overflow: hidden; min-height: 360px; }
-  .rotator__slide { position: absolute; inset: 0; display: grid; grid-template-columns: 5fr 7fr; gap: 0; opacity: 0; transform: translateY(8px); transition: opacity 700ms var(--ease), transform 700ms var(--ease); pointer-events: none; }
-  .rotator__slide.is-active { opacity: 1; transform: translateY(0); pointer-events: auto; position: relative; }
-  @media (max-width: 760px) { .rotator__slide { grid-template-columns: 1fr; } .rotator__track { min-height: auto; } }
-  .rotator__media { position: relative; overflow: hidden; min-height: 320px; }
-  /* Portraits keep the warm bronze-into-ink gradient — flattering for natural-light photos. */
-  .rotator__media--portrait { background: linear-gradient(160deg, var(--bronze-deep) 0%, var(--ink-2) 100%); }
-  /* Default logo card: clean paper background so each logo's own colors read
-     against a neutral. Use --logo-dark when contrast wants the opposite
-     (Austin Sports Therapy ships on light blue; Bodies by Bastian has bright
-     green that pops against black). */
-  .rotator__media--logo { background: var(--paper); }
-  .rotator__media--logo-dark { background: var(--ink); }
-  @media (max-width: 760px) { .rotator__media { aspect-ratio: 16/10; min-height: 0; } }
-  .rotator__media img { width: 100%; height: 100%; object-fit: cover; display: block; position: relative; z-index: 2; }
-  /* Logos: object-fit contain + generous padding so each logo gets breathing room. */
-  .rotator__media--logo img,
-  .rotator__media--logo-dark img {
-    object-fit: contain;
-    padding: clamp(1.8rem, 3.5vw, 2.8rem) clamp(2.5rem, 5vw, 4.5rem);
+
+  .net-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--rule-strong);
+    border: 1px solid var(--rule-strong);
+    border-radius: 2px;
+    overflow: hidden;
   }
-  .rotator__media-fallback { position: absolute; inset: 0; display: none; align-items: center; justify-content: center; z-index: 1; background: linear-gradient(160deg, var(--bronze-deep) 0%, var(--ink-2) 100%); }
-  .rotator__media.is-empty .rotator__media-fallback { display: flex; }
-  .rotator__media-fallback::before { content: ''; position: absolute; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E"); mix-blend-mode: overlay; opacity: 0.5; }
-  .rotator__media-mono { font-family: var(--font-display-italic); font-size: clamp(4rem, 8vw, 6rem); font-weight: 320; font-style: italic; color: var(--paper); font-variation-settings: 'opsz' 144, 'SOFT' 70; z-index: 1; letter-spacing: -0.04em; }
-  .rotator__copy { padding: clamp(1.8rem, 3.5vw, 2.5rem); display: flex; flex-direction: column; justify-content: center; gap: 0.7rem; }
-  .rotator__cat { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--bronze); }
-  .rotator__name { font-family: var(--font-display-italic); font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 380; line-height: 1.05; letter-spacing: -0.02em; margin: 0.2rem 0 0.2rem; }
-  .rotator__operator { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mute); margin-bottom: 0.5rem; }
-  .rotator__desc { color: rgba(245, 241, 234, 0.78); font-size: 0.98rem; line-height: 1.55; max-width: 50ch; margin: 0; }
-  .rotator__links { display: flex; flex-wrap: wrap; gap: 1.5rem; margin-top: 0.7rem; }
-  .rotator__link { font-family: var(--font-mono); font-size: 0.74rem; letter-spacing: 0.1em; color: var(--bronze); text-transform: lowercase; border-bottom: 1px solid rgba(201, 120, 58, 0.4); padding-bottom: 0.15rem; transition: color 200ms var(--ease), border-color 200ms var(--ease); }
-  .rotator__link:hover { color: var(--bronze-bright); border-color: var(--bronze-bright); }
-  .rotator__controls { display: flex; justify-content: center; margin-top: 1.5rem; }
-  .rotator__dots { display: flex; gap: 0.5rem; }
-  .rotator__dot { width: 32px; height: 4px; background: var(--rule-strong); border: 0; border-radius: 0; cursor: pointer; padding: 0; transition: background 280ms var(--ease), width 280ms var(--ease); }
-  .rotator__dot:hover { background: var(--mute); }
-  .rotator__dot.is-active { background: var(--bronze); width: 56px; }
+  @media (max-width: 900px) { .net-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 540px) { .net-grid { grid-template-columns: 1fr; } }
+  .net-card { background: var(--ink); transition: background 240ms var(--ease); }
+  .net-card:hover { background: var(--ink-2); }
+  .net-card__link {
+    display: grid;
+    grid-template-columns: 64px 1fr auto;
+    gap: 1.1rem;
+    align-items: center;
+    padding: 1.2rem 1.3rem;
+    color: inherit;
+  }
+  .net-card__thumb {
+    width: 64px;
+    height: 64px;
+    border-radius: 2px;
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+    position: relative;
+    flex-shrink: 0;
+  }
+  .net-card__thumb--portrait { background: linear-gradient(160deg, var(--bronze-deep) 0%, var(--ink-2) 100%); }
+  .net-card__thumb--portrait img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+  .net-card__thumb--logo { background: var(--paper); }
+  .net-card__thumb--logo-dark { background: var(--ink-3); }
+  .net-card__thumb--logo img,
+  .net-card__thumb--logo-dark img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 6px 8px;
+  }
+  .net-card__mono {
+    font-family: var(--font-display-italic);
+    font-style: italic;
+    font-size: 1.4rem;
+    color: var(--paper);
+    background: linear-gradient(160deg, var(--bronze-deep) 0%, var(--ink-2) 100%);
+    width: 100%;
+    height: 100%;
+    display: grid;
+    place-items: center;
+  }
+  .net-card__copy {
+    display: flex;
+    flex-direction: column;
+    gap: 0.18rem;
+    min-width: 0;
+  }
+  .net-card__cat {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--bronze);
+  }
+  .net-card__name {
+    font-family: var(--font-display-italic);
+    font-size: 1.05rem;
+    line-height: 1.2;
+    color: var(--paper);
+    letter-spacing: -0.01em;
+    font-style: italic;
+  }
+  .net-card__operator {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: var(--mute);
+    letter-spacing: 0.04em;
+  }
+  .net-card__arrow {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    color: var(--bronze);
+    opacity: 0.55;
+    transition: opacity 220ms var(--ease), transform 220ms var(--ease);
+    align-self: start;
+    padding-top: 0.2rem;
+  }
+  .net-card:hover .net-card__arrow {
+    opacity: 1;
+    transform: translate(2px, -2px);
+  }
 
   /* ============ TESTIMONIALS ============ */
   .testimonials { padding: var(--section-pad) 0; border-top: 1px solid var(--rule); position: relative; overflow: hidden; }
