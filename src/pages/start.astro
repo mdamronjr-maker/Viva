@@ -18,8 +18,21 @@ const FIRST_VISIT_PRICE_USD = 175;
 const FIRST_VISIT_CREDIT_NOTE =
   'Applied as credit toward your first month of any membership.';
 
-const bookingHref =
-  'https://vivawellnessco.glossgenius.com/?utm_source=vivawellnessco&utm_medium=cta&utm_content=start_page';
+// Pass any UTM params from the inbound link straight through to the booking
+// destination, so attribution survives the /start intermediate page. Fall
+// back to a start_page default when the page is visited directly.
+const incoming = Astro.url.searchParams;
+const utmKeys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'] as const;
+const utmParts = utmKeys
+  .map((k) => {
+    const v = incoming.get(k);
+    return v ? `${k}=${encodeURIComponent(v)}` : null;
+  })
+  .filter(Boolean);
+const utmQuery = utmParts.length
+  ? utmParts.join('&')
+  : 'utm_source=vivawellnessco&utm_medium=cta&utm_content=start_page';
+const bookingHref = `https://vivawellnessco.glossgenius.com/?${utmQuery}`;
 
 const whatToBring = [
   'Any labs from the last twelve months, even if outside their reference ranges',
