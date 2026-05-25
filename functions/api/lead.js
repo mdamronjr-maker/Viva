@@ -62,6 +62,8 @@ export async function onRequestPost(context) {
     match = null,
     utm = null,
     referrer = '',
+    referee = null,        // for source=refer: { name, email }
+    referrer_page = '',    // /refer form sends this in place of referrer for the page-referrer
   } = payload || {};
 
   // Honeypot: if filled, silently succeed without sending.
@@ -101,7 +103,20 @@ export async function onRequestPost(context) {
   const cleanMsg = String(message || '').trim();
 
   // --- Build emails ---
-  const leadEmail = buildLeadEmail({ name: cleanName, ebookUrl });
+  // Referral submissions are a different shape: the lead-side email goes to
+  // the referrer (confirmation), the notify email captures both names, and
+  // we skip the eBook attachment (it goes to the referee instead, see below).
+  const isReferral = source === 'refer' && referee && referee.email;
+  const cleanReferee = isReferral
+    ? {
+        name: String(referee.name || '').trim(),
+        email: String(referee.email || '').trim().toLowerCase(),
+      }
+    : null;
+
+  const leadEmail = isReferral
+    ? buildReferrerConfirmEmail({ referrerName: cleanName, referee: cleanReferee })
+    : buildLeadEmail({ name: cleanName, ebookUrl });
   const notifyEmailBody = buildNotifyEmail({
     source,
     name: cleanName,
@@ -111,7 +126,8 @@ export async function onRequestPost(context) {
     quiz,
     match,
     utm,
-    referrer: String(referrer || '').trim(),
+    referrer: String(referrer || referrer_page || '').trim(),
+    referee: cleanReferee,
   });
 
   // Subject suffix from UTM content/source for fast triage in the inbox
@@ -120,13 +136,23 @@ export async function onRequestPost(context) {
       ? ` [${utm.utm_content || utm.utm_source}]`
       : '';
 
-  // --- Send both emails in parallel ---
+  const notifySubject = isReferral
+    ? `New referral from ${cleanName}: ${cleanReferee.name}${utmTag}`
+    : `New ${source === 'quiz' ? 'quiz match' : 'contact lead'}: ${cleanName}${utmTag}`;
+
+  // --- Send emails in parallel ---
+  // For non-referrals: eBook + notify.
+  // For referrals: confirmation to referrer + notify. Outreach to referee is
+  // intentionally provider-initiated (Liliana writes the intro personally,
+  // not an automated email) so we don't email them from here.
   const results = await Promise.allSettled([
     sendEmail(apiKey, {
       from: fromEmail,
       to: [cleanEmail],
       bcc: [notifyEmail],
-      subject: 'Your Viva Wellness eBook is here',
+      subject: isReferral
+        ? 'Thanks for the referral'
+        : 'Your Viva Wellness eBook is here',
       html: leadEmail.html,
       text: leadEmail.text,
       reply_to: notifyEmail,
@@ -134,7 +160,7 @@ export async function onRequestPost(context) {
     sendEmail(apiKey, {
       from: fromEmail,
       to: [notifyEmail],
-      subject: `New ${source === 'quiz' ? 'quiz match' : 'contact lead'}: ${cleanName}${utmTag}`,
+      subject: notifySubject,
       html: notifyEmailBody.html,
       text: notifyEmailBody.text,
       reply_to: cleanEmail,
@@ -301,13 +327,86 @@ function buildLeadEmail({ name, ebookUrl }) {
   return { html, text };
 }
 
-function buildNotifyEmail({ source, name, email, phone, message, quiz, match, utm, referrer }) {
+function buildReferrerConfirmEmail({ referrerName, referee }) {
+  const first = (referrerName || '').split(/\s+/)[0] || 'there';
+  const refereeName = (referee && referee.name) || 'your friend';
+  const text = [
+    `Hi ${first},`,
+    ``,
+    `Thanks for the introduction to ${refereeName}.`,
+    ``,
+    `Here is what happens next:`,
+    `  1. Liliana reaches out to ${refereeName} personally with the eBook and a quick intro.`,
+    `  2. If they enroll in any Viva membership tier, we credit your account automatically.`,
+    `  3. You get an email when that happens so you know to expect it on your next invoice.`,
+    ``,
+    `There is no cap on referrals. Credits do not expire.`,
+    ``,
+    `Talk soon,`,
+    `Liliana Damron, APRN, FNP-BC`,
+    `Founder, Viva Wellness Co.`,
+    `vivawellnessco.com · (737) 210-7283`,
+  ].join('\n');
+
+  const html = `
+<!doctype html>
+<html>
+<body style="margin:0;padding:0;background:#f5f1ea;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;color:#0c0a09;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f5f1ea;padding:32px 16px;">
+    <tr><td align="center">
+      <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;background:#ffffff;border-radius:4px;overflow:hidden;">
+        <tr><td style="background:#0c0a09;padding:28px 32px;">
+          <div style="font-family:Georgia,serif;font-size:24px;color:#f5f1ea;letter-spacing:0.01em;">Viva Wellness Co.</div>
+          <div style="font-family:Arial,sans-serif;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:#c9783a;margin-top:6px;">
+            Member Referral &nbsp;·&nbsp; Confirmation
+          </div>
+        </td></tr>
+        <tr><td style="padding:36px 32px 8px 32px;">
+          <h1 style="font-family:Georgia,serif;font-weight:400;font-size:28px;line-height:1.2;letter-spacing:-0.01em;color:#0c0a09;margin:0 0 12px 0;">
+            Thanks for the intro, ${esc(first)}.
+          </h1>
+          <p style="font-size:16px;line-height:1.6;color:#2a2420;margin:0 0 16px 0;">
+            We received your referral for <strong>${esc(refereeName)}</strong>. Here is what happens next.
+          </p>
+        </td></tr>
+        <tr><td style="padding:0 32px 24px 32px;">
+          <ol style="font-size:15px;line-height:1.6;color:#2a2420;padding-left:18px;margin:0;">
+            <li style="margin-bottom:10px;">Liliana reaches out to ${esc(refereeName)} personally with the eBook and a brief introduction.</li>
+            <li style="margin-bottom:10px;">If they enroll in any Viva membership tier, we credit your account automatically.</li>
+            <li>You get an email confirmation when the credit lands on your next invoice.</li>
+          </ol>
+          <p style="font-size:14px;color:#8a7d72;margin:20px 0 0 0;">No cap on referrals. Credits do not expire.</p>
+        </td></tr>
+        <tr><td style="padding:0 32px 28px 32px;border-top:1px solid #ebe5db;padding-top:24px;">
+          <p style="font-size:15px;line-height:1.6;color:#2a2420;margin:18px 0 4px 0;">Thanks again,</p>
+          <p style="font-family:Georgia,serif;font-style:italic;font-size:18px;color:#0c0a09;margin:0 0 2px 0;">Liliana Damron, APRN, FNP-BC</p>
+          <p style="font-size:13px;color:#8a7d72;margin:0;">Founder &amp; Provider, Viva Wellness Co.</p>
+        </td></tr>
+        <tr><td style="background:#f5f1ea;padding:20px 32px;font-size:11px;color:#8a7d72;line-height:1.6;border-top:1px solid #ebe5db;">
+          <strong>Viva Wellness Co.</strong> &nbsp;·&nbsp; Austin, TX &nbsp;·&nbsp; 100% Telehealth &nbsp;·&nbsp; TX, CO, FL<br/>
+          <a href="https://vivawellnessco.com" style="color:#8a4d22;text-decoration:none;">vivawellnessco.com</a> &nbsp;·&nbsp;
+          <a href="tel:+17372107283" style="color:#8a4d22;text-decoration:none;">(737) 210-7283</a>
+        </td></tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`.trim();
+
+  return { html, text };
+}
+
+function buildNotifyEmail({ source, name, email, phone, message, quiz, match, utm, referrer, referee }) {
   const rows = [
     ['Source', source],
     ['Name', name],
     ['Email', email],
     ['Phone', phone || '(not provided)'],
   ];
+  if (referee) {
+    rows.push(['Referee name', referee.name]);
+    rows.push(['Referee email', referee.email]);
+  }
   if (match) {
     rows.push(['Matched protocol', `${match.name} · ${match.price}/mo`]);
   }
@@ -324,7 +423,7 @@ function buildNotifyEmail({ source, name, email, phone, message, quiz, match, ut
     }
   }
   if (message) {
-    rows.push(['Message', message]);
+    rows.push([source === 'refer' ? 'Note from referrer' : 'Message', message]);
   }
   if (utm && typeof utm === 'object') {
     const order = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];

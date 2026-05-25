@@ -1,0 +1,321 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+// TODO: confirm the reward amount with the user before launch. $50 is a
+// reasonable default for a wellness practice; some peers run $100 or
+// "first month free." Change in one place and the whole page updates.
+const REFERRAL_REWARD_USD = 50;
+const REFERRAL_REWARD_LABEL = `$${REFERRAL_REWARD_USD} credit`;
+---
+
+<Layout
+  title="Refer a friend · Viva Wellness Co."
+  description="Members refer friends to Viva Wellness Co. and get a credit toward their next month. Simple form, no fine print."
+>
+
+  <section class="refer-hero">
+    <div class="container refer-hero__inner">
+      <span class="eyebrow">· Member referrals</span>
+      <h1 class="refer-hero__title">
+        Refer a friend, <span class="italic-display">get a credit.</span>
+      </h1>
+      <p class="lead">
+        If someone you know would benefit from concierge care, tell us about
+        them. When they enroll, you get a {REFERRAL_REWARD_LABEL} toward your
+        next month. No cap, no expiration, no awkward conversations on our end.
+      </p>
+    </div>
+  </section>
+
+  <section class="refer-how">
+    <div class="container">
+      <ol class="refer-steps">
+        <li class="refer-step">
+          <span class="refer-step__num">01</span>
+          <div>
+            <h2>You introduce them</h2>
+            <p>Fill out the short form below. We reach out personally with the eBook and an invitation to take the protocol-match quiz. Your name is mentioned only if you say it is okay.</p>
+          </div>
+        </li>
+        <li class="refer-step">
+          <span class="refer-step__num">02</span>
+          <div>
+            <h2>They book and enroll</h2>
+            <p>They schedule their first visit on their own timeline. Once they enroll in any membership tier, we tag the referral to your account.</p>
+          </div>
+        </li>
+        <li class="refer-step">
+          <span class="refer-step__num">03</span>
+          <div>
+            <h2>You get the credit</h2>
+            <p>{REFERRAL_REWARD_LABEL} applied to your next monthly invoice automatically. No cap on how many friends you can refer.</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="refer-body">
+    <div class="container refer-body__grid">
+      <div class="refer-body__form-wrap">
+        <form class="refer-form" id="refer-form" novalidate>
+          <fieldset class="refer-form__group">
+            <legend class="refer-form__legend">About you</legend>
+            <div class="field">
+              <label for="r-name" class="field__label">Your name</label>
+              <input id="r-name" name="referrer_name" type="text" class="field__input" autocomplete="name" required placeholder="First and last" />
+            </div>
+            <div class="field">
+              <label for="r-email" class="field__label">Your email</label>
+              <input id="r-email" name="referrer_email" type="email" class="field__input" autocomplete="email" required placeholder="you@example.com" />
+              <span class="field__hint">So we can credit your account when your referral enrolls.</span>
+            </div>
+          </fieldset>
+
+          <fieldset class="refer-form__group">
+            <legend class="refer-form__legend">About your friend</legend>
+            <div class="field">
+              <label for="r-friend-name" class="field__label">Their name</label>
+              <input id="r-friend-name" name="referee_name" type="text" class="field__input" required placeholder="First and last" />
+            </div>
+            <div class="field">
+              <label for="r-friend-email" class="field__label">Their email</label>
+              <input id="r-friend-email" name="referee_email" type="email" class="field__input" required placeholder="friend@example.com" />
+              <span class="field__hint">We'll email them an introduction. You'll get a copy.</span>
+            </div>
+            <div class="field">
+              <label for="r-note" class="field__label">Anything we should know? (optional)</label>
+              <textarea id="r-note" name="note" class="field__textarea" placeholder="Why you think they'd be a fit, what they're working on, anything else."></textarea>
+            </div>
+          </fieldset>
+
+          <div class="hp" aria-hidden="true">
+            <label>Leave empty<input name="company" type="text" tabindex="-1" autocomplete="off" /></label>
+          </div>
+
+          <button type="submit" class="btn btn--bronze" id="r-submit">Send the intro</button>
+          <div class="refer-form__status" id="r-status" role="status" aria-live="polite"></div>
+        </form>
+      </div>
+
+      <aside class="refer-side">
+        <div class="refer-side__card">
+          <span class="eyebrow">· The fine print</span>
+          <ul>
+            <li>{REFERRAL_REWARD_LABEL} applied automatically when your referral enrolls in any membership tier.</li>
+            <li>No cap on how many friends you can refer.</li>
+            <li>Credits don't expire and stack across referrals.</li>
+            <li>We never contact your friend without their consent — they choose whether to engage.</li>
+            <li>Referrals must be new patients (not currently enrolled or in active intake).</li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+</Layout>
+
+<script>
+  function initReferForm() {
+    const form = document.getElementById('refer-form') as HTMLFormElement | null;
+    const status = document.getElementById('r-status') as HTMLDivElement | null;
+    const submit = document.getElementById('r-submit') as HTMLButtonElement | null;
+    if (!form || !status || !submit) return;
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      status.textContent = '';
+      status.className = 'refer-form__status';
+
+      const data = new FormData(form);
+      const referrerName = String(data.get('referrer_name') || '').trim();
+      const referrerEmail = String(data.get('referrer_email') || '').trim();
+      const refereeName = String(data.get('referee_name') || '').trim();
+      const refereeEmail = String(data.get('referee_email') || '').trim();
+      const note = String(data.get('note') || '').trim();
+      const company = String(data.get('company') || '').trim();
+
+      if (!referrerName || !referrerEmail || !refereeName || !refereeEmail) {
+        status.textContent = 'All name and email fields are required.';
+        status.classList.add('is-error');
+        return;
+      }
+
+      const utm: Record<string, string> = {};
+      const params = new URLSearchParams(window.location.search);
+      for (const k of ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'] as const) {
+        const v = params.get(k);
+        if (v) utm[k] = v;
+      }
+
+      submit.disabled = true;
+      submit.setAttribute('aria-busy', 'true');
+      submit.textContent = 'Sending';
+
+      try {
+        const res = await fetch('/api/lead', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            source: 'refer',
+            name: referrerName,
+            email: referrerEmail,
+            company,
+            referrer: { name: referrerName, email: referrerEmail },
+            referee: { name: refereeName, email: refereeEmail },
+            message: note,
+            utm,
+            referrer_page: document.referrer || '',
+          }),
+        });
+        const json = await res.json().catch(() => ({}));
+        if (!res.ok || !json.ok) {
+          throw new Error(json.error || 'Something went wrong. Try again or email info@vivawellnessco.com.');
+        }
+        status.textContent = "Thanks. We'll reach out to your friend personally and you'll get a copy.";
+        status.classList.add('is-success');
+        form.reset();
+      } catch (err) {
+        status.textContent = err instanceof Error ? err.message : 'Send failed. Try again.';
+        status.classList.add('is-error');
+      } finally {
+        submit.disabled = false;
+        submit.removeAttribute('aria-busy');
+        submit.textContent = 'Send the intro';
+      }
+    });
+  }
+
+  document.addEventListener('astro:page-load', initReferForm);
+</script>
+
+<style>
+  .refer-hero {
+    padding: clamp(5rem, 11vw, 9rem) 0 clamp(2rem, 5vw, 4rem);
+    position: relative;
+    overflow: hidden;
+  }
+  .refer-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(800px 500px at 75% 0%, rgba(214, 134, 74, 0.14), transparent 65%);
+    pointer-events: none;
+  }
+  .refer-hero__inner { position: relative; max-width: 60ch; }
+  .refer-hero__title {
+    font-size: clamp(2.6rem, 6vw, 4.5rem);
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    margin: 1rem 0 1.5rem;
+  }
+  .refer-hero__title .italic-display { color: var(--bronze-bright); }
+
+  .refer-how { padding: 0 0 clamp(2rem, 5vw, 4rem); }
+  .refer-steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border: 1px solid var(--rule-strong);
+    border-radius: 2px;
+    background: var(--rule-strong);
+  }
+  @media (max-width: 800px) { .refer-steps { grid-template-columns: 1fr; } }
+  .refer-step {
+    background: var(--ink-2);
+    padding: 1.6rem 1.7rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+  .refer-step__num {
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    letter-spacing: 0.12em;
+    color: var(--bronze);
+  }
+  .refer-step h2 {
+    font-size: 1.2rem;
+    line-height: 1.2;
+    color: var(--paper);
+    margin: 0.3rem 0 0.4rem;
+  }
+  .refer-step p {
+    color: rgba(247, 244, 238, 0.78);
+    font-size: 0.95rem;
+    line-height: 1.55;
+    margin: 0;
+    max-width: none;
+  }
+
+  .refer-body { padding: clamp(2rem, 5vw, 4rem) 0 clamp(5rem, 10vw, 8rem); }
+  .refer-body__grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: clamp(2rem, 5vw, 5rem);
+    align-items: start;
+  }
+  @media (max-width: 900px) { .refer-body__grid { grid-template-columns: 1fr; } }
+
+  .refer-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+    max-width: 540px;
+  }
+  .refer-form .btn { align-self: flex-start; margin-top: 0.5rem; }
+  .refer-form__group {
+    border: 0;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.3rem;
+  }
+  .refer-form__legend {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--bronze);
+    margin-bottom: 0.3rem;
+  }
+  .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  .refer-form__status {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    letter-spacing: 0.04em;
+    min-height: 1.2em;
+    padding: 0.4rem 0;
+  }
+  .refer-form__status.is-success { color: var(--bronze-bright); }
+  .refer-form__status.is-error { color: #e76e6e; }
+
+  .refer-side__card {
+    background: var(--ink-2);
+    border: 1px solid var(--rule);
+    border-left: 2px solid var(--bronze);
+    padding: 1.6rem 1.7rem;
+    border-radius: 2px;
+  }
+  .refer-side__card .eyebrow { display: block; margin-bottom: 1rem; }
+  .refer-side__card ul {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+  .refer-side__card li {
+    padding-left: 1.2rem;
+    position: relative;
+    color: rgba(247, 244, 238, 0.78);
+    font-size: 0.93rem;
+    line-height: 1.55;
+  }
+  .refer-side__card li::before {
+    content: '·';
+    position: absolute;
+    left: 0;
+    color: var(--bronze);
+    font-weight: 700;
+  }
+</style>

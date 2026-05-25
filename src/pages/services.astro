@@ -4,12 +4,18 @@ import Layout from '../layouts/Layout.astro';
 // Four quiz-aligned tiers. The quiz routes every prospect into one of these
 // four. Anything more granular (micro-dose, advanced, elite, etc.) is a
 // variation the provider recommends in-visit, not a separately-shoppable SKU.
+//
+// Annual pricing = monthly * 12 with ~16% off. Numbers rounded to clean dollars.
+// Adjust ANNUAL_DISCOUNT or the individual annual* fields if a different
+// promotional rate is desired.
 const programs = [
   {
     tier: 'Entry',
     name: 'Viva Concierge',
     price: 99,
     priceLabel: '$99',
+    annualLabel: '$999',
+    annualSavingsLabel: 'save $189',
     tagline: 'Provider access, insurance-friendly.',
     body: 'Concierge provider access for evaluation, ongoing guidance, and insurance-based labs across hormones, metabolic, and recovery. The right entry tier when you want to use your insurance for labs and prescriptions and still get concierge attention.',
     includes: [
@@ -25,6 +31,8 @@ const programs = [
     name: 'TRT All Inclusive',
     price: 199,
     priceLabel: '$199',
+    annualLabel: '$1,999',
+    annualSavingsLabel: 'save $389',
     tagline: 'Hormone optimization, flat monthly fee.',
     body: 'Personalized testosterone optimization for men and women. Compounded medication, supplies, biannual labs, and home delivery in one monthly fee. Adjuncts (anastrozole, HCG) included when clinically indicated.',
     includes: [
@@ -40,6 +48,8 @@ const programs = [
     name: 'Metabolic Core',
     price: 349,
     priceLabel: '$349',
+    annualLabel: '$3,499',
+    annualSavingsLabel: 'save $689',
     featured: true,
     tagline: 'Compounded GLP-1, stepped to you.',
     body: 'Compounded GLP-1 protocol for stronger appetite control, consistent fat loss, and preserved muscle. Patient-specific semaglutide or tirzepatide from a 503A pharmacy (same active molecules as Wegovy and Mounjaro, prepared individually under clinical supervision, not the brand-name products).',
@@ -57,6 +67,8 @@ const programs = [
     name: 'Peak Performance',
     price: 699,
     priceLabel: '$699',
+    annualLabel: '$6,999',
+    annualSavingsLabel: 'save $1,389',
     tagline: 'Everything, fully managed.',
     body: 'Total-body optimization combining hormone, metabolic, recovery, and performance protocols in one plan. The single tier that makes sense when you want all of it under one provider with priority access.',
     includes: [
@@ -229,6 +241,9 @@ const servicesSchema = {
                 <span class="prog-card__amt">{p.priceLabel}</span>
                 <span class="prog-card__cad">/mo</span>
               </div>
+              <p class="prog-card__annual">
+                or <strong>{p.annualLabel}</strong>/yr · <span>{p.annualSavingsLabel}</span>
+              </p>
               <p class="prog-card__tagline">{p.tagline}</p>
             </header>
             <p class="prog-card__body">{p.body}</p>
@@ -444,10 +459,28 @@ const servicesSchema = {
     grid-template-areas:
       "tier tier"
       "name price"
+      "annual annual"
       "tagline tagline";
     gap: 0.35rem 1rem;
     padding-bottom: 1.2rem;
     border-bottom: 1px solid var(--rule);
+  }
+  .prog-card__annual {
+    grid-area: annual;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    color: var(--mute);
+    margin: -0.1rem 0 0;
+  }
+  .prog-card__annual strong {
+    color: var(--paper);
+    font-weight: 500;
+  }
+  .prog-card__annual span {
+    color: var(--bronze);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
   }
   .prog-card__tier {
     grid-area: tier;

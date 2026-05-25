@@ -1,5 +1,9 @@
 ---
 import Layout from '../layouts/Layout.astro';
+
+// TODO: paste the Calendly URL for the free 15-minute discovery call.
+// While empty, the discovery card below won't render.
+const DISCOVERY_CALL_URL = ''; // e.g. 'https://calendly.com/liliana-viva/intro'
 ---
 
 <Layout
@@ -90,6 +94,14 @@ import Layout from '../layouts/Layout.astro';
       </div>
 
       <aside class="contact-side">
+        {DISCOVERY_CALL_URL && (
+          <div class="contact-side__discovery">
+            <span class="eyebrow">· Or talk first</span>
+            <h3>Free 15-min call with Liliana</h3>
+            <p>Not ready to book a full visit? Grab a fifteen-minute intro call. No agenda, no pressure, no charge.</p>
+            <a href={DISCOVERY_CALL_URL} target="_blank" rel="noopener" class="btn btn--bronze">Book the intro call</a>
+          </div>
+        )}
         <div class="contact-side__card">
           <span class="eyebrow">Prefer to skip the form?</span>
           <ul class="contact-side__list">
@@ -268,6 +280,28 @@ import Layout from '../layouts/Layout.astro';
     flex-direction: column;
     gap: 1.2rem;
   }
+  .contact-side__discovery {
+    background: var(--ink-2);
+    border: 1px solid var(--rule);
+    border-left: 2px solid var(--bronze);
+    padding: 1.6rem 1.7rem;
+    border-radius: 2px;
+  }
+  .contact-side__discovery .eyebrow { display: block; margin-bottom: 0.7rem; }
+  .contact-side__discovery h3 {
+    font-size: 1.25rem;
+    color: var(--paper);
+    margin-bottom: 0.6rem;
+    line-height: 1.2;
+  }
+  .contact-side__discovery p {
+    color: rgba(247, 244, 238, 0.75);
+    font-size: 0.93rem;
+    line-height: 1.55;
+    margin-bottom: 1rem;
+    max-width: none;
+  }
+  .contact-side__discovery .btn { padding: 0.7rem 1rem; font-size: 0.7rem; }
   .contact-side__card {
     background: var(--ink-2);
     border: 1px solid var(--rule-strong);
