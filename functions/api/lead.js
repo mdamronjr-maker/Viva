@@ -116,6 +116,10 @@ export async function onRequestPost(context) {
   const notifyEmail = env.RESEND_NOTIFY_EMAIL || 'info@vivawellnessco.com';
   const audienceId = env.RESEND_AUDIENCE_ID || null;
   const origin = env.SITE_ORIGIN || 'https://vivawellnessco.com';
+  // Where the Day 14 nurture CTA points. Falls back to /start (intake page)
+  // when no Calendly/booking URL is configured. Same pattern as the page
+  // constants in src/pages/start.astro and src/pages/contact.astro.
+  const discoveryUrl = env.DISCOVERY_CALL_URL || `${origin}/start`;
   // Per-vertical lead magnet: the quiz match can specify its own ebookPath
   // (see src/lib/quiz.ts). Defaults to the generic eBook. Path is validated
   // to start with a single leading slash to prevent open-redirect abuse.
@@ -225,6 +229,23 @@ export async function onRequestPost(context) {
     } catch {
       // Swallow · audience add is non-critical
     }
+  }
+
+  // --- Schedule nurture sequence (best-effort) ---
+  // Resend `scheduled_at` holds the email server-side until the target time
+  // (supports up to 30 days). Day 3 is match-tailored; Days 7 and 14 are
+  // match-agnostic. Referrals are skipped: the referee gets a personal
+  // intro from Liliana instead of an automated drip, and the referrer
+  // already has the confirmation in hand.
+  if (!isReferral) {
+    await scheduleNurture(apiKey, {
+      from: fromEmail,
+      to: cleanEmail,
+      name: cleanName,
+      match,
+      notifyEmail,
+      discoveryUrl,
+    });
   }
 
   return json({ ok: true });
@@ -422,6 +443,292 @@ function buildReferrerConfirmEmail({ referrerName, referee }) {
 </html>`.trim();
 
   return { html, text };
+}
+
+// --- Nurture sequence ---
+// Three emails scheduled via Resend `scheduled_at` after the Day 0 send.
+// Each one stands on its own · they don't reference prior emails, in case
+// any of them get filtered out or skimmed past.
+async function scheduleNurture(apiKey, { from, to, name, match, notifyEmail, discoveryUrl }) {
+  const now = Date.now();
+  const DAY = 24 * 60 * 60 * 1000;
+
+  const sends = [
+    { delayMs: 3 * DAY, build: () => buildNurtureDay3({ name, match }) },
+    { delayMs: 7 * DAY, build: () => buildNurtureDay7({ name, notifyEmail }) },
+    { delayMs: 14 * DAY, build: () => buildNurtureDay14({ name, discoveryUrl, notifyEmail }) },
+  ];
+
+  // Failures here don't fail the request · the Day 0 email already went
+  // through. Worst case is one or more followups didn't get queued.
+  await Promise.allSettled(
+    sends.map(({ delayMs, build }) => {
+      const { subject, html, text } = build();
+      return sendEmail(apiKey, {
+        from,
+        to: [to],
+        subject,
+        html,
+        text,
+        reply_to: notifyEmail,
+        scheduled_at: new Date(now + delayMs).toISOString(),
+        headers: {
+          'List-Unsubscribe': `<mailto:${notifyEmail}?subject=Unsubscribe>`,
+          'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click',
+        },
+      });
+    })
+  );
+}
+
+// Shared HTML shell for nurture emails. Mirrors buildLeadEmail's visual
+// language so the sequence reads as one voice across all four sends.
+function nurtureWrap({ eyebrow, title, bodyHtml }) {
+  return `
+<!doctype html>
+<html>
+<body style="margin:0;padding:0;background:#f5f1ea;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;color:#0c0a09;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f5f1ea;padding:32px 16px;">
+    <tr><td align="center">
+      <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;background:#ffffff;border-radius:4px;overflow:hidden;">
+        <tr><td style="background:#0c0a09;padding:28px 32px;">
+          <div style="font-family:'Anton','Impact',Arial Narrow,sans-serif;font-size:28px;color:#f5f1ea;letter-spacing:0.02em;text-transform:uppercase;">
+            Viva Wellness Co.
+          </div>
+          <div style="font-family:Arial,sans-serif;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:#c9783a;margin-top:6px;">
+            ${esc(eyebrow)}
+          </div>
+        </td></tr>
+
+        <tr><td style="padding:36px 32px 8px 32px;">
+          <h1 style="font-family:Georgia,serif;font-weight:400;font-size:28px;line-height:1.2;letter-spacing:-0.01em;color:#0c0a09;margin:0 0 16px 0;">
+            ${esc(title)}
+          </h1>
+        </td></tr>
+
+        <tr><td style="padding:0 32px 24px 32px;font-size:16px;line-height:1.65;color:#2a2420;">
+          ${bodyHtml}
+        </td></tr>
+
+        <tr><td style="padding:8px 32px 28px 32px;border-top:1px solid #ebe5db;padding-top:24px;">
+          <p style="font-size:15px;line-height:1.6;color:#2a2420;margin:0 0 4px 0;">Talk soon,</p>
+          <p style="font-family:Georgia,serif;font-style:italic;font-size:18px;color:#0c0a09;margin:0 0 2px 0;">Liliana Damron, APRN, FNP-BC</p>
+          <p style="font-size:13px;color:#8a7d72;margin:0;">Founder &amp; Provider, Viva Wellness Co.</p>
+        </td></tr>
+
+        <tr><td style="background:#f5f1ea;padding:20px 32px;font-size:11px;color:#8a7d72;line-height:1.6;border-top:1px solid #ebe5db;">
+          <strong>Viva Wellness Co.</strong> &nbsp;·&nbsp; Austin, TX &nbsp;·&nbsp; 100% Telehealth &nbsp;·&nbsp; TX, CO, FL<br/>
+          <a href="https://vivawellnessco.com" style="color:#8a4d22;text-decoration:none;">vivawellnessco.com</a> &nbsp;·&nbsp;
+          <a href="tel:+17372107283" style="color:#8a4d22;text-decoration:none;">(737) 210-7283</a>
+          <br/><br/>
+          Not in the mood for follow-ups? Just reply with "stop" and we will take you off the sequence.
+          <br/>Not medical advice. All therapies require provider review and approval.
+        </td></tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`.trim();
+}
+
+// Day 3 · match-tailored. Body switches on match.key (and sex for TRT/HRT
+// to pick the male vs. female framing). Raw contact leads with no match
+// fall through to the generic three-point opener.
+function buildNurtureDay3({ name, match }) {
+  const first = (name || '').split(/\s+/)[0] || 'there';
+  const key = match && match.key;
+
+  let subject;
+  let intro;
+  let items;
+
+  if (key === 'peak') {
+    subject = 'Three peptide mistakes I see all the time';
+    intro = `You looked at Peak Performance, so here are three things that trip people up most often when they stack peptides and hormones together.`;
+    items = [
+      ['Skipping the hormone baseline.', `Recovery and performance peptides work better on top of a tuned hormone foundation. Stack them first and you get uneven results without knowing why.`],
+      ['Running too many things at once.', `Three peptides at once means you cannot tell what is working. We sequence and cycle on purpose, not to be cautious.`],
+      ['Expecting recovery peptides to drop body fat.', `BPC-157 and TB-500 are repair tools. They are not GLP-1. If body composition is the goal, the metabolic side has to be addressed directly.`],
+    ];
+  } else if (key === 'metabolic') {
+    subject = 'What most people get wrong about GLP-1';
+    intro = `You looked at Metabolic Core, so a few things to know before starting or restarting GLP-1 therapy.`;
+    items = [
+      ['Starting too high.', `Most of the side effects · nausea, fatigue, hitting a wall · come from jumping doses too fast. Slow titration is not being cautious. It is how the protocol works.`],
+      ['Treating GLP-1 like willpower in a vial.', `It quiets the food noise, which is real and measurable. It does not replace strength training or protein. Skip both and you lose muscle along with fat.`],
+      ['Stopping cold turkey.', `The taper matters as much as the ramp. We plan the exit at the start, not at the end.`],
+    ];
+  } else if (key === 'trt') {
+    subject = 'Three things I wish more people knew about hormone therapy';
+    intro = `You looked at the TRT & HRT tier. A few things I wish more people heard before they start, whether the question is testosterone, estradiol, or both.`;
+    items = [
+      ['Chasing a number instead of how you feel.', `Lab ranges are population averages. A man feeling great at 700 ng/dL beats one at 1200 with sleep apnea and acne. A woman with controlled symptoms on a modest estradiol dose beats one chasing a higher serum number. We tune to symptoms first.`],
+      ['Hormone therapy is more than one molecule.', `Most people picture TRT as testosterone alone, or HRT as estradiol alone. In practice there is a small toolkit · anastrozole, enclomiphene, progesterone, estradiol, HCG · that we add selectively based on labs and symptoms, not routinely. HCG sits in its own category · it shows up in aggressive fertility protocols and comes from a standard pharmacy rather than a compounder. The rest can be compounded through the pharmacies we work with. The right plan is the smallest protocol that gets you where you want to be, not the longest.`],
+      ['Outdated risk framing.', `"TRT is steroids" and "estradiol causes cancer" are two of the most common things I hear, and both are decades behind the current data. Modern protocols, modern dosing, modern monitoring · the risk profile looks nothing like what most people read about online.`],
+    ];
+  } else if (key === 'concierge') {
+    subject = 'How most people approach a provider · and what works better';
+    intro = `You looked at Concierge Access, the tier built for people who want provider expertise without a bundled monthly protocol. Three things that help the relationship work.`;
+    items = [
+      ['Use the messaging.', `The point of $99 per month is access. People who message me regularly get more out of it than people who wait for problems.`],
+      ['Tell me what is actually going on.', `Sleep, stress, what you tried last quarter, what your last doc said. The protocol decisions come from context, not from a label on a peptide vial.`],
+      ['Treat it like a partnership, not a vending machine.', `Concierge works when we are solving something together. It is slower than a la carte clinics, and that is the point.`],
+    ];
+  } else {
+    subject = 'Three things people get wrong when they start';
+    intro = `You reached out a few days ago, so I wanted to share three things that trip most people up at the start. These apply regardless of which protocol you are considering.`;
+    items = [
+      ['Doing too much at once.', `Hormones, peptides, GLP-1, supplements. Stack everything at the same time and you cannot tell what is working. We sequence intentionally.`],
+      ['Chasing numbers over symptoms.', `Lab ranges are population averages. Your numbers exist to inform how you feel, not to replace it.`],
+      ['Skipping the conversation.', `Most of what makes a protocol succeed is the part before the first prescription. The questions, the history, the goals. That happens on the first call.`],
+    ];
+  }
+
+  const itemsHtml = items
+    .map(
+      ([h, body], i) =>
+        `<div style="margin:0 0 18px 0;">
+          <div style="font-weight:600;color:#0c0a09;margin-bottom:4px;">${i + 1}. ${esc(h)}</div>
+          <div style="color:#2a2420;">${esc(body)}</div>
+        </div>`
+    )
+    .join('');
+
+  const itemsText = items
+    .map(([h, body], i) => `${i + 1}. ${h}\n   ${body}\n`)
+    .join('\n');
+
+  const closing = `If any of this lands for what you have been doing on your own, that is exactly what the first consult is for. Hit reply with a question · I read these personally.`;
+
+  const bodyHtml = `
+    <p style="margin:0 0 18px 0;">Hi ${esc(first)},</p>
+    <p style="margin:0 0 20px 0;">${esc(intro)}</p>
+    ${itemsHtml}
+    <p style="margin:18px 0 0 0;">${esc(closing)}</p>
+  `;
+
+  const text = [
+    `Hi ${first},`,
+    ``,
+    intro,
+    ``,
+    itemsText,
+    closing,
+    ``,
+    `Talk soon,`,
+    `Liliana Damron, APRN, FNP-BC`,
+    `Founder, Viva Wellness Co.`,
+  ].join('\n');
+
+  const html = nurtureWrap({ eyebrow: 'Follow-up · Day 3', title: subject, bodyHtml });
+  return { subject, html, text };
+}
+
+// Day 7 · match-agnostic. The "is this safe long-term?" objection comes
+// up on every first call, so we address it head-on with three concrete
+// answers instead of generic reassurance.
+function buildNurtureDay7({ name }) {
+  const first = (name || '').split(/\s+/)[0] || 'there';
+  const subject = 'The question I get on every first call';
+
+  const bodyHtml = `
+    <p style="margin:0 0 16px 0;">Hi ${esc(first)},</p>
+
+    <p style="margin:0 0 16px 0;">Almost every first consult starts with the same question, in some form: "is this safe long-term?"</p>
+
+    <p style="margin:0 0 16px 0;">The honest answer has three parts.</p>
+
+    <p style="margin:0 0 16px 0;"><strong>First, we do not do anything you cannot stop.</strong> Every protocol has an off-ramp planned in. We do not trap people on therapy they do not want.</p>
+
+    <p style="margin:0 0 16px 0;"><strong>Second, the data is encouraging but not infinite.</strong> Bioidentical hormone replacement has good long-term safety data when done right. GLP-1 medications have five-plus years of population data and growing. Peptides like BPC-157 have decades of research behind them but less human trial volume. I tell you which bucket your protocol falls in before you start, not after.</p>
+
+    <p style="margin:0 0 16px 0;"><strong>Third, the labs are the safety net.</strong> Biannual blood work catches trends early. If something needs to change, we change it. The plan is a starting point, not a contract.</p>
+
+    <p style="margin:0 0 16px 0;">The thing most people do not expect is how much of the first visit is spent listening, not prescribing. I want to know what you have tried, what did not work, and what you are hoping for. Before I have an opinion on what should change.</p>
+
+    <p style="margin:18px 0 0 0;">If you have a specific question, hit reply. I answer these personally.</p>
+  `;
+
+  const text = [
+    `Hi ${first},`,
+    ``,
+    `Almost every first consult starts with the same question, in some form: "is this safe long-term?"`,
+    ``,
+    `The honest answer has three parts.`,
+    ``,
+    `First, we do not do anything you cannot stop. Every protocol has an off-ramp planned in. We do not trap people on therapy they do not want.`,
+    ``,
+    `Second, the data is encouraging but not infinite. Bioidentical hormone replacement has good long-term safety data when done right. GLP-1 medications have five-plus years of population data and growing. Peptides like BPC-157 have decades of research behind them but less human trial volume. I tell you which bucket your protocol falls in before you start, not after.`,
+    ``,
+    `Third, the labs are the safety net. Biannual blood work catches trends early. If something needs to change, we change it. The plan is a starting point, not a contract.`,
+    ``,
+    `The thing most people do not expect is how much of the first visit is spent listening, not prescribing. I want to know what you have tried, what did not work, and what you are hoping for. Before I have an opinion on what should change.`,
+    ``,
+    `If you have a specific question, hit reply. I answer these personally.`,
+    ``,
+    `Talk soon,`,
+    `Liliana Damron, APRN, FNP-BC`,
+    `Founder, Viva Wellness Co.`,
+  ].join('\n');
+
+  const html = nurtureWrap({ eyebrow: 'Follow-up · Day 7', title: subject, bodyHtml });
+  return { subject, html, text };
+}
+
+// Day 14 · soft close + discovery CTA. Explicitly the last automated
+// touch: "I will get out of your inbox" makes the gracefully-ending
+// nature of the sequence the point, not an apology.
+function buildNurtureDay14({ name, discoveryUrl }) {
+  const first = (name || '').split(/\s+/)[0] || 'there';
+  const subject = 'Still here if you want to talk';
+
+  const bodyHtml = `
+    <p style="margin:0 0 16px 0;">Hi ${esc(first)},</p>
+
+    <p style="margin:0 0 16px 0;">It has been a couple of weeks since you reached out, so I figured I would check in once more. Then I will get out of your inbox.</p>
+
+    <p style="margin:0 0 16px 0;">If anything in the eBook or the last two emails landed for you, the next step is a 30-minute consult. It is exactly what it sounds like. I ask questions, you ask questions, we figure out if there is a real fit. No prescription is written on the first call.</p>
+
+    <p style="margin:0 0 24px 0;">If it is not the right time, that is fine too. The eBook is yours to keep.</p>
+
+    <table role="presentation" cellpadding="0" cellspacing="0">
+      <tr><td style="background:#c9783a;border-radius:2px;">
+        <a href="${esc(discoveryUrl)}"
+           style="display:inline-block;padding:14px 26px;font-family:Arial,sans-serif;font-size:13px;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:#0c0a09;text-decoration:none;">
+          Schedule a 30-min consult &nbsp;→
+        </a>
+      </td></tr>
+    </table>
+
+    <p style="font-size:13px;color:#8a7d72;margin:14px 0 20px 0;">
+      Or copy and paste: <a href="${esc(discoveryUrl)}" style="color:#8a4d22;">${esc(discoveryUrl)}</a>
+    </p>
+
+    <p style="margin:0;">If you have a specific question that does not fit on a call, reply to this email and I will answer personally. Either way · thank you for letting me into your inbox.</p>
+  `;
+
+  const text = [
+    `Hi ${first},`,
+    ``,
+    `It has been a couple of weeks since you reached out, so I figured I would check in once more. Then I will get out of your inbox.`,
+    ``,
+    `If anything in the eBook or the last two emails landed for you, the next step is a 30-minute consult. I ask questions, you ask questions, we figure out if there is a real fit. No prescription is written on the first call.`,
+    ``,
+    `If it is not the right time, that is fine too. The eBook is yours to keep. When you are ready, here is the link to schedule:`,
+    ``,
+    `  ${discoveryUrl}`,
+    ``,
+    `If you have a specific question that does not fit on a call, reply to this email and I will answer personally.`,
+    ``,
+    `Either way, thank you for letting me into your inbox.`,
+    ``,
+    `Talk soon,`,
+    `Liliana Damron, APRN, FNP-BC`,
+    `Founder, Viva Wellness Co.`,
+  ].join('\n');
+
+  const html = nurtureWrap({ eyebrow: 'Follow-up · Day 14', title: subject, bodyHtml });
+  return { subject, html, text };
 }
 
 function buildNotifyEmail({ source, name, email, phone, message, quiz, match, utm, referrer, referee }) {
