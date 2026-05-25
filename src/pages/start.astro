@@ -69,6 +69,36 @@ const visitSteps = [
     body: 'You decide whether to enroll after the visit. If you do, your first-visit fee credits toward month one.',
   },
 ];
+
+// First ninety days · process-clarity timeline shown to prospects right
+// before the final Schedule CTA. Generic enough to apply across protocols
+// (TRT, HRT, GLP-1, peptides); Liliana can edit the clinical cadence as needed.
+const ninetyDays = [
+  {
+    range: 'Days 0–7',
+    label: 'Week 1',
+    title: 'Intake + labs ordered',
+    body: 'First telehealth visit. Liliana reviews your history, writes a starting protocol, and orders any labs still needed. Pharmacy is briefed.',
+  },
+  {
+    range: 'Days 7–30',
+    label: 'Weeks 2–4',
+    title: 'Medication ships, titration begins',
+    body: 'Compounded medication ships from the 503A pharmacy to your door. Dose starts low and ramps based on tolerance. Direct provider access by message for side-effect questions.',
+  },
+  {
+    range: 'Days 30–60',
+    label: 'Weeks 5–8',
+    title: 'First dose-adjustment check-in',
+    body: 'Provider check-in to tune the protocol based on how your body is actually responding. Adjustments come from data, not a generic schedule.',
+  },
+  {
+    range: 'Days 60–90',
+    label: 'Weeks 9–12',
+    title: 'Labs re-pulled, results reviewed',
+    body: 'Follow-up labs verify the protocol is working as intended. Liliana walks you through the numbers. From here, monthly maintenance with quarterly check-ins.',
+  },
+];
 ---
 
 <Layout
@@ -157,6 +187,35 @@ const visitSteps = [
           <a href="/#quiz" class="start-link">Take the quiz →</a>
         </div>
       </aside>
+    </div>
+  </section>
+
+  <section class="section ninety">
+    <div class="container">
+      <div class="ninety__head">
+        <span class="index" data-num="02">After your first visit</span>
+        <h2 class="ninety__title">
+          What the first <span class="italic-display">ninety days</span> actually look like.
+        </h2>
+        <p class="lead">
+          Calendar-based, not generic. The cadence below applies across hormone,
+          metabolic, peptide, and recovery protocols. Liliana adjusts the timing
+          to what your body is actually telling us.
+        </p>
+      </div>
+
+      <ol class="ninety__list">
+        {ninetyDays.map((phase) => (
+          <li class="ninety__phase">
+            <div class="ninety__phase-head">
+              <span class="ninety__phase-label">{phase.label}</span>
+              <span class="ninety__phase-range">{phase.range}</span>
+            </div>
+            <h3 class="ninety__phase-title">{phase.title}</h3>
+            <p class="ninety__phase-body">{phase.body}</p>
+          </li>
+        ))}
+      </ol>
     </div>
   </section>
 
@@ -340,6 +399,75 @@ const visitSteps = [
     transition: color 200ms var(--ease);
   }
   .start-link:hover { color: var(--bronze-bright); }
+
+  /* ============ FIRST NINETY DAYS ============ */
+  .ninety {
+    padding: clamp(3rem, 6vw, 5rem) 0;
+    border-top: 1px solid var(--rule);
+  }
+  .ninety__head { max-width: 800px; margin-bottom: clamp(2rem, 4vw, 3rem); }
+  .ninety__title {
+    font-size: clamp(2rem, 4.5vw, 3rem);
+    margin: 0.6rem 0 1.2rem;
+    max-width: 22ch;
+    line-height: 1.05;
+  }
+  .ninety__title .italic-display { color: var(--bronze); }
+  .ninety__list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--rule-strong);
+    border: 1px solid var(--rule-strong);
+    border-radius: 2px;
+  }
+  @media (max-width: 900px) { .ninety__list { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 540px) { .ninety__list { grid-template-columns: 1fr; } }
+  .ninety__phase {
+    background: var(--ink);
+    padding: clamp(1.4rem, 3vw, 2rem);
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    position: relative;
+    transition: background 240ms var(--ease);
+  }
+  .ninety__phase:hover { background: var(--ink-2); }
+  .ninety__phase-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.8rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 0.4rem;
+  }
+  .ninety__phase-label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--bronze);
+  }
+  .ninety__phase-range {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: var(--mute);
+    letter-spacing: 0.08em;
+  }
+  .ninety__phase-title {
+    font-size: 1.15rem;
+    line-height: 1.2;
+    color: var(--paper);
+    margin: 0;
+  }
+  .ninety__phase-body {
+    color: rgba(247, 244, 238, 0.78);
+    font-size: 0.92rem;
+    line-height: 1.55;
+    margin: 0;
+    max-width: none;
+  }
 
   .start-cta {
     padding: clamp(4rem, 8vw, 7rem) 0;
