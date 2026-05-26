@@ -75,16 +75,16 @@ const visitSteps = [
 // (TRT, HRT, GLP-1, peptides); Liliana can edit the clinical cadence as needed.
 const ninetyDays = [
   {
-    range: 'Days 0–7',
-    label: 'Week 1',
-    title: 'Intake + labs ordered',
-    body: 'First telehealth visit. Liliana reviews your history, writes a starting protocol, and orders any labs still needed. Pharmacy is briefed.',
+    range: 'Days 0–3',
+    label: 'First few days',
+    title: 'Intake, script, medication ships',
+    body: 'First telehealth visit. Liliana reviews your history, writes a starting protocol, and briefs the 503A pharmacy. Compounded medication typically ships in 48–72 hours — most patients have it in hand within the first week.',
   },
   {
-    range: 'Days 7–30',
-    label: 'Weeks 2–4',
-    title: 'Medication ships, titration begins',
-    body: 'Compounded medication ships from the 503A pharmacy to your door. Dose starts low and ramps based on tolerance. Direct provider access by message for side-effect questions.',
+    range: 'Days 3–30',
+    label: 'Weeks 1–4',
+    title: 'Titration begins',
+    body: 'Dose starts low and ramps based on tolerance. Direct provider access by message for side-effect questions. If labs are still pending, this is the window where they get drawn.',
   },
   {
     range: 'Days 30–60',
