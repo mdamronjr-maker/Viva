@@ -130,7 +130,7 @@ export function match(a: Answers): Match {
     body: 'Provider access plus member pricing on compounded peptides, GLP-1, and add-ons. Pay a la carte for the protocols you want instead of committing to an all-inclusive monthly fee. The right tier when you want flexibility and provider expertise without a bundled price.',
     bullets: [
       'Direct messaging access to your provider',
-      'Quarterly telehealth visit included',
+      'Monthly evaluation visit + one acute/sick visit credit per month',
       'Member pricing on compounded peptides, GLP-1, and TRT add-ons',
       'Lab orders + standard prescriptions routed through your insurance',
       'Guidance across hormones, peptides, metabolic, and recovery',

@@ -12,11 +12,13 @@ import Layout from '../layouts/Layout.astro';
    below still routes to GlossGenius with a "start_page" UTM tag.
    ============================================================ */
 
-// TODO: confirm with Liliana before publishing — these are placeholders.
+// Mirrors the "New Patient Consult" SKU in GlossGenius. Update both places
+// (here + the scheduler) if the price or deposit ever changes.
 const FIRST_VISIT_DURATION_MIN = 45;
-const FIRST_VISIT_PRICE_USD = 175;
+const FIRST_VISIT_PRICE_USD = 200;
+const FIRST_VISIT_DEPOSIT_USD = 50;
 const FIRST_VISIT_CREDIT_NOTE =
-  'One-time fee, separate from any membership you may choose to enroll in.';
+  `One-time fee, separate from any membership. $${FIRST_VISIT_DEPOSIT_USD} deposit due at booking, balance billed at the visit.`;
 
 // TODO: replace with the real Calendly (or other scheduler) URL for the free
 // 15-minute discovery call. Leaving as a placeholder so the CTA renders and
