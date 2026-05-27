@@ -671,7 +671,16 @@ const partners: Partner[] = [
       else meta.textContent = 'Your match';
     }
     if (back) back.hidden = state.step <= 1 || state.step > TOTAL + 1;
-    section?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // In focus mode the body is locked with overflow:hidden, so scrollIntoView
+    // on the section is a no-op. The .qx element itself is the scroll container
+    // there — reset its scrollTop so every new step starts at the top. Outside
+    // focus mode (first click hasn't happened yet), fall back to scrolling the
+    // page so the quiz block lines up under the sticky header.
+    if (document.body.classList.contains('quiz-focus')) {
+      section?.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      section?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   }
 
   // Focus mode · entered when the user clicks their first answer, exited via
@@ -1020,7 +1029,14 @@ const partners: Partner[] = [
   /* ============ QUIZ FOCUS MODE ============
      Engaged when the user clicks their first answer. Header, footer, sticky
      CTA, and all other home sections hide. The quiz fills the viewport with
-     a single-question feel. Exit via X (top-right), Escape, or any navigation. */
+     a single-question feel. Exit via X (top-right), Escape, or any navigation.
+
+     Mobile note: body is locked with overflow:hidden so the page behind the
+     focused quiz can't scroll. To prevent tall steps (form/result) from
+     getting cut off, the .qx element itself becomes the scroll container.
+     Uses dvh so iOS URL-bar collapse doesn't clip content. Below 760px,
+     content starts at the top instead of being centered, so the first
+     question is always visible without scrolling. */
   .qx__exit { display: none; }
   :global(body.quiz-focus) {
     overflow: hidden;
@@ -1032,11 +1048,24 @@ const partners: Partner[] = [
   :global(body.quiz-focus) :global(main) > :global(*:not(#quiz)) { display: none; }
   :global(body.quiz-focus) .qx {
     min-height: 100vh;
+    min-height: 100dvh;
+    max-height: 100vh;
+    max-height: 100dvh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     padding-top: 4rem;
     padding-bottom: 3rem;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+  }
+  @media (max-width: 760px) {
+    :global(body.quiz-focus) .qx {
+      justify-content: flex-start;
+      padding-top: 5rem;
+      padding-bottom: 4rem;
+    }
   }
   :global(body.quiz-focus) .qx__exit {
     display: grid;
