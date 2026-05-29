@@ -71,13 +71,20 @@ export const { getStaticPaths, GET } = await OGImageRoute({
       path: './public/viva-logo-paper.png',
       size: [280, 60],
     },
-    // Three-stop gradient: ink top, ink-2 mid, faint bronze warmth at the
-    // bottom. Adds depth without competing with the title.
+    // Photo background — Matt Johnson running past the Texas Capitol, pre-
+    // darkened to 1200x630 with a 55% overlay by scripts/build-og-bg.mjs.
+    // The pre-bake is necessary because astro-og-canvas draws bgImage AFTER
+    // bgGradient (no native overlay option), and the raw photo is too bright
+    // for paper/bronze text to read against the sky.
     bgGradient: [
       [12, 10, 9],
       [22, 18, 16],
-      [38, 28, 22],
     ],
+    bgImage: {
+      path: './public/matt-johnson-og.png',
+      fit: 'cover',
+      position: 'center',
+    },
     border: {
       color: [201, 120, 58],
       width: 14,
