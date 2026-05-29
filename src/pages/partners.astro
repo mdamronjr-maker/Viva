@@ -1,6 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { partners, partnersByCategory } from '../lib/partners';
+import { partners } from '../lib/partners';
 
 const partnerCount = partners.length;
 
@@ -73,67 +73,62 @@ const partnersSchema = {
     </div>
   </section>
 
-  {/* GROUPED PARTNERS · by category */}
-  {partnersByCategory.map((group, gi) => (
-    <section class="part-section" id={group.category.toLowerCase().replace(/[^a-z0-9]+/g, '-')}>
-      <div class="container">
-        <header class="part-section__head">
-          <span class="index" data-num={String(gi + 1).padStart(2, '0')}>{group.category}</span>
-          <h2 class="part-section__title">
-            {group.category === 'Coaching & Training' && <>Coaching <span class="italic-display">& training.</span></>}
-            {group.category === 'Gyms & Studios' && <>Gyms <span class="italic-display">& studios.</span></>}
-            {group.category === 'Physical Therapy & Recovery' && <>Physical therapy <span class="italic-display">& recovery.</span></>}
-          </h2>
-        </header>
+  {/* PARTNERS · single flat grid, no categories */}
+  <section class="part-section">
+    <div class="container">
+      <header class="part-section__head">
+        <span class="index" data-num="·">The directory</span>
+        <h2 class="part-section__title">
+          {partnerCount} partners I refer to <span class="italic-display">most.</span>
+        </h2>
+      </header>
 
-        <ul class="part-grid">
-          {group.items.map((p) => (
-            <li class="part-card">
-              <a
-                href={p.links[0]?.href || '#'}
-                target="_blank"
-                rel="noopener"
-                class="part-card__link"
-                aria-label={`${p.name} · ${p.category}`}
-              >
-                <div class="part-card__top">
-                  <span class:list={[
-                    'part-card__thumb',
-                    p.mediaType === 'portrait' && 'part-card__thumb--portrait',
-                    p.mediaType === 'logo' && 'part-card__thumb--logo',
-                    p.mediaType === 'logo-dark' && 'part-card__thumb--logo-dark',
-                  ]}>
-                    {p.image
-                      ? <img src={p.image} alt={p.imageAlt || p.name} loading="lazy" decoding="async" />
-                      : <span class="part-card__mono">{p.fallback}</span>
-                    }
-                  </span>
+      <ul class="part-grid">
+        {partners.map((p) => (
+          <li class="part-card">
+            <a
+              href={p.links[0]?.href || '#'}
+              target="_blank"
+              rel="noopener"
+              class="part-card__link"
+              aria-label={p.name}
+            >
+              <div class="part-card__top">
+                <span class:list={[
+                  'part-card__thumb',
+                  p.mediaType === 'portrait' && 'part-card__thumb--portrait',
+                  p.mediaType === 'logo' && 'part-card__thumb--logo',
+                  p.mediaType === 'logo-dark' && 'part-card__thumb--logo-dark',
+                ]}>
+                  {p.image
+                    ? <img src={p.image} alt={p.imageAlt || p.name} loading="lazy" decoding="async" />
+                    : <span class="part-card__mono">{p.fallback}</span>
+                  }
+                </span>
 
-                  <div class="part-card__head">
-                    <span class="part-card__cat">{p.category}</span>
-                    <h3 class="part-card__name">{p.name}</h3>
-                    <span class="part-card__operator">{p.operator}</span>
-                  </div>
-
-                  <span class="part-card__arrow" aria-hidden="true">↗</span>
+                <div class="part-card__head">
+                  <h3 class="part-card__name">{p.name}</h3>
+                  <span class="part-card__operator">{p.operator}</span>
                 </div>
 
-                <p class="part-card__body">{p.description}</p>
+                <span class="part-card__arrow" aria-hidden="true">↗</span>
+              </div>
 
-                {p.links.length > 0 && (
-                  <ul class="part-card__links">
-                    {p.links.map((l) => (
-                      <li>{l.label}</li>
-                    ))}
-                  </ul>
-                )}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </section>
-  ))}
+              <p class="part-card__body">{p.description}</p>
+
+              {p.links.length > 0 && (
+                <ul class="part-card__links">
+                  {p.links.map((l) => (
+                    <li>{l.label}</li>
+                  ))}
+                </ul>
+              )}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
 
   {/* REFERRAL CTA */}
   <section class="part-cta">
