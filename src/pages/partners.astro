@@ -80,10 +80,9 @@ const partnersSchema = {
         <header class="part-section__head">
           <span class="index" data-num={String(gi + 1).padStart(2, '0')}>{group.category}</span>
           <h2 class="part-section__title">
-            {group.category === 'Strength & Conditioning' && <>Strength <span class="italic-display">& conditioning.</span></>}
-            {group.category === 'Personal Training' && <>Personal <span class="italic-display">training.</span></>}
+            {group.category === 'Coaching & Training' && <>Coaching <span class="italic-display">& training.</span></>}
+            {group.category === 'Gyms & Studios' && <>Gyms <span class="italic-display">& studios.</span></>}
             {group.category === 'Physical Therapy & Recovery' && <>Physical therapy <span class="italic-display">& recovery.</span></>}
-            {group.category === 'Fitness Facilities' && <>Fitness <span class="italic-display">facilities.</span></>}
           </h2>
         </header>
 
