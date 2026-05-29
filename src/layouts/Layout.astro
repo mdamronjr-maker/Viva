@@ -33,7 +33,12 @@ function ogForPath(p: string): string {
   return '/og-image.jpg';
 }
 const resolvedOgImage = ogImage && ogImage !== '/og-image.jpg' ? ogImage : ogForPath(normalizedPath);
-const ogImageURL = new URL(resolvedOgImage, Astro.site).href;
+// Cache-buster: bump this when the OG image *design* changes so platforms
+// that already cached the preview for a shared URL (Slack, iMessage,
+// LinkedIn, etc.) refetch instead of serving the stale thumbnail.
+// v2 = Matt Johnson photo background + Fraunces italic title (May 2026).
+const OG_CACHE_VERSION = '2';
+const ogImageURL = new URL(`${resolvedOgImage}?v=${OG_CACHE_VERSION}`, Astro.site).href;
 const siteName = 'Viva Wellness Co.';
 
 // Sitewide Organization + WebSite schema (always present)
