@@ -2,62 +2,58 @@
 // Each route below produces a 1200x630 PNG at /og/<route>.png.
 // Layout.astro switches og:image to /og/<route>.png for routes that exist here;
 // everything else falls back to /og-image.jpg.
+//
+// Design language: italic Fraunces serif title, bronze accent bar, uppercase
+// mono tagline. Same display font as the site's H1s — share previews carry
+// the brand voice instead of looking like a generic OpenGraph template.
 
 import { OGImageRoute } from 'astro-og-canvas';
 import { getCollection } from 'astro:content';
 
 const blogPosts = await getCollection('blog', ({ data }) => !data.draft);
 
-// Map of route slug -> page metadata for OG rendering.
-// Slug must match what Layout.astro sends as the og:image URL.
-const pages: Record<string, { title: string; description: string; eyebrow: string }> = {
+// Per-page metadata. `tagline` renders in the description slot as small mono
+// uppercase — eyebrow-style, not a sentence. Keep titles short (≤8 words);
+// they render at 88px and need to breathe.
+const pages: Record<string, { title: string; tagline: string }> = {
   home: {
-    eyebrow: 'Concierge Telehealth · Austin',
     title: 'Peptide therapy, engineered for the body you train.',
-    description: 'Provider-led protocols. Peptides, GLP-1, TRT, recovery. Texas, Colorado, Florida.',
+    tagline: 'Concierge Telehealth · Austin · TX · CO · FL',
   },
   about: {
-    eyebrow: 'The story',
     title: 'I treat health like training.',
-    description: 'Founded by Liliana Damron, APRN, FNP-BC. A concierge practice for people who expect their body to keep up with their ambition.',
+    tagline: 'The Story · Liliana Damron, APRN, FNP-BC',
   },
   services: {
-    eyebrow: 'Programs & memberships',
-    title: "You bring the goals, I'll bring the protocol.",
-    description: 'Concierge telehealth memberships from $99 to $699 per month. Flat fee, everything included.',
+    title: 'Peptide therapy. TRT. GLP-1. Hormone optimization.',
+    tagline: 'Concierge Memberships · From $99 / month · TX · CO · FL',
   },
   partners: {
-    eyebrow: 'The trusted network',
     title: 'The Austin partners I trust with my patients.',
-    description: 'Hand-picked gyms, trainers, and physical therapists in Austin. The practitioners I send my patients — and my own family — to.',
+    tagline: 'The Trusted Network · 11 hand-picked partners',
   },
   contact: {
-    eyebrow: 'Start the conversation',
     title: 'Get the eBook. Get a real reply.',
-    description: 'Drop your details. Liliana follows up personally, often same day.',
+    tagline: 'Start the Conversation · Same-day follow-up',
   },
   privacy: {
-    eyebrow: 'Privacy',
     title: 'Your data, your control.',
-    description: 'Plain-language privacy practices. No analytics cookies. No PHI on this site.',
+    tagline: 'Privacy Practices · Plain language',
   },
   terms: {
-    eyebrow: 'Terms',
     title: 'How this works.',
-    description: 'Membership terms, medical disclaimers, governing law. Plain language, short paragraphs.',
+    tagline: 'Terms of Service · Plain language',
   },
   blog: {
-    eyebrow: 'Patient education',
     title: 'Real answers, written by a clinician.',
-    description: 'Peptide therapy and hormone medicine without the marketing. Clinical perspective, plain language.',
+    tagline: 'Patient Education · Peptide therapy, hormones, GLP-1',
   },
 };
 
 for (const post of blogPosts) {
   pages[`blog/${post.id}`] = {
-    eyebrow: post.data.category,
     title: post.data.title,
-    description: post.data.description,
+    tagline: `${post.data.category} · Viva Wellness Co.`,
   };
 }
 
@@ -68,35 +64,48 @@ export const { getStaticPaths, GET } = await OGImageRoute({
   getSlug: (path) => path,
   getImageOptions: (_path, page) => ({
     title: page.title,
-    description: page.description,
+    // Description slot is used for the uppercase mono tagline (eyebrow-style).
+    // canvaskit has no text-transform, so we uppercase here.
+    description: page.tagline.toUpperCase(),
     logo: {
       path: './public/viva-logo-paper.png',
-      size: [220, 48],
+      size: [280, 60],
     },
+    // Three-stop gradient: ink top, ink-2 mid, faint bronze warmth at the
+    // bottom. Adds depth without competing with the title.
     bgGradient: [
       [12, 10, 9],
-      [26, 22, 20],
+      [22, 18, 16],
+      [38, 28, 22],
     ],
     border: {
       color: [201, 120, 58],
-      width: 4,
+      width: 14,
       side: 'inline-start',
     },
-    padding: 60,
+    padding: 80,
+    // Brand display fonts loaded from Fontsource at build time. Fraunces
+    // italic carries the editorial voice; Geist Mono handles the tagline.
+    // Only loading italic Fraunces faces so the family always renders italic.
+    fonts: [
+      'https://api.fontsource.org/v1/fonts/fraunces/latin-600-italic.ttf',
+      'https://api.fontsource.org/v1/fonts/fraunces/latin-500-italic.ttf',
+      'https://api.fontsource.org/v1/fonts/geist-mono/latin-500-normal.ttf',
+    ],
     font: {
       title: {
-        size: 64,
-        lineHeight: 1.05,
-        families: ['Geist', 'Helvetica', 'Arial', 'sans-serif'],
-        weight: 'Bold',
+        size: 88,
+        lineHeight: 1.02,
+        families: ['Fraunces', 'Georgia', 'Times New Roman', 'serif'],
+        weight: 'Medium',
         color: [247, 244, 238],
       },
       description: {
-        size: 28,
-        lineHeight: 1.45,
-        families: ['Geist', 'Helvetica', 'Arial', 'sans-serif'],
-        weight: 'Normal',
-        color: [184, 174, 161],
+        size: 26,
+        lineHeight: 1.4,
+        families: ['Geist Mono', 'Courier New', 'monospace'],
+        weight: 'Medium',
+        color: [212, 154, 100],
       },
     },
   }),
