@@ -1,0 +1,446 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { partners, partnersByCategory } from '../lib/partners';
+
+const partnerCount = partners.length;
+
+const partnersSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: 'Trusted Austin Partners',
+  description: 'The Austin practitioners, gyms, and physical therapists Liliana Damron, FNP-BC refers Viva Wellness patients to for care outside the concierge telehealth scope.',
+  url: 'https://vivawellnessco.com/partners',
+  isPartOf: { '@id': 'https://vivawellnessco.com/#organization' },
+  about: partners.map((p) => ({
+    '@type': 'LocalBusiness',
+    name: p.name,
+    description: p.description,
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Austin',
+      addressRegion: 'TX',
+      addressCountry: 'US',
+    },
+    url: p.links[0]?.href,
+  })),
+};
+---
+
+<Layout
+  title="Trusted Austin Partners · The Network I Refer To | Viva Wellness Co."
+  description="The Austin gyms, trainers, and physical therapists Liliana Damron refers Viva Wellness patients to. Strength coaches, recovery, sports therapy, and fitness facilities — vetted for the patients on a protocol."
+  schema={partnersSchema}
+>
+
+  {/* HERO */}
+  <section class="partners-hero">
+    <div class="container partners-hero__inner">
+      <span class="eyebrow reveal" style="--d: 100ms;">· The trusted network</span>
+      <h1 class="partners-hero__title reveal" style="--d: 250ms;">
+        The Austin partners<br/>
+        <span class="italic-display">I trust with my patients.</span>
+      </h1>
+      <p class="lead reveal" style="--d: 500ms;">
+        Concierge medicine is a small piece of total care. For everything that
+        falls outside my scope — strength coaching, physical therapy, sports
+        recovery, in-person facilities — I work with practitioners I would
+        send my own family to.
+      </p>
+      <div class="partners-hero__meta reveal" style="--d: 700ms;">
+        <span class="index" data-num="·">{partnerCount} partners · Austin, TX</span>
+      </div>
+    </div>
+  </section>
+
+  {/* HOW THIS WORKS · short strip framing the why */}
+  <section class="how-strip">
+    <div class="container how-strip__inner">
+      <div class="how-strip__col">
+        <span class="how-strip__num">01</span>
+        <h3 class="how-strip__title">Hand-picked, not paid placement</h3>
+        <p class="how-strip__body">Every partner on this page is someone I actively refer patients to. No directory listings, no affiliate deals.</p>
+      </div>
+      <div class="how-strip__col">
+        <span class="how-strip__num">02</span>
+        <h3 class="how-strip__title">Filling the gaps a telehealth visit can't</h3>
+        <p class="how-strip__body">Strength coaching, hands-on PT, and in-person facilities make protocols actually work. I keep a short list of who's good at each.</p>
+      </div>
+      <div class="how-strip__col">
+        <span class="how-strip__num">03</span>
+        <h3 class="how-strip__title">Two-way referrals</h3>
+        <p class="how-strip__body">Most partners send their clients to Viva for hormones, GLP-1, and recovery. The relationship runs both directions.</p>
+      </div>
+    </div>
+  </section>
+
+  {/* GROUPED PARTNERS · by category */}
+  {partnersByCategory.map((group, gi) => (
+    <section class="part-section" id={group.category.toLowerCase().replace(/[^a-z0-9]+/g, '-')}>
+      <div class="container">
+        <header class="part-section__head">
+          <span class="index" data-num={String(gi + 1).padStart(2, '0')}>{group.category}</span>
+          <h2 class="part-section__title">
+            {group.category === 'Strength & Conditioning' && <>Strength <span class="italic-display">& conditioning.</span></>}
+            {group.category === 'Personal Training' && <>Personal <span class="italic-display">training.</span></>}
+            {group.category === 'Physical Therapy & Recovery' && <>Physical therapy <span class="italic-display">& recovery.</span></>}
+            {group.category === 'Fitness Facilities' && <>Fitness <span class="italic-display">facilities.</span></>}
+          </h2>
+        </header>
+
+        <ul class="part-grid">
+          {group.items.map((p) => (
+            <li class="part-card">
+              <a
+                href={p.links[0]?.href || '#'}
+                target="_blank"
+                rel="noopener"
+                class="part-card__link"
+                aria-label={`${p.name} · ${p.category}`}
+              >
+                <div class="part-card__top">
+                  <span class:list={[
+                    'part-card__thumb',
+                    p.mediaType === 'portrait' && 'part-card__thumb--portrait',
+                    p.mediaType === 'logo' && 'part-card__thumb--logo',
+                    p.mediaType === 'logo-dark' && 'part-card__thumb--logo-dark',
+                  ]}>
+                    {p.image
+                      ? <img src={p.image} alt={p.imageAlt || p.name} loading="lazy" decoding="async" />
+                      : <span class="part-card__mono">{p.fallback}</span>
+                    }
+                  </span>
+
+                  <div class="part-card__head">
+                    <span class="part-card__cat">{p.category}</span>
+                    <h3 class="part-card__name">{p.name}</h3>
+                    <span class="part-card__operator">{p.operator}</span>
+                  </div>
+
+                  <span class="part-card__arrow" aria-hidden="true">↗</span>
+                </div>
+
+                <p class="part-card__body">{p.description}</p>
+
+                {p.links.length > 0 && (
+                  <ul class="part-card__links">
+                    {p.links.map((l) => (
+                      <li>{l.label}</li>
+                    ))}
+                  </ul>
+                )}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  ))}
+
+  {/* REFERRAL CTA */}
+  <section class="part-cta">
+    <div class="container part-cta__inner">
+      <span class="eyebrow">· For practitioners</span>
+      <h2 class="part-cta__title">
+        Run a practice<br/>
+        <span class="italic-display">we should know about?</span>
+      </h2>
+      <p class="lead">
+        I keep this list short on purpose. If you run a clinical, training, or
+        recovery practice in Austin that serves the kind of patients I treat —
+        hormones, GLP-1, performance medicine — let's talk.
+      </p>
+      <div class="part-cta__ctas">
+        <a href="/contact" class="btn btn--bronze">Get in touch</a>
+        <a href="/refer" class="btn">Refer a patient</a>
+      </div>
+    </div>
+  </section>
+
+</Layout>
+
+<style>
+  /* HERO */
+  .partners-hero {
+    padding: clamp(4.5rem, 14vw, 10rem) 0 clamp(2.5rem, 6vw, 5rem);
+    position: relative;
+    overflow: hidden;
+  }
+  .partners-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(800px 500px at 80% 30%, rgba(201, 120, 58, 0.15), transparent 60%);
+    pointer-events: none;
+  }
+  .partners-hero__inner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+    max-width: 1100px;
+  }
+  .partners-hero__title {
+    font-size: clamp(2.7rem, 9.5vw, 4.8rem);
+    line-height: 1.02;
+    letter-spacing: -0.028em;
+  }
+  .partners-hero__title .italic-display { color: var(--bronze); }
+  .partners-hero__meta { margin-top: 0.4rem; }
+
+  /* HOW STRIP */
+  .how-strip {
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    background: var(--ink-2);
+    padding: clamp(2rem, 4vw, 3rem) 0;
+  }
+  .how-strip__inner {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(1.5rem, 4vw, 3rem);
+  }
+  @media (max-width: 800px) {
+    .how-strip__inner { grid-template-columns: 1fr; gap: 0; }
+  }
+  .how-strip__col {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  @media (max-width: 800px) {
+    .how-strip__col {
+      padding: 1.4rem 0;
+      border-bottom: 1px solid var(--rule);
+    }
+    .how-strip__col:first-child { padding-top: 0.2rem; }
+    .how-strip__col:last-child { padding-bottom: 0.2rem; border-bottom: 0; }
+  }
+  .how-strip__num {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    color: var(--bronze);
+  }
+  .how-strip__title {
+    font-size: 1.05rem;
+    line-height: 1.25;
+    color: var(--paper);
+    letter-spacing: -0.01em;
+  }
+  .how-strip__body {
+    color: rgba(245, 241, 234, 0.7);
+    font-size: 0.9rem;
+    line-height: 1.55;
+    max-width: 38ch;
+  }
+
+  /* PARTNER SECTION */
+  .part-section {
+    padding: clamp(3rem, 7vw, 5rem) 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .part-section:last-of-type { border-bottom: 0; }
+  .part-section__head {
+    margin-bottom: clamp(1.6rem, 3vw, 2.4rem);
+    max-width: 800px;
+  }
+  .part-section__title {
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin: 0.7rem 0 0;
+  }
+  .part-section__title .italic-display { color: var(--bronze); }
+
+  /* PARTNER GRID · 2-up, expanded cards with description visible */
+  .part-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--rule-strong);
+    border: 1px solid var(--rule-strong);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  @media (max-width: 760px) { .part-grid { grid-template-columns: 1fr; } }
+
+  .part-card {
+    background: var(--ink);
+    transition: background 240ms var(--ease);
+  }
+  .part-card:hover { background: var(--ink-2); }
+
+  .part-card__link {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: clamp(1.4rem, 2.6vw, 1.8rem);
+    color: inherit;
+    text-decoration: none;
+    min-height: 44px;
+  }
+  .part-card__top {
+    display: grid;
+    grid-template-columns: 88px 1fr auto;
+    gap: 1.1rem;
+    align-items: center;
+  }
+  @media (max-width: 540px) {
+    .part-card__top {
+      grid-template-columns: 64px 1fr auto;
+      gap: 0.95rem;
+      align-items: center;
+    }
+  }
+
+  .part-card__thumb {
+    width: 88px;
+    height: 88px;
+    border-radius: 2px;
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+  }
+  @media (max-width: 540px) {
+    .part-card__thumb { width: 64px; height: 64px; }
+  }
+  .part-card__thumb--portrait { background: linear-gradient(160deg, var(--bronze-deep) 0%, var(--ink-2) 100%); }
+  .part-card__thumb--portrait img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+  .part-card__thumb--logo { background: var(--paper); }
+  .part-card__thumb--logo-dark { background: var(--ink-3); }
+  .part-card__thumb--logo img,
+  .part-card__thumb--logo-dark img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 8px 10px;
+  }
+  .part-card__mono {
+    font-family: var(--font-display-italic);
+    font-style: italic;
+    font-size: 1.7rem;
+    color: var(--paper);
+    background: linear-gradient(160deg, var(--bronze-deep) 0%, var(--ink-2) 100%);
+    width: 100%;
+    height: 100%;
+    display: grid;
+    place-items: center;
+    letter-spacing: -0.02em;
+  }
+  @media (max-width: 540px) {
+    .part-card__mono { font-size: 1.4rem; }
+  }
+
+  .part-card__head {
+    display: flex;
+    flex-direction: column;
+    gap: 0.18rem;
+    min-width: 0;
+  }
+  .part-card__cat {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--bronze);
+  }
+  .part-card__name {
+    font-family: var(--font-display-italic);
+    font-style: italic;
+    font-size: 1.32rem;
+    line-height: 1.18;
+    color: var(--paper);
+    letter-spacing: -0.01em;
+    margin: 0.05rem 0;
+  }
+  @media (max-width: 540px) {
+    .part-card__name { font-size: 1.18rem; }
+  }
+  .part-card__operator {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.04em;
+    color: var(--mute);
+  }
+  .part-card__body {
+    color: rgba(247, 244, 238, 0.78);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 0;
+    max-width: 58ch;
+  }
+  @media (max-width: 540px) {
+    .part-card__body { font-size: 0.95rem; line-height: 1.55; }
+  }
+  .part-card__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 0.9rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .part-card__links li {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.06em;
+    color: rgba(245, 241, 234, 0.6);
+    padding-left: 0;
+  }
+  .part-card__links li::before { content: none; }
+
+  .part-card__arrow {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    color: var(--bronze);
+    opacity: 0.55;
+    transition: opacity 220ms var(--ease), transform 220ms var(--ease);
+    align-self: start;
+    padding-top: 0.1rem;
+  }
+  .part-card:hover .part-card__arrow {
+    opacity: 1;
+    transform: translate(2px, -2px);
+  }
+
+  /* CTA */
+  .part-cta {
+    padding: clamp(4rem, 9vw, 8rem) 0;
+    text-align: center;
+    background: var(--ink);
+    position: relative;
+    overflow: hidden;
+    border-top: 1px solid var(--rule);
+  }
+  .part-cta::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(700px 400px at 50% 0%, rgba(201, 120, 58, 0.18), transparent 60%);
+    pointer-events: none;
+  }
+  .part-cta__inner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+  .part-cta__inner .lead { text-align: center; max-width: 56ch; }
+  .part-cta__title {
+    font-size: clamp(1.9rem, 4.8vw, 3.4rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    max-width: 22ch;
+    margin: 0.4rem 0 0.4rem;
+  }
+  .part-cta__title .italic-display { color: var(--bronze-bright); }
+  .part-cta__ctas {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 0.8rem;
+  }
+</style>

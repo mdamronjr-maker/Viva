@@ -26,6 +26,11 @@ const pages: Record<string, { title: string; description: string; eyebrow: strin
     title: "You bring the goals, I'll bring the protocol.",
     description: 'Concierge telehealth memberships from $99 to $699 per month. Flat fee, everything included.',
   },
+  partners: {
+    eyebrow: 'The trusted network',
+    title: 'The Austin partners I trust with my patients.',
+    description: 'Hand-picked gyms, trainers, and physical therapists in Austin. The practitioners I send my patients — and my own family — to.',
+  },
   contact: {
     eyebrow: 'Start the conversation',
     title: 'Get the eBook. Get a real reply.',

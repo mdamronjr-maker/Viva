@@ -26,7 +26,7 @@ const isHome = normalizedPath === '/';
 // has its own PNG generated at build time by src/pages/og/[...route].png.ts.
 function ogForPath(p: string): string {
   if (p === '/') return '/og/home.png';
-  if (['/about', '/services', '/contact', '/privacy', '/terms', '/blog'].includes(p)) {
+  if (['/about', '/services', '/partners', '/contact', '/privacy', '/terms', '/blog'].includes(p)) {
     return `/og${p}.png`;
   }
   if (p.startsWith('/blog/')) return `/og${p}.png`;
