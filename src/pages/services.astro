@@ -1,131 +1,201 @@
 ---
 import Layout from '../layouts/Layout.astro';
 
-// Four quiz-aligned tiers. The quiz routes every prospect into one of these
-// four. Anything more granular (micro-dose, advanced, elite, etc.) is a
-// variation the provider recommends in-visit, not a separately-shoppable SKU.
-//
-// Annual pricing = monthly * 12 with ~16% off. Numbers rounded to clean dollars.
-// Adjust ANNUAL_DISCOUNT or the individual annual* fields if a different
-// promotional rate is desired.
+// Seven memberships mirroring the live GlossGenius catalog. The quiz routes
+// prospects to a starting tier; the metabolic ladder (Essential → Core →
+// Advanced → Elite) lets the provider step a patient up or down inside the
+// metabolic track without a SKU change.
+// Pricing and includes match the live GlossGenius catalog
+// (https://vivawellnessco.glossgenius.com/shop/memberships?tab=explore).
+// GlossGenius is the source of truth — never invent prices. Annual pricing
+// is intentionally omitted because GG does not display annual; add it back
+// here only when it is configured on GG.
 const programs = [
   {
-    tier: 'Entry',
-    name: 'Concierge Access',
+    tier: 'Insurance',
+    name: 'Viva Concierge Access',
     price: 99,
     priceLabel: '$99',
-    annualLabel: '$999',
-    annualSavingsLabel: 'save $189',
-    tagline: 'Provider access + member pricing on peptides and compounded meds.',
-    body: 'A membership for a la carte buyers. You get concierge-level provider attention across hormones, peptides, metabolic, and recovery, plus member pricing on compounded peptides, GLP-1, and TRT add-ons when you want to order them. Pay only for the protocols you actually use instead of committing to a bundled monthly fee.',
+    tagline: 'Provider-led HRT/TRT management for patients using insurance.',
+    body: 'A membership for patients who want concierge provider attention while keeping their insurance coverage for hormones, retail prescriptions, and labs. Monthly evaluations, ongoing medication management, and a Prior Authorization service when your plan needs paperwork. Compounded medication is not included — this tier is the insurance-routed alternative to TRT/HRT All Inclusive.',
     includes: [
-      'Direct messaging access to your provider',
-      'Monthly evaluation visit + one acute/sick visit credit per month',
-      'Member pricing on compounded peptides (BPC-157, TB-500, GHK-Cu, CJC, etc.)',
-      'Member pricing on compounded GLP-1 and TRT add-ons',
-      'Lab orders + standard prescriptions routed through your insurance',
-      'Guidance across hormones, peptides, metabolic, and recovery',
+      'Monthly evaluation visit',
+      'Provider-led HRT/TRT management',
+      'Ongoing medication management',
+      'Prior Authorization service',
+      'One acute/sick visit credit per month',
     ],
     rightFor: [
-      'You want to pay only for what you use, not a bundled monthly fee',
-      'You want to try a peptide or compounded protocol without locking into an all-inclusive tier',
-      'You have insurance that covers your labs and standard prescriptions',
-      'You want a provider thinking about you across multiple paths, not a one-off appointment',
+      'You want to use your insurance for hormones, prescriptions, and labs',
+      'You want concierge-level provider attention without bundled medication costs',
+      'You prefer monthly oversight to a one-off appointment',
     ],
     notRightFor: [
-      'You want a predictable flat fee that includes everything for one protocol (see TRT & HRT All Inclusive or Metabolic Core)',
-      'You want everything across hormones, recovery, and performance under one fully-managed plan (see Peak Performance)',
+      'You want compounded medication included in the membership (see TRT/HRT All Inclusive or any Metabolic tier)',
+      'You want everything across hormones, metabolic, and performance under one fully-managed plan (see Peak Performance)',
     ],
   },
   {
-    tier: 'Foundational',
-    name: 'TRT & HRT All Inclusive',
+    tier: 'Hormone',
+    name: 'TRT/HRT All Inclusive',
     price: 199,
     priceLabel: '$199',
-    annualLabel: '$1,999',
-    annualSavingsLabel: 'save $389',
-    tagline: 'Hormone optimization for men and women, flat monthly fee.',
-    body: 'Personalized hormone optimization for both men and women. Compounded testosterone for TRT, plus compounded estradiol, progesterone, and adjunct protocols for HRT and perimenopause support. Supplies, biannual labs, and home delivery in one monthly fee.',
+    tagline: 'All-inclusive hormone therapy — personalized dosing, medication, labs, delivery.',
+    body: 'Personalized hormone optimization for both men and women, fully managed. Compounded testosterone for TRT, compounded estradiol and progesterone for HRT, plus adjuncts when clinically indicated. Topical or injectable. Labs twice yearly. Supplies and home delivery in one monthly fee.',
     includes: [
-      'Compounded testosterone (injection, cream, or gel) for TRT',
-      'Compounded estradiol + progesterone for HRT (cream, troche, or pellet protocols)',
-      'Anastrozole, HCG, DHEA, and thyroid adjuncts when clinically indicated',
-      'Perimenopause and menopause symptom management',
-      'Biannual labs and dose adjustments',
-      'Supplies, sharps, and home delivery',
-      'Direct provider access by message',
+      'Personalized dosing (topical or injectable)',
+      'Compounded testosterone for TRT',
+      'Compounded estradiol + progesterone for HRT',
+      'Adjuncts (anastrozole, HCG, DHEA, thyroid) when clinically indicated',
+      'Labs twice yearly',
+      'Supplies and home delivery',
     ],
     rightFor: [
-      'You want hormone optimization (TRT for men, HRT for women) at a flat monthly fee',
-      'You have known low-T, perimenopause, or menopause symptoms you want addressed',
-      'You want labs, supplies, and dose adjustments handled inside the membership',
+      'Hormone optimization is your primary goal',
+      'You want compounded medication and labs included in a flat fee',
+      'You have known low-T, perimenopause, or menopause symptoms',
     ],
     notRightFor: [
-      'You are focused primarily on weight loss (see Metabolic Core)',
-      'You want hormones, GLP-1, and performance peptides under one plan (see Peak Performance)',
+      'You are using insurance for hormones (see Viva Concierge Access)',
+      'You are focused on weight loss (see the Metabolic tiers)',
     ],
   },
   {
-    tier: 'Core',
+    tier: 'Metabolic · 01',
+    name: 'Metabolic Essential',
+    price: 249,
+    priceLabel: '$249',
+    tagline: 'Compounded semaglutide at any dose, or micro-dose tirzepatide.',
+    body: 'Provider-guided metabolic protocol using compounded semaglutide at any dose, or micro-dose tirzepatide under 2.5 mg per week. The on-ramp tier for patients who want appetite regulation, insulin support, and steady fat loss without going straight to higher-potency compounds.',
+    includes: [
+      'Compounded semaglutide (any dose) or micro-dose tirzepatide (<2.5 mg/week)',
+      'Appetite regulation support',
+      'Insulin sensitivity support',
+      'Fat loss support',
+      'Supplies and home delivery',
+      'Provider follow-ups',
+      'One quarterly sick visit credit',
+    ],
+    rightFor: [
+      'You are starting a GLP-1 protocol and want the gentle on-ramp',
+      'You respond to semaglutide or low-dose tirzepatide',
+      'You want a provider managing titration, not a refill service',
+    ],
+    notRightFor: [
+      'You have outgrown low-dose protocols (see Metabolic Core or Advanced)',
+      'You need retatrutide or a multi-compound protocol (see Metabolic Elite)',
+    ],
+  },
+  {
+    tier: 'Metabolic · 02',
     name: 'Metabolic Core',
     price: 349,
     priceLabel: '$349',
-    annualLabel: '$3,499',
-    annualSavingsLabel: 'save $689',
-    featured: true,
-    tagline: 'Compounded GLP-1, shipped to you.',
-    body: 'Compounded GLP-1 protocol for stronger appetite control, consistent fat loss, and preserved muscle. Patient-specific semaglutide or tirzepatide from a 503A pharmacy (same active molecules as Wegovy and Mounjaro, prepared individually under clinical supervision, not the brand-name products).',
+    tagline: 'Compounded tirzepatide at low-to-moderate dose, fully managed.',
+    body: 'Provider-guided metabolic care with compounded tirzepatide at low-to-moderate dose. The most-prescribed GLP-1 protocol — appetite control, improved insulin sensitivity, and steady fat loss, with monthly provider oversight of titration and side effects.',
     includes: [
-      'Compounded semaglutide or tirzepatide, 503A-sourced',
-      'Dose titration calibrated to your physiology',
-      'Tesamorelin option for visceral fat targeting',
-      'Optional recovery peptide layer',
-      'Supplies, sharps, and home delivery',
-      'Provider-led monthly check-ins',
+      'Compounded tirzepatide (low-to-moderate dose)',
+      'Appetite regulation support',
+      'Improved insulin sensitivity',
+      'Steady fat loss support',
+      'Supplies and home delivery',
+      'Monthly provider follow-ups',
+      'One acute Viva Concierge visit',
     ],
     rightFor: [
-      'Compounded GLP-1 (semaglutide or tirzepatide) is your primary goal',
-      'You want a provider actively managing titration and side effects, not a five-minute refill',
-      'You want supplies, sharps, and shipments handled inside the membership',
+      'Tirzepatide at standard dose is your protocol',
+      'You want monthly provider attention to titration and side effects',
+      'You are ready for sustained fat loss with consistent dosing',
     ],
     notRightFor: [
-      'You want testosterone or HRT as the focus (see TRT & HRT All Inclusive)',
-      'You want recovery and performance peptides combined with metabolic (see Peak Performance)',
+      'You want semaglutide or micro-dose tirzepatide (see Metabolic Essential)',
+      'You need higher-potency dosing or retatrutide (see Metabolic Advanced or Elite)',
     ],
   },
   {
-    tier: 'Premium',
+    tier: 'Metabolic · 03',
+    name: 'Metabolic Advanced',
+    price: 399,
+    priceLabel: '$399',
+    tagline: 'Tirzepatide at mod-high dose, or retatrutide low-to-moderate.',
+    body: 'For patients who have titrated through standard dosing and need more aggressive metabolic support. Compounded tirzepatide at moderate-to-high dose, or retatrutide at low-to-moderate dose. Fully managed with monthly provider follow-ups.',
+    includes: [
+      'Compounded tirzepatide (mod-high dose) or retatrutide (low-mod)',
+      'Appetite regulation support',
+      'Insulin sensitivity support',
+      'Fat loss support',
+      'Supplies and home delivery',
+      'Monthly provider follow-ups',
+      'Viva Concierge access',
+    ],
+    rightFor: [
+      'You have outgrown lower-dose protocols and need more potency',
+      'You are a candidate for retatrutide at low-to-moderate dosing',
+      'You want close provider oversight at higher doses',
+    ],
+    notRightFor: [
+      'You are new to GLP-1 protocols (start with Essential or Core)',
+      'You need retatrutide at higher dose (see Metabolic Elite)',
+    ],
+  },
+  {
+    tier: 'Metabolic · 04',
+    name: 'Metabolic Elite',
+    price: 499,
+    priceLabel: '$499',
+    tagline: 'Multi-compound protocol with retatrutide at moderate-to-high dose.',
+    body: 'The top metabolic tier for patients who need additional appetite control, fat loss, and lean muscle support as they progress through treatment. Upgraded multi-compound protocol using retatrutide at moderate-to-high dose, fully managed.',
+    includes: [
+      'Upgraded multi-compound medication (retatrutide, moderate-to-high dose)',
+      'Appetite control',
+      'Fat loss support',
+      'Lean muscle preservation',
+      'Supplies and home delivery',
+      'Ongoing provider follow-up consults',
+    ],
+    rightFor: [
+      'You have moved through Essential, Core, and Advanced and need more',
+      'You are a candidate for retatrutide at higher dose',
+      'You want multi-compound coordination for advanced fat loss with muscle preservation',
+    ],
+    notRightFor: [
+      'You have not tried lower tiers first (Core or Advanced is usually the right step)',
+      'You want hormone or peptide focus (see TRT/HRT All Inclusive or Peak Performance)',
+    ],
+  },
+  {
+    tier: 'Total',
     name: 'Peak Performance',
     price: 699,
     priceLabel: '$699',
-    annualLabel: '$6,999',
-    annualSavingsLabel: 'save $1,389',
-    tagline: 'Everything, fully managed.',
-    body: 'Total-body optimization combining hormone, metabolic, recovery, and performance protocols in one plan. The single tier that makes sense when you want all of it under one provider with priority access.',
+    tagline: 'Total optimization — 1 Essential, 1 Core, 1 Elite Protocol.',
+    body: 'Built for high performers who prioritize recovery, longevity, and performance. Combines one Essential, one Core, and one Elite Protocol under a single provider with priority access — hormone, metabolic, and performance protocols coordinated as one system.',
     includes: [
-      'Provider-led hormone foundation (TRT or HRT)',
-      'Recovery peptide stack (BPC-157, TB-500, GHK-Cu)',
-      'Performance support (CJC-1295 / Ipamorelin, MOTS-c)',
-      'Optional compounded GLP-1 layer',
-      'Comprehensive labs, supplies, and home delivery',
-      'Priority scheduling and provider access',
+      'One Essential Protocol (hormone foundation)',
+      'One Core Protocol (metabolic or peptide)',
+      'One Elite Protocol (recovery / performance peptide stack)',
+      'Comprehensive labs, supplies, home delivery',
+      'Priority scheduling',
+      'Direct provider access',
     ],
     rightFor: [
-      'You want hormones, metabolic, recovery, and performance under one fully-managed plan',
+      'You want hormone, metabolic, and recovery / performance under one plan',
+      'You are already running pieces of this stack and want them coordinated',
       'You want priority scheduling and the most direct provider access available',
-      'You are already running pieces of this stack and want them coordinated by one provider',
     ],
     notRightFor: [
-      'You only need one protocol (start with TRT/HRT or Metabolic Core instead)',
-      'You want to test-drive peptides a la carte (see Concierge Access)',
+      'You only need one protocol (start with TRT/HRT or a Metabolic tier)',
+      'You are exploring concierge care for the first time (see Viva Concierge Access)',
     ],
   },
 ];
 
+// Items truly common across every tier above. "Supplies and home delivery"
+// is intentionally omitted — it does not apply to Viva Concierge Access,
+// which is the insurance-routed tier.
 const includedAlways = [
-  'One complimentary telehealth visit per month',
+  'Monthly evaluation visit',
   'Direct messaging access to your provider',
-  'Supplies and home delivery',
   'Routine follow-ups and dose adjustments',
   'Priority scheduling',
   'Member pricing on add-ons',
@@ -277,24 +347,26 @@ const servicesSchema = {
     </div>
   </section>
 
-  {/* PROGRAMS · four quiz-aligned tiers */}
+  {/* PROGRAMS · seven memberships, mirrored from GlossGenius */}
   <section class="section programs-section">
     <div class="container">
       <div class="section-head">
         <span class="index" data-num="02">The programs</span>
         <h2 class="section-head__title">
-          Four tiers. <span class="italic-display">Pick yours.</span>
+          Seven memberships. <span class="italic-display">Pick yours.</span>
         </h2>
         <p class="lead section-head__lead">
-          Flat monthly fee. Medication, supplies, home delivery, follow-ups,
-          provider access. The quiz routes you to one of these four. The
-          provider tunes the details inside your tier in your first visit.
+          Flat monthly fee. Compounded medication, supplies, home delivery,
+          follow-ups, provider access — included in every tier except Viva
+          Concierge Access (the insurance-routed entry point). The quiz routes
+          you to a starting tier; the provider tunes the details in your
+          first visit.
         </p>
       </div>
 
       <ul class="prog-grid">
-        {programs.map((p) => (
-          <li class:list={["prog-card", p.featured && 'prog-card--featured']} id={slugify(p.name)}>
+        {programs.map((p, i) => (
+          <li class:list={["prog-card", i === programs.length - 1 && 'prog-card--span']} id={slugify(p.name)}>
             <header class="prog-card__head">
               <span class="prog-card__tier">{p.tier}</span>
               <h3 class="prog-card__name">{p.name}</h3>
@@ -302,9 +374,6 @@ const servicesSchema = {
                 <span class="prog-card__amt">{p.priceLabel}</span>
                 <span class="prog-card__cad">/mo</span>
               </div>
-              <p class="prog-card__annual">
-                or <strong>{p.annualLabel}</strong>/yr · <span>{p.annualSavingsLabel}</span>
-              </p>
               <p class="prog-card__tagline">{p.tagline}</p>
             </header>
             <p class="prog-card__body">{p.body}</p>
@@ -569,7 +638,7 @@ const servicesSchema = {
   }
   .provider-strip__link:hover { color: var(--bronze); }
 
-  /* PROGRAMS · four large quiz-aligned tier cards */
+  /* PROGRAMS · seven membership cards mirrored from GlossGenius */
   .programs-section { padding: clamp(3rem, 7vw, 5rem) 0; }
   .prog-grid {
     display: grid;
@@ -589,24 +658,15 @@ const servicesSchema = {
     position: relative;
   }
   .prog-card:hover { background: var(--ink-2); }
-  .prog-card--featured {
+  /* The last card (Peak Performance) spans the full row as the total-tier
+     finale. The 2-col grid leaves it alone on row 4 otherwise. */
+  .prog-card--span {
+    grid-column: 1 / -1;
     background: var(--ink-2);
     box-shadow: inset 0 2px 0 0 var(--bronze);
   }
-  .prog-card--featured::after {
-    content: 'Most chosen';
-    position: absolute;
-    top: 0;
-    right: clamp(1.4rem, 3vw, 2rem);
-    transform: translateY(-50%);
-    background: var(--bronze);
-    color: var(--ink);
-    font-family: var(--font-mono);
-    font-size: 0.65rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    padding: 0.4rem 0.7rem;
-    font-weight: 500;
+  @media (max-width: 800px) {
+    .prog-card--span { grid-column: 1 / -1; }
   }
   .prog-card__head {
     display: grid;
@@ -614,28 +674,10 @@ const servicesSchema = {
     grid-template-areas:
       "tier tier"
       "name price"
-      "annual annual"
       "tagline tagline";
     gap: 0.35rem 1rem;
     padding-bottom: 1.2rem;
     border-bottom: 1px solid var(--rule);
-  }
-  .prog-card__annual {
-    grid-area: annual;
-    font-family: var(--font-mono);
-    font-size: 0.72rem;
-    letter-spacing: 0.08em;
-    color: var(--mute);
-    margin: -0.1rem 0 0;
-  }
-  .prog-card__annual strong {
-    color: var(--paper);
-    font-weight: 500;
-  }
-  .prog-card__annual span {
-    color: var(--bronze);
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
   }
   .prog-card__tier {
     grid-area: tier;
