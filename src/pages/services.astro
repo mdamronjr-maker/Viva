@@ -123,7 +123,7 @@ const programs = [
 ];
 
 const includedAlways = [
-  'One complimentary telehealth visit per quarter',
+  'One complimentary telehealth visit per month',
   'Direct messaging access to your provider',
   'Supplies and home delivery',
   'Routine follow-ups and dose adjustments',
@@ -138,6 +138,7 @@ const pillars = [
   { num: '04', title: 'Performance', body: 'Support for athletes and high-output professionals. Peptide and hormone protocols calibrated to keep you on the line, not behind it.' },
   { num: '05', title: 'Recomp', body: 'Coordinated metabolic, hormone, and recovery support designed to shift body composition while keeping training intact.' },
   { num: '06', title: 'Lifestyle & Longevity', body: 'Long-arc protocols for healthspan. Sleep, hormones, inflammation, and longevity peptides managed as one system.' },
+  { num: '07', title: 'Labs & Diagnostics', body: 'Hormone, metabolic, inflammation, and micronutrient panels. Ordered through your insurance, interpreted by the provider managing your protocol — the measurement layer behind every tier.' },
 ];
 
 // Schema.org · each tier emits a MedicalProcedure node so Google can
@@ -202,7 +203,7 @@ const servicesSchema = {
       <div class="section-head">
         <span class="index" data-num="01">The work</span>
         <h2 class="section-head__title">
-          Six pillars. <span class="italic-display">Unlimited potential.</span>
+          Seven pillars. <span class="italic-display">Unlimited potential.</span>
         </h2>
         <p class="lead section-head__lead">
           Viva treats the body as one system. Pull on hormones, metabolism,
@@ -212,8 +213,8 @@ const servicesSchema = {
       </div>
 
       <ul class="pillars">
-        {pillars.map((p) => (
-          <li class="pillar">
+        {pillars.map((p, i) => (
+          <li class:list={["pillar", i === pillars.length - 1 && 'pillar--foundation']}>
             <span class="pillar__num">{p.num}</span>
             <h3 class="pillar__title">{p.title}</h3>
             <p class="pillar__body">{p.body}</p>
@@ -415,7 +416,16 @@ const servicesSchema = {
   .pillar__num { font-family: var(--font-mono); font-size: 0.7rem; color: var(--bronze); letter-spacing: 0.1em; display: block; margin-bottom: 0.9rem; }
   .pillar__title { font-size: 1.2rem; margin-bottom: 0.5rem; color: var(--paper); line-height: 1.2; }
   .pillar__body { color: rgba(245, 241, 234, 0.7); font-size: 0.9rem; line-height: 1.45; }
-  @media (max-width: 960px) { .pillars { grid-template-columns: repeat(2, 1fr); } .pillar { border-right: 1px solid var(--rule); padding: 1.4rem 1.2rem; } .pillar:nth-child(2n) { border-right: 0; } .pillar:nth-child(2n+1) { padding-left: 0; } }
+  /* 7th pillar (Labs) spans full row as foundation finale.
+     Selector targets the last pillar when it would otherwise sit alone in row 3. */
+  .pillar--foundation {
+    grid-column: 1 / -1;
+    border-right: 0;
+    padding-right: 0;
+    border-bottom: 1px solid var(--rule-strong);
+  }
+  .pillar--foundation .pillar__body { max-width: 70ch; }
+  @media (max-width: 960px) { .pillars { grid-template-columns: repeat(2, 1fr); } .pillar { border-right: 1px solid var(--rule); padding: 1.4rem 1.2rem; } .pillar:nth-child(2n) { border-right: 0; } .pillar:nth-child(2n+1) { padding-left: 0; } .pillar--foundation { padding-left: 0; } }
   @media (max-width: 600px) { .pillars { grid-template-columns: 1fr; } .pillar { border-right: 0 !important; padding-left: 0; } }
 
   /* INCLUDED */
