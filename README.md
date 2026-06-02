@@ -52,8 +52,29 @@ In Cloudflare Pages → your project → Settings → Environment variables (Pro
 | `RESEND_NOTIFY_EMAIL` | yes | `info@vivawellnessco.com` |
 | `RESEND_AUDIENCE_ID` | optional | Resend Audience UUID if you want leads added to a list |
 | `SITE_ORIGIN` | optional | `https://vivawellnessco.com` (default if unset) |
+| `CAN_SPAM_ADDRESS` | recommended | physical postal address printed in every nurture email footer (CAN-SPAM). Unset = obvious placeholder ships |
+| `UNSUB_SECRET` | recommended | random string · HMAC key for one-click unsubscribe links. Unset = drip falls back to reply-"stop" only |
+| `RESEND_WEBHOOK_SECRET` | recommended | the `whsec_…` signing secret from the Resend webhook. Unset = `/api/resend-webhook` fails closed (401) |
 
 Per memory: Resend is NOT BAA-eligible. This pipeline only handles marketing leads (name/email/phone, no PHI). Keep all clinical comms in Charm Health.
+
+**Suppression / unsubscribe (auto-cancel of the nurture drip).** The Day 1/3/7/14
+follow-ups are queued in Resend at submit time. To honor unsubscribes, spam
+complaints, and hard bounces by *cancelling the still-queued sends*, two pieces
+of infra are needed beyond the env vars above:
+
+1. **KV namespace binding `LEADS_KV`** · Cloudflare Pages → Settings → Functions →
+   KV namespace bindings → bind a namespace as `LEADS_KV`. Stores the suppression
+   list (`supp:<email>`) and the queued Resend IDs per lead (`sched:<email>`,
+   31-day TTL). Without it, the drip still sends but auto-cancel is disabled.
+2. **Resend webhook** → point it at `https://vivawellnessco.com/api/resend-webhook`,
+   subscribe to `email.complained` and `email.bounced`, and copy its signing
+   secret into `RESEND_WEBHOOK_SECRET`.
+
+Unsubscribe links resolve at `/api/unsubscribe` (GET = confirmation page, POST =
+RFC 8058 one-click). Every link is HMAC-signed with `UNSUB_SECRET`. All of this
+degrades gracefully: missing binding/secret reverts to the prior reply-"stop"
+behavior without breaking lead capture.
 
 ### 4. Verify vivawellnessco.com domain in Resend
 

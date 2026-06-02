@@ -16,7 +16,20 @@
  *   RESEND_AUDIENCE_ID     · optional. Audience UUID for newsletter list. Skipped if absent.
  *   SITE_ORIGIN            · optional. Used to build the eBook download link.
  *                            Default: https://vivawellnessco.com
+ *   UNSUB_SECRET           · optional. HMAC secret for one-click unsubscribe
+ *                            links. Without it the drip falls back to a
+ *                            mailto/reply-"stop" unsubscribe only.
+ *   LEADS_KV (binding)     · optional. KV namespace that backs the
+ *                            suppression list + scheduled-send bookkeeping.
+ *                            Without it, auto-suppression is disabled (the
+ *                            drip still sends as before).
  */
+
+import {
+  isSuppressed,
+  recordScheduled,
+  makeUnsubscribeUrl,
+} from './_suppress.js';
 
 const RESEND_API = 'https://api.resend.com';
 
@@ -217,6 +230,12 @@ export async function onRequestPost(context) {
     );
   }
 
+  // Has this lead previously unsubscribed / been flagged for spam or bounce?
+  // If so we honor that: no drip, and the Audience add is marked unsubscribed.
+  // (The Day 0 email above still went · it's the transactional eBook they just
+  // asked for, not marketing.)
+  const suppressed = await isSuppressed(env, cleanEmail);
+
   // --- Add to Audience (best-effort, non-blocking failure) ---
   if (audienceId) {
     try {
@@ -232,7 +251,7 @@ export async function onRequestPost(context) {
           email: cleanEmail,
           first_name: firstName || undefined,
           last_name: lastName || undefined,
-          unsubscribed: false,
+          unsubscribed: suppressed,
         }),
       });
     } catch {
@@ -246,15 +265,21 @@ export async function onRequestPost(context) {
   // Day 1 (thank-you + discovery-call offer) and Day 3 are match-tailored;
   // Days 7 and 14 are match-agnostic. Referrals are skipped: the referee gets
   // a personal intro from Liliana instead of an automated drip, and the
-  // referrer already has the confirmation in hand.
-  if (!isReferral) {
+  // referrer already has the confirmation in hand. Suppressed leads are
+  // skipped entirely.
+  if (!isReferral && !suppressed) {
+    // One-click unsubscribe link (RFC 8058). Null when UNSUB_SECRET is unset,
+    // in which case the drip falls back to a mailto/reply-"stop" unsubscribe.
+    const unsubscribeUrl = await makeUnsubscribeUrl(origin, env.UNSUB_SECRET, cleanEmail);
     await scheduleNurture(apiKey, {
+      env,
       from: fromEmail,
       to: cleanEmail,
       name: cleanName,
       match,
       notifyEmail,
       discoveryUrl,
+      unsubscribeUrl,
       canSpamAddress,
     });
   }
@@ -468,19 +493,29 @@ function buildReferrerConfirmEmail({ referrerName, referee, canSpamAddress }) {
 //   Day 14 · soft close + final discovery-call offer
 // Each one stands on its own · they don't reference prior emails, in case
 // any of them get filtered out or skimmed past.
-async function scheduleNurture(apiKey, { from, to, name, match, notifyEmail, discoveryUrl, canSpamAddress }) {
+async function scheduleNurture(apiKey, { env, from, to, name, match, notifyEmail, discoveryUrl, unsubscribeUrl, canSpamAddress }) {
   const now = Date.now();
 
   const sends = [
-    { at: central8amAfterDays(now, 1), build: () => buildNurtureDay1({ name, match, discoveryUrl, canSpamAddress }) },
-    { at: central8amAfterDays(now, 3), build: () => buildNurtureDay3({ name, match, canSpamAddress }) },
-    { at: central8amAfterDays(now, 7), build: () => buildNurtureDay7({ name, canSpamAddress }) },
-    { at: central8amAfterDays(now, 14), build: () => buildNurtureDay14({ name, discoveryUrl, canSpamAddress }) },
+    { at: central8amAfterDays(now, 1), build: () => buildNurtureDay1({ name, match, discoveryUrl, unsubscribeUrl, canSpamAddress }) },
+    { at: central8amAfterDays(now, 3), build: () => buildNurtureDay3({ name, match, unsubscribeUrl, canSpamAddress }) },
+    { at: central8amAfterDays(now, 7), build: () => buildNurtureDay7({ name, unsubscribeUrl, canSpamAddress }) },
+    { at: central8amAfterDays(now, 14), build: () => buildNurtureDay14({ name, discoveryUrl, unsubscribeUrl, canSpamAddress }) },
   ];
+
+  // List-Unsubscribe: prefer the one-click HTTPS endpoint when we have a
+  // signed URL, and always keep the mailto as a fallback. The One-Click POST
+  // header only makes sense alongside the HTTPS variant.
+  const unsubHeader = unsubscribeUrl
+    ? `<${unsubscribeUrl}>, <mailto:${notifyEmail}?subject=Unsubscribe>`
+    : `<mailto:${notifyEmail}?subject=Unsubscribe>`;
+  const unsubHeaders = unsubscribeUrl
+    ? { 'List-Unsubscribe': unsubHeader, 'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click' }
+    : { 'List-Unsubscribe': unsubHeader };
 
   // Failures here don't fail the request · the Day 0 email already went
   // through. Worst case is one or more followups didn't get queued.
-  await Promise.allSettled(
+  const results = await Promise.allSettled(
     sends.map(({ at, build }) => {
       const { subject, html, text } = build();
       return sendEmail(apiKey, {
@@ -491,13 +526,17 @@ async function scheduleNurture(apiKey, { from, to, name, match, notifyEmail, dis
         text,
         reply_to: notifyEmail,
         scheduled_at: new Date(at).toISOString(),
-        headers: {
-          'List-Unsubscribe': `<mailto:${notifyEmail}?subject=Unsubscribe>`,
-          'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click',
-        },
+        headers: unsubHeaders,
       });
     })
   );
+
+  // Persist the Resend IDs of the queued sends so we can cancel them if the
+  // lead unsubscribes, complains, or bounces before the sequence finishes.
+  const ids = results
+    .filter((r) => r.status === 'fulfilled' && r.value && r.value.id)
+    .map((r) => r.value.id);
+  await recordScheduled(env, to, ids);
 }
 
 // Epoch-ms for 8:00 AM America/Chicago, `addDays` after the Chicago calendar
@@ -544,7 +583,7 @@ function tzOffsetMs(utcMs, tz) {
 // the quiz produced a match we name it as a starting point and frame the call
 // as the way to confirm fit; raw contact leads get the generic "find the right
 // fit" framing. This is the early discovery touch · Day 14 is the final one.
-function buildNurtureDay1({ name, match, discoveryUrl, canSpamAddress }) {
+function buildNurtureDay1({ name, match, discoveryUrl, unsubscribeUrl, canSpamAddress }) {
   const first = (name || '').split(/\s+/)[0] || 'there';
   const subject = 'Thanks for your interest · let me help you find the right fit';
 
@@ -605,13 +644,18 @@ function buildNurtureDay1({ name, match, discoveryUrl, canSpamAddress }) {
     `Founder, Viva Wellness Co.`,
   ].join('\n');
 
-  const html = nurtureWrap({ eyebrow: 'Follow-up · Day 1', title: subject, bodyHtml, canSpamAddress });
+  const html = nurtureWrap({ eyebrow: 'Follow-up · Day 1', title: subject, bodyHtml, canSpamAddress, unsubscribeUrl });
   return { subject, html, text };
 }
 
 // Shared HTML shell for nurture emails. Mirrors buildLeadEmail's visual
 // language so the sequence reads as one voice across all four sends.
-function nurtureWrap({ eyebrow, title, bodyHtml, canSpamAddress }) {
+function nurtureWrap({ eyebrow, title, bodyHtml, canSpamAddress, unsubscribeUrl }) {
+  // One-click link when we have a signed URL; otherwise the reply-"stop"
+  // fallback (which Liliana / info@ monitors manually).
+  const unsubHtml = unsubscribeUrl
+    ? `Not in the mood for follow-ups? <a href="${esc(unsubscribeUrl)}" style="color:#8a4d22;text-decoration:underline;">Unsubscribe in one click</a> or reply with "stop".`
+    : `Not in the mood for follow-ups? Just reply with "stop" and I will take you off the sequence.`;
   return `
 <!doctype html>
 <html>
@@ -650,7 +694,7 @@ function nurtureWrap({ eyebrow, title, bodyHtml, canSpamAddress }) {
           <a href="https://vivawellnessco.com" style="color:#8a4d22;text-decoration:none;">vivawellnessco.com</a> &nbsp;·&nbsp;
           <a href="tel:+17372107283" style="color:#8a4d22;text-decoration:none;">(737) 210-7283</a>
           <br/><br/>
-          Not in the mood for follow-ups? Just reply with "stop" and I will take you off the sequence.
+          ${unsubHtml}
           <br/>Not medical advice. All therapies require provider review and approval.
         </td></tr>
       </table>
@@ -663,7 +707,7 @@ function nurtureWrap({ eyebrow, title, bodyHtml, canSpamAddress }) {
 // Day 3 · match-tailored. Body switches on match.key (and sex for TRT/HRT
 // to pick the male vs. female framing). Raw contact leads with no match
 // fall through to the generic three-point opener.
-function buildNurtureDay3({ name, match, canSpamAddress }) {
+function buildNurtureDay3({ name, match, unsubscribeUrl, canSpamAddress }) {
   const first = (name || '').split(/\s+/)[0] || 'there';
   const key = match && match.key;
 
@@ -749,14 +793,14 @@ function buildNurtureDay3({ name, match, canSpamAddress }) {
     `Founder, Viva Wellness Co.`,
   ].join('\n');
 
-  const html = nurtureWrap({ eyebrow: 'Follow-up · Day 3', title: subject, bodyHtml, canSpamAddress });
+  const html = nurtureWrap({ eyebrow: 'Follow-up · Day 3', title: subject, bodyHtml, canSpamAddress, unsubscribeUrl });
   return { subject, html, text };
 }
 
 // Day 7 · match-agnostic. The "is this safe long-term?" objection comes
 // up on every first call, so we address it head-on with three concrete
 // answers instead of generic reassurance.
-function buildNurtureDay7({ name, canSpamAddress }) {
+function buildNurtureDay7({ name, unsubscribeUrl, canSpamAddress }) {
   const first = (name || '').split(/\s+/)[0] || 'there';
   const subject = 'The question I get on every first call';
 
@@ -800,14 +844,14 @@ function buildNurtureDay7({ name, canSpamAddress }) {
     `Founder, Viva Wellness Co.`,
   ].join('\n');
 
-  const html = nurtureWrap({ eyebrow: 'Follow-up · Day 7', title: subject, bodyHtml, canSpamAddress });
+  const html = nurtureWrap({ eyebrow: 'Follow-up · Day 7', title: subject, bodyHtml, canSpamAddress, unsubscribeUrl });
   return { subject, html, text };
 }
 
 // Day 14 · soft close + discovery CTA. Explicitly the last automated
 // touch: "I will get out of your inbox" makes the gracefully-ending
 // nature of the sequence the point, not an apology.
-function buildNurtureDay14({ name, discoveryUrl, canSpamAddress }) {
+function buildNurtureDay14({ name, discoveryUrl, unsubscribeUrl, canSpamAddress }) {
   const first = (name || '').split(/\s+/)[0] || 'there';
   const subject = 'Still here if you want to talk';
 
@@ -856,7 +900,7 @@ function buildNurtureDay14({ name, discoveryUrl, canSpamAddress }) {
     `Founder, Viva Wellness Co.`,
   ].join('\n');
 
-  const html = nurtureWrap({ eyebrow: 'Follow-up · Day 14', title: subject, bodyHtml, canSpamAddress });
+  const html = nurtureWrap({ eyebrow: 'Follow-up · Day 14', title: subject, bodyHtml, canSpamAddress, unsubscribeUrl });
   return { subject, html, text };
 }
 
