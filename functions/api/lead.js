@@ -242,10 +242,11 @@ export async function onRequestPost(context) {
 
   // --- Schedule nurture sequence (best-effort) ---
   // Resend `scheduled_at` holds the email server-side until the target time
-  // (supports up to 30 days). Day 3 is match-tailored; Days 7 and 14 are
-  // match-agnostic. Referrals are skipped: the referee gets a personal
-  // intro from Liliana instead of an automated drip, and the referrer
-  // already has the confirmation in hand.
+  // (supports up to 30 days). All four sends fire at 8 AM America/Chicago.
+  // Day 1 (thank-you + discovery-call offer) and Day 3 are match-tailored;
+  // Days 7 and 14 are match-agnostic. Referrals are skipped: the referee gets
+  // a personal intro from Liliana instead of an automated drip, and the
+  // referrer already has the confirmation in hand.
   if (!isReferral) {
     await scheduleNurture(apiKey, {
       from: fromEmail,
@@ -306,9 +307,9 @@ function buildLeadEmail({ name, ebookUrl, canSpamAddress }) {
     `Your copy of the Precision Hormone & Peptide Therapy eBook is ready:`,
     ebookUrl,
     ``,
-    `Liliana will follow up personally within one business day if you asked a`,
-    `question or want to talk through your protocol. If you didn't, no pressure ·`,
-    `the eBook is yours to keep.`,
+    `Liliana will send a short note tomorrow morning with an easy way to talk`,
+    `things through if you would like. No pressure either way · the eBook is`,
+    `yours to keep.`,
     ``,
     `Talk soon,`,
     `Liliana Damron, APRN, FNP-BC`,
@@ -359,9 +360,9 @@ function buildLeadEmail({ name, ebookUrl, canSpamAddress }) {
 
         <tr><td style="padding:0 32px 28px 32px;border-top:1px solid #ebe5db;padding-top:24px;">
           <p style="font-size:15px;line-height:1.6;color:#2a2420;margin:0 0 12px 0;">
-            Liliana will follow up personally within one business day if you asked
-            a question or want to talk through your protocol. If you didn't, no
-            pressure. The eBook is yours to keep.
+            Liliana will send a short note tomorrow morning with an easy way to
+            talk things through if you would like. No pressure either way · the
+            eBook is yours to keep.
           </p>
           <p style="font-size:15px;line-height:1.6;color:#2a2420;margin:18px 0 4px 0;">Talk soon,</p>
           <p style="font-family:Georgia,serif;font-style:italic;font-size:18px;color:#0c0a09;margin:0 0 2px 0;">Liliana Damron, APRN, FNP-BC</p>
@@ -458,23 +459,29 @@ function buildReferrerConfirmEmail({ referrerName, referee, canSpamAddress }) {
 }
 
 // --- Nurture sequence ---
-// Three emails scheduled via Resend `scheduled_at` after the Day 0 send.
+// Four emails scheduled via Resend `scheduled_at` after the Day 0 send, each
+// fired at 8 AM America/Chicago so the cadence is predictable no matter when
+// the form was submitted:
+//   Day 1  · personal thank-you + first discovery-call offer (match-aware)
+//   Day 3  · match-tailored "three things people get wrong"
+//   Day 7  · the long-term-safety objection
+//   Day 14 · soft close + final discovery-call offer
 // Each one stands on its own · they don't reference prior emails, in case
 // any of them get filtered out or skimmed past.
 async function scheduleNurture(apiKey, { from, to, name, match, notifyEmail, discoveryUrl, canSpamAddress }) {
   const now = Date.now();
-  const DAY = 24 * 60 * 60 * 1000;
 
   const sends = [
-    { delayMs: 3 * DAY, build: () => buildNurtureDay3({ name, match, canSpamAddress }) },
-    { delayMs: 7 * DAY, build: () => buildNurtureDay7({ name, canSpamAddress }) },
-    { delayMs: 14 * DAY, build: () => buildNurtureDay14({ name, discoveryUrl, canSpamAddress }) },
+    { at: central8amAfterDays(now, 1), build: () => buildNurtureDay1({ name, match, discoveryUrl, canSpamAddress }) },
+    { at: central8amAfterDays(now, 3), build: () => buildNurtureDay3({ name, match, canSpamAddress }) },
+    { at: central8amAfterDays(now, 7), build: () => buildNurtureDay7({ name, canSpamAddress }) },
+    { at: central8amAfterDays(now, 14), build: () => buildNurtureDay14({ name, discoveryUrl, canSpamAddress }) },
   ];
 
   // Failures here don't fail the request · the Day 0 email already went
   // through. Worst case is one or more followups didn't get queued.
   await Promise.allSettled(
-    sends.map(({ delayMs, build }) => {
+    sends.map(({ at, build }) => {
       const { subject, html, text } = build();
       return sendEmail(apiKey, {
         from,
@@ -483,7 +490,7 @@ async function scheduleNurture(apiKey, { from, to, name, match, notifyEmail, dis
         html,
         text,
         reply_to: notifyEmail,
-        scheduled_at: new Date(now + delayMs).toISOString(),
+        scheduled_at: new Date(at).toISOString(),
         headers: {
           'List-Unsubscribe': `<mailto:${notifyEmail}?subject=Unsubscribe>`,
           'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click',
@@ -491,6 +498,115 @@ async function scheduleNurture(apiKey, { from, to, name, match, notifyEmail, dis
       });
     })
   );
+}
+
+// Epoch-ms for 8:00 AM America/Chicago, `addDays` after the Chicago calendar
+// date of `fromMs`. Keeps the whole drip on a steady 8 AM Central cadence and
+// stays correct across daylight-saving shifts (the offset is resolved per
+// target date rather than assumed). Day 1 from a 9 PM submission lands ~11
+// hours out; from a 7 AM submission it lands the next morning · always the
+// "following day at 8 AM" the copy promises.
+function central8amAfterDays(fromMs, addDays) {
+  const tz = 'America/Chicago';
+  const dtf = new Intl.DateTimeFormat('en-US', {
+    timeZone: tz, year: 'numeric', month: '2-digit', day: '2-digit',
+  });
+  const map = {};
+  for (const p of dtf.formatToParts(new Date(fromMs))) map[p.type] = p.value;
+  // Chicago calendar date of submission, shifted forward by addDays.
+  const base = new Date(Date.UTC(+map.year, +map.month - 1, +map.day + addDays));
+  return zonedTimeToUtc(base.getUTCFullYear(), base.getUTCMonth() + 1, base.getUTCDate(), 8, 0, tz);
+}
+
+// Convert a wall-clock time in `tz` to its UTC epoch-ms.
+function zonedTimeToUtc(year, month, day, hour, minute, tz) {
+  const guess = Date.UTC(year, month - 1, day, hour, minute);
+  return guess - tzOffsetMs(guess, tz);
+}
+
+// How far `tz` runs ahead of UTC (ms) at a given instant. Negative for the
+// Americas. Derived by formatting the instant into `tz` and diffing.
+function tzOffsetMs(utcMs, tz) {
+  const dtf = new Intl.DateTimeFormat('en-US', {
+    timeZone: tz, hour12: false,
+    year: 'numeric', month: '2-digit', day: '2-digit',
+    hour: '2-digit', minute: '2-digit', second: '2-digit',
+  });
+  const map = {};
+  for (const p of dtf.formatToParts(new Date(utcMs))) map[p.type] = p.value;
+  const hour = map.hour === '24' ? 0 : +map.hour; // some engines emit '24' for midnight
+  const asUTC = Date.UTC(+map.year, +map.month - 1, +map.day, hour, +map.minute, +map.second);
+  return asUTC - utcMs;
+}
+
+// Day 1 · 8 AM Central, the morning after submission. A warm personal
+// thank-you and the first soft offer of a discovery call. Match-aware: when
+// the quiz produced a match we name it as a starting point and frame the call
+// as the way to confirm fit; raw contact leads get the generic "find the right
+// fit" framing. This is the early discovery touch · Day 14 is the final one.
+function buildNurtureDay1({ name, match, discoveryUrl, canSpamAddress }) {
+  const first = (name || '').split(/\s+/)[0] || 'there';
+  const subject = 'Thanks for your interest · let me help you find the right fit';
+
+  const matchHtml =
+    match && match.name
+      ? `Based on what you shared, <strong>${esc(match.name)}</strong>${
+          match.price ? ` (${esc(match.price)}/mo)` : ''
+        } looks like a strong starting point. The quiz gets you to the right neighborhood · a short call is how we make sure it is actually the right fit for your goals and your budget.`
+      : `The fastest way to find the right fit is a short call where I can hear your goals and point you to the protocol that actually matches them.`;
+
+  const matchText =
+    match && match.name
+      ? `Based on what you shared, ${match.name}${match.price ? ` (${match.price}/mo)` : ''} looks like a strong starting point. The quiz gets you to the right neighborhood. A short call is how we make sure it is actually the right fit for your goals and your budget.`
+      : `The fastest way to find the right fit is a short call where I can hear your goals and point you to the protocol that actually matches them.`;
+
+  const bodyHtml = `
+    <p style="margin:0 0 16px 0;">Hi ${esc(first)},</p>
+
+    <p style="margin:0 0 16px 0;">Thank you for your interest in Viva Wellness Co. I wanted to follow up personally and offer to help you find the services that fit you best.</p>
+
+    <p style="margin:0 0 16px 0;">${matchHtml}</p>
+
+    <p style="margin:0 0 24px 0;">There is no prescription and no pressure on a first call. I ask about your goals, your history, and what you have already tried. You ask me anything. By the end we both know whether there is a real fit and which path makes sense.</p>
+
+    <table role="presentation" cellpadding="0" cellspacing="0">
+      <tr><td style="background:#c9783a;border-radius:2px;">
+        <a href="${esc(discoveryUrl)}"
+           style="display:inline-block;padding:14px 26px;font-family:Arial,sans-serif;font-size:13px;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:#0c0a09;text-decoration:none;">
+          Schedule a 30-min discovery call &nbsp;→
+        </a>
+      </td></tr>
+    </table>
+
+    <p style="font-size:13px;color:#8a7d72;margin:14px 0 20px 0;">
+      Or copy and paste: <a href="${esc(discoveryUrl)}" style="color:#8a4d22;">${esc(discoveryUrl)}</a>
+    </p>
+
+    <p style="margin:0;">If a call is not the right format, just reply to this email with what you are trying to solve and I will point you in the right direction personally.</p>
+  `;
+
+  const text = [
+    `Hi ${first},`,
+    ``,
+    `Thank you for your interest in Viva Wellness Co. I wanted to follow up personally and offer to help you find the services that fit you best.`,
+    ``,
+    matchText,
+    ``,
+    `There is no prescription and no pressure on a first call. I ask about your goals, your history, and what you have already tried. You ask me anything. By the end we both know whether there is a real fit and which path makes sense.`,
+    ``,
+    `When you are ready, here is the link to schedule a 30-minute discovery call:`,
+    ``,
+    `  ${discoveryUrl}`,
+    ``,
+    `If a call is not the right format, just reply to this email with what you are trying to solve and I will point you in the right direction personally.`,
+    ``,
+    `Talk soon,`,
+    `Liliana Damron, APRN, FNP-BC`,
+    `Founder, Viva Wellness Co.`,
+  ].join('\n');
+
+  const html = nurtureWrap({ eyebrow: 'Follow-up · Day 1', title: subject, bodyHtml, canSpamAddress });
+  return { subject, html, text };
 }
 
 // Shared HTML shell for nurture emails. Mirrors buildLeadEmail's visual
@@ -700,7 +816,7 @@ function buildNurtureDay14({ name, discoveryUrl, canSpamAddress }) {
 
     <p style="margin:0 0 16px 0;">It has been a couple of weeks since you reached out, so I figured I would check in once more. Then I will get out of your inbox.</p>
 
-    <p style="margin:0 0 16px 0;">If anything in the eBook or the last two emails landed for you, the next step is a 30-minute consult. It is exactly what it sounds like. I ask questions, you ask questions, we figure out if there is a real fit. No prescription is written on the first call.</p>
+    <p style="margin:0 0 16px 0;">If anything in the eBook or the notes I have sent since landed for you, the next step is a 30-minute consult. It is exactly what it sounds like. I ask questions, you ask questions, we figure out if there is a real fit. No prescription is written on the first call.</p>
 
     <p style="margin:0 0 24px 0;">If it is not the right time, that is fine too. The eBook is yours to keep.</p>
 
@@ -725,7 +841,7 @@ function buildNurtureDay14({ name, discoveryUrl, canSpamAddress }) {
     ``,
     `It has been a couple of weeks since you reached out, so I figured I would check in once more. Then I will get out of your inbox.`,
     ``,
-    `If anything in the eBook or the last two emails landed for you, the next step is a 30-minute consult. I ask questions, you ask questions, we figure out if there is a real fit. No prescription is written on the first call.`,
+    `If anything in the eBook or the notes I have sent since landed for you, the next step is a 30-minute consult. I ask questions, you ask questions, we figure out if there is a real fit. No prescription is written on the first call.`,
     ``,
     `If it is not the right time, that is fine too. The eBook is yours to keep. When you are ready, here is the link to schedule:`,
     ``,
