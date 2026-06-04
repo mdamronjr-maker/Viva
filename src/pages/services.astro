@@ -17,7 +17,7 @@ const programs = [
     price: 99,
     priceLabel: '$99',
     tagline: 'Provider-led HRT/TRT management for patients using insurance.',
-    body: 'A membership for patients who want concierge provider attention while keeping their insurance coverage for hormones, retail prescriptions, and labs. Monthly evaluations, ongoing medication management, and a Prior Authorization service when your plan needs paperwork. Compounded medication is not included — this tier is the insurance-routed alternative to TRT/HRT All Inclusive.',
+    body: 'A membership for patients who want concierge provider attention while keeping their insurance coverage for hormones, retail prescriptions, and labs. Monthly evaluations, ongoing medication management, and a Prior Authorization service when your plan needs paperwork. Compounded medication is not included; this tier is the insurance-routed alternative to TRT/HRT All Inclusive.',
     includes: [
       'Monthly evaluation visit',
       'Dosing guidance',
@@ -41,8 +41,8 @@ const programs = [
     name: 'TRT/HRT All Inclusive',
     price: 199,
     priceLabel: '$199',
-    tagline: 'All-inclusive hormone therapy — personalized dosing, medication, labs, delivery.',
-    body: 'All-inclusive, provider-led hormone therapy with personalized dosing — topical or injectable. Compounded testosterone for TRT and compounded estradiol or progesterone for HRT, fully managed. Labs twice yearly. Supplies and home delivery in one monthly fee.',
+    tagline: 'All-inclusive hormone therapy: personalized dosing, medication, labs, delivery.',
+    body: 'All-inclusive, provider-led hormone therapy with personalized dosing, topical or injectable. Compounded testosterone for TRT and compounded estradiol or progesterone for HRT, fully managed. Labs twice yearly. Supplies and home delivery in one monthly fee.',
     includes: [
       'Personalized dosing (topical or injectable)',
       'Compounded testosterone for TRT',
@@ -93,7 +93,7 @@ const programs = [
     price: 349,
     priceLabel: '$349',
     tagline: 'Compounded tirzepatide at low-to-moderate dose, fully managed.',
-    body: 'Provider-guided metabolic care with compounded tirzepatide at low-to-moderate dose. The most-prescribed GLP-1 protocol — appetite control, improved insulin sensitivity, and steady fat loss, with monthly provider oversight of titration and side effects.',
+    body: 'Provider-guided metabolic care with compounded tirzepatide at low-to-moderate dose. The most-prescribed GLP-1 protocol: appetite control, improved insulin sensitivity, and steady fat loss, with monthly provider oversight of titration and side effects.',
     includes: [
       'Compounded tirzepatide (low-to-moderate dose)',
       'Appetite regulation support',
@@ -169,8 +169,8 @@ const programs = [
     name: 'Peak Performance',
     price: 699,
     priceLabel: '$699',
-    tagline: 'Total optimization — 1 Essential, 1 Core, 1 Elite Protocol.',
-    body: 'Built for high performers who prioritize recovery, longevity, and performance. Combines one Essential, one Core, and one Elite Protocol under a single provider with priority access — hormone, metabolic, and performance protocols coordinated as one system.',
+    tagline: 'Total optimization: 1 Essential, 1 Core, 1 Elite Protocol.',
+    body: 'Built for high performers who prioritize recovery, longevity, and performance. Combines one Essential, one Core, and one Elite Protocol under a single provider with priority access: hormone, metabolic, and performance protocols coordinated as one system.',
     includes: [
       'One Essential Protocol (provider-selected, typically hormone foundation)',
       'One Core Protocol (provider-selected, typically metabolic)',
@@ -205,11 +205,11 @@ const includedAlways = [
 const pillars = [
   { num: '01', title: 'Hormone Optimization', body: 'TRT and HRT protocols calibrated to how you want to feel and perform, not just where the lab range starts.' },
   { num: '02', title: 'Metabolic Reset', body: 'Compounded GLP-1 protocols stepped to your physiology. Real appetite control without losing the muscle you trained for.' },
-  { num: '03', title: 'Peptide Therapy', body: 'Compounded peptide protocols for recovery, healing, and tissue repair. BPC-157, TB-500, GHK-Cu, CJC-1295 / Ipamorelin — the stack that closes the gap between training load and what your body can actually recover from.' },
+  { num: '03', title: 'Peptide Therapy', body: 'Compounded peptide protocols for recovery, healing, and tissue repair. BPC-157, TB-500, GHK-Cu, CJC-1295 / Ipamorelin: the stack that closes the gap between training load and what your body can actually recover from.' },
   { num: '04', title: 'Performance', body: 'Support for athletes and high-output professionals. Peptide and hormone protocols calibrated to keep you on the line, not behind it.' },
   { num: '05', title: 'Recomp', body: 'Coordinated metabolic, hormone, and recovery support designed to shift body composition while keeping training intact.' },
   { num: '06', title: 'Lifestyle & Longevity', body: 'Long-arc protocols for healthspan. Sleep, hormones, inflammation, and longevity peptides managed as one system.' },
-  { num: '07', title: 'Labs & Diagnostics', body: 'Hormone, metabolic, inflammation, and micronutrient panels. Ordered through your insurance, interpreted by the provider managing your protocol — the measurement layer behind every tier.' },
+  { num: '07', title: 'Labs & Diagnostics', body: 'Hormone, metabolic, inflammation, and micronutrient panels. Ordered through your insurance, interpreted by the provider managing your protocol: the measurement layer behind every tier.' },
 ];
 
 // Schema.org · each tier emits a MedicalProcedure node so Google can
@@ -247,7 +247,7 @@ const servicesSchema = {
 
 <Layout
   title="Peptide Therapy, TRT, GLP-1 & Hormone Optimization in Austin | Viva Wellness Co."
-  description="Concierge peptide therapy in Austin, TX — BPC-157, TB-500, GHK-Cu, CJC-1295 / Ipamorelin, MOTS-c. Plus compounded GLP-1 weight loss, TRT, HRT, and total-body performance medicine. Memberships from $99 to $699 per month. Texas, Colorado, Florida."
+  description="Concierge peptide therapy in Austin, TX: BPC-157, TB-500, GHK-Cu, CJC-1295 / Ipamorelin, MOTS-c. Plus compounded GLP-1 weight loss, TRT, HRT, and total-body performance medicine. Memberships from $99 to $699 per month. Texas, Colorado, Florida."
   schema={servicesSchema}
 >
 
@@ -341,7 +341,7 @@ const servicesSchema = {
         <p class="provider-strip__line">
           Every tier on this page is managed personally by
           <strong>Liliana Damron, APRN, FNP-BC</strong>.
-          Same provider every visit — no handoffs to staff or junior clinicians.
+          Same provider every visit, no handoffs to staff or junior clinicians.
         </p>
         <a href="/about" class="provider-strip__link">Meet your provider →</a>
       </div>
@@ -358,7 +358,7 @@ const servicesSchema = {
         </h2>
         <p class="lead section-head__lead">
           Flat monthly fee. Compounded medication, supplies, home delivery,
-          follow-ups, provider access — included in every tier except Viva
+          follow-ups, provider access, all included in every tier except Viva
           Concierge Access (the insurance-routed entry point). The quiz routes
           you to a starting tier; the provider tunes the details in your
           first visit.
