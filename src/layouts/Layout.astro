@@ -177,6 +177,10 @@ const orgSchema = {
 
   <ClientRouter />
 
+  {/* Cloudflare Turnstile · loads once, persists across view transitions.
+      Widgets render explicitly in each form's init (see contact/index/refer). */}
+  <script is:inline async defer src="https://challenges.cloudflare.com/turnstile/v0/api.js"></script>
+
   {/* Privacy-respecting analytics · loads only when PUBLIC_PLAUSIBLE_DOMAIN
       is set in Cloudflare Pages env vars (e.g. "vivawellnessco.com"). No
       cookies, no PII, no cookie banner needed. Tracks pageviews + the

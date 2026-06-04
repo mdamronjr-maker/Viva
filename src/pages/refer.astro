@@ -101,6 +101,8 @@ const REFERRAL_REWARD_LABEL = `$${REFERRAL_REWARD_USD} credit`;
             <label>Leave empty<input name="company" type="text" tabindex="-1" autocomplete="off" /></label>
           </div>
 
+          <div class="cf-turnstile" data-sitekey="0x4AAAAAADe2cYOJKVo5GA0L" data-theme="light"></div>
+
           <button type="submit" class="btn btn--bronze" id="r-submit">Send the intro</button>
           <div class="refer-form__status" id="r-status" role="status" aria-live="polite"></div>
         </form>
@@ -129,6 +131,11 @@ const REFERRAL_REWARD_LABEL = `$${REFERRAL_REWARD_USD} credit`;
     const status = document.getElementById('r-status') as HTMLDivElement | null;
     const submit = document.getElementById('r-submit') as HTMLButtonElement | null;
     if (!form || !status || !submit) return;
+    const tsEl = form.querySelector('.cf-turnstile') as HTMLElement | null;
+    const ts = () => (window as any).turnstile;
+    if (tsEl && ts() && !tsEl.querySelector('iframe')) {
+      try { ts().render(tsEl, { sitekey: tsEl.getAttribute('data-sitekey') }); } catch (e) {}
+    }
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -169,6 +176,7 @@ const REFERRAL_REWARD_LABEL = `$${REFERRAL_REWARD_USD} credit`;
             name: referrerName,
             email: referrerEmail,
             company,
+            turnstileToken: String(data.get('cf-turnstile-response') || ''),
             referrer: { name: referrerName, email: referrerEmail },
             referee: { name: refereeName, email: refereeEmail },
             message: note,
@@ -186,6 +194,7 @@ const REFERRAL_REWARD_LABEL = `$${REFERRAL_REWARD_USD} credit`;
       } catch (err) {
         status.textContent = err instanceof Error ? err.message : 'Send failed. Try again.';
         status.classList.add('is-error');
+        try { if (tsEl && ts()) ts().reset(tsEl); } catch (e) {}
       } finally {
         submit.disabled = false;
         submit.removeAttribute('aria-busy');

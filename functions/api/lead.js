@@ -52,6 +52,26 @@ const esc = (s) =>
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;');
 
+// Cloudflare Turnstile server-side verification. Returns true to allow the
+// submission. A missing token is treated as a failed challenge (bots that skip
+// the widget); a token present but an unreachable siteverify endpoint fails
+// OPEN so a Cloudflare hiccup never drops a real lead.
+async function verifyTurnstile(secret, token, ip) {
+  if (!token) return false;
+  try {
+    const body = new URLSearchParams({ secret, response: String(token) });
+    if (ip) body.set('remoteip', ip);
+    const r = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+      method: 'POST',
+      body,
+    });
+    const d = await r.json();
+    return !!(d && d.success);
+  } catch {
+    return true;
+  }
+}
+
 // --- main handler ---
 export async function onRequestPost(context) {
   const { request, env } = context;
@@ -82,6 +102,19 @@ export async function onRequestPost(context) {
   // Honeypot: if filled, silently succeed without sending.
   if (company && String(company).trim().length > 0) {
     return json({ ok: true, skipped: 'honeypot' });
+  }
+
+  // Turnstile bot mitigation. Enforced only when TURNSTILE_SECRET_KEY is set,
+  // so the form keeps working if the secret is ever unset/rotated mid-deploy.
+  if (env.TURNSTILE_SECRET_KEY) {
+    const turnstileOk = await verifyTurnstile(
+      env.TURNSTILE_SECRET_KEY,
+      payload && payload.turnstileToken,
+      request.headers.get('CF-Connecting-IP')
+    );
+    if (!turnstileOk) {
+      return json({ ok: false, error: 'Verification failed. Please refresh the page and try again.' }, { status: 403 });
+    }
   }
 
   // Validation · keep payloads small so a paste of PHI or any long-form

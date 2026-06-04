@@ -91,6 +91,8 @@ const DISCOVERY_CALL_URL = ''; // e.g. 'https://calendly.com/liliana-viva/intro'
             </label>
           </div>
 
+          <div class="cf-turnstile" data-sitekey="0x4AAAAAADe2cYOJKVo5GA0L" data-theme="light"></div>
+
           <button type="submit" class="btn btn--bronze" id="c-submit">Send &amp; get the eBook</button>
 
           <div class="contact-form__status" id="c-status" role="status" aria-live="polite"></div>
@@ -155,6 +157,11 @@ const DISCOVERY_CALL_URL = ''; // e.g. 'https://calendly.com/liliana-viva/intro'
     const status = document.getElementById('c-status') as HTMLDivElement | null;
     const submit = document.getElementById('c-submit') as HTMLButtonElement | null;
     if (!form || !status || !submit) return;
+    const tsEl = form.querySelector('.cf-turnstile') as HTMLElement | null;
+    const ts = () => (window as any).turnstile;
+    if (tsEl && ts() && !tsEl.querySelector('iframe')) {
+      try { ts().render(tsEl, { sitekey: tsEl.getAttribute('data-sitekey') }); } catch (e) {}
+    }
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       status.textContent = '';
@@ -175,6 +182,7 @@ const DISCOVERY_CALL_URL = ''; // e.g. 'https://calendly.com/liliana-viva/intro'
         phone: String(data.get('phone') || '').trim(),
         message: String(data.get('message') || '').trim(),
         company: String(data.get('company') || '').trim(), // honeypot
+        turnstileToken: String(data.get('cf-turnstile-response') || ''),
         utm,
         referrer,
       };
@@ -205,6 +213,7 @@ const DISCOVERY_CALL_URL = ''; // e.g. 'https://calendly.com/liliana-viva/intro'
       } catch (err) {
         status.textContent = err instanceof Error ? err.message : 'Send failed. Try again.';
         status.classList.add('is-error');
+        try { if (tsEl && ts()) ts().reset(tsEl); } catch (e) {}
       } finally {
         submit.disabled = false;
         submit.removeAttribute('aria-busy');

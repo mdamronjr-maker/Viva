@@ -246,6 +246,7 @@ const testimonials = [
           <div class="field"><label for="qx-email" class="field__label">Email</label><input id="qx-email" name="email" type="email" class="field__input" autocomplete="email" required placeholder="you@example.com" /></div>
           <div class="field"><label for="qx-phone" class="field__label">Phone</label><input id="qx-phone" name="phone" type="tel" class="field__input" autocomplete="tel" placeholder="(512) 555-0123" /><span class="field__hint">Optional. Only used if you ask me to call or text.</span></div>
           <div class="hp" aria-hidden="true"><label>Leave empty<input name="company" type="text" tabindex="-1" autocomplete="off" /></label></div>
+          <div class="cf-turnstile" data-sitekey="0x4AAAAAADe2cYOJKVo5GA0L" data-theme="light"></div>
           <button type="submit" class="btn btn--bronze" id="qx-submit">Reveal my protocol</button>
           <div class="qx__status" id="qx-status" role="status" aria-live="polite"></div>
         </form>
@@ -555,6 +556,11 @@ const testimonials = [
   const submit = document.getElementById('qx-submit') as HTMLButtonElement | null;
 
   if (form && status && submit) {
+    const tsEl = form.querySelector('.cf-turnstile') as HTMLElement | null;
+    const ts = () => (window as any).turnstile;
+    if (tsEl && ts() && !tsEl.querySelector('iframe')) {
+      try { ts().render(tsEl, { sitekey: tsEl.getAttribute('data-sitekey') }); } catch (e) {}
+    }
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       status.textContent = '';
@@ -586,6 +592,7 @@ const testimonials = [
           body: JSON.stringify({
             source: 'quiz',
             name, email, phone, company,
+            turnstileToken: String(data.get('cf-turnstile-response') || ''),
             quiz: state.answers,
             match: { key: m.key, name: m.name, price: m.price, ebookPath: m.ebookPath },
             utm,
@@ -605,6 +612,7 @@ const testimonials = [
       } catch (err) {
         status.textContent = err instanceof Error ? err.message : 'Send failed. Try again.';
         status.classList.add('is-error');
+        try { if (tsEl && ts()) ts().reset(tsEl); } catch (e) {}
       } finally {
         submit.disabled = false;
         submit.removeAttribute('aria-busy');
