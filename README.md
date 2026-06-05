@@ -104,7 +104,7 @@ layers**:
   *verifies* the Access JWT — without that, someone could bypass Access by
   hitting the raw `*.pages.dev` URL. With it, the browser view just works after
   SSO and the origin is bypass-proof.
-- **Bearer token** for automation (e.g. the CT219 runbook fetching JSON):
+- **Bearer token** for scripted access to the JSON (curl / cron):
 
 ```
 # JSON rollup (automation)
