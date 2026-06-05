@@ -76,7 +76,6 @@ export async function onRequestPost({ request, env }) {
         to: env.CONTACT_TO,
         status: 'send_failed',
         kind: 'contact',
-        subject,
       });
       return Response.json(
         { error: 'Failed to send. Please email us directly.' },
@@ -92,7 +91,6 @@ export async function onRequestPost({ request, env }) {
       to: env.CONTACT_TO,
       status: 'sent',
       kind: 'contact',
-      subject,
     });
 
     // Optional: forward to a Zapier webhook if one is configured.

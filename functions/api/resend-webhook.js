@@ -119,7 +119,8 @@ export async function onRequestPost(context) {
   // Resend uses email_id on webhook payloads; fall back to id for older shapes.
   const messageId = data.email_id || data.id || null;
 
-  // (1) Append a delivery-log row per recipient (best-effort).
+  // (1) Append a delivery-log row per recipient (best-effort). Subject is
+  // intentionally not logged · see _log.js.
   await Promise.allSettled(
     recipients.map((addr) =>
       logEmailEvent(env, {
@@ -127,7 +128,6 @@ export async function onRequestPost(context) {
         to: addr,
         status,
         kind: 'webhook',
-        subject: data.subject,
       })
     )
   );

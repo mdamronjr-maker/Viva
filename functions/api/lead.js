@@ -264,7 +264,6 @@ export async function onRequestPost(context) {
       to: cleanEmail,
       status: 'send_failed',
       kind: isReferral ? 'referrer-confirm' : 'lead',
-      subject: isReferral ? 'Thanks for the referral' : 'Your Viva Wellness eBook is here',
     });
     return json(
       { ok: false, error: 'Email send failed. Please email info@vivawellnessco.com directly.' },
@@ -279,14 +278,12 @@ export async function onRequestPost(context) {
       to: cleanEmail,
       status: 'sent',
       kind: isReferral ? 'referrer-confirm' : 'lead',
-      subject: isReferral ? 'Thanks for the referral' : 'Your Viva Wellness eBook is here',
     }),
     logEmailEvent(env, {
       id: results[1].status === 'fulfilled' && results[1].value ? results[1].value.id : null,
       to: notifyEmail,
       status: results[1].status === 'fulfilled' ? 'sent' : 'send_failed',
       kind: 'notify',
-      subject: notifySubject,
     }),
   ]);
 
@@ -609,7 +606,6 @@ async function scheduleNurture(apiKey, { env, from, to, name, match, notifyEmail
         to,
         status: r.status === 'fulfilled' ? 'scheduled' : 'send_failed',
         kind: `nurture-day${built[i].day}`,
-        subject: built[i].subject,
       })
     )
   );

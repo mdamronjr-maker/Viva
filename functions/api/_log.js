@@ -33,10 +33,6 @@ const PREFIX = 'elog:';
 const REV_BASE = 9999999999999;
 const LOG_TTL_SECONDS = 90 * 24 * 60 * 60;
 
-// KV metadata is capped at 1024 bytes. Subjects are the only unbounded field;
-// cap them well short so the JSON envelope always fits.
-const MAX_SUBJECT_LEN = 160;
-
 const clip = (s, n) => {
   const str = String(s == null ? '' : s);
   return str.length > n ? str.slice(0, n - 1) + '…' : str;
@@ -62,11 +58,16 @@ function rand() {
  *   to      · recipient address
  *   status  · sent | scheduled | delivered | delivery_delayed | bounced |
  *             complained | opened | clicked
- *   kind    · what the message is: lead | notify | nurture | contact |
+ *   kind    · what the message is: lead | notify | nurture-dayN | contact |
  *             referrer-confirm | webhook
- *   subject · message subject (clipped)
+ *
+ * Deliberately does NOT store the message subject. The transactional/nurture
+ * subjects can name a health vertical (e.g. "hormone therapy"), and pairing
+ * that with an identifiable email address in a non-BAA store nudges toward PHI.
+ * `kind` (the day/type label) carries no health topic, so it gives triage value
+ * without that association. Keep this log minimal · email + status + kind only.
  */
-export async function logEmailEvent(env, { id, to, status, kind, subject } = {}) {
+export async function logEmailEvent(env, { id, to, status, kind } = {}) {
   if (!env || !env.LEADS_KV) return;
   const at = new Date().toISOString();
   const entry = {
@@ -74,7 +75,6 @@ export async function logEmailEvent(env, { id, to, status, kind, subject } = {})
     to: clip(to, 200),
     status: String(status || 'unknown'),
     kind: String(kind || 'email'),
-    subject: clip(subject, MAX_SUBJECT_LEN),
     at,
   };
   const key = `${PREFIX}${revKey(Date.now())}:${rand()}`;
