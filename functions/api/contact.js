@@ -10,6 +10,10 @@
 //
 // Optional:
 //   ZAPIER_WEBHOOK_URL  · if set, fires this webhook with the form data as JSON
+//   LEADS_KV (binding)  · if bound, the send is recorded in the delivery audit
+//                         log (see _log.js). Degrades to a no-op without it.
+
+import { logEmailEvent } from './_log.js';
 
 export async function onRequestPost({ request, env }) {
   try {
@@ -68,11 +72,28 @@ export async function onRequestPost({ request, env }) {
     if (!resendRes.ok) {
       const err = await resendRes.text();
       console.error('Resend failed:', resendRes.status, err);
+      await logEmailEvent(env, {
+        to: env.CONTACT_TO,
+        status: 'send_failed',
+        kind: 'contact',
+        subject,
+      });
       return Response.json(
         { error: 'Failed to send. Please email us directly.' },
         { status: 502 }
       );
     }
+
+    // Audit log: record the send (best-effort). The id lets the dashboard
+    // correlate this row with later Resend delivery webhooks.
+    const sent = await resendRes.json().catch(() => null);
+    await logEmailEvent(env, {
+      id: sent && sent.id,
+      to: env.CONTACT_TO,
+      status: 'sent',
+      kind: 'contact',
+      subject,
+    });
 
     // Optional: forward to a Zapier webhook if one is configured.
     if (env.ZAPIER_WEBHOOK_URL) {

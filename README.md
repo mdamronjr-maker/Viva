@@ -55,6 +55,7 @@ In Cloudflare Pages → your project → Settings → Environment variables (Pro
 | `CAN_SPAM_ADDRESS` | recommended | physical postal address printed in every nurture email footer (CAN-SPAM). Unset = obvious placeholder ships |
 | `UNSUB_SECRET` | recommended | random string · HMAC key for one-click unsubscribe links. Unset = drip falls back to reply-"stop" only |
 | `RESEND_WEBHOOK_SECRET` | recommended | the `whsec_…` signing secret from the Resend webhook. Unset = `/api/resend-webhook` fails closed (401) |
+| `EMAIL_STATUS_TOKEN` | recommended | random string · bearer token guarding `/api/email-status` (the delivery dashboard). Unset = endpoint off (401), since it exposes lead emails |
 
 Per memory: Resend is NOT BAA-eligible. This pipeline only handles marketing leads (name/email/phone, no PHI). Keep all clinical comms in Charm Health.
 
@@ -65,16 +66,35 @@ of infra are needed beyond the env vars above:
 
 1. **KV namespace binding `LEADS_KV`** · Cloudflare Pages → Settings → Functions →
    KV namespace bindings → bind a namespace as `LEADS_KV`. Stores the suppression
-   list (`supp:<email>`) and the queued Resend IDs per lead (`sched:<email>`,
-   31-day TTL). Without it, the drip still sends but auto-cancel is disabled.
-2. **Resend webhook** → point it at `https://vivawellnessco.com/api/resend-webhook`,
-   subscribe to `email.complained` and `email.bounced`, and copy its signing
-   secret into `RESEND_WEBHOOK_SECRET`.
+   list (`supp:<email>`), the queued Resend IDs per lead (`sched:<email>`,
+   31-day TTL), and the delivery audit log (`elog:<rev>:<rand>`, 90-day TTL · see
+   below). Without it, the drip still sends but auto-cancel **and the delivery
+   dashboard** are disabled.
+2. **Resend webhook** → point it at `https://vivawellnessco.com/api/resend-webhook`
+   and copy its signing secret into `RESEND_WEBHOOK_SECRET`. Subscribe to
+   `email.bounced` and `email.complained` (drive auto-suppression) plus
+   `email.sent`, `email.delivered`, and `email.delivery_delayed` (feed the
+   delivery dashboard). `email.opened` / `email.clicked` are optional and also
+   logged if enabled.
 
 Unsubscribe links resolve at `/api/unsubscribe` (GET = confirmation page, POST =
 RFC 8058 one-click). Every link is HMAC-signed with `UNSUB_SECRET`. All of this
 degrades gracefully: missing binding/secret reverts to the prior reply-"stop"
 behavior without breaking lead capture.
+
+**Delivery dashboard (`/api/email-status`).** Every send (eBook, notify, the four
+nurture sends, contact form) and every Resend lifecycle webhook is appended to an
+append-only KV event log (`_log.js`). `/api/email-status` reads it back as a
+status rollup + recent events, so you can confirm mail actually landed without
+opening the Resend console. It holds lead emails (PII) so it is **gated by
+`EMAIL_STATUS_TOKEN`** and fails closed.
+
+```
+# JSON rollup
+curl -H "Authorization: Bearer $EMAIL_STATUS_TOKEN" https://vivawellnessco.com/api/email-status
+# browser table
+https://vivawellnessco.com/api/email-status?view=html&token=YOUR_TOKEN
+```
 
 ### 4. Verify vivawellnessco.com domain in Resend
 

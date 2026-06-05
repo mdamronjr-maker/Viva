@@ -20,9 +20,10 @@
  *                            links. Without it the drip falls back to a
  *                            mailto/reply-"stop" unsubscribe only.
  *   LEADS_KV (binding)     · optional. KV namespace that backs the
- *                            suppression list + scheduled-send bookkeeping.
- *                            Without it, auto-suppression is disabled (the
- *                            drip still sends as before).
+ *                            suppression list + scheduled-send bookkeeping +
+ *                            the email delivery audit log (see _log.js).
+ *                            Without it, auto-suppression and the delivery
+ *                            dashboard are disabled (the drip still sends).
  */
 
 import {
@@ -30,6 +31,7 @@ import {
   recordScheduled,
   makeUnsubscribeUrl,
 } from './_suppress.js';
+import { logEmailEvent } from './_log.js';
 
 const RESEND_API = 'https://api.resend.com';
 
@@ -254,14 +256,39 @@ export async function onRequestPost(context) {
     }),
   ]);
 
-  // If the lead email failed outright, surface an error.
+  // If the lead email failed outright, surface an error. Log the failure first
+  // so it shows up on the delivery dashboard rather than vanishing.
   const leadResult = results[0];
   if (leadResult.status === 'rejected') {
+    await logEmailEvent(env, {
+      to: cleanEmail,
+      status: 'send_failed',
+      kind: isReferral ? 'referrer-confirm' : 'lead',
+      subject: isReferral ? 'Thanks for the referral' : 'Your Viva Wellness eBook is here',
+    });
     return json(
       { ok: false, error: 'Email send failed. Please email info@vivawellnessco.com directly.' },
       { status: 502 }
     );
   }
+
+  // --- Audit log: record the Day-0 sends (best-effort) ---
+  await Promise.allSettled([
+    logEmailEvent(env, {
+      id: leadResult.value && leadResult.value.id,
+      to: cleanEmail,
+      status: 'sent',
+      kind: isReferral ? 'referrer-confirm' : 'lead',
+      subject: isReferral ? 'Thanks for the referral' : 'Your Viva Wellness eBook is here',
+    }),
+    logEmailEvent(env, {
+      id: results[1].status === 'fulfilled' && results[1].value ? results[1].value.id : null,
+      to: notifyEmail,
+      status: results[1].status === 'fulfilled' ? 'sent' : 'send_failed',
+      kind: 'notify',
+      subject: notifySubject,
+    }),
+  ]);
 
   // Has this lead previously unsubscribed / been flagged for spam or bounce?
   // If so we honor that: no drip, and the Audience add is marked unsubscribed.
@@ -530,10 +557,10 @@ async function scheduleNurture(apiKey, { env, from, to, name, match, notifyEmail
   const now = Date.now();
 
   const sends = [
-    { at: central8amAfterDays(now, 1), build: () => buildNurtureDay1({ name, match, discoveryUrl, unsubscribeUrl, canSpamAddress }) },
-    { at: central8amAfterDays(now, 3), build: () => buildNurtureDay3({ name, match, unsubscribeUrl, canSpamAddress }) },
-    { at: central8amAfterDays(now, 7), build: () => buildNurtureDay7({ name, unsubscribeUrl, canSpamAddress }) },
-    { at: central8amAfterDays(now, 14), build: () => buildNurtureDay14({ name, discoveryUrl, unsubscribeUrl, canSpamAddress }) },
+    { day: 1, at: central8amAfterDays(now, 1), build: () => buildNurtureDay1({ name, match, discoveryUrl, unsubscribeUrl, canSpamAddress }) },
+    { day: 3, at: central8amAfterDays(now, 3), build: () => buildNurtureDay3({ name, match, unsubscribeUrl, canSpamAddress }) },
+    { day: 7, at: central8amAfterDays(now, 7), build: () => buildNurtureDay7({ name, unsubscribeUrl, canSpamAddress }) },
+    { day: 14, at: central8amAfterDays(now, 14), build: () => buildNurtureDay14({ name, discoveryUrl, unsubscribeUrl, canSpamAddress }) },
   ];
 
   // List-Unsubscribe: prefer the one-click HTTPS endpoint when we have a
@@ -546,12 +573,15 @@ async function scheduleNurture(apiKey, { env, from, to, name, match, notifyEmail
     ? { 'List-Unsubscribe': unsubHeader, 'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click' }
     : { 'List-Unsubscribe': unsubHeader };
 
+  // Build first so we keep each send's subject/day for the audit log; the
+  // send response only carries the id.
+  const built = sends.map(({ day, at }, i) => ({ day, at, ...sends[i].build() }));
+
   // Failures here don't fail the request · the Day 0 email already went
   // through. Worst case is one or more followups didn't get queued.
   const results = await Promise.allSettled(
-    sends.map(({ at, build }) => {
-      const { subject, html, text } = build();
-      return sendEmail(apiKey, {
+    built.map(({ at, subject, html, text }) =>
+      sendEmail(apiKey, {
         from,
         to: [to],
         subject,
@@ -560,8 +590,8 @@ async function scheduleNurture(apiKey, { env, from, to, name, match, notifyEmail
         reply_to: notifyEmail,
         scheduled_at: new Date(at).toISOString(),
         headers: unsubHeaders,
-      });
-    })
+      })
+    )
   );
 
   // Persist the Resend IDs of the queued sends so we can cancel them if the
@@ -570,6 +600,19 @@ async function scheduleNurture(apiKey, { env, from, to, name, match, notifyEmail
     .filter((r) => r.status === 'fulfilled' && r.value && r.value.id)
     .map((r) => r.value.id);
   await recordScheduled(env, to, ids);
+
+  // Audit log: one `scheduled` event per queued nurture send (best-effort).
+  await Promise.allSettled(
+    results.map((r, i) =>
+      logEmailEvent(env, {
+        id: r.status === 'fulfilled' && r.value ? r.value.id : null,
+        to,
+        status: r.status === 'fulfilled' ? 'scheduled' : 'send_failed',
+        kind: `nurture-day${built[i].day}`,
+        subject: built[i].subject,
+      })
+    )
+  );
 }
 
 // Epoch-ms for 8:00 AM America/Chicago, `addDays` after the Chicago calendar
