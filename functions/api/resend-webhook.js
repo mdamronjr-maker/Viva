@@ -1,13 +1,18 @@
 /**
  * /api/resend-webhook · Cloudflare Pages Function
  *
- * Receives Resend webhook events and auto-suppresses leads who should never
- * get another email:
- *   email.complained · marked us as spam
- *   email.bounced    · hard bounce (dead mailbox)
+ * Two jobs:
  *
- * On either, we suppress the recipient(s) and cancel any still-queued nurture
- * sends. Other event types are acknowledged and ignored.
+ * 1. Delivery audit log · every recognized lifecycle event (sent, delivered,
+ *    delivery_delayed, bounced, complained, opened, clicked) is appended to the
+ *    KV event log (see _log.js) so the /api/email-status dashboard can show
+ *    whether a given send actually landed. Best-effort · never blocks (2).
+ *
+ * 2. Auto-suppression · leads who should never get another email:
+ *      email.complained · marked us as spam
+ *      email.bounced    · hard bounce (dead mailbox)
+ *    On either we suppress the recipient(s) and cancel any still-queued nurture
+ *    sends. Unrecognized event types are acknowledged and ignored.
  *
  * Security: Resend signs webhooks with Svix. We verify the
  * svix-id / svix-timestamp / svix-signature headers against
@@ -19,12 +24,24 @@
  *   RESEND_WEBHOOK_SECRET · required · the signing secret from the Resend
  *                           webhook settings (starts with `whsec_`).
  *   RESEND_API_KEY        · required · to cancel queued sends.
- *   LEADS_KV binding      · required · suppression store.
+ *   LEADS_KV binding      · required · suppression store + delivery audit log.
  */
 
 import { suppressAndCancel } from './_suppress.js';
+import { logEmailEvent } from './_log.js';
 
 const SUPPRESS_EVENTS = new Set(['email.complained', 'email.bounced']);
+// Lifecycle events we record on the delivery dashboard. Everything else is
+// acknowledged (200) but neither logged nor acted on.
+const LOG_EVENTS = new Set([
+  'email.sent',
+  'email.delivered',
+  'email.delivery_delayed',
+  'email.bounced',
+  'email.complained',
+  'email.opened',
+  'email.clicked',
+]);
 const TOLERANCE_SECONDS = 5 * 60;
 
 function b64ToBytes(b64) {
@@ -90,19 +107,37 @@ export async function onRequestPost(context) {
     return new Response('bad json', { status: 400 });
   }
 
-  if (!SUPPRESS_EVENTS.has(event.type)) {
+  if (!LOG_EVENTS.has(event.type)) {
     return new Response('ignored', { status: 200 });
   }
 
   // Resend puts recipients in data.to (string or array depending on event).
-  const to = event.data && event.data.to;
+  const data = event.data || {};
+  const to = data.to;
   const recipients = Array.isArray(to) ? to : to ? [to] : [];
+  const status = event.type.replace('email.', '');
+  // Resend uses email_id on webhook payloads; fall back to id for older shapes.
+  const messageId = data.email_id || data.id || null;
 
+  // (1) Append a delivery-log row per recipient (best-effort). Subject is
+  // intentionally not logged · see _log.js.
   await Promise.allSettled(
     recipients.map((addr) =>
-      suppressAndCancel(env, env.RESEND_API_KEY, addr, event.type.replace('email.', ''))
+      logEmailEvent(env, {
+        id: messageId,
+        to: addr,
+        status,
+        kind: 'webhook',
+      })
     )
   );
+
+  // (2) Suppress + cancel only on hard bounce / spam complaint.
+  if (SUPPRESS_EVENTS.has(event.type)) {
+    await Promise.allSettled(
+      recipients.map((addr) => suppressAndCancel(env, env.RESEND_API_KEY, addr, status))
+    );
+  }
 
   return new Response('ok', { status: 200 });
 }
