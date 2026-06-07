@@ -1,6 +1,7 @@
 ---
 title: "GLP-1 Weight Loss in Austin: A Patient's Guide"
 description: "If you're considering GLP-1 medication for weight loss in Austin, here's what the options actually look like, what they cost, and what to expect from your first six months."
+heroImage: "/blog/glp1.webp"
 publishDate: 2026-05-05
 category: "Weight Loss"
 keywords: ["GLP-1 Austin", "tirzepatide Austin", "semaglutide Austin", "weight loss Austin", "concierge weight loss"]

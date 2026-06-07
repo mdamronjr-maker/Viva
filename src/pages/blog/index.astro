@@ -63,6 +63,9 @@ const blogSchema = {
           <li class="post-card">
             <a href={`/blog/${post.id}`} class="post-card__link">
               <span class="post-card__num">{String(i + 1).padStart(2, '0')}</span>
+              <div class="post-card__thumb">
+                {post.data.heroImage && <img src={post.data.heroImage} alt="" loading="lazy" decoding="async" />}
+              </div>
               <div class="post-card__body">
                 <span class="post-card__cat">{post.data.category}</span>
                 <h2 class="post-card__title">{post.data.title}</h2>
@@ -114,12 +117,23 @@ const blogSchema = {
   .post-card { border-bottom: 1px solid var(--rule); }
   .post-card__link {
     display: grid;
-    grid-template-columns: 70px 1fr 40px;
-    gap: clamp(1rem, 3vw, 2.5rem);
+    grid-template-columns: 56px 150px 1fr 40px;
+    gap: clamp(1rem, 3vw, 2.2rem);
     padding: clamp(1.6rem, 4vw, 2.5rem) 0;
     align-items: center;
     transition: background 220ms var(--ease);
   }
+  .post-card__thumb {
+    aspect-ratio: 4 / 3;
+    border-radius: 10px;
+    overflow: hidden;
+    background: rgba(201, 120, 58, 0.08);
+  }
+  .post-card__thumb img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+    transition: transform 400ms var(--ease);
+  }
+  .post-card__link:hover .post-card__thumb img { transform: scale(1.05); }
   .post-card__link:hover { background: rgba(201, 120, 58, 0.04); }
   .post-card__num {
     font-family: var(--font-mono);
@@ -176,6 +190,7 @@ const blogSchema = {
   @media (max-width: 600px) {
     .post-card__link { grid-template-columns: 1fr; gap: 0.5rem; }
     .post-card__num { padding-top: 0; }
+    .post-card__thumb { display: none; }
     .post-card__arrow { display: none; }
   }
 </style>

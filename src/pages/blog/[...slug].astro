@@ -92,7 +92,14 @@ const formattedUpdate = hasUpdate
   <div class="reading-progress" aria-hidden="true"></div>
 
   <article class="post">
-    <header class="post-hero">
+    {post.data.heroImage && (
+      <div class="container">
+        <figure class="post-banner">
+          <img src={post.data.heroImage} alt="" loading="eager" decoding="async" />
+        </figure>
+      </div>
+    )}
+    <header class="post-hero" class:list={[{ 'post-hero--withbanner': post.data.heroImage }]}>
       <div class="container post-hero__inner">
         <a href="/blog" class="post-back">← Back to all articles</a>
         <span class="eyebrow">· {post.data.category}</span>
@@ -247,11 +254,20 @@ const formattedUpdate = hasUpdate
     pointer-events: none;
   }
 
+  .post-banner {
+    margin: clamp(1.5rem, 4vw, 2.75rem) 0 0;
+    border-radius: 16px;
+    overflow: hidden;
+    aspect-ratio: 16 / 7;
+    box-shadow: 0 24px 55px -32px rgba(31, 20, 16, 0.55);
+  }
+  .post-banner img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .post-hero {
     padding: clamp(3rem, 7vw, 5rem) 0 clamp(2rem, 5vw, 3.5rem);
     position: relative;
     overflow: hidden;
   }
+  .post-hero--withbanner { padding-top: clamp(1.75rem, 4vw, 2.75rem); }
   .post-hero::before {
     content: '';
     position: absolute;

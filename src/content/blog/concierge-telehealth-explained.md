@@ -1,6 +1,7 @@
 ---
 title: "What Concierge Telehealth Actually Means"
 description: "The word 'concierge' gets used a lot. Here's what it actually delivers, what it costs, and how it differs from the direct-to-consumer telehealth platforms that have flooded the market."
+heroImage: "/blog/telehealth.webp"
 publishDate: 2026-05-05
 category: "Practice"
 keywords: ["concierge telehealth", "concierge medicine Austin", "telehealth weight loss", "concierge vs DTC"]

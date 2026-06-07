@@ -44,6 +44,24 @@
 
   /* Motion */
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Radii · soften the UI from blocky to clinical-premium */
+  --radius: 14px;          /* cards, options, inputs */
+  --radius-sm: 10px;       /* inputs, small controls */
+  --radius-pill: 100px;    /* buttons */
+}
+
+/* Filmic grain · subtle texture over the whole page for a premium, less-flat feel */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  pointer-events: none;
+  opacity: 0.045;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 170px 170px;
 }
 
 /* Reset */
@@ -192,20 +210,21 @@ p { max-width: 62ch; }
 .btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.7rem;
-  padding: 1.05rem 1.6rem;
+  gap: 0.55rem;
+  padding: 0.95rem 1.7rem;
+  border-radius: var(--radius-pill);
   font-family: var(--font-mono);
-  font-size: 0.78rem;
-  letter-spacing: 0.12em;
+  font-size: 0.76rem;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   font-weight: 600;
   color: var(--paper);
   background: transparent;
   border: 1px solid currentColor;
-  transition: background 220ms var(--ease), color 220ms var(--ease), transform 400ms var(--ease);
+  transition: background 220ms var(--ease), color 220ms var(--ease), transform 240ms var(--ease), box-shadow 240ms var(--ease);
   position: relative;
-  overflow: hidden;
 }
+.btn:hover { transform: translateY(-1px); }
 .btn::after {
   content: '→';
   font-family: var(--font-body);
@@ -222,8 +241,9 @@ p { max-width: 62ch; }
   background: var(--bronze);
   color: var(--ink);
   border-color: var(--bronze);
+  box-shadow: 0 6px 18px -8px rgba(214, 134, 74, 0.55);
 }
-.btn--bronze:hover { background: var(--bronze-bright); border-color: var(--bronze-bright); color: var(--ink); }
+.btn--bronze:hover { background: var(--bronze-bright); border-color: var(--bronze-bright); color: var(--ink); box-shadow: 0 10px 26px -8px rgba(214, 134, 74, 0.7); }
 
 /* Disabled state · forms hit this during submission. */
 .btn:disabled,

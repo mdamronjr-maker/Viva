@@ -11,6 +11,7 @@ const blog = defineCollection({
     author: z.string().default('Liliana Damron, APRN, FNP-BC'),
     category: z.string(),
     keywords: z.array(z.string()).optional(),
+    heroImage: z.string().optional(),
     draft: z.boolean().default(false),
   }),
 });

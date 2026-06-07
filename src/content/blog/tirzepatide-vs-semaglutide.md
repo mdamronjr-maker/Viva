@@ -1,6 +1,7 @@
 ---
 title: "Tirzepatide vs. Semaglutide: A Patient's Practical Comparison"
 description: "Both work. Both are well-studied. Both produce real weight loss. The differences between tirzepatide and semaglutide are smaller than the marketing suggests, and the right answer depends on you."
+heroImage: "/blog/compare-real.webp"
 publishDate: 2026-05-05
 category: "Weight Loss"
 keywords: ["tirzepatide vs semaglutide", "Mounjaro vs Ozempic", "Zepbound vs Wegovy", "GLP-1 comparison"]

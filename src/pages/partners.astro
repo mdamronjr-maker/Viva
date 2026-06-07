@@ -34,6 +34,7 @@ const partnersSchema = {
 
   {/* HERO */}
   <section class="partners-hero">
+    <img class="partners-hero__bg" src="/partners-hero.webp" alt="" aria-hidden="true" loading="eager" decoding="async" />
     <div class="container partners-hero__inner">
       <span class="eyebrow reveal" style="--d: 100ms;">· The trusted network</span>
       <h1 class="partners-hero__title reveal" style="--d: 250ms;">
@@ -159,15 +160,19 @@ const partnersSchema = {
     position: relative;
     overflow: hidden;
   }
+  .partners-hero__bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; opacity: 0.42; }
   .partners-hero::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: radial-gradient(800px 500px at 80% 30%, rgba(201, 120, 58, 0.15), transparent 60%);
+    z-index: 1;
+    background: radial-gradient(800px 500px at 80% 30%, rgba(201, 120, 58, 0.18), transparent 60%);
     pointer-events: none;
   }
+  .partners-hero::after { content: ''; position: absolute; inset: 0; z-index: 1; background: linear-gradient(180deg, rgba(20,13,9,0.5), rgba(20,13,9,0.72)); pointer-events: none; }
   .partners-hero__inner {
     position: relative;
+    z-index: 2;
     display: flex;
     flex-direction: column;
     gap: 1.6rem;
@@ -250,19 +255,18 @@ const partnersSchema = {
   .part-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 1px;
-    background: var(--rule-strong);
-    border: 1px solid var(--rule-strong);
-    border-radius: 2px;
-    overflow: hidden;
+    gap: 0.9rem;
   }
   @media (max-width: 760px) { .part-grid { grid-template-columns: 1fr; } }
 
   .part-card {
     background: var(--ink);
-    transition: background 240ms var(--ease);
+    border: 1px solid var(--rule-strong);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: background 240ms var(--ease), border-color 240ms var(--ease);
   }
-  .part-card:hover { background: var(--ink-2); }
+  .part-card:hover { background: var(--ink-2); border-color: rgba(214, 134, 74, 0.4); }
 
   .part-card__link {
     display: flex;

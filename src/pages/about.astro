@@ -29,6 +29,7 @@ const standards = [
 
   {/* HERO */}
   <section class="about-hero">
+    <img class="about-hero__bg" src="/about-hero.webp" alt="" aria-hidden="true" loading="eager" decoding="async" />
     <div class="container about-hero__inner">
       <span class="eyebrow reveal" style="--d: 100ms;">· The provider</span>
       <h1 class="about-hero__title">
@@ -49,7 +50,7 @@ const standards = [
     <div class="container founder">
       <div class="founder__media">
         <div class="founder__frame" transition:name="provider-photo">
-          <img src="/liliana.webp" alt="Liliana Damron, APRN, FNP-BC" loading="lazy" />
+          <img src="/liliana-new.webp" alt="Liliana Damron, APRN, FNP-BC" loading="lazy" />
         </div>
         <div class="founder__caption">
           <div>Liliana Damron</div>
@@ -162,10 +163,15 @@ const standards = [
           <div class="state__name">Florida</div>
           <div class="state__status">Active</div>
         </div>
-        <div class="state">
+        <form class="state state--add" id="state-form" novalidate>
           <div class="state__abbrev">+</div>
-          <div class="state__name">Your state</div>
-          <div class="state__status">Tell me</div>
+          <input class="state__input" name="state" placeholder="Your state" maxlength="24" autocomplete="address-level1" required aria-label="Tell me your state" />
+          <button class="state__add-btn" type="submit">Tell me</button>
+        </form>
+        <div class="state state--active state--thanks" id="state-thanks" hidden>
+          <div class="state__abbrev">&#10003;</div>
+          <div class="state__name">Thank you</div>
+          <div class="state__status" id="state-thanks-status">Noted</div>
         </div>
       </div>
     </div>
@@ -194,15 +200,19 @@ const standards = [
     position: relative;
     overflow: hidden;
   }
+  .about-hero__bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; opacity: 0.4; }
   .about-hero::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: radial-gradient(900px 500px at 75% 0%, rgba(201, 120, 58, 0.16), transparent 65%);
+    z-index: 1;
+    background: radial-gradient(900px 500px at 75% 0%, rgba(201, 120, 58, 0.18), transparent 65%);
     pointer-events: none;
   }
+  .about-hero::after { content: ''; position: absolute; inset: 0; z-index: 1; background: linear-gradient(180deg, rgba(20,13,9,0.5), rgba(20,13,9,0.72)); pointer-events: none; }
   .about-hero__inner {
     position: relative;
+    z-index: 2;
     display: flex;
     flex-direction: column;
     gap: 2rem;
@@ -345,6 +355,7 @@ const standards = [
     background: var(--rule-strong);
     border: 1px solid var(--rule-strong);
   }
+  .state[hidden] { display: none; }
   .state {
     background: var(--ink);
     padding: 2rem 1.5rem;
@@ -375,6 +386,35 @@ const standards = [
     color: var(--mute);
   }
   .state--active .state__status { color: var(--bronze); }
+  .state__input {
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid var(--rule-strong);
+    color: var(--paper);
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    padding: 0.35rem 0;
+    width: 100%;
+    margin-top: 0.3rem;
+    transition: border-color 200ms var(--ease);
+  }
+  .state__input::placeholder { color: var(--mute); }
+  .state__input:focus { outline: none; border-color: var(--bronze); }
+  .state__add-btn {
+    margin-top: 0.7rem;
+    align-self: flex-start;
+    background: transparent;
+    border: 0;
+    color: var(--bronze);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+    padding: 0;
+    transition: color 200ms var(--ease);
+  }
+  .state__add-btn:hover { color: var(--bronze-bright); }
 
   /* CTA */
   .about-cta {
@@ -403,3 +443,20 @@ const standards = [
   .about-cta__title .italic-display { color: var(--bronze-bright); }
   .about-cta__ctas { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
 </style>
+
+<script>
+  const f = document.getElementById('state-form');
+  if (f) {
+    f.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const input = f.querySelector('input[name="state"]');
+      const v = (input && input.value ? input.value : '').trim();
+      if (!v) { if (input) input.focus(); return; }
+      const thanks = document.getElementById('state-thanks');
+      const status = document.getElementById('state-thanks-status');
+      if (status) status.textContent = 'Noted · ' + v;
+      f.setAttribute('hidden', '');
+      if (thanks) thanks.removeAttribute('hidden');
+    });
+  }
+</script>
