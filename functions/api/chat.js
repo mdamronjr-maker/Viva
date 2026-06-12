@@ -182,8 +182,9 @@ export async function onRequestPost(context) {
     }
   }
 
-  // Staging demo path — canned reply, no model call.
-  if (env.CHAT_MOCK === '1') {
+  // Staging demo path — canned reply, no model call. Trim because secrets
+  // piped in via shell can carry a trailing newline.
+  if (String(env.CHAT_MOCK || '').trim() === '1') {
     const { readable, writable } = new TransformStream();
     const writer = writable.getWriter();
     (async () => {
