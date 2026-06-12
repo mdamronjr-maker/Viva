@@ -671,12 +671,31 @@ function buildNurtureDay1({ name, match, discoveryUrl, unsubscribeUrl, canSpamAd
       ? `Based on what you shared, ${match.name}${match.price ? ` (${match.price}/mo)` : ''} looks like a strong starting point. The quiz gets you to the right neighborhood. A short call is how we make sure it is actually the right fit for your goals and your budget.`
       : `The fastest way to find the right fit is a short call where I can hear your goals and point you to the protocol that actually matches them.`;
 
+  // Quiz matches carry tailored peptide talking points (see src/lib/quiz.ts).
+  // Client-supplied, so filter and cap before rendering.
+  const topics = Array.isArray(match && match.discuss)
+    ? match.discuss.filter((t) => typeof t === 'string' && t.trim()).slice(0, 6).map((t) => t.slice(0, 200))
+    : [];
+
+  const topicsHtml = topics.length
+    ? `<p style="margin:0 0 8px 0;">Worth raising when we talk · a few things I would want to cover based on your answers:</p>
+    <ul style="margin:0 0 16px 0;padding-left:20px;color:#2a2420;">
+      ${topics.map((t) => `<li style="margin:0 0 6px 0;">${esc(t)}</li>`).join('')}
+    </ul>`
+    : '';
+
+  const topicsText = topics.length
+    ? ['Worth raising when we talk:', ...topics.map((t) => `  - ${t}`), ''].join('\n')
+    : '';
+
   const bodyHtml = `
     <p style="margin:0 0 16px 0;">Hi ${esc(first)},</p>
 
     <p style="margin:0 0 16px 0;">Thank you for your interest in Viva Wellness Co. I wanted to follow up personally and offer to help you find the services that fit you best.</p>
 
     <p style="margin:0 0 16px 0;">${matchHtml}</p>
+
+    ${topicsHtml}
 
     <p style="margin:0 0 24px 0;">There is no prescription and no pressure on a first call. I ask about your goals, your history, and what you have already tried. You ask me anything. By the end we both know whether there is a real fit and which path makes sense.</p>
 
@@ -703,6 +722,7 @@ function buildNurtureDay1({ name, match, discoveryUrl, unsubscribeUrl, canSpamAd
     ``,
     matchText,
     ``,
+    topicsText,
     `There is no prescription and no pressure on a first call. I ask about your goals, your history, and what you have already tried. You ask me anything. By the end we both know whether there is a real fit and which path makes sense.`,
     ``,
     `When you are ready, here is the link to schedule a 30-minute discovery call:`,
@@ -981,6 +1001,13 @@ function buildNotifyEmail({ source, name, email, phone, message, quiz, match, ut
   }
   if (match) {
     rows.push(['Matched protocol', `${match.name} · ${match.price}/mo`]);
+    if (Array.isArray(match.discuss) && match.discuss.length) {
+      const topics = match.discuss
+        .filter((t) => typeof t === 'string' && t.trim())
+        .slice(0, 6)
+        .map((t) => t.slice(0, 200));
+      rows.push(['Call topics', topics.map((t) => `· ${t}`).join('\n')]);
+    }
   }
   if (quiz) {
     const labels = {
@@ -1027,7 +1054,7 @@ function buildNotifyEmail({ source, name, email, phone, message, quiz, match, ut
                 ([k, v]) =>
                   `<tr>
                     <td style="padding:8px 12px 8px 0;font-size:12px;text-transform:uppercase;letter-spacing:0.1em;color:#8a7d72;width:140px;vertical-align:top;border-bottom:1px solid #ebe5db;">${esc(k)}</td>
-                    <td style="padding:8px 0;font-size:14px;color:#0c0a09;vertical-align:top;border-bottom:1px solid #ebe5db;">${esc(v)}</td>
+                    <td style="padding:8px 0;font-size:14px;color:#0c0a09;vertical-align:top;border-bottom:1px solid #ebe5db;">${esc(v).replace(/\n/g, '<br/>')}</td>
                   </tr>`
               )
               .join('')}

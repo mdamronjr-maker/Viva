@@ -273,6 +273,15 @@ const testimonials = [
           </div>
           <p class="qx__result-body" id="qx-r-body">A starting protocol calibrated to your answers.</p>
           <ul class="qx__result-list" id="qx-r-list"></ul>
+          <div class="qx__discuss">
+            <span class="qx__discuss-label">Bring to your discovery call</span>
+            <p class="qx__discuss-hint">
+              Based on your answers, worth asking Liliana about. Conversation
+              starters, not prescriptions — she confirms what fits clinically
+              on the call.
+            </p>
+            <ul class="qx__result-list qx__result-list--discuss" id="qx-r-discuss"></ul>
+          </div>
           <div class="qx__result-ctas">
             <a href="https://vivawellnessco.glossgenius.com/services?utm_source=vivawellnessco&utm_medium=cta&utm_content=home_quiz_result" class="btn btn--bronze">Book your first visit</a>
             <a href="/services" class="btn">See all programs</a>
@@ -612,7 +621,7 @@ const testimonials = [
             name, email, phone, company,
             turnstileToken: String(data.get('cf-turnstile-response') || ''),
             quiz: state.answers,
-            match: { key: m.key, name: m.name, price: m.price, ebookPath: m.ebookPath },
+            match: { key: m.key, name: m.name, price: m.price, ebookPath: m.ebookPath, discuss: m.discuss },
             utm,
             referrer: document.referrer || '',
           }),
@@ -625,6 +634,7 @@ const testimonials = [
         document.getElementById('qx-r-price')!.textContent = m.price;
         document.getElementById('qx-r-body')!.textContent = m.body;
         document.getElementById('qx-r-list')!.innerHTML = m.bullets.map((b) => `<li>${b}</li>`).join('');
+        document.getElementById('qx-r-discuss')!.innerHTML = m.discuss.map((b) => `<li>${b}</li>`).join('');
         state.step = TOTAL + 2;
         render();
       } catch (err) {
@@ -892,8 +902,15 @@ const testimonials = [
   .qx__result-cad { font-family: var(--font-mono); color: var(--mute); font-size: 1rem; }
   .qx__result-body { font-size: 1.1rem; line-height: 1.55; color: rgba(245, 241, 234, 0.85); max-width: 56ch; margin-bottom: 1.5rem; }
   .qx__result-list { display: flex; flex-direction: column; gap: 0.7rem; margin-bottom: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--rule); }
-  .qx__result-list li { position: relative; padding-left: 1.6rem; color: rgba(245, 241, 234, 0.85); font-size: 0.97rem; line-height: 1.5; }
-  .qx__result-list li::before { content: '✓'; position: absolute; left: 0; top: 0; color: var(--bronze); font-family: var(--font-mono); font-size: 0.85rem; }
+  /* :global() — these li's are injected at runtime by the quiz script, so
+     they never receive Astro's scoped data attribute. */
+  .qx__result-list :global(li) { position: relative; padding-left: 1.6rem; color: rgba(245, 241, 234, 0.85); font-size: 0.97rem; line-height: 1.5; }
+  .qx__result-list :global(li)::before { content: '✓'; position: absolute; left: 0; top: 0; color: var(--bronze); font-family: var(--font-mono); font-size: 0.85rem; }
+  .qx__discuss { margin-bottom: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--rule); }
+  .qx__discuss-label { display: block; font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--bronze); margin-bottom: 0.5rem; }
+  .qx__discuss-hint { font-size: 0.85rem; color: var(--mute); line-height: 1.55; margin: 0 0 1rem; max-width: 60ch; }
+  .qx__result-list--discuss { border-top: 0; padding-top: 0; margin-bottom: 0; }
+  .qx__result-list--discuss :global(li)::before { content: '→'; }
   .qx__result-ctas { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
   .qx__result-note { font-size: 0.85rem; color: var(--mute); line-height: 1.55; padding-top: 1.2rem; border-top: 1px solid var(--rule); max-width: 60ch; }
   .qx__back { display: inline-flex; margin-top: 2.5rem; font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mute); padding: 0.5rem 0; transition: color 200ms var(--ease); }
