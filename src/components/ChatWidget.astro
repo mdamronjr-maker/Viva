@@ -1,0 +1,352 @@
+---
+// Floating site assistant. Pre-patient marketing scope only — the paired
+// endpoint is functions/api/chat.js, which holds the guardrails and the
+// no-PHI data posture. The widget reinforces it visually: a persistent
+// notice tells visitors not to share personal health details here.
+//
+// State (transcript + bot-gate session token) lives in sessionStorage so it
+// survives Astro view transitions and page moves, and dies with the tab.
+const SITEKEY = '0x4AAAAAADe2cYOJKVo5GA0L'; // same Turnstile sitekey as the lead forms
+---
+
+<div class="vchat" id="vchat" data-sitekey={SITEKEY}>
+  <button class="vchat__launch" id="vchat-launch" aria-label="Chat with Viva" aria-expanded="false">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+    </svg>
+    <span>Questions?</span>
+  </button>
+
+  <section class="vchat__panel" id="vchat-panel" hidden aria-label="Viva website assistant">
+    <header class="vchat__head">
+      <div>
+        <strong>Viva Assistant</strong>
+        <span class="vchat__sub">Programs, pricing &amp; booking</span>
+      </div>
+      <button class="vchat__close" id="vchat-close" aria-label="Close chat">×</button>
+    </header>
+
+    <p class="vchat__notice">
+      Website assistant — not medical advice, not your provider. Please don't
+      share personal health details here; that's what the
+      <a href="/start">discovery call</a> is for. Emergencies: call 911.
+    </p>
+
+    <div class="vchat__log" id="vchat-log" aria-live="polite"></div>
+
+    <div class="vchat__ts" id="vchat-ts" hidden></div>
+
+    <form class="vchat__composer" id="vchat-form">
+      <input
+        type="text"
+        id="vchat-input"
+        maxlength="1000"
+        placeholder="Ask about programs, pricing, booking…"
+        autocomplete="off"
+      />
+      <button type="submit" id="vchat-send" aria-label="Send">→</button>
+    </form>
+  </section>
+</div>
+
+<script>
+  function initVChat() {
+    const root = document.getElementById('vchat');
+    if (!root || (root as HTMLElement).dataset.bound) return;
+    (root as HTMLElement).dataset.bound = '1';
+
+    const launch = document.getElementById('vchat-launch') as HTMLButtonElement;
+    const panel = document.getElementById('vchat-panel') as HTMLElement;
+    const closeBtn = document.getElementById('vchat-close') as HTMLButtonElement;
+    const log = document.getElementById('vchat-log') as HTMLElement;
+    const form = document.getElementById('vchat-form') as HTMLFormElement;
+    const input = document.getElementById('vchat-input') as HTMLInputElement;
+    const send = document.getElementById('vchat-send') as HTMLButtonElement;
+    const tsHost = document.getElementById('vchat-ts') as HTMLElement;
+    const sitekey = (root as HTMLElement).dataset.sitekey!;
+
+    type Msg = { role: 'user' | 'assistant'; content: string };
+    const load = (): Msg[] => {
+      try { return JSON.parse(sessionStorage.getItem('vchat-msgs') || '[]'); } catch { return []; }
+    };
+    let msgs: Msg[] = load();
+    const save = () => sessionStorage.setItem('vchat-msgs', JSON.stringify(msgs.slice(-14)));
+
+    let busy = false;
+    let turnstileToken: string | null = null;
+    let tsWidgetId: string | null = null;
+
+    function bubble(role: Msg['role'], text: string): HTMLElement {
+      const el = document.createElement('div');
+      el.className = `vchat__msg vchat__msg--${role}`;
+      el.textContent = text;
+      log.appendChild(el);
+      log.scrollTop = log.scrollHeight;
+      return el;
+    }
+
+    function renderHistory() {
+      log.innerHTML = '';
+      if (msgs.length === 0) {
+        bubble('assistant', 'Hi! I can explain the memberships, pricing, and how Viva works — and point you to the quiz or a discovery call. What would you like to know?');
+      } else {
+        msgs.forEach((m) => bubble(m.role, m.content));
+      }
+    }
+
+    // Bot gate: render Turnstile once per tab session (token persisted via the
+    // server-minted X-Chat-Session header). If the script/domain isn't
+    // available (e.g. the staging domain, where the sitekey doesn't match and
+    // Turnstile fires neither callback), proceed without a token after a short
+    // timeout — the server only enforces the gate when its secret is
+    // configured, so this never lets bots through in production.
+    function ensureTurnstile(): Promise<void> {
+      const haveSession = !!sessionStorage.getItem('vchat-session');
+      const ts = (window as any).turnstile;
+      if (haveSession || turnstileToken || !ts) return Promise.resolve();
+      return new Promise((resolve) => {
+        const finish = () => { tsHost.hidden = true; resolve(); };
+        const timer = setTimeout(finish, 4000);
+        tsHost.hidden = false;
+        try {
+          tsWidgetId = ts.render(tsHost, {
+            sitekey,
+            callback: (token: string) => { clearTimeout(timer); turnstileToken = token; finish(); },
+            'error-callback': () => { clearTimeout(timer); finish(); },
+          });
+          if (tsWidgetId === null || tsWidgetId === undefined) { clearTimeout(timer); finish(); }
+        } catch { clearTimeout(timer); finish(); }
+      });
+    }
+
+    async function ask(text: string) {
+      busy = true;
+      send.disabled = true;
+      input.disabled = true;
+
+      msgs.push({ role: 'user', content: text });
+      save();
+      bubble('user', text);
+      const reply = bubble('assistant', '…');
+
+      try {
+        await ensureTurnstile();
+        const res = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            messages: msgs.slice(-13),
+            turnstileToken,
+            sessionToken: sessionStorage.getItem('vchat-session') || undefined,
+          }),
+        });
+        turnstileToken = null;
+        if (tsWidgetId !== null && (window as any).turnstile) {
+          try { (window as any).turnstile.remove(tsWidgetId); } catch {}
+          tsWidgetId = null;
+        }
+
+        const session = res.headers.get('X-Chat-Session');
+        if (session) sessionStorage.setItem('vchat-session', session);
+
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}));
+          reply.textContent = (err as any).error || 'Something went wrong — please try again.';
+          msgs.pop(); save();
+          return;
+        }
+
+        reply.textContent = '';
+        const reader = res.body!.getReader();
+        const dec = new TextDecoder();
+        let acc = '';
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          acc += dec.decode(value, { stream: true });
+          reply.textContent = acc;
+          log.scrollTop = log.scrollHeight;
+        }
+        msgs.push({ role: 'assistant', content: acc });
+        save();
+      } catch {
+        reply.textContent = 'Connection hiccup — please try again.';
+        msgs.pop(); save();
+      } finally {
+        busy = false;
+        send.disabled = false;
+        input.disabled = false;
+        input.focus();
+      }
+    }
+
+    launch.addEventListener('click', () => {
+      const open = panel.hidden;
+      panel.hidden = !open;
+      launch.setAttribute('aria-expanded', String(open));
+      if (open) { renderHistory(); input.focus(); }
+    });
+    closeBtn.addEventListener('click', () => {
+      panel.hidden = true;
+      launch.setAttribute('aria-expanded', 'false');
+    });
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const text = input.value.trim();
+      if (!text || busy) return;
+      input.value = '';
+      ask(text);
+    });
+  }
+
+  document.addEventListener('astro:page-load', initVChat);
+</script>
+
+<style>
+  .vchat__launch {
+    position: fixed;
+    right: clamp(1rem, 3vw, 1.75rem);
+    bottom: clamp(1rem, 3vw, 1.75rem);
+    z-index: 90;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.15rem;
+    background: var(--bronze);
+    color: var(--ink);
+    border-radius: var(--radius-pill);
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
+    transition: background 220ms var(--ease), transform 220ms var(--ease);
+  }
+  .vchat__launch:hover { background: var(--bronze-bright); transform: translateY(-2px); }
+  .vchat__launch svg { width: 17px; height: 17px; }
+  @media (max-width: 720px) {
+    /* sit above the mobile sticky CTA bar */
+    .vchat__launch { bottom: calc(76px + env(safe-area-inset-bottom)); }
+    .vchat__launch span { display: none; }
+    .vchat__launch { padding: 0.85rem; }
+  }
+
+  .vchat__panel {
+    position: fixed;
+    right: clamp(0.75rem, 3vw, 1.75rem);
+    bottom: clamp(4.5rem, 9vh, 5.5rem);
+    z-index: 91;
+    width: min(380px, calc(100vw - 1.5rem));
+    max-height: min(560px, calc(100vh - 7rem));
+    display: flex;
+    flex-direction: column;
+    background: var(--ink-2);
+    color: var(--paper);
+    border: 1px solid var(--rule-strong);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: 0 18px 48px rgba(0, 0, 0, 0.5);
+  }
+  @media (max-width: 720px) {
+    .vchat__panel { bottom: calc(140px + env(safe-area-inset-bottom)); }
+  }
+
+  .vchat__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.9rem 1.1rem;
+    border-bottom: 1px solid var(--rule);
+    background: var(--ink-3);
+  }
+  .vchat__head strong {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    letter-spacing: -0.01em;
+  }
+  .vchat__sub {
+    font-size: 0.72rem;
+    color: var(--mute);
+    font-family: var(--font-mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .vchat__close {
+    font-size: 1.4rem;
+    line-height: 1;
+    color: var(--mute);
+    padding: 0.2rem 0.4rem;
+  }
+  .vchat__close:hover { color: var(--paper); }
+
+  .vchat__notice {
+    padding: 0.6rem 1.1rem;
+    font-size: 0.72rem;
+    line-height: 1.45;
+    color: var(--mute);
+    border-bottom: 1px solid var(--rule);
+  }
+  .vchat__notice a { color: var(--bronze); text-decoration: underline; }
+
+  .vchat__log {
+    flex: 1;
+    min-height: 180px;
+    overflow-y: auto;
+    padding: 1rem 1.1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+  .vchat__msg {
+    max-width: 88%;
+    padding: 0.6rem 0.85rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.92rem;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+  }
+  .vchat__msg--assistant {
+    align-self: flex-start;
+    background: rgba(247, 243, 235, 0.07);
+    border: 1px solid var(--rule);
+  }
+  .vchat__msg--user {
+    align-self: flex-end;
+    background: var(--bronze-deep);
+    color: var(--paper);
+  }
+
+  .vchat__ts { padding: 0 1.1rem 0.5rem; }
+
+  .vchat__composer {
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.75rem 1.1rem 0.9rem;
+    border-top: 1px solid var(--rule);
+  }
+  .vchat__composer input {
+    flex: 1;
+    background: var(--ink);
+    border: 1px solid var(--rule-strong);
+    border-radius: var(--radius-sm);
+    padding: 0.6rem 0.8rem;
+    font-size: 0.92rem;
+    color: var(--paper);
+  }
+  .vchat__composer input:focus { outline: none; border-color: var(--bronze); }
+  .vchat__composer button {
+    width: 42px;
+    border-radius: var(--radius-sm);
+    background: var(--bronze);
+    color: var(--ink);
+    font-size: 1.1rem;
+    font-weight: 700;
+    transition: background 180ms var(--ease);
+  }
+  .vchat__composer button:hover:not(:disabled) { background: var(--bronze-bright); }
+  .vchat__composer button:disabled { opacity: 0.5; cursor: default; }
+</style>
