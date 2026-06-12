@@ -92,7 +92,7 @@ It's not the right fit if you:
 
 Viva Wellness Co. is a concierge telehealth practice based in Austin, licensed in Texas, Colorado, and Florida. Liliana Damron, APRN, FNP-BC, leads every patient relationship directly.
 
-The protocols cover hormone optimization, GLP-1-based metabolic reset, recovery and regenerative therapy, body recomposition, and lifestyle medicine. Tiers run from $99 a month for guided HRT through $699 a month for the most comprehensive recomposition protocol.
+The protocols cover hormone optimization, GLP-1-based metabolic reset, recovery and regenerative therapy, body recomposition, and lifestyle medicine. Tiers run from $99 a month for guided HRT through $499 a month for the most comprehensive metabolic protocol.
 
 Every tier includes provider access, home delivery, and the protocol itself. There are no hidden costs.
 

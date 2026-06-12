@@ -787,15 +787,7 @@ function buildNurtureDay3({ name, match, unsubscribeUrl, canSpamAddress }) {
   let intro;
   let items;
 
-  if (key === 'peak') {
-    subject = 'Three peptide mistakes I see all the time';
-    intro = `You looked at Peak Performance, so here are three things that trip people up most often when they stack peptides and hormones together.`;
-    items = [
-      ['Skipping the hormone baseline.', `Recovery and performance peptides work better on top of a tuned hormone foundation. Stack them first and you get uneven results without knowing why.`],
-      ['Running too many things at once.', `Three peptides at once means you cannot tell what is working. I sequence and cycle on purpose, not to be cautious.`],
-      ['Expecting recovery peptides to drop body fat.', `BPC-157 and TB-500 are repair tools. They are not GLP-1. If body composition is the goal, the metabolic side has to be addressed directly.`],
-    ];
-  } else if (key === 'metabolic') {
+  if (key === 'metabolic') {
     subject = 'What most people get wrong about GLP-1';
     intro = `You looked at Metabolic Core, so a few things to know before starting or restarting GLP-1 therapy.`;
     items = [

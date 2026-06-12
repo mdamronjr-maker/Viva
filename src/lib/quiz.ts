@@ -17,7 +17,7 @@ export type Answers = Partial<{
 }>;
 
 export type Match = {
-  key: 'peak' | 'metabolic' | 'trt' | 'concierge';
+  key: 'metabolic' | 'trt' | 'concierge';
   name: string;
   price: string;
   body: string;
@@ -30,42 +30,23 @@ export type Match = {
 
 // TODO: replace these with vertical-specific lead magnets when authored.
 //   Recommended path: /public/ebooks/viva-<slug>.pdf
-//   e.g. viva-glp-1-guide.pdf, viva-trt-guide.pdf, viva-peak-performance.pdf,
-//        viva-recovery-stack.pdf
+//   e.g. viva-glp-1-guide.pdf, viva-trt-guide.pdf, viva-recovery-stack.pdf
 const DEFAULT_EBOOK = '/viva-ebook.pdf';
 
 export function match(a: Answers): Match {
   const goal = a.goal || 'longevity';
   const budget = a.budget || 'b199';
-  const activity = a.activity || 'moderate';
   const sex = a.sex || 'm';
 
-  // 1. Performance OR competitive athlete + budget >= $349 -> Peak Performance
-  if ((goal === 'performance' || activity === 'competitive') && (budget === 'bmax' || budget === 'b349')) {
-    return {
-      key: 'peak',
-      name: 'Peak Performance',
-      price: '$699',
-      body: 'Total-body optimization combining hormone, metabolic, recovery, and performance protocols in one fully managed plan.',
-      bullets: [
-        'Provider-led hormone foundation (TRT or HRT)',
-        'Recovery peptide stack (BPC-157, TB-500, GHK-Cu)',
-        'Performance support (CJC-1295 / Ipamorelin, MOTS-c)',
-        'Comprehensive labs, supplies, and home delivery',
-      ],
-      ebookPath: DEFAULT_EBOOK, // TODO: /ebooks/viva-peak-performance.pdf
-    };
-  }
-
-  // 2. Weight goal -> Metabolic Core
+  // 1. Weight goal -> Metabolic Core
   if (goal === 'weight') {
     return {
       key: 'metabolic',
       name: 'Metabolic Core',
       price: '$349',
-      body: 'Compounded GLP-1 protocol stepped to your physiology. Patient-specific semaglutide or tirzepatide from a 503A pharmacy (same active molecule as Wegovy and Mounjaro, prepared individually under clinical supervision, not the brand-name product).',
+      body: 'Compounded GLP-1 protocol stepped to your physiology. Patient-specific tirzepatide from a 503A pharmacy (same active molecule as Mounjaro and Zepbound, prepared individually under clinical supervision, not the brand-name product).',
       bullets: [
-        'Compounded semaglutide or tirzepatide, 503A-sourced',
+        'Compounded tirzepatide, 503A-sourced',
         'Dose titration calibrated to your physiology, not a fixed protocol',
         'Tesamorelin option for visceral fat targeting',
         'Supplies, sharps, and home delivery included',
@@ -74,7 +55,7 @@ export function match(a: Answers): Match {
     };
   }
 
-  // 3. Hormones + budget != $99 -> TRT & HRT All Inclusive
+  // 2. Hormones + budget != $99 -> TRT & HRT All Inclusive
   // Routes men (TRT) and women (HRT) to the same flat-fee hormone tier; the
   // provider tailors the actual protocol in the first visit.
   if (goal === 'hormones' && budget !== 'b99') {
@@ -105,7 +86,7 @@ export function match(a: Answers): Match {
     };
   }
 
-  // 4. Recovery + budget >= $349 -> Metabolic Core (recovery emphasis)
+  // 3. Recovery + budget >= $349 -> Metabolic Core (recovery emphasis)
   if (goal === 'recovery' && (budget === 'b349' || budget === 'bmax')) {
     return {
       key: 'metabolic',
@@ -122,7 +103,8 @@ export function match(a: Answers): Match {
     };
   }
 
-  // 5. Default -> Concierge Access
+  // 4. Default -> Concierge Access (includes performance-goal leads, who
+  //    build their peptide stack a la carte at member pricing)
   return {
     key: 'concierge',
     name: 'Concierge Access',

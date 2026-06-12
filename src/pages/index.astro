@@ -33,7 +33,7 @@ const faqs = [
   },
   {
     q: 'What does Concierge Access at $99 actually include?',
-    a: 'Two things. First, provider access: direct messaging with your provider, a monthly evaluation visit plus one acute/sick visit credit each month, lab orders routed through your insurance, and ongoing guidance across hormones, peptides, metabolic, and recovery. Second, member pricing: when you do want to add compounded peptides (BPC-157, TB-500, GHK-Cu, CJC, etc.), compounded GLP-1, or TRT add-ons, you get them at member rates instead of paying retail. It is the right tier when you want a provider thinking about you and the flexibility to pay a la carte for protocols, rather than committing to one of the all-inclusive bundles (TRT, Metabolic Core, Peak Performance).',
+    a: 'Two things. First, provider access: direct messaging with your provider, a monthly evaluation visit plus one acute/sick visit credit each month, lab orders routed through your insurance, and ongoing guidance across hormones, peptides, metabolic, and recovery. Second, member pricing: when you do want to add compounded peptides (BPC-157, TB-500, GHK-Cu, CJC, etc.), compounded GLP-1, or TRT add-ons, you get them at member rates instead of paying retail. It is the right tier when you want a provider thinking about you and the flexibility to pay a la carte for protocols, rather than committing to one of the all-inclusive bundles (TRT, Metabolic Core, Metabolic Advanced).',
   },
   {
     q: 'Is my health information private?',
@@ -60,8 +60,8 @@ const PICON = {
 const programs = [
   { tier: 'Entry', name: 'Concierge Access', price: '$99', cadence: '/mo', icon: 'key', body: 'Provider access plus member pricing on compounded peptides, GLP-1, and add-ons. Pay a la carte for the protocols you want instead of a bundled monthly fee.' },
   { tier: 'Foundational', name: 'TRT & HRT All Inclusive', price: '$199', cadence: '/mo', icon: 'pulse', body: 'Personalized testosterone optimization with compounded medication, supplies, and biannual labs.' },
-  { tier: 'Core', name: 'Metabolic Core', price: '$349', cadence: '/mo', icon: 'flame', body: 'Stepped-up GLP-1 protocol for stronger appetite control and consistent fat loss.', featured: true },
-  { tier: 'Premium', name: 'Peak Performance', price: '$699', cadence: '/mo', icon: 'trophy', body: 'Total-body optimization combining metabolic, recovery, and performance protocols in one plan.' },
+  { tier: 'Core', name: 'Metabolic Core', price: '$349', cadence: '/mo', icon: 'flame', body: 'Compounded tirzepatide, fully managed, for stronger appetite control and consistent fat loss.', featured: true },
+  { tier: 'Premium', name: 'Metabolic Advanced', price: '$499', cadence: '/mo', icon: 'trophy', body: 'Top metabolic tier: compounded retatrutide, provider-titrated, for the most aggressive appetite control and fat loss.' },
 ];
 
 const testimonials = [
@@ -301,7 +301,7 @@ const testimonials = [
           Explore the programs <span class="italic-display">and memberships.</span>
         </h2>
         <p class="lead section-head__lead">
-          From a $99 concierge entry point to a $699 fully-loaded performance
+          From a $99 concierge entry point to a $499 fully-managed metabolic
           plan. Every tier includes provider access, home delivery, and protocol
           adjustments built in.
         </p>

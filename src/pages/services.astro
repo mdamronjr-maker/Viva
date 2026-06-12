@@ -1,9 +1,9 @@
 ---
 import Layout from '../layouts/Layout.astro';
 
-// Seven memberships mirroring the live GlossGenius catalog. The quiz routes
+// Five memberships mirroring the live GlossGenius catalog. The quiz routes
 // prospects to a starting tier; the metabolic ladder (Essential → Core →
-// Advanced → Elite) lets the provider step a patient up or down inside the
+// Advanced) lets the provider step a patient up or down inside the
 // metabolic track without a SKU change.
 // Pricing and includes match the live GlossGenius catalog
 // (https://vivawellnessco.glossgenius.com/shop/memberships?tab=explore).
@@ -33,7 +33,6 @@ const programs = [
     ],
     notRightFor: [
       'You want compounded medication included in the membership (see TRT/HRT All Inclusive or any Metabolic tier)',
-      'You want everything across hormones, metabolic, and performance under one fully-managed plan (see Peak Performance)',
     ],
   },
   {
@@ -84,7 +83,7 @@ const programs = [
     ],
     notRightFor: [
       'You have outgrown low-dose protocols (see Metabolic Core or Advanced)',
-      'You need retatrutide or a multi-compound protocol (see Metabolic Elite)',
+      'You need retatrutide (see Metabolic Advanced)',
     ],
   },
   {
@@ -110,83 +109,33 @@ const programs = [
     ],
     notRightFor: [
       'You want semaglutide or micro-dose tirzepatide (see Metabolic Essential)',
-      'You need higher-potency dosing or retatrutide (see Metabolic Advanced or Elite)',
+      'You need retatrutide (see Metabolic Advanced)',
     ],
   },
   {
     tier: 'Metabolic · 03',
     name: 'Metabolic Advanced',
-    price: 399,
-    priceLabel: '$399',
-    tagline: 'Tirzepatide at mod-high dose, or retatrutide low-to-moderate.',
-    body: 'For patients who have titrated through standard dosing and need more aggressive metabolic support. Compounded tirzepatide at moderate-to-high dose, or retatrutide at low-to-moderate dose. Fully managed with monthly provider follow-ups.',
+    price: 499,
+    priceLabel: '$499',
+    tagline: 'Compounded retatrutide, fully managed.',
+    body: 'The top metabolic tier. Compounded retatrutide, provider-titrated, for patients who have moved through standard dosing and need the most aggressive appetite control, fat loss, and lean muscle support. Fully managed with monthly provider follow-ups.',
     includes: [
-      'Compounded tirzepatide (mod-high dose) or retatrutide (low-mod)',
+      'Compounded retatrutide (provider-titrated dose)',
       'Appetite regulation support',
       'Insulin sensitivity support',
-      'Fat loss support',
+      'Fat loss support with lean muscle preservation',
       'Supplies and home delivery',
       'Monthly provider follow-ups',
       'Viva Concierge access',
     ],
     rightFor: [
       'You have outgrown lower-dose protocols and need more potency',
-      'You are a candidate for retatrutide at low-to-moderate dosing',
+      'You are a candidate for retatrutide',
       'You want close provider oversight at higher doses',
     ],
     notRightFor: [
       'You are new to GLP-1 protocols (start with Essential or Core)',
-      'You need retatrutide at higher dose (see Metabolic Elite)',
-    ],
-  },
-  {
-    tier: 'Metabolic · 04',
-    name: 'Metabolic Elite',
-    price: 499,
-    priceLabel: '$499',
-    tagline: 'Multi-compound protocol with retatrutide at moderate-to-high dose.',
-    body: 'The top metabolic tier for patients who need additional appetite control, fat loss, and lean muscle support as they progress through treatment. Upgraded multi-compound protocol using retatrutide at moderate-to-high dose, fully managed.',
-    includes: [
-      'Upgraded multi-compound medication (retatrutide, moderate-to-high dose)',
-      'Appetite control',
-      'Fat loss support',
-      'Lean muscle preservation',
-      'Supplies and home delivery',
-      'Ongoing provider follow-up consults',
-    ],
-    rightFor: [
-      'You have moved through Essential, Core, and Advanced and need more',
-      'You are a candidate for retatrutide at higher dose',
-      'You want multi-compound coordination for advanced fat loss with muscle preservation',
-    ],
-    notRightFor: [
-      'You have not tried lower tiers first (Core or Advanced is usually the right step)',
-      'You want hormone or peptide focus (see TRT/HRT All Inclusive or Peak Performance)',
-    ],
-  },
-  {
-    tier: 'Total',
-    name: 'Peak Performance',
-    price: 699,
-    priceLabel: '$699',
-    tagline: 'Total optimization: 1 Essential, 1 Core, 1 Elite Protocol.',
-    body: 'Built for high performers who prioritize recovery, longevity, and performance. Combines one Essential, one Core, and one Elite Protocol under a single provider with priority access: hormone, metabolic, and performance protocols coordinated as one system.',
-    includes: [
-      'One Essential Protocol (provider-selected, typically hormone foundation)',
-      'One Core Protocol (provider-selected, typically metabolic)',
-      'One Elite Protocol (provider-selected, typically recovery or performance peptide stack)',
-      'Comprehensive labs, supplies, home delivery',
-      'Priority scheduling',
-      'Direct provider access',
-    ],
-    rightFor: [
-      'You want hormone, metabolic, and recovery / performance under one plan',
-      'You are already running pieces of this stack and want them coordinated',
-      'You want priority scheduling and the most direct provider access available',
-    ],
-    notRightFor: [
-      'You only need one protocol (start with TRT/HRT or a Metabolic tier)',
-      'You are exploring concierge care for the first time (see Viva Concierge Access)',
+      'You want tirzepatide at standard dose (see Metabolic Core)',
     ],
   },
 ];
@@ -254,7 +203,7 @@ const servicesSchema = {
 
 <Layout
   title="Peptide Therapy, TRT, GLP-1 & Hormone Optimization in Austin | Viva Wellness Co."
-  description="Concierge peptide therapy in Austin, TX: BPC-157, TB-500, GHK-Cu, CJC-1295 / Ipamorelin, MOTS-c. Plus compounded GLP-1 weight loss, TRT, HRT, and total-body performance medicine. Memberships from $99 to $699 per month. Texas, Colorado, Florida."
+  description="Concierge peptide therapy in Austin, TX: BPC-157, TB-500, GHK-Cu, CJC-1295 / Ipamorelin, MOTS-c. Plus compounded GLP-1 weight loss, TRT, HRT, and total-body performance medicine. Memberships from $99 to $499 per month. Texas, Colorado, Florida."
   schema={servicesSchema}
 >
 
@@ -359,13 +308,13 @@ const servicesSchema = {
     </div>
   </section>
 
-  {/* PROGRAMS · seven memberships, mirrored from GlossGenius */}
+  {/* PROGRAMS · five memberships, mirrored from GlossGenius */}
   <section class="section programs-section">
     <div class="container">
       <div class="section-head">
         <span class="index" data-num="02">The programs</span>
         <h2 class="section-head__title">
-          Seven memberships. <span class="italic-display">Pick yours.</span>
+          Five memberships. <span class="italic-display">Pick yours.</span>
         </h2>
         <p class="lead section-head__lead">
           Flat monthly fee. Compounded medication, supplies, home delivery,
@@ -653,7 +602,7 @@ const servicesSchema = {
   }
   .provider-strip__link:hover { color: var(--bronze); }
 
-  /* PROGRAMS · seven membership cards mirrored from GlossGenius */
+  /* PROGRAMS · five membership cards mirrored from GlossGenius */
   .programs-section { padding: clamp(3rem, 7vw, 5rem) 0; }
   .prog-grid {
     display: grid;
@@ -673,8 +622,8 @@ const servicesSchema = {
     position: relative;
   }
   .prog-card:hover { background: var(--ink-2); }
-  /* The last card (Peak Performance) spans the full row as the total-tier
-     finale. The 2-col grid leaves it alone on row 4 otherwise. */
+  /* The last card (Metabolic Advanced) spans the full row as the top-tier
+     finale. The 2-col grid leaves it alone on row 3 otherwise. */
   .prog-card--span {
     grid-column: 1 / -1;
     background: var(--ink-2);

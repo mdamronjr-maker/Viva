@@ -139,13 +139,12 @@ CF Pages auto-builds. Test the new endpoints on the staging URL first:
 
 ## Quiz matching logic
 
-Five questions → one of four programs. Rules in priority order:
+Five questions → one of three programs. Rules in priority order:
 
-1. `goal=performance` OR `activity=competitive` + budget ≥ $349/mo → **Peak Performance ($699)**
-2. `goal=weight` → **Metabolic Core ($349)**
-3. `goal=hormones` + `sex=male` + budget ≠ $99 → **TRT All Inclusive ($199)**
-4. `goal=recovery` + budget ≥ $349/mo → **Metabolic Core ($349)** with recovery-emphasis copy
-5. default → **Viva Concierge ($99)**
+1. `goal=weight` → **Metabolic Core ($349)**
+2. `goal=hormones` + `sex=male` + budget ≠ $99 → **TRT All Inclusive ($199)**
+3. `goal=recovery` + budget ≥ $349/mo → **Metabolic Core ($349)** with recovery-emphasis copy
+4. default → **Viva Concierge ($99)** (includes performance-goal leads)
 
 Adjust in `src/pages/quiz.astro` → `match()` function. Each branch has its own bullets array, easy to retune.
 
