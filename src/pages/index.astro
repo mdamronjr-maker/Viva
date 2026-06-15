@@ -332,6 +332,11 @@ const testimonials = [
         ))}
       </ul>
 
+      <p class="programs-terms">
+        Memberships include an initial 12-week commitment, then renew automatically every 30 days.
+        Cancel anytime after the first 12 weeks · <a href="/terms">membership terms</a>.
+      </p>
+
       <div class="programs-foot">
         <a href="/services" class="btn">See all programs</a>
       </div>
@@ -366,7 +371,7 @@ const testimonials = [
       <div class="t-rotator" data-trotator>
         <div class="t-rotator__track" data-trotator-track>
           {testimonials.map((t, i) => (
-            <article class:list={["t-slide", i === 0 && 'is-active']} data-tslide>
+            <article class:list={["t-slide", i === 0 && 'is-active']} data-tslide aria-hidden={i === 0 ? 'false' : 'true'}>
               <div class="t-slide__stars" aria-label="5 stars">
                 <span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span>
               </div>
@@ -381,12 +386,13 @@ const testimonials = [
 
         <div class="t-rotator__controls">
           <button class="t-rotator__nav t-rotator__nav--prev" data-tprev aria-label="Previous review">←</button>
-          <div class="t-rotator__dots" data-tdots role="tablist" aria-label="Customer reviews">
+          <div class="t-rotator__dots" data-tdots role="group" aria-label="Customer reviews">
             {testimonials.map((t, i) => (
-              <button class:list={["t-dot", i === 0 && 'is-active']} data-tdot={i} aria-label={`Show review from ${t.name}`}></button>
+              <button class:list={["t-dot", i === 0 && 'is-active']} data-tdot={i} aria-label={`Show review from ${t.name}`} aria-current={i === 0 ? 'true' : undefined}></button>
             ))}
           </div>
           <button class="t-rotator__nav t-rotator__nav--next" data-tnext aria-label="Next review">→</button>
+          <button class="t-rotator__nav t-rotator__playpause" data-tplaypause aria-label="Pause automatic review rotation" aria-pressed="false">⏸</button>
         </div>
       </div>
 
@@ -473,24 +479,53 @@ const testimonials = [
     const dots = rotator.querySelectorAll('[data-tdot]');
     const prev = rotator.querySelector('[data-tprev]') as HTMLButtonElement | null;
     const next = rotator.querySelector('[data-tnext]') as HTMLButtonElement | null;
+    const playPause = rotator.querySelector('[data-tplaypause]') as HTMLButtonElement | null;
     if (slides.length === 0) return;
     let i = 0;
+    let paused = false; // user-intent pause via the play/pause control
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const INTERVAL = 6000;
     function show(idx: number) {
       const safe = ((idx % slides.length) + slides.length) % slides.length;
-      slides.forEach((s, n) => s.classList.toggle('is-active', n === safe));
-      dots.forEach((d, n) => d.classList.toggle('is-active', n === safe));
+      slides.forEach((s, n) => {
+        const on = n === safe;
+        s.classList.toggle('is-active', on);
+        // keep inactive reviews out of the a11y tree so SR users hear one at a time
+        s.setAttribute('aria-hidden', on ? 'false' : 'true');
+      });
+      dots.forEach((d, n) => {
+        const on = n === safe;
+        d.classList.toggle('is-active', on);
+        if (on) d.setAttribute('aria-current', 'true'); else d.removeAttribute('aria-current');
+      });
       i = safe;
     }
     function go(delta: number) { show(i + delta); start(); }
-    function start() { stop(); tRotatorTimer = window.setInterval(() => show(i + 1), INTERVAL); }
+    // autoplay is suppressed when the user paused or prefers reduced motion (WCAG 2.2.2)
+    function start() { stop(); if (paused || reduceMotion) return; tRotatorTimer = window.setInterval(() => show(i + 1), INTERVAL); }
     function stop() { if (tRotatorTimer) clearInterval(tRotatorTimer); tRotatorTimer = undefined; }
+    function setPaused(p: boolean) {
+      paused = p;
+      if (playPause) {
+        playPause.setAttribute('aria-pressed', String(p));
+        playPause.setAttribute('aria-label', p ? 'Play automatic review rotation' : 'Pause automatic review rotation');
+        playPause.textContent = p ? '▶' : '⏸';
+      }
+      if (p) stop(); else start();
+    }
     dots.forEach((d, n) => d.addEventListener('click', () => { show(n); start(); }));
     prev?.addEventListener('click', () => go(-1));
     next?.addEventListener('click', () => go(1));
+    playPause?.addEventListener('click', () => setPaused(!paused));
     rotator.addEventListener('mouseenter', stop);
     rotator.addEventListener('mouseleave', start);
+    // keyboard users: pause while focus is inside the rotator, resume when it leaves
+    rotator.addEventListener('focusin', stop);
+    rotator.addEventListener('focusout', (e) => { if (!rotator.contains(e.relatedTarget as Node)) start(); });
     document.addEventListener('visibilitychange', () => { if (document.hidden) stop(); else start(); });
+    show(0);
+    // reduced motion: reflect the no-autoplay state in the control on load
+    if (reduceMotion) setPaused(true);
     start();
   }
 
@@ -1009,6 +1044,9 @@ const testimonials = [
   .program__price-amt { font-family: var(--font-display); font-size: 2.6rem; color: var(--paper); letter-spacing: -0.022em; font-variation-settings: 'opsz' 96; font-feature-settings: 'tnum'; }
   .program__price-cad { font-family: var(--font-mono); font-size: 0.85rem; color: var(--mute); }
   .program__body { color: rgba(245, 241, 234, 0.65); font-size: 0.92rem; flex-grow: 1; margin-bottom: 1rem; }
+  .programs-terms { color: var(--mute); font-size: 0.8rem; line-height: 1.5; text-align: center; max-width: 640px; margin: 1.4rem auto 0; }
+  .programs-terms a { color: var(--mute); text-decoration: underline; text-underline-offset: 2px; }
+  .programs-terms a:hover { color: var(--bronze); }
   .program__link { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--bronze); align-self: flex-start; }
   .program__link:hover { color: var(--bronze-bright); }
   .programs-foot { margin-top: 3rem; text-align: center; }
