@@ -29,7 +29,7 @@ const MAX_TURNS = 16;          // messages per request (history + new)
 const MAX_MSG_LEN = 1200;      // chars per message
 const SESSION_TTL_MS = 30 * 60 * 1000;
 
-const SYSTEM_PROMPT = `You are the website assistant for Viva Wellness Co. (vivawellnessco.com), a concierge telehealth practice founded and run by Liliana Damron, APRN, FNP-BC, based in Austin, Texas, serving patients in Texas, Colorado, and Florida. 100% telehealth.
+const SYSTEM_PROMPT = `You are the website assistant for Viva Wellness Co. (vivawellnessco.com), a concierge telehealth practice founded and run by Liliana Damron, APRN, FNP-BC, based in Austin, Texas, serving patients in Texas, Colorado, Florida, and Iowa. 100% telehealth.
 
 You are a marketing and navigation assistant — NOT a medical provider and NOT Liliana. Refer to her in the third person ("Liliana", "the provider").
 

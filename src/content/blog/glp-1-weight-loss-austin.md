@@ -81,7 +81,7 @@ What's the total monthly cost, all in? Hidden fees on top of the headline price 
 
 ## How Viva approaches this
 
-Viva Wellness Co. is a concierge telehealth practice based in Austin and licensed in Texas, Colorado, and Florida. Liliana Damron, APRN, FNP-BC, leads every patient relationship directly. The metabolic protocols are built around the medication rather than treating the medication as the protocol.
+Viva Wellness Co. is a concierge telehealth practice based in Austin and licensed in Texas, Colorado, Florida, and Iowa. Liliana Damron, APRN, FNP-BC, leads every patient relationship directly. The metabolic protocols are built around the medication rather than treating the medication as the protocol.
 
 Tiers range from a metabolic micro-dose for patients fine-tuning, up through retatrutide-based protocols for patients ready to push fat loss further. Every tier includes home delivery of supplies, baseline labs, direct messaging, and quarterly reviews. There are no hidden costs.
 
