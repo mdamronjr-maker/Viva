@@ -32,6 +32,7 @@ import {
   makeUnsubscribeUrl,
 } from './_suppress.js';
 import { logEmailEvent } from './_log.js';
+import { rateLimit } from './_ratelimit.js';
 
 const RESEND_API = 'https://api.resend.com';
 
@@ -116,6 +117,20 @@ export async function onRequestPost(context) {
     );
     if (!turnstileOk) {
       return json({ ok: false, error: 'Verification failed. Please refresh the page and try again.' }, { status: 403 });
+    }
+  }
+
+  // Per-IP rate limit (fail-open) — caps the Resend fan-out from a lead flood.
+  // Generous: a real person submits once or twice. Skips silently if no KV/IP.
+  {
+    const rl = await rateLimit(env, {
+      bucket: 'lead',
+      ip: request.headers.get('CF-Connecting-IP'),
+      limit: 6,
+      windowSec: 600,
+    });
+    if (!rl.ok) {
+      return json({ ok: false, error: 'Too many submissions. Please try again in a few minutes.' }, { status: 429 });
     }
   }
 

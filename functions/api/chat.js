@@ -24,6 +24,7 @@
 //   TURNSTILE_SECRET_KEY same secret the lead form uses
 
 import Anthropic from '@anthropic-ai/sdk';
+import { rateLimit } from './_ratelimit.js';
 
 const MAX_TURNS = 16;          // messages per request (history + new)
 const MAX_MSG_LEN = 1200;      // chars per message
@@ -205,6 +206,21 @@ export async function onRequestPost(context) {
       { ok: false, error: 'Chat is not configured yet. Email info@vivawellnessco.com and a human will help.' },
       { status: 503 }
     );
+  }
+
+  // Per-IP rate limit (fail-open) — caps billed model calls from a single
+  // source. Placed after the mock path so staging (CHAT_MOCK=1) is never
+  // limited; skips silently if no KV/IP.
+  {
+    const rl = await rateLimit(env, {
+      bucket: 'chat',
+      ip: request.headers.get('CF-Connecting-IP'),
+      limit: 60,
+      windowSec: 300,
+    });
+    if (!rl.ok) {
+      return json({ ok: false, error: 'You have sent a lot of messages quickly. Please pause a moment and try again.' }, { status: 429 });
+    }
   }
 
   const client = new Anthropic({ apiKey: env.ANTHROPIC_API_KEY });
