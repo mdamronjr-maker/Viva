@@ -23,6 +23,11 @@ const normalizedPath = Astro.url.pathname === '/' ? '/' : Astro.url.pathname.rep
 const canonicalURL = new URL(normalizedPath, Astro.site).href;
 const isHome = normalizedPath === '/';
 
+// Staging/feedback builds (set PUBLIC_DEPLOY_TARGET=feedback at build time) must
+// never be indexed: they mirror the live domain and canonicalize to it, so an
+// indexable mirror would compete as duplicate content / a parallel "live" site.
+const isFeedbackBuild = import.meta.env.PUBLIC_DEPLOY_TARGET === 'feedback';
+
 // Resolve the og:image. If a caller passed an explicit non-default value,
 // use it. Otherwise derive from the path: every static page and blog post
 // has its own PNG generated at build time by src/pages/og/[...route].png.ts.
@@ -119,7 +124,7 @@ const orgSchema = {
   <meta name="description" content={description} />
   <link rel="canonical" href={canonicalURL} />
 
-  {noindex && <meta name="robots" content="noindex, nofollow" />}
+  {(noindex || isFeedbackBuild) && <meta name="robots" content="noindex, nofollow" />}
 
   {/* Open Graph */}
   <meta property="og:title" content={title} />
@@ -160,8 +165,10 @@ const orgSchema = {
     />
   )}
 
-  {/* DNS prefetch for the booking destination */}
+  {/* Preconnect to the booking destination + the Turnstile challenge host */}
+  <link rel="preconnect" href="https://vivawellnessco.glossgenius.com" crossorigin />
   <link rel="dns-prefetch" href="https://vivawellnessco.glossgenius.com" />
+  <link rel="preconnect" href="https://challenges.cloudflare.com" crossorigin />
 
   {/* RSS feed for the blog · power readers, news aggregators */}
   <link rel="alternate" type="application/rss+xml" title="Viva Wellness Co. Blog" href="/rss.xml" />
