@@ -179,7 +179,7 @@ const testimonials = [
           Find your protocol, <span class="italic-display">take the match quiz.</span>
         </h2>
         <div class="qx__meta">
-          <span class="eyebrow" id="qx-step-label">Question 1 of 5</span>
+          <span class="eyebrow" id="qx-step-label" role="status" aria-live="polite" aria-atomic="true">Question 1 of 5</span>
           <div class="qx__progress" aria-hidden="true">
             <div class="qx__progress-bar" id="qx-bar"></div>
           </div>
@@ -188,8 +188,8 @@ const testimonials = [
 
       {/* Step 1 */}
       <div class="qx__step is-active" data-step="1">
-        <p class="qx__q" role="heading" aria-level="3">What is your <span class="italic-display">primary goal</span> right now?</p>
-        <div class="qx__options">
+        <p class="qx__q" id="qx-q1" role="heading" aria-level="3">What is your <span class="italic-display">primary goal</span> right now?</p>
+        <div class="qx__options" role="group" aria-labelledby="qx-q1">
           <button class="qx__opt" data-q="goal" data-v="weight"><span class="qx__opt-num">01</span><span class="qx__opt-label">Lose weight or reset metabolism</span><span class="qx__opt-arrow">→</span></button>
           <button class="qx__opt" data-q="goal" data-v="hormones"><span class="qx__opt-num">02</span><span class="qx__opt-label">Optimize hormones · energy, libido, mood</span><span class="qx__opt-arrow">→</span></button>
           <button class="qx__opt" data-q="goal" data-v="recovery"><span class="qx__opt-num">03</span><span class="qx__opt-label">Recover from training, surgery, or injury</span><span class="qx__opt-arrow">→</span></button>
@@ -200,8 +200,8 @@ const testimonials = [
 
       {/* Step 2 */}
       <div class="qx__step" data-step="2">
-        <p class="qx__q" role="heading" aria-level="3">What is your <span class="italic-display">age range</span>?</p>
-        <div class="qx__options">
+        <p class="qx__q" id="qx-q2" role="heading" aria-level="3">What is your <span class="italic-display">age range</span>?</p>
+        <div class="qx__options" role="group" aria-labelledby="qx-q2">
           <button class="qx__opt" data-q="age" data-v="u35"><span class="qx__opt-num">01</span><span class="qx__opt-label">Under 35</span><span class="qx__opt-arrow">→</span></button>
           <button class="qx__opt" data-q="age" data-v="35to44"><span class="qx__opt-num">02</span><span class="qx__opt-label">35 to 44</span><span class="qx__opt-arrow">→</span></button>
           <button class="qx__opt" data-q="age" data-v="45to54"><span class="qx__opt-num">03</span><span class="qx__opt-label">45 to 54</span><span class="qx__opt-arrow">→</span></button>
@@ -211,8 +211,8 @@ const testimonials = [
 
       {/* Step 3 */}
       <div class="qx__step" data-step="3">
-        <p class="qx__q" role="heading" aria-level="3">For protocol routing, sex <span class="italic-display">assigned at birth</span>?</p>
-        <div class="qx__options">
+        <p class="qx__q" id="qx-q3" role="heading" aria-level="3">For protocol routing, sex <span class="italic-display">assigned at birth</span>?</p>
+        <div class="qx__options" role="group" aria-labelledby="qx-q3">
           <button class="qx__opt" data-q="sex" data-v="m"><span class="qx__opt-num">01</span><span class="qx__opt-label">Male</span><span class="qx__opt-arrow">→</span></button>
           <button class="qx__opt" data-q="sex" data-v="f"><span class="qx__opt-num">02</span><span class="qx__opt-label">Female</span><span class="qx__opt-arrow">→</span></button>
         </div>
@@ -220,8 +220,8 @@ const testimonials = [
 
       {/* Step 4 */}
       <div class="qx__step" data-step="4">
-        <p class="qx__q" role="heading" aria-level="3">How <span class="italic-display">active</span> are you?</p>
-        <div class="qx__options">
+        <p class="qx__q" id="qx-q4" role="heading" aria-level="3">How <span class="italic-display">active</span> are you?</p>
+        <div class="qx__options" role="group" aria-labelledby="qx-q4">
           <button class="qx__opt" data-q="activity" data-v="sedentary"><span class="qx__opt-num">01</span><span class="qx__opt-label">Mostly sedentary right now</span><span class="qx__opt-arrow">→</span></button>
           <button class="qx__opt" data-q="activity" data-v="moderate"><span class="qx__opt-num">02</span><span class="qx__opt-label">2 to 4 workouts a week</span><span class="qx__opt-arrow">→</span></button>
           <button class="qx__opt" data-q="activity" data-v="athlete"><span class="qx__opt-num">03</span><span class="qx__opt-label">5+ sessions, training with intent</span><span class="qx__opt-arrow">→</span></button>
@@ -231,8 +231,8 @@ const testimonials = [
 
       {/* Step 5 */}
       <div class="qx__step" data-step="5">
-        <p class="qx__q" role="heading" aria-level="3">Where is your <span class="italic-display">monthly comfort</span>?</p>
-        <div class="qx__options">
+        <p class="qx__q" id="qx-q5" role="heading" aria-level="3">Where is your <span class="italic-display">monthly comfort</span>?</p>
+        <div class="qx__options" role="group" aria-labelledby="qx-q5">
           <button class="qx__opt" data-q="budget" data-v="b99"><span class="qx__opt-num">01</span><span class="qx__opt-label">Up to $99 a month</span><span class="qx__opt-arrow">→</span></button>
           <button class="qx__opt" data-q="budget" data-v="b199"><span class="qx__opt-num">02</span><span class="qx__opt-label">Up to $199 a month</span><span class="qx__opt-arrow">→</span></button>
           <button class="qx__opt" data-q="budget" data-v="b349"><span class="qx__opt-num">03</span><span class="qx__opt-label">Up to $349 a month</span><span class="qx__opt-arrow">→</span></button>
@@ -260,7 +260,7 @@ const testimonials = [
       </div>
 
       {/* Step 7 · result */}
-      <div class="qx__step" data-step="7">
+      <div class="qx__step" data-step="7" tabindex="-1">
         <span class="eyebrow">Your match</span>
         <h2 class="qx__result-title">
           <span class="italic-display">Recommended:</span><br/>
@@ -576,6 +576,10 @@ const testimonials = [
       section?.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
       section?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    // Land keyboard + SR focus on the result when it appears (otherwise it is silent to AT)
+    if (state.step === TOTAL + 2) {
+      (stepEls[state.step - 1] as HTMLElement | undefined)?.focus({ preventScroll: true });
     }
   }
 
