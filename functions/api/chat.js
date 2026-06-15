@@ -85,7 +85,9 @@ function json(data, init = {}) {
   });
 }
 
-// --- Turnstile (same semantics as /api/lead: fail open on CF hiccup) ---
+// --- Turnstile · fail CLOSED on any siteverify error. This is a metered
+// endpoint (one billed model call per POST), so a network blip / non-JSON
+// response / parse error must re-challenge rather than be treated as passed. ---
 async function verifyTurnstile(secret, token, ip) {
   if (!token) return false;
   try {
@@ -95,10 +97,11 @@ async function verifyTurnstile(secret, token, ip) {
       method: 'POST',
       body,
     });
+    if (!r.ok) return false;
     const d = await r.json();
     return !!(d && d.success);
   } catch {
-    return true;
+    return false;
   }
 }
 
