@@ -41,6 +41,14 @@
   --max: 1400px;
   --gutter: clamp(1.25rem, 4vw, 2.5rem);
   --section-pad: clamp(3rem, 7vw, 5.5rem);
+  /* The inline quiz showpiece breathes wider than the standard rhythm. */
+  --section-pad-lg: clamp(5rem, 10vw, 8rem);
+  /* Vertical rhythm tokens (rem-based). */
+  --space-2xs: 0.5rem;
+  --space-sm: 1rem;
+  /* Section-head (eyebrow→headline→body) bottom margin, fluid. Shared by the
+     programs, testimonials, and FAQ heads so every section head has one rhythm. */
+  --head-gap: clamp(2.5rem, 5vw, 4rem);
 
   /* Motion */
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
