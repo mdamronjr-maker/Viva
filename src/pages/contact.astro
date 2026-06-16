@@ -20,9 +20,9 @@ const DISCOVERY_CALL_URL = ''; // e.g. 'https://calendly.com/liliana-viva/intro'
         Get a real reply.
       </h1>
       <p class="lead reveal" style="--d: 500ms;">
-        Drop your details. I'll email you the Precision Hormone &amp; Peptide
-        Therapy guide and Liliana will be in touch personally if you have
-        questions. No bots, no funnels, no spam.
+        Leave me your details and I'll send the Precision Hormone &amp; Peptide
+        Therapy guide straight to your inbox. If you've got questions,
+        Liliana answers them herself. No bots, no funnels, no spam.
       </p>
     </div>
   </section>
@@ -69,7 +69,7 @@ const DISCOVERY_CALL_URL = ''; // e.g. 'https://calendly.com/liliana-viva/intro'
               autocomplete="tel"
               placeholder="(512) 555-0123"
             />
-            <span class="field__hint">Optional. Used only if you ask me to call or text.</span>
+            <span class="field__hint">Optional. I'll only use it if you ask me to call or text.</span>
           </div>
 
           <div class="field">
@@ -81,7 +81,7 @@ const DISCOVERY_CALL_URL = ''; // e.g. 'https://calendly.com/liliana-viva/intro'
               maxlength="5000"
               placeholder="Goals, current routine, questions about a specific protocol&hellip;"
             ></textarea>
-            <span class="field__hint">Optional. Skip if you just want the eBook. Do not include medical details or test results · that channel is the patient portal.</span>
+            <span class="field__hint">Optional. Skip it if you just want the eBook. Please leave out medical details or test results · those belong in the patient portal.</span>
           </div>
 
           {/* Honeypot · spam trap, hidden from real users */}
@@ -104,7 +104,7 @@ const DISCOVERY_CALL_URL = ''; // e.g. 'https://calendly.com/liliana-viva/intro'
           <div class="contact-side__discovery">
             <span class="eyebrow">· Or talk first</span>
             <h3>Free 15-min call with Liliana</h3>
-            <p>Not ready to book a full visit? Grab a fifteen-minute intro call. No agenda, no pressure, no charge.</p>
+            <p>Not ready for a full visit yet? Grab fifteen minutes with me first. No agenda, no pressure, no charge.</p>
             <a href={DISCOVERY_CALL_URL} target="_blank" rel="noopener" class="btn btn--bronze">Book the intro call</a>
           </div>
         )}
@@ -132,17 +132,17 @@ const DISCOVERY_CALL_URL = ''; // e.g. 'https://calendly.com/liliana-viva/intro'
         <div class="contact-side__panel">
           <span class="contact-side__num">01</span>
           <h3>The eBook lands</h3>
-          <p>Precision Hormone &amp; Peptide Therapy (fifteen pages, eight chapters) arrives in your inbox within sixty seconds.</p>
+          <p>Precision Hormone &amp; Peptide Therapy (fifteen pages, eight chapters) shows up in your inbox within sixty seconds.</p>
         </div>
         <div class="contact-side__panel">
           <span class="contact-side__num">02</span>
           <h3>Liliana reads your note</h3>
-          <p>Personally. Not a chatbot, not a triage form. If you asked a question, she sees it.</p>
+          <p>Personally. Not a chatbot, not a triage queue. If you asked something, she's the one reading it.</p>
         </div>
         <div class="contact-side__panel">
           <span class="contact-side__num">03</span>
           <h3>A real reply</h3>
-          <p>Inside one business day, often same day. Currently licensed in Texas, Colorado, Florida, and Iowa.</p>
+          <p>Within one business day, often the same day. Currently licensed in Texas, Colorado, Florida, and Iowa.</p>
         </div>
       </aside>
     </div>
@@ -207,7 +207,7 @@ const DISCOVERY_CALL_URL = ''; // e.g. 'https://calendly.com/liliana-viva/intro'
         if (!res.ok || !json.ok) {
           throw new Error(json.error || 'Something went wrong. Try again or email info&#64;vivawellnessco.com.');
         }
-        status.textContent = "Sent. Check your inbox in a minute for the eBook.";
+        status.textContent = "Sent. Give it a minute and the eBook should be in your inbox.";
         status.classList.add('is-success');
         form.reset();
       } catch (err) {
