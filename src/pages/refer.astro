@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import NoPhiNotice from '../components/NoPhiNotice.astro';
+import { TURNSTILE_SITEKEY } from '../lib/turnstile';
 
 // TODO: confirm the reward amount with the user before launch. $50 is a
 // reasonable default for a wellness practice; some peers run $100 or
@@ -101,7 +102,7 @@ const REFERRAL_REWARD_LABEL = `$${REFERRAL_REWARD_USD} credit`;
             <label>Leave empty<input name="company" type="text" tabindex="-1" autocomplete="off" /></label>
           </div>
 
-          <div class="cf-turnstile" data-sitekey="0x4AAAAAADe2cYOJKVo5GA0L" data-theme="light"></div>
+          <div class="cf-turnstile" data-sitekey={TURNSTILE_SITEKEY} data-theme="light"></div>
 
           <button type="submit" class="btn btn--bronze" id="r-submit">Send the intro</button>
           <div class="refer-form__status" id="r-status" role="status" aria-live="polite"></div>

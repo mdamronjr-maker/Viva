@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import NoPhiNotice from '../components/NoPhiNotice.astro';
+import { TURNSTILE_SITEKEY } from '../lib/turnstile';
 
 // TODO: paste the Calendly URL for the free 15-minute discovery call.
 // While empty, the discovery card below won't render.
@@ -91,7 +92,7 @@ const DISCOVERY_CALL_URL = ''; // e.g. 'https://calendly.com/liliana-viva/intro'
             </label>
           </div>
 
-          <div class="cf-turnstile" data-sitekey="0x4AAAAAADe2cYOJKVo5GA0L" data-theme="light"></div>
+          <div class="cf-turnstile" data-sitekey={TURNSTILE_SITEKEY} data-theme="light"></div>
 
           <button type="submit" class="btn btn--bronze" id="c-submit">Send &amp; get the eBook</button>
 

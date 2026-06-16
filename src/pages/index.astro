@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import NoPhiNotice from '../components/NoPhiNotice.astro';
+import { TURNSTILE_SITEKEY } from '../lib/turnstile';
 
 const faqs = [
   {
@@ -255,7 +256,7 @@ const testimonials = [
           <div class="field"><label for="qx-email" class="field__label">Email</label><input id="qx-email" name="email" type="email" class="field__input" autocomplete="email" required placeholder="you@example.com" /></div>
           <div class="field"><label for="qx-phone" class="field__label">Phone</label><input id="qx-phone" name="phone" type="tel" class="field__input" autocomplete="tel" placeholder="(512) 555-0123" /><span class="field__hint">Optional. Only used if you ask me to call or text.</span></div>
           <div class="hp" aria-hidden="true"><label>Leave empty<input name="company" type="text" tabindex="-1" autocomplete="off" /></label></div>
-          <div class="cf-turnstile" data-sitekey="0x4AAAAAADe2cYOJKVo5GA0L" data-theme="light"></div>
+          <div class="cf-turnstile" data-sitekey={TURNSTILE_SITEKEY} data-theme="light"></div>
           <button type="submit" class="btn btn--bronze" id="qx-submit">Reveal my protocol</button>
           <div class="qx__status" id="qx-status" role="status" aria-live="polite"></div>
         </form>
