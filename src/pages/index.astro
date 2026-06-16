@@ -167,6 +167,8 @@ const testimonials = [
     </div>
   </div>
 
+  <aside class="trust" aria-label="Practice credentials"><ul class="trust__grid container" role="list"><li class="trust__cell"><span class="trust__num" aria-hidden="true">01</span><p class="trust__label">Board-certified nurse practitioner</p></li><li class="trust__cell"><span class="trust__num" aria-hidden="true">02</span><p class="trust__label">Licensed in TX, CO, FL, IA</p></li><li class="trust__cell"><span class="trust__num" aria-hidden="true">03</span><p class="trust__label">Meds from FDA-regulated 503A pharmacies, third-party tested</p></li><li class="trust__cell"><span class="trust__num" aria-hidden="true">04</span><p class="trust__label">Provider-led, never algorithm-dispensed</p></li></ul></aside>
+
 
   {/* ============ INLINE QUIZ · the showpiece ============ */}
   <section class="qx" id="quiz">
@@ -343,12 +345,47 @@ const testimonials = [
     </div>
   </section>
 
+  {/* ============ PROVIDER BAND · a real, named provider ============ */}
+  <section class="provider-band section--paper">
+    <div class="container provider-band__inner">
+      <div class="provider-band__media to-reveal">
+        <div class="provider-band__frame" transition:name="provider-photo">
+          <img
+            src="/liliana-new.webp"
+            alt="Liliana Damron, APRN, FNP-BC"
+            width="640"
+            height="800"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+        <figcaption class="provider-band__caption">
+          <span class="provider-band__name">Liliana Damron</span>
+          <span class="provider-band__creds">APRN, FNP-BC · Founder</span>
+        </figcaption>
+      </div>
+
+      <div class="provider-band__copy to-reveal">
+        <span class="index" data-num="03">Your provider</span>
+        <h2 class="provider-band__title">
+          A real, named provider, <span class="italic-display">not a delegate.</span>
+        </h2>
+        <p class="provider-band__voice">
+          &ldquo;Your first visit is with me, Liliana, not a delegate, not a
+          questionnaire, not a chatbot. I read your chart and approve your
+          protocol myself.&rdquo;
+        </p>
+        <a href="/about" class="btn btn--bronze provider-band__cta">Meet your provider</a>
+      </div>
+    </div>
+  </section>
+
   {/* ============ TESTIMONIALS ============ */}
   <section class="testimonials">
     <img class="testimonials__bg" src="/testimonials-bg.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" />
     <div class="container">
       <div class="testimonials__head">
-        <span class="index" data-num="03">In their words</span>
+        <span class="index" data-num="04">In their words</span>
         <h2 class="testimonials__title">
           Five stars. <span class="italic-display">Eighty-six reviews.</span><br/>
           Verified on Google.
@@ -408,7 +445,7 @@ const testimonials = [
   <section class="faq">
     <div class="container">
       <div class="faq__head">
-        <span class="index" data-num="04">Common questions</span>
+        <span class="index" data-num="05">Common questions</span>
         <h2 class="faq__title">
           The questions <span class="italic-display">I get most.</span>
         </h2>
@@ -441,7 +478,10 @@ const testimonials = [
   {/* ============ VITALITY PULSE · signature motif ============ */}
   <div class="pulse-divider" aria-hidden="true">
     <svg viewBox="0 0 1000 60" preserveAspectRatio="xMidYMid meet">
-      <path d="M0,30 L370,30 L400,30 L422,9 L448,51 L472,15 L496,45 L518,30 L560,30 L1000,30"/>
+      <!-- steady dim base trace -->
+      <path class="pulse-base" d="M0,30 L370,30 L400,30 L422,9 L448,51 L472,15 L496,45 L518,30 L560,30 L1000,30"/>
+      <!-- bright bronze segment that travels along the trace, popping at the QRS spike -->
+      <path class="pulse-travel" d="M0,30 L370,30 L400,30 L422,9 L448,51 L472,15 L496,45 L518,30 L560,30 L1000,30"/>
     </svg>
   </div>
 
@@ -1287,26 +1327,201 @@ const testimonials = [
   .faq__foot .btn { color: var(--ink); border-color: rgba(10, 9, 8, 0.4); }
   .faq__foot .btn:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
 
-  /* ============ VITALITY PULSE divider ============ */
-  .pulse-divider { max-width: 880px; margin: 0 auto; padding: clamp(2rem, 5vw, 3.5rem) var(--gutter); }
-  .pulse-divider svg { width: 100%; height: 46px; display: block; overflow: visible; }
-  .pulse-divider path {
-    fill: none;
-    stroke: var(--bronze);
-    stroke-width: 2.5;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    filter: drop-shadow(0 0 6px rgba(214, 134, 74, 0.45));
-    stroke-dasharray: 1300;
-    stroke-dashoffset: 1300;
+/* ============ VITALITY PULSE divider ============ */
+/* A bright bronze "beat" travels along a steady dim trace, popping at the QRS
+   spike. Two stacked paths share the same geometry: .pulse-base is the resting
+   line; .pulse-travel is one short stroke-dasharray segment swept via
+   stroke-dashoffset. Path arc-length is ~1070; the spike cluster sits at
+   ~400-588 of that, i.e. ~37%-55% of the sweep — the timeline lingers and
+   brightens through that window. Gated behind .is-revealed; frozen under
+   reduced-motion. Zero payload, pure SVG/CSS. */
+.pulse-divider {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: clamp(2rem, 5vw, 3.5rem) var(--gutter);
+}
+.pulse-divider svg {
+  width: 100%;
+  height: 46px;
+  display: block;
+  overflow: visible;
+}
+.pulse-divider path {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Steady resting trace — always visible, dim. */
+.pulse-base {
+  stroke: var(--bronze-deep);
+  stroke-width: 2;
+  opacity: 0.5;
+}
+
+/* Traveling beat — one bright dash on a transparent base, drawn over the trace.
+   dasharray = [visible comet, full-length gap]; offset sweeps it L→R.
+   1070 ≈ total path length; 150 ≈ comet length (head + soft tail). */
+.pulse-travel {
+  stroke: var(--bronze-bright);
+  stroke-width: 2.75;
+  stroke-dasharray: 150 1070;
+  stroke-dashoffset: 150;            /* parked off the left edge before reveal */
+  opacity: 0;
+  filter: drop-shadow(0 0 5px rgba(214, 134, 74, 0.55));
+}
+
+/* On reveal: a one-time draw-in of the comet from the left, then it loops,
+   traveling the whole trace and flaring as it crosses the QRS spike. */
+.pulse-divider.is-revealed .pulse-travel {
+  animation:
+    pulse-travel-sweep 3.4s cubic-bezier(0.4, 0, 0.5, 1) 0.5s infinite,
+    pulse-travel-glow 3.4s ease-in-out 0.5s infinite;
+}
+
+/* Sweep the comet across the full arc-length and loop.
+   Offset 150 → -1070 moves the visible dash from left edge to past right edge.
+   Eased percentages slow the comet through the spike window (~37%-55%). */
+@keyframes pulse-travel-sweep {
+  0%   { stroke-dashoffset: 150; }    /* comet entering from the left */
+  34%  { stroke-dashoffset: -250; }   /* approaching the QRS spike, quickening */
+  44%  { stroke-dashoffset: -440; }   /* climbing the spike — dwell here */
+  56%  { stroke-dashoffset: -560; }   /* cresting the spike, slowed */
+  70%  { stroke-dashoffset: -760; }   /* leaving the spike, accelerating */
+  100% { stroke-dashoffset: -1070; }  /* off the right edge — loop */
+}
+
+/* Brightness/glow flares as the comet hits the spike, fades on the flatline. */
+@keyframes pulse-travel-glow {
+  0%   { opacity: 0; filter: drop-shadow(0 0 4px rgba(214, 134, 74, 0.30)); }
+  18%  { opacity: 0.85; filter: drop-shadow(0 0 5px rgba(214, 134, 74, 0.45)); }
+  44%  { opacity: 1; filter: drop-shadow(0 0 11px rgba(240, 168, 119, 0.85)); }   /* QRS pop */
+  56%  { opacity: 1; filter: drop-shadow(0 0 13px rgba(240, 168, 119, 0.95)); }
+  78%  { opacity: 0.9; filter: drop-shadow(0 0 5px rgba(214, 134, 74, 0.45)); }
+  100% { opacity: 0; filter: drop-shadow(0 0 4px rgba(214, 134, 74, 0.30)); }
+}
+
+/* Reduced motion: no travel, no flicker. Show the resting trace plus a single
+   static bright accent over the QRS spike so the motif still reads as a beat. */
+@media (prefers-reduced-motion: reduce) {
+  .pulse-base { opacity: 0.55; }
+  .pulse-travel,
+  .pulse-divider.is-revealed .pulse-travel {
+    animation: none;
+    opacity: 0.95;
+    /* park the bright dash centered on the QRS spike (offset ≈ -380) */
+    stroke-dashoffset: -380;
+    filter: drop-shadow(0 0 6px rgba(214, 134, 74, 0.5));
   }
-  .pulse-divider.is-revealed path { animation: pulse-draw 1.6s var(--ease) forwards, pulse-beat 2.8s ease-in-out 1.9s infinite; }
-  @keyframes pulse-draw { to { stroke-dashoffset: 0; } }
-  @keyframes pulse-beat { 0%, 100% { opacity: 0.92; } 50% { opacity: 0.5; } }
-  @media (prefers-reduced-motion: reduce) {
-    .pulse-divider path { stroke-dashoffset: 0; }
-    .pulse-divider.is-revealed path { animation: none; }
-  }
+}
+
+.trust{background:var(--ink);border-bottom:1px solid var(--rule);padding:clamp(2.25rem,5vw,3.5rem) 0}.trust__grid{display:grid;grid-template-columns:repeat(4,1fr)}.trust__cell{display:flex;flex-direction:column;gap:.55rem;padding:.25rem clamp(1rem,2.5vw,2rem);border-left:1px solid var(--rule)}.trust__cell:first-child{border-left:0;padding-left:0}.trust__num{font-family:var(--font-mono);font-size:.66rem;letter-spacing:.18em;color:var(--bronze)}.trust__label{font-family:var(--font-mono);font-size:.74rem;line-height:1.55;letter-spacing:.12em;text-transform:uppercase;color:var(--paper);font-weight:500;max-width:none;margin:0}@media(max-width:880px){.trust__grid{grid-template-columns:1fr 1fr;row-gap:clamp(1.5rem,4vw,2rem)}.trust__cell:nth-child(odd){border-left:0;padding-left:0}}@media(max-width:520px){.trust__grid{grid-template-columns:1fr}.trust__cell{border-left:0;padding:clamp(1rem,5vw,1.4rem) 0 0;border-top:1px solid var(--rule)}.trust__cell:first-child{padding-top:0;border-top:0}}
+
+/* ============ PROVIDER BAND ============ */
+/* Warm-paper inversion (same .section--paper treatment used by the About
+   founder section) so the named-provider moment reads as a calm, editorial
+   breath between the dark Programs grid and the dark Testimonials rotator. */
+.provider-band {
+  padding: var(--section-pad) 0;
+}
+.provider-band__inner {
+  display: grid;
+  grid-template-columns: 5fr 7fr;
+  gap: clamp(2.5rem, 6vw, 6rem);
+  align-items: center;
+}
+@media (max-width: 900px) {
+  .provider-band__inner { grid-template-columns: 1fr; align-items: start; }
+}
+
+.provider-band__media {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+/* Mirrors .founder__frame on the About page so the shared-element
+   transition:name="provider-photo" morph lands on a matching shape. */
+.provider-band__frame {
+  aspect-ratio: 4 / 5;
+  background: linear-gradient(135deg, var(--bronze-deep) 0%, var(--ink-3) 100%);
+  overflow: hidden;
+  border-radius: 2px;
+  position: relative;
+}
+.provider-band__frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+.provider-band__frame::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='pbn'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23pbn)' opacity='0.4'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+.provider-band__caption {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.provider-band__name {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  color: var(--ink);
+  line-height: 1.3;
+}
+.provider-band__creds {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--bronze-deep);
+}
+
+.provider-band__copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.4rem;
+}
+.provider-band__title {
+  font-size: clamp(2rem, 4.5vw, 3.4rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  max-width: 16ch;
+  margin: 0;
+}
+/* On the paper inversion the italic accent uses the deeper bronze for
+   contrast against the light surface — same rule the About founder/section
+   heads follow. */
+.provider-band__title .italic-display { color: var(--bronze-deep); }
+.provider-band__voice {
+  font-family: var(--font-display-italic);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(1.25rem, 2.4vw, 1.85rem);
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  max-width: 30ch;
+  font-variation-settings: 'opsz' 96, 'SOFT' 60, 'WONK' 1;
+  margin: 0;
+}
+.provider-band__cta { margin-top: 0.4rem; }
+
+/* Scroll reveal: stagger the copy slightly behind the photo. The base
+   .to-reveal / .is-revealed pattern is defined in global.css and is applied
+   by the homepage IntersectionObserver on astro:page-load. Without JS the
+   elements stay visible (progressive enhancement). */
+.provider-band__copy.to-reveal { transition-delay: 90ms; }
+
+@media (max-width: 900px) {
+  .provider-band__media { max-width: 340px; }
+}
 
   /* ============ CTA ============ */
   .cta { padding: clamp(5rem, 10vw, 9rem) 0; background: var(--ink); position: relative; overflow: hidden; border-top: 1px solid var(--rule); }
