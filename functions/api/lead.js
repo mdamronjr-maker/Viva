@@ -32,6 +32,7 @@ import {
   makeUnsubscribeUrl,
 } from './_suppress.js';
 import { logEmailEvent } from './_log.js';
+import { rateLimit } from './_ratelimit.js';
 
 const RESEND_API = 'https://api.resend.com';
 
@@ -41,6 +42,7 @@ const json = (body, init = {}) =>
     ...init,
     headers: {
       'Content-Type': 'application/json',
+      'Cache-Control': 'no-store',
       ...(init.headers || {}),
     },
   });
@@ -55,22 +57,41 @@ const esc = (s) =>
     .replace(/"/g, '&quot;');
 
 // Cloudflare Turnstile server-side verification. Returns true to allow the
-// submission. A missing token is treated as a failed challenge (bots that skip
-// the widget); a token present but an unreachable siteverify endpoint fails
-// OPEN so a Cloudflare hiccup never drops a real lead.
+// submission. Failure semantics are scoped on purpose:
+//   - missing token            -> fail CLOSED (bots that skip the widget)
+//   - network error / timeout  -> fail OPEN  (a Cloudflare-side hiccup we don't
+//                                 control must never drop a real lead)
+//   - HTTP non-2xx / bad body  -> fail CLOSED (a forged or malformed request,
+//                                 not an outage)
 async function verifyTurnstile(secret, token, ip) {
   if (!token) return false;
+  let r;
   try {
     const body = new URLSearchParams({ secret, response: String(token) });
     if (ip) body.set('remoteip', ip);
-    const r = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
-      method: 'POST',
-      body,
-    });
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), 5000);
+    try {
+      r = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+        method: 'POST',
+        body,
+        signal: ctrl.signal,
+      });
+    } finally {
+      clearTimeout(timer);
+    }
+  } catch {
+    // Could not reach siteverify (network/abort) — fail OPEN.
+    return true;
+  }
+  // We got a response. Treat anything but a clean, parseable 2xx success as a
+  // failed challenge (fail CLOSED) — this is a bad request, not an outage.
+  if (!r.ok) return false;
+  try {
     const d = await r.json();
     return !!(d && d.success);
   } catch {
-    return true;
+    return false;
   }
 }
 
@@ -116,6 +137,20 @@ export async function onRequestPost(context) {
     );
     if (!turnstileOk) {
       return json({ ok: false, error: 'Verification failed. Please refresh the page and try again.' }, { status: 403 });
+    }
+  }
+
+  // Per-IP rate limit (fail-open) — caps the Resend fan-out from a lead flood.
+  // Generous: a real person submits once or twice. Skips silently if no KV/IP.
+  {
+    const rl = await rateLimit(env, {
+      bucket: 'lead',
+      ip: request.headers.get('CF-Connecting-IP'),
+      limit: 6,
+      windowSec: 600,
+    });
+    if (!rl.ok) {
+      return json({ ok: false, error: 'Too many submissions. Please try again in a few minutes.' }, { status: 429 });
     }
   }
 

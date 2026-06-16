@@ -43,32 +43,32 @@ const utmQuery = utmParts.length
 const bookingHref = `https://vivawellnessco.glossgenius.com/services?${utmQuery}`;
 
 const whatToBring = [
-  'Any labs from the last twelve months, even if outside their reference ranges',
-  'A list of current medications and supplements, with doses',
-  'Your goals in plain language (energy, body comp, performance, recovery, longevity)',
-  'A working webcam and a quiet space for forty-five minutes',
+  'Any labs from the last twelve months, even the ones that came back out of range',
+  'A list of what you take right now, prescriptions and supplements, with doses',
+  'What you actually want, in your own words (energy, body comp, performance, recovery, longevity)',
+  'A working webcam and a quiet forty-five minutes to yourself',
 ];
 
 const visitSteps = [
   {
     num: '01',
-    title: 'Honest history',
-    body: 'I start with what you have actually tried, what worked, what did not, and what changed. No rushed checklists.',
+    title: 'I ask what you have already tried',
+    body: 'We start with what you have actually done, what helped, what flopped, and what changed along the way. No rushing you through a checklist.',
   },
   {
     num: '02',
-    title: 'Clinical assessment',
-    body: 'Liliana reviews your labs, symptoms, and goals together. If labs are missing or stale, she orders what is needed.',
+    title: 'We look at the whole picture',
+    body: 'Liliana goes through your labs, your symptoms, and your goals together, not in separate silos. If your labs are missing or out of date, she orders what we need.',
   },
   {
     num: '03',
-    title: 'Plain-language plan',
-    body: 'You leave with a written protocol recommendation and a transparent breakdown of what it includes, what it costs, and what to expect in the first ninety days.',
+    title: 'You get a plan in plain English',
+    body: 'You leave with a written protocol recommendation, plus a clear breakdown of what is in it, what it costs, and what the first ninety days should feel like.',
   },
   {
     num: '04',
-    title: 'No pressure to commit',
-    body: 'You decide whether to enroll after the visit. The first-visit fee is a one-time charge, separate from any membership you may choose to start.',
+    title: 'Nobody talks you into anything',
+    body: 'You decide whether to enroll after the visit, not during it. The first-visit fee is a one-time charge, separate from any membership you might choose to start.',
   },
 ];
 
@@ -80,25 +80,25 @@ const ninetyDays = [
     range: 'Days 0–3',
     label: 'First few days',
     title: 'Intake, script, medication ships',
-    body: 'First telehealth visit. Liliana reviews your history, writes a starting protocol, and briefs the 503A pharmacy. Compounded medication typically ships in 48–72 hours, and most patients have it in hand within the first week.',
+    body: 'Your first telehealth visit. Liliana goes through your history, writes your starting protocol, and sends it over to the 503A pharmacy. Compounded medication usually ships in 48–72 hours, and most patients have it in hand within the first week.',
   },
   {
     range: 'Days 3–30',
     label: 'Weeks 1–4',
     title: 'Titration begins',
-    body: 'Dose starts low and ramps based on tolerance. Direct provider access by message for side-effect questions. If labs are still pending, this is the window where they get drawn.',
+    body: 'We start low and build up at your pace, based on how you tolerate it. Message me directly with any side-effect questions, no phone tree. If your labs are still pending, this is the window where they get drawn.',
   },
   {
     range: 'Days 30–60',
     label: 'Weeks 5–8',
     title: 'First dose-adjustment check-in',
-    body: 'Provider check-in to tune the protocol based on how your body is actually responding. Adjustments come from data, not a generic schedule.',
+    body: 'We sit down again and tune the protocol around how your body is actually responding. Any changes come from your numbers and how you feel, not a one-size-fits-all calendar.',
   },
   {
     range: 'Days 60–90',
     label: 'Weeks 9–12',
     title: 'Labs re-pulled, results reviewed',
-    body: 'Follow-up labs verify the protocol is working as intended. Liliana walks you through the numbers. From here, monthly maintenance with quarterly check-ins.',
+    body: 'Follow-up labs tell us the protocol is doing what we hoped. Liliana walks you through every number so you understand it, not just nods along. From here it is monthly maintenance with quarterly check-ins.',
   },
 ];
 ---
@@ -115,9 +115,9 @@ const ninetyDays = [
         Forty-five minutes <span class="italic-display">with Liliana.</span>
       </h1>
       <p class="lead">
-        Before you book, here is exactly what the first visit looks like, what it
-        costs, and what to bring. Concierge means transparent. Nothing hidden,
-        nothing surprise-billed.
+        Before you book, I want you to know exactly what the first visit looks like,
+        what it costs, and what to bring. Concierge should mean you can see everything
+        coming. Nothing hidden, no surprise bill in your inbox later.
       </p>
     </div>
   </section>
@@ -128,7 +128,7 @@ const ninetyDays = [
         <li>
           <span class="eyebrow">Duration</span>
           <strong>{FIRST_VISIT_DURATION_MIN} min</strong>
-          <span class="start-headline__note">Secure video. No commute, no waiting room.</span>
+          <span class="start-headline__note">Secure video. No commute, no waiting room, no old magazines.</span>
         </li>
         <li>
           <span class="eyebrow">Visit fee</span>
@@ -138,7 +138,7 @@ const ninetyDays = [
         <li>
           <span class="eyebrow">Provider</span>
           <strong>Liliana Damron, APRN, FNP-BC</strong>
-          <span class="start-headline__note">Founder. Every first visit is with her, not a delegate.</span>
+          <span class="start-headline__note">Founder. Your first visit is with me, every time, not someone I handed you off to.</span>
         </li>
       </ul>
     </div>
@@ -173,18 +173,17 @@ const ninetyDays = [
             ))}
           </ul>
           <p class="start-card__note">
-            If you do not have recent labs, that is fine. Liliana will order
-            what I need at the first visit. Your insurance can typically be
-            applied to labs.
+            No recent labs? Don't worry about it. I'll order what we need at the
+            first visit, and you can usually run those labs through your insurance.
           </p>
         </div>
 
         <div class="start-card start-card--quiet">
           <span class="eyebrow">· Not ready to book?</span>
           <p>
-            Take the protocol-match quiz first. Five questions, ninety seconds.
-            You will land on the program tier that fits your goals and budget,
-            and the eBook ships immediately.
+            Take the protocol-match quiz first. Five questions, about ninety seconds.
+            You'll land on the program tier that fits your goals and your budget, and
+            the eBook shows up in your inbox right away.
           </p>
           <a href="/#quiz" class="start-link">Take the quiz →</a>
         </div>
@@ -200,9 +199,9 @@ const ninetyDays = [
           What the first <span class="italic-display">ninety days</span> actually look like.
         </h2>
         <p class="lead">
-          Calendar-based, not generic. The cadence below applies across hormone,
-          metabolic, peptide, and recovery protocols. Liliana adjusts the timing
-          to what your body is actually telling me.
+          Here's the actual calendar, not a vague promise. This rhythm holds across
+          hormone, metabolic, peptide, and recovery protocols, and I shift the timing
+          to match what your body is telling me along the way.
         </p>
       </div>
 
@@ -227,8 +226,8 @@ const ninetyDays = [
         Ready when you <span class="italic-display">are.</span>
       </h2>
       <p class="lead">
-        Booking takes about a minute. You will pick a time, complete a short
-        intake form, and receive a video link the day before your visit.
+        Booking takes about a minute. You pick a time, fill out a short intake form,
+        and I'll send your video link the day before we meet.
       </p>
       <div class="start-cta__ctas">
         <a href={bookingHref} target="_blank" rel="noopener" class="btn btn--bronze">
@@ -242,7 +241,7 @@ const ninetyDays = [
         <a href="/contact" class="btn">Ask a question first</a>
       </div>
       <p class="start-cta__fine">
-        Texas, Colorado, and Florida residents only at time of visit. Visit fee
+        Texas, Colorado, Florida, and Iowa residents only at time of visit. Visit fee
         is paid through GlossGenius (HIPAA-eligible payment processor).
       </p>
     </div>

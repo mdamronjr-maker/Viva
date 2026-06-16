@@ -67,7 +67,7 @@ const articleSchema = {
 };
 
 const formattedDate = post.data.publishDate.toLocaleDateString('en-US', {
-  month: 'long', day: 'numeric', year: 'numeric'
+  month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC'
 });
 
 // Show an "Updated" badge only when modifiedDate is meaningfully after publishDate
@@ -75,7 +75,7 @@ const hasUpdate =
   post.data.modifiedDate &&
   post.data.modifiedDate.valueOf() > post.data.publishDate.valueOf();
 const formattedUpdate = hasUpdate
-  ? post.data.modifiedDate!.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
+  ? post.data.modifiedDate!.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' })
   : null;
 ---
 
@@ -191,7 +191,7 @@ const formattedUpdate = hasUpdate
             Founder of Viva Wellness Co. Background in geriatric medicine, now
             focused on the opposite end of the curve: catching dysfunction
             early and extending the years where you feel like yourself.
-            Licensed in Texas, Colorado, and Florida.
+            Licensed in Texas, Colorado, Florida, and Iowa.
           </p>
           <a href="/about" class="post-author__link">Read the full story →</a>
         </div>
@@ -208,7 +208,7 @@ const formattedUpdate = hasUpdate
           provider-led, no pressure to commit.
         </p>
         <div class="post-foot__ctas">
-          <a href="https://vivawellnessco.glossgenius.com/services?utm_source=vivawellnessco&utm_medium=cta&utm_content=blog_post_foot" class="btn btn--bronze">Book your first visit</a>
+          <a href="/start?utm_source=vivawellnessco&utm_medium=cta&utm_content=blog_post_foot" class="btn btn--bronze">Book your first visit</a>
           <a href="/#quiz" class="btn">Find your protocol</a>
         </div>
       </div>

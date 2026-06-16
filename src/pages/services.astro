@@ -159,13 +159,13 @@ const includedAlways = [
 ];
 
 const pillars = [
-  { num: '01', title: 'Hormone Optimization', body: 'TRT and HRT protocols calibrated to how you want to feel and perform, not just where the lab range starts.' },
-  { num: '02', title: 'Metabolic Reset', body: 'Compounded GLP-1 protocols stepped to your physiology. Real appetite control without losing the muscle you trained for.' },
-  { num: '03', title: 'Peptide Therapy', body: 'Compounded peptide protocols for recovery, healing, and tissue repair. BPC-157, TB-500, GHK-Cu, CJC-1295 / Ipamorelin: the stack that closes the gap between training load and what your body can actually recover from.' },
-  { num: '04', title: 'Performance', body: 'Support for athletes and high-output professionals. Peptide and hormone protocols calibrated to keep you on the line, not behind it.' },
-  { num: '05', title: 'Recomp', body: 'Coordinated metabolic, hormone, and recovery support designed to shift body composition while keeping training intact.' },
-  { num: '06', title: 'Lifestyle & Longevity', body: 'Long-arc protocols for healthspan. Sleep, hormones, inflammation, and longevity peptides managed as one system.' },
-  { num: '07', title: 'Labs & Diagnostics', body: 'Hormone, metabolic, inflammation, and micronutrient panels. Ordered through your insurance, interpreted by the provider managing your protocol: the measurement layer behind every tier.' },
+  { num: '01', title: 'Hormone Optimization', body: 'TRT and HRT tuned to how you actually want to feel and perform. Not just to where the lab range happens to start.' },
+  { num: '02', title: 'Metabolic Reset', body: 'Compounded GLP-1 protocols matched to your physiology. Real appetite control, without giving back the muscle you worked for.' },
+  { num: '03', title: 'Peptide Therapy', body: 'Compounded peptide protocols for recovery, healing, and tissue repair. BPC-157, TB-500, GHK-Cu, CJC-1295 / Ipamorelin: the stack that closes the gap between how hard you train and what your body can actually bounce back from.' },
+  { num: '04', title: 'Performance', body: 'For athletes and people who run hot at work. Peptide and hormone protocols built to keep you on the line instead of behind it.' },
+  { num: '05', title: 'Recomp', body: 'Metabolic, hormone, and recovery support working together to change your body composition while your training stays intact.' },
+  { num: '06', title: 'Lifestyle & Longevity', body: 'The long game. Sleep, hormones, inflammation, and longevity peptides handled as one system instead of six separate problems.' },
+  { num: '07', title: 'Labs & Diagnostics', body: 'Hormone, metabolic, inflammation, and micronutrient panels. Ordered through your insurance, read by the same provider running your protocol. This is the measurement layer underneath every tier.' },
 ];
 
 // Schema.org · each tier emits a MedicalProcedure node so Google can
@@ -175,6 +175,7 @@ const areaServed = [
   { '@type': 'State', name: 'Texas' },
   { '@type': 'State', name: 'Colorado' },
   { '@type': 'State', name: 'Florida' },
+  { '@type': 'State', name: 'Iowa' },
 ];
 const servicesSchema = {
   '@context': 'https://schema.org',
@@ -203,7 +204,7 @@ const servicesSchema = {
 
 <Layout
   title="Peptide Therapy, TRT, GLP-1 & Hormone Optimization in Austin | Viva Wellness Co."
-  description="Concierge peptide therapy in Austin, TX: BPC-157, TB-500, GHK-Cu, CJC-1295 / Ipamorelin, MOTS-c. Plus compounded GLP-1 weight loss, TRT, HRT, and total-body performance medicine. Memberships from $99 to $499 per month. Texas, Colorado, Florida."
+  description="Concierge peptide therapy in Austin, TX: BPC-157, TB-500, GHK-Cu, CJC-1295 / Ipamorelin, MOTS-c. Plus compounded GLP-1 weight loss, TRT, HRT, and total-body performance medicine. Memberships from $99 to $499 per month. Texas, Colorado, Florida, Iowa."
   schema={servicesSchema}
 >
 
@@ -220,9 +221,9 @@ const servicesSchema = {
         Concierge peptide therapy, hormone optimization, and metabolic protocols
         from one provider on a flat monthly fee. Compounded peptides (BPC-157,
         TB-500, GHK-Cu, CJC-1295 / Ipamorelin), GLP-1, TRT, and HRT. Medication,
-        supplies, home delivery, follow-ups, and provider access included. No
-        surprises. A 12-week minimum gives the protocol enough runway to
-        actually work.
+        supplies, home delivery, follow-ups, and access to me are all in the
+        price. Nothing tacked on later. I ask for a 12-week minimum because that's
+        how long it takes to know if a protocol is really working.
       </p>
     </div>
   </section>
@@ -233,12 +234,12 @@ const servicesSchema = {
       <div class="section-head">
         <span class="index" data-num="01">The work</span>
         <h2 class="section-head__title">
-          Seven pillars. <span class="italic-display">Unlimited potential.</span>
+          Seven pillars. <span class="italic-display">One body.</span>
         </h2>
         <p class="lead section-head__lead">
-          Viva treats the body as one system. Pull on hormones, metabolism,
-          peptide therapy, or performance and the rest move. Every membership
-          is whole-body, managed by a single provider.
+          I treat the body as one system. Pull on hormones, metabolism,
+          peptide therapy, or performance and the rest move with it. Every
+          membership is whole-body, and it's me managing all of it.
         </p>
       </div>
 
@@ -282,8 +283,8 @@ const servicesSchema = {
           Five questions, <span class="italic-display">one match.</span>
         </h2>
         <p>
-          Tell me your goals, training, and budget. The quiz lands you on
-          the tier that fits, in about ninety seconds.
+          Tell me your goals, your training, your budget. About ninety seconds
+          later you'll land on the tier that actually fits you.
         </p>
       </div>
       <a href="/#quiz" class="btn btn--bronze">Take the quiz</a>
@@ -299,9 +300,9 @@ const servicesSchema = {
       <div class="provider-strip__copy">
         <span class="eyebrow">· Your provider for every protocol</span>
         <p class="provider-strip__line">
-          Every tier on this page is managed personally by
+          Every tier on this page is managed by me,
           <strong>Liliana Damron, APRN, FNP-BC</strong>.
-          Same provider every visit, no handoffs to staff or junior clinicians.
+          The same face every visit. No handoffs to staff or junior clinicians.
         </p>
         <a href="/about" class="provider-strip__link">Meet your provider →</a>
       </div>
@@ -317,11 +318,10 @@ const servicesSchema = {
           Five memberships. <span class="italic-display">Pick yours.</span>
         </h2>
         <p class="lead section-head__lead">
-          Flat monthly fee. Compounded medication, supplies, home delivery,
-          follow-ups, provider access, all included in every tier except Viva
-          Concierge Access (the insurance-routed entry point). The quiz routes
-          you to a starting tier; the provider tunes the details in your
-          first visit.
+          One flat monthly fee. Compounded medication, supplies, home delivery,
+          follow-ups, and access to me are included in every tier except Viva
+          Concierge Access (the insurance-routed entry point). The quiz points
+          you at a starting tier. I tune the details with you in your first visit.
         </p>
       </div>
 
@@ -363,7 +363,7 @@ const servicesSchema = {
                 )}
               </div>
             )}
-            <a href="https://vivawellnessco.glossgenius.com/services?utm_source=vivawellnessco&utm_medium=cta&utm_content=services_tier" class="btn btn--bronze prog-card__cta">
+            <a href="/start?utm_source=vivawellnessco&utm_medium=cta&utm_content=services_tier" class="btn btn--bronze prog-card__cta">
               Start with {p.name}
             </a>
           </li>
@@ -398,12 +398,12 @@ const servicesSchema = {
         Not sure which tier? <span class="italic-display">Start with a visit.</span>
       </h2>
       <p class="lead">
-        Your first telehealth consult is the diagnostic step. Liliana reviews
-        your goals, history, and labs, then recommends the protocol that fits.
-        No commitment to a tier until you've talked to a provider.
+        Your first telehealth consult is the diagnostic step. I go through your
+        goals, your history, and your labs, then tell you the protocol I'd
+        recommend. You don't commit to a tier until you've actually talked to me.
       </p>
       <div class="services-cta__ctas">
-        <a href="https://vivawellnessco.glossgenius.com/services?utm_source=vivawellnessco&utm_medium=cta&utm_content=services_cta" class="btn btn--bronze">Book your first visit</a>
+        <a href="/start?utm_source=vivawellnessco&utm_medium=cta&utm_content=services_cta" class="btn btn--bronze">Book your first visit</a>
         <a href="/contact" class="btn">Ask a question</a>
       </div>
     </div>

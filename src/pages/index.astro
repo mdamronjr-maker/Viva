@@ -1,15 +1,16 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import NoPhiNotice from '../components/NoPhiNotice.astro';
+import { TURNSTILE_SITEKEY } from '../lib/turnstile';
 
 const faqs = [
   {
     q: 'Is Viva Wellness Co. accepting new patients?',
-    a: "Yes. I'm licensed in Texas, Colorado, and Florida and currently accepting new patients in all three states. New patient visits typically book within a week.",
+    a: "Yes. I'm licensed in Texas, Colorado, Florida, and Iowa and currently accepting new patients in all four states. New patient visits typically book within a week.",
   },
   {
     q: 'Which states are you licensed in?',
-    a: 'Texas, Colorado, and Florida. Viva is a one-hundred-percent telehealth practice, so visits happen by secure video wherever you are physically located in one of those states at the time of the appointment.',
+    a: 'Texas, Colorado, Florida, and Iowa. Viva is a one-hundred-percent telehealth practice, so visits happen by secure video wherever you are physically located in one of those states at the time of the appointment.',
   },
   {
     q: 'Do you accept insurance?',
@@ -25,7 +26,7 @@ const faqs = [
   },
   {
     q: 'How fast will I receive the eBook after submitting a form?',
-    a: 'The Precision Hormone & Peptide Therapy eBook is emailed automatically, usually within sixty seconds. If you do not see it, check your spam folder or email info&#64;vivawellnessco.com and I will resend.',
+    a: 'The Precision Hormone & Peptide Therapy eBook is emailed automatically, usually within sixty seconds. If you do not see it, check your spam folder or email info@vivawellnessco.com and I will resend.',
   },
   {
     q: 'Can I cancel my membership?',
@@ -33,11 +34,11 @@ const faqs = [
   },
   {
     q: 'What does Concierge Access at $99 actually include?',
-    a: 'Two things. First, provider access: direct messaging with your provider, a monthly evaluation visit plus one acute/sick visit credit each month, lab orders routed through your insurance, and ongoing guidance across hormones, peptides, metabolic, and recovery. Second, member pricing: when you do want to add compounded peptides (BPC-157, TB-500, GHK-Cu, CJC, etc.), compounded GLP-1, or TRT add-ons, you get them at member rates instead of paying retail. It is the right tier when you want a provider thinking about you and the flexibility to pay a la carte for protocols, rather than committing to one of the all-inclusive bundles (TRT, Metabolic Core, Metabolic Advanced).',
+    a: 'Two things. First, provider access: direct messaging with your provider, a monthly evaluation visit plus one acute/sick visit credit each month, lab orders routed through your insurance, and ongoing guidance across hormones, peptides, metabolic, and recovery. Second, member pricing: when you do want to add provider-selected compounded peptides, compounded GLP-1, or TRT add-ons, you get them at member rates instead of paying retail. It is the right tier when you want a provider thinking about you and the flexibility to pay a la carte for protocols, rather than committing to one of the all-inclusive bundles (TRT, Metabolic Core, Metabolic Advanced).',
   },
   {
     q: 'Is my health information private?',
-    a: "This website only collects marketing leads (name, email, phone, quiz answers). I do not collect protected health information here. Once you become a patient, all clinical communication moves into the HIPAA-compliant patient portal. Lab results, medication adjustments, and provider messaging happen there, not on this site or in regular email.",
+    a: "This website collects only the marketing details you choose to share: your name, email, phone, and quiz answers (goal, age range, sex assigned at birth, activity, and budget). I don't collect clinical records such as lab results or diagnoses here. Once you become a patient, all clinical communication moves into the HIPAA-compliant patient portal. Lab results, medication adjustments, and provider messaging happen there, not on this site or in regular email.",
   },
 ];
 
@@ -61,7 +62,7 @@ const programs = [
   { tier: 'Entry', name: 'Concierge Access', price: '$99', cadence: '/mo', icon: 'key', body: 'Provider access plus member pricing on compounded peptides, GLP-1, and add-ons. Pay a la carte for the protocols you want instead of a bundled monthly fee.' },
   { tier: 'Foundational', name: 'TRT & HRT All Inclusive', price: '$199', cadence: '/mo', icon: 'pulse', body: 'Personalized testosterone optimization with compounded medication, supplies, and biannual labs.' },
   { tier: 'Core', name: 'Metabolic Core', price: '$349', cadence: '/mo', icon: 'flame', body: 'Compounded tirzepatide, fully managed, for stronger appetite control and consistent fat loss.', featured: true },
-  { tier: 'Premium', name: 'Metabolic Advanced', price: '$499', cadence: '/mo', icon: 'trophy', body: 'Top metabolic tier: compounded retatrutide, provider-titrated, for the most aggressive appetite control and fat loss.' },
+  { tier: 'Premium', name: 'Metabolic Advanced', price: '$499', cadence: '/mo', icon: 'trophy', body: 'Our most advanced metabolic tier: a fully managed, provider-titrated protocol for the most aggressive appetite control and fat loss. Your specific medication is selected during your clinical evaluation.' },
 ];
 
 const testimonials = [
@@ -101,7 +102,7 @@ const testimonials = [
 
 <Layout
   title="Concierge Peptide Therapy, GLP-1 & TRT in Austin | Viva Wellness Co."
-  description="Provider-led concierge telehealth in Austin, TX. GLP-1 weight loss, TRT, hormone optimization, recovery, and recomposition protocols. Texas, Colorado, Florida. Founded by Liliana Damron, APRN, FNP-BC."
+  description="Provider-led concierge telehealth in Austin, TX. GLP-1 weight loss, TRT, hormone optimization, recovery, and recomposition protocols. Texas, Colorado, Florida, Iowa. Founded by Liliana Damron, APRN, FNP-BC."
   schema={faqSchema}
 >
 
@@ -120,27 +121,27 @@ const testimonials = [
 
     <div class="container hero__inner">
       <div class="hero__eyebrows reveal" style="--d: 100ms;">
-        <span class="eyebrow">Telehealth · TX · CO · FL</span>
+        <span class="eyebrow">Telehealth · TX · CO · FL · IA</span>
         <span class="eyebrow hero__eyebrow-right">· 100% Concierge</span>
       </div>
 
       <h1 class="hero__title">
-        <span class="reveal" style="--d: 200ms;">Peptide therapy,</span>
-        <span class="italic-display reveal" style="--d: 380ms;">hormone optimization,</span>
-        <span class="reveal" style="--d: 560ms;">metabolic care.</span>
-        <span class="italic-display reveal" style="--d: 760ms;">Provider-led.</span>
+        <span class="reveal" style="--d: 200ms;">You bring the goals.</span>
+        <span class="italic-display reveal" style="--d: 420ms;">I'll build the protocol.</span>
       </h1>
 
       <div class="hero__foot reveal" style="--d: 1100ms;">
         <p class="hero__lead">
-          Provider-led protocols for hormone optimization, metabolic reset,
-          recovery, and recomposition. Concierge care, delivered virtually
-          from Austin.
+          I'm Liliana Damron, a nurse practitioner who'd rather catch the trouble
+          early than treat it late. Tell me where you want to go, and I'll run the
+          labs, build the protocol, and adjust as you go. Hormones, metabolic,
+          peptides, recovery — one provider, by video, from Austin.
         </p>
         <div class="hero__ctas">
-          <a href="https://vivawellnessco.glossgenius.com/services?utm_source=vivawellnessco&utm_medium=cta&utm_content=home_hero" class="btn btn--bronze">Start Your Protocol</a>
-          <a href="#quiz" class="btn hero__btn-quiet">Protocol match quiz</a>
+          <a href="#quiz" class="btn btn--bronze">Find your protocol</a>
+          <a href="/start?utm_source=vivawellnessco&utm_medium=cta&utm_content=home_hero" class="btn hero__btn-quiet">Book your first visit</a>
         </div>
+        <p class="hero__proof" style="font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mute); margin: 0.4rem 0 0;">5.0 on Google reviews</p>
       </div>
 
       <div class="hero__index reveal" style="--d: 1300ms;">
@@ -152,20 +153,22 @@ const testimonials = [
   {/* ============ MARQUEE ============ */}
   <div class="marquee" aria-hidden="true">
     <div class="marquee-track">
-      <span>Recover smarter</span>
-      <span>Train harder</span>
-      <span>Live longer</span>
-      <span>Optimize hormones</span>
-      <span>Reset metabolism</span>
-      <span>Rebuild stronger</span>
-      <span>Recover smarter</span>
-      <span>Train harder</span>
-      <span>Live longer</span>
-      <span>Optimize hormones</span>
-      <span>Reset metabolism</span>
-      <span>Rebuild stronger</span>
+      <span>Catch dysfunction early</span>
+      <span>Healthspan, not just lifespan</span>
+      <span>Measured, not guessed</span>
+      <span>One provider, one plan</span>
+      <span>Protocols that adapt to you</span>
+      <span>Built before it breaks</span>
+      <span>Catch dysfunction early</span>
+      <span>Healthspan, not just lifespan</span>
+      <span>Measured, not guessed</span>
+      <span>One provider, one plan</span>
+      <span>Protocols that adapt to you</span>
+      <span>Built before it breaks</span>
     </div>
   </div>
+
+  <aside class="trust" aria-label="Practice credentials"><ul class="trust__grid container" role="list"><li class="trust__cell"><span class="trust__num" aria-hidden="true">01</span><p class="trust__label">Board-certified nurse practitioner</p></li><li class="trust__cell"><span class="trust__num" aria-hidden="true">02</span><p class="trust__label">Licensed in TX, CO, FL, IA</p></li><li class="trust__cell"><span class="trust__num" aria-hidden="true">03</span><p class="trust__label">Meds from FDA-regulated 503A pharmacies, third-party tested</p></li><li class="trust__cell"><span class="trust__num" aria-hidden="true">04</span><p class="trust__label">Provider-led, never algorithm-dispensed</p></li></ul></aside>
 
 
   {/* ============ INLINE QUIZ · the showpiece ============ */}
@@ -179,7 +182,7 @@ const testimonials = [
           Find your protocol, <span class="italic-display">take the match quiz.</span>
         </h2>
         <div class="qx__meta">
-          <span class="eyebrow" id="qx-step-label">Question 1 of 5</span>
+          <span class="eyebrow" id="qx-step-label" role="status" aria-live="polite" aria-atomic="true">Question 1 of 5</span>
           <div class="qx__progress" aria-hidden="true">
             <div class="qx__progress-bar" id="qx-bar"></div>
           </div>
@@ -188,8 +191,8 @@ const testimonials = [
 
       {/* Step 1 */}
       <div class="qx__step is-active" data-step="1">
-        <p class="qx__q" role="heading" aria-level="3">What is your <span class="italic-display">primary goal</span> right now?</p>
-        <div class="qx__options">
+        <p class="qx__q" id="qx-q1" role="heading" aria-level="3">What is your <span class="italic-display">primary goal</span> right now?</p>
+        <div class="qx__options" role="group" aria-labelledby="qx-q1">
           <button class="qx__opt" data-q="goal" data-v="weight"><span class="qx__opt-num">01</span><span class="qx__opt-label">Lose weight or reset metabolism</span><span class="qx__opt-arrow">→</span></button>
           <button class="qx__opt" data-q="goal" data-v="hormones"><span class="qx__opt-num">02</span><span class="qx__opt-label">Optimize hormones · energy, libido, mood</span><span class="qx__opt-arrow">→</span></button>
           <button class="qx__opt" data-q="goal" data-v="recovery"><span class="qx__opt-num">03</span><span class="qx__opt-label">Recover from training, surgery, or injury</span><span class="qx__opt-arrow">→</span></button>
@@ -200,8 +203,8 @@ const testimonials = [
 
       {/* Step 2 */}
       <div class="qx__step" data-step="2">
-        <p class="qx__q" role="heading" aria-level="3">What is your <span class="italic-display">age range</span>?</p>
-        <div class="qx__options">
+        <p class="qx__q" id="qx-q2" role="heading" aria-level="3">What is your <span class="italic-display">age range</span>?</p>
+        <div class="qx__options" role="group" aria-labelledby="qx-q2">
           <button class="qx__opt" data-q="age" data-v="u35"><span class="qx__opt-num">01</span><span class="qx__opt-label">Under 35</span><span class="qx__opt-arrow">→</span></button>
           <button class="qx__opt" data-q="age" data-v="35to44"><span class="qx__opt-num">02</span><span class="qx__opt-label">35 to 44</span><span class="qx__opt-arrow">→</span></button>
           <button class="qx__opt" data-q="age" data-v="45to54"><span class="qx__opt-num">03</span><span class="qx__opt-label">45 to 54</span><span class="qx__opt-arrow">→</span></button>
@@ -211,8 +214,8 @@ const testimonials = [
 
       {/* Step 3 */}
       <div class="qx__step" data-step="3">
-        <p class="qx__q" role="heading" aria-level="3">For protocol routing, sex <span class="italic-display">assigned at birth</span>?</p>
-        <div class="qx__options">
+        <p class="qx__q" id="qx-q3" role="heading" aria-level="3">For protocol routing, sex <span class="italic-display">assigned at birth</span>?</p>
+        <div class="qx__options" role="group" aria-labelledby="qx-q3">
           <button class="qx__opt" data-q="sex" data-v="m"><span class="qx__opt-num">01</span><span class="qx__opt-label">Male</span><span class="qx__opt-arrow">→</span></button>
           <button class="qx__opt" data-q="sex" data-v="f"><span class="qx__opt-num">02</span><span class="qx__opt-label">Female</span><span class="qx__opt-arrow">→</span></button>
         </div>
@@ -220,8 +223,8 @@ const testimonials = [
 
       {/* Step 4 */}
       <div class="qx__step" data-step="4">
-        <p class="qx__q" role="heading" aria-level="3">How <span class="italic-display">active</span> are you?</p>
-        <div class="qx__options">
+        <p class="qx__q" id="qx-q4" role="heading" aria-level="3">How <span class="italic-display">active</span> are you?</p>
+        <div class="qx__options" role="group" aria-labelledby="qx-q4">
           <button class="qx__opt" data-q="activity" data-v="sedentary"><span class="qx__opt-num">01</span><span class="qx__opt-label">Mostly sedentary right now</span><span class="qx__opt-arrow">→</span></button>
           <button class="qx__opt" data-q="activity" data-v="moderate"><span class="qx__opt-num">02</span><span class="qx__opt-label">2 to 4 workouts a week</span><span class="qx__opt-arrow">→</span></button>
           <button class="qx__opt" data-q="activity" data-v="athlete"><span class="qx__opt-num">03</span><span class="qx__opt-label">5+ sessions, training with intent</span><span class="qx__opt-arrow">→</span></button>
@@ -231,8 +234,8 @@ const testimonials = [
 
       {/* Step 5 */}
       <div class="qx__step" data-step="5">
-        <p class="qx__q" role="heading" aria-level="3">Where is your <span class="italic-display">monthly comfort</span>?</p>
-        <div class="qx__options">
+        <p class="qx__q" id="qx-q5" role="heading" aria-level="3">Where is your <span class="italic-display">monthly comfort</span>?</p>
+        <div class="qx__options" role="group" aria-labelledby="qx-q5">
           <button class="qx__opt" data-q="budget" data-v="b99"><span class="qx__opt-num">01</span><span class="qx__opt-label">Up to $99 a month</span><span class="qx__opt-arrow">→</span></button>
           <button class="qx__opt" data-q="budget" data-v="b199"><span class="qx__opt-num">02</span><span class="qx__opt-label">Up to $199 a month</span><span class="qx__opt-arrow">→</span></button>
           <button class="qx__opt" data-q="budget" data-v="b349"><span class="qx__opt-num">03</span><span class="qx__opt-label">Up to $349 a month</span><span class="qx__opt-arrow">→</span></button>
@@ -253,14 +256,14 @@ const testimonials = [
           <div class="field"><label for="qx-email" class="field__label">Email</label><input id="qx-email" name="email" type="email" class="field__input" autocomplete="email" required placeholder="you@example.com" /></div>
           <div class="field"><label for="qx-phone" class="field__label">Phone</label><input id="qx-phone" name="phone" type="tel" class="field__input" autocomplete="tel" placeholder="(512) 555-0123" /><span class="field__hint">Optional. Only used if you ask me to call or text.</span></div>
           <div class="hp" aria-hidden="true"><label>Leave empty<input name="company" type="text" tabindex="-1" autocomplete="off" /></label></div>
-          <div class="cf-turnstile" data-sitekey="0x4AAAAAADe2cYOJKVo5GA0L" data-theme="light"></div>
+          <div class="cf-turnstile" data-sitekey={TURNSTILE_SITEKEY} data-theme="light"></div>
           <button type="submit" class="btn btn--bronze" id="qx-submit">Reveal my protocol</button>
           <div class="qx__status" id="qx-status" role="status" aria-live="polite"></div>
         </form>
       </div>
 
       {/* Step 7 · result */}
-      <div class="qx__step" data-step="7">
+      <div class="qx__step" data-step="7" tabindex="-1">
         <span class="eyebrow">Your match</span>
         <h2 class="qx__result-title">
           <span class="italic-display">Recommended:</span><br/>
@@ -283,7 +286,7 @@ const testimonials = [
             <ul class="qx__result-list qx__result-list--discuss" id="qx-r-discuss"></ul>
           </div>
           <div class="qx__result-ctas">
-            <a href="https://vivawellnessco.glossgenius.com/services?utm_source=vivawellnessco&utm_medium=cta&utm_content=home_quiz_result" class="btn btn--bronze">Book your first visit</a>
+            <a href="/start?utm_source=vivawellnessco&utm_medium=cta&utm_content=home_quiz_result" class="btn btn--bronze">Book your first visit</a>
             <a href="/services" class="btn">See all programs</a>
           </div>
           <p class="qx__result-note">
@@ -332,8 +335,48 @@ const testimonials = [
         ))}
       </ul>
 
+      <p class="programs-terms">
+        Individual results vary. Memberships include an initial 12-week commitment, then renew
+        automatically every 30 days; cancel anytime after the first 12 weeks · <a href="/terms">membership terms</a>.
+      </p>
+
       <div class="programs-foot">
         <a href="/services" class="btn">See all programs</a>
+      </div>
+    </div>
+  </section>
+
+  {/* ============ PROVIDER BAND · a real, named provider ============ */}
+  <section class="provider-band section--paper">
+    <div class="container provider-band__inner">
+      <figure class="provider-band__media to-reveal">
+        <div class="provider-band__frame" transition:name="provider-photo">
+          <img
+            src="/liliana-new.webp"
+            alt="Liliana Damron, APRN, FNP-BC"
+            width="640"
+            height="800"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+        <figcaption class="provider-band__caption">
+          <span class="provider-band__name">Liliana Damron</span>
+          <span class="provider-band__creds">APRN, FNP-BC · Founder</span>
+        </figcaption>
+      </figure>
+
+      <div class="provider-band__copy to-reveal">
+        <span class="index" data-num="03">Your provider</span>
+        <h2 class="provider-band__title">
+          A real, named provider, <span class="italic-display">not a delegate.</span>
+        </h2>
+        <p class="provider-band__voice">
+          &ldquo;Your first visit is with me, Liliana, not a delegate, not a
+          questionnaire, not a chatbot. I read your chart and approve your
+          protocol myself.&rdquo;
+        </p>
+        <a href="/about" class="btn btn--bronze provider-band__cta">Meet your provider</a>
       </div>
     </div>
   </section>
@@ -343,10 +386,10 @@ const testimonials = [
     <img class="testimonials__bg" src="/testimonials-bg.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" />
     <div class="container">
       <div class="testimonials__head">
-        <span class="index" data-num="03">In their words</span>
+        <span class="index" data-num="04">In their words</span>
         <h2 class="testimonials__title">
           Five stars. <span class="italic-display">Eighty-six reviews.</span><br/>
-          Zero exceptions.
+          Verified on Google.
         </h2>
         <a href="https://www.google.com/maps/place/Viva+Wellness+Co./@30.448506,-93.3099761,5366828m/data=!3m2!1e3!4b1!4m6!3m5!1s0x838a2a09b2fa0069:0x23603b7d6308b72a!8m2!3d30.448506!4d-93.309976!16s%2Fg%2F11x1q1jhw9" target="_blank" rel="noopener" class="testimonials__rating">
           <span class="testimonials__stars" aria-label="5 out of 5 stars">
@@ -366,7 +409,7 @@ const testimonials = [
       <div class="t-rotator" data-trotator>
         <div class="t-rotator__track" data-trotator-track>
           {testimonials.map((t, i) => (
-            <article class:list={["t-slide", i === 0 && 'is-active']} data-tslide>
+            <article class:list={["t-slide", i === 0 && 'is-active']} data-tslide aria-hidden={i === 0 ? 'false' : 'true'}>
               <div class="t-slide__stars" aria-label="5 stars">
                 <span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span>
               </div>
@@ -381,12 +424,13 @@ const testimonials = [
 
         <div class="t-rotator__controls">
           <button class="t-rotator__nav t-rotator__nav--prev" data-tprev aria-label="Previous review">←</button>
-          <div class="t-rotator__dots" data-tdots role="tablist" aria-label="Customer reviews">
+          <div class="t-rotator__dots" data-tdots role="group" aria-label="Customer reviews">
             {testimonials.map((t, i) => (
-              <button class:list={["t-dot", i === 0 && 'is-active']} data-tdot={i} aria-label={`Show review from ${t.name}`}></button>
+              <button class:list={["t-dot", i === 0 && 'is-active']} data-tdot={i} aria-label={`Show review from ${t.name}`} aria-current={i === 0 ? 'true' : undefined}></button>
             ))}
           </div>
           <button class="t-rotator__nav t-rotator__nav--next" data-tnext aria-label="Next review">→</button>
+          <button class="t-rotator__nav t-rotator__playpause" data-tplaypause aria-label="Pause automatic review rotation" aria-pressed="false">⏸</button>
         </div>
       </div>
 
@@ -402,7 +446,7 @@ const testimonials = [
   <section class="faq">
     <div class="container">
       <div class="faq__head">
-        <span class="index" data-num="04">Common questions</span>
+        <span class="index" data-num="05">Common questions</span>
         <h2 class="faq__title">
           The questions <span class="italic-display">I get most.</span>
         </h2>
@@ -435,7 +479,10 @@ const testimonials = [
   {/* ============ VITALITY PULSE · signature motif ============ */}
   <div class="pulse-divider" aria-hidden="true">
     <svg viewBox="0 0 1000 60" preserveAspectRatio="xMidYMid meet">
-      <path d="M0,30 L370,30 L400,30 L422,9 L448,51 L472,15 L496,45 L518,30 L560,30 L1000,30"/>
+      <!-- steady dim base trace -->
+      <path class="pulse-base" d="M0,30 L370,30 L400,30 L422,9 L448,51 L472,15 L496,45 L518,30 L560,30 L1000,30"/>
+      <!-- bright bronze segment that travels along the trace, popping at the QRS spike -->
+      <path class="pulse-travel" d="M0,30 L370,30 L400,30 L422,9 L448,51 L472,15 L496,45 L518,30 L560,30 L1000,30"/>
     </svg>
   </div>
 
@@ -454,7 +501,7 @@ const testimonials = [
         in. One plan. Nothing left to piece together.
       </p>
       <div class="cta__ctas">
-        <a href="https://vivawellnessco.glossgenius.com/services?utm_source=vivawellnessco&utm_medium=cta&utm_content=home_cta" class="btn btn--bronze">Book Your First Visit</a>
+        <a href="/start?utm_source=vivawellnessco&utm_medium=cta&utm_content=home_cta" class="btn btn--bronze">Book Your First Visit</a>
         <a href="/contact" class="btn">Ask a Question</a>
       </div>
     </div>
@@ -473,24 +520,53 @@ const testimonials = [
     const dots = rotator.querySelectorAll('[data-tdot]');
     const prev = rotator.querySelector('[data-tprev]') as HTMLButtonElement | null;
     const next = rotator.querySelector('[data-tnext]') as HTMLButtonElement | null;
+    const playPause = rotator.querySelector('[data-tplaypause]') as HTMLButtonElement | null;
     if (slides.length === 0) return;
     let i = 0;
+    let paused = false; // user-intent pause via the play/pause control
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const INTERVAL = 6000;
     function show(idx: number) {
       const safe = ((idx % slides.length) + slides.length) % slides.length;
-      slides.forEach((s, n) => s.classList.toggle('is-active', n === safe));
-      dots.forEach((d, n) => d.classList.toggle('is-active', n === safe));
+      slides.forEach((s, n) => {
+        const on = n === safe;
+        s.classList.toggle('is-active', on);
+        // keep inactive reviews out of the a11y tree so SR users hear one at a time
+        s.setAttribute('aria-hidden', on ? 'false' : 'true');
+      });
+      dots.forEach((d, n) => {
+        const on = n === safe;
+        d.classList.toggle('is-active', on);
+        if (on) d.setAttribute('aria-current', 'true'); else d.removeAttribute('aria-current');
+      });
       i = safe;
     }
     function go(delta: number) { show(i + delta); start(); }
-    function start() { stop(); tRotatorTimer = window.setInterval(() => show(i + 1), INTERVAL); }
+    // autoplay is suppressed when the user paused or prefers reduced motion (WCAG 2.2.2)
+    function start() { stop(); if (paused || reduceMotion) return; tRotatorTimer = window.setInterval(() => show(i + 1), INTERVAL); }
     function stop() { if (tRotatorTimer) clearInterval(tRotatorTimer); tRotatorTimer = undefined; }
+    function setPaused(p: boolean) {
+      paused = p;
+      if (playPause) {
+        playPause.setAttribute('aria-pressed', String(p));
+        playPause.setAttribute('aria-label', p ? 'Play automatic review rotation' : 'Pause automatic review rotation');
+        playPause.textContent = p ? '▶' : '⏸';
+      }
+      if (p) stop(); else start();
+    }
     dots.forEach((d, n) => d.addEventListener('click', () => { show(n); start(); }));
     prev?.addEventListener('click', () => go(-1));
     next?.addEventListener('click', () => go(1));
+    playPause?.addEventListener('click', () => setPaused(!paused));
     rotator.addEventListener('mouseenter', stop);
     rotator.addEventListener('mouseleave', start);
+    // keyboard users: pause while focus is inside the rotator, resume when it leaves
+    rotator.addEventListener('focusin', stop);
+    rotator.addEventListener('focusout', (e) => { if (!rotator.contains(e.relatedTarget as Node)) start(); });
     document.addEventListener('visibilitychange', () => { if (document.hidden) stop(); else start(); });
+    show(0);
+    // reduced motion: reflect the no-autoplay state in the control on load
+    if (reduceMotion) setPaused(true);
     start();
   }
 
@@ -541,6 +617,10 @@ const testimonials = [
       section?.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
       section?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    // Land keyboard + SR focus on the result when it appears (otherwise it is silent to AT)
+    if (state.step === TOTAL + 2) {
+      (stepEls[state.step - 1] as HTMLElement | undefined)?.focus({ preventScroll: true });
     }
   }
 
@@ -628,7 +708,7 @@ const testimonials = [
         });
         const json = await res.json().catch(() => ({}));
         if (!res.ok || !json.ok) {
-          throw new Error(json.error || 'Send failed. Try again or email info&#64;vivawellnessco.com.');
+          throw new Error(json.error || 'Send failed. Try again or email info@vivawellnessco.com.');
         }
         document.getElementById('qx-r-name')!.textContent = m.name;
         document.getElementById('qx-r-price')!.textContent = m.price;
@@ -803,15 +883,15 @@ const testimonials = [
   .section__bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; opacity: 0.3; }
   .section--imgbg::after { content: ''; position: absolute; inset: 0; z-index: 0; background: linear-gradient(180deg, rgba(20,13,9,0.62), rgba(20,13,9,0.74)); pointer-events: none; }
   .section--imgbg > .container { position: relative; z-index: 1; }
-  .section-head { display: grid; grid-template-columns: 1fr; gap: 1rem; margin-bottom: 2.5rem; max-width: 100%; }
-  .section-head__title { font-size: clamp(2rem, 4.5vw, 3.5rem); max-width: 16ch; }
+  .section-head { display: grid; grid-template-columns: 1fr; gap: var(--space-sm); margin-bottom: var(--head-gap); max-width: 100%; }
+  .section-head__title { font-size: clamp(2rem, 4.5vw, 3.5rem); max-width: 16ch; letter-spacing: -0.018em; }
   .section-head__title .italic-display { color: var(--bronze); }
   .section--paper .section-head__title .italic-display { color: var(--bronze-deep); }
-  .section-head__lead { margin-top: 0.3rem; }
+  .section-head__lead { margin-top: var(--space-2xs); }
 
   /* ============ INLINE QUIZ ============ */
   .qx {
-    padding: clamp(5rem, 10vw, 8rem) 0;
+    padding: var(--section-pad-lg) 0;
     border-top: 1px solid var(--rule);
     border-bottom: 1px solid var(--rule);
     background: var(--ink-2);
@@ -833,7 +913,7 @@ const testimonials = [
   .qx::after { content: ''; position: absolute; inset: 0; z-index: 1; background: linear-gradient(180deg, rgba(28,20,14,0.45), rgba(28,20,14,0.62)); pointer-events: none; }
   .qx__inner { position: relative; z-index: 2; max-width: 820px; margin: 0 auto; }
   .qx__head { display: flex; flex-direction: column; gap: 2rem; margin-bottom: 3rem; }
-  .qx__title { font-size: clamp(2rem, 4.5vw, 3.4rem); line-height: 1.05; letter-spacing: -0.015em; max-width: 22ch; margin: 0; }
+  .qx__title { font-size: clamp(2rem, 4.5vw, 3.4rem); line-height: 1.05; letter-spacing: -0.02em; max-width: 22ch; margin: 0; }
   .qx__title .italic-display { color: var(--bronze); }
   .qx__meta { display: flex; align-items: center; gap: 1.2rem; flex-wrap: wrap; }
   .qx__progress { flex: 1; height: 2px; background: var(--rule-strong); overflow: hidden; min-width: 120px; }
@@ -872,14 +952,23 @@ const testimonials = [
     backdrop-filter: blur(8px);
   }
   .qx__opt:hover {
-    background: rgba(201, 120, 58, 0.08);
+    background: rgba(214, 134, 74, 0.08);
     border-color: var(--bronze);
     transform: translateX(6px);
+  }
+  .qx__opt:active {
+    background: rgba(214, 134, 74, 0.14);
+    border-color: var(--bronze-deep);
+    transform: translateX(3px);
   }
   .qx__opt:hover .qx__opt-arrow { transform: translateX(4px); color: var(--bronze-bright); }
   .qx__opt-num { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.14em; color: var(--bronze); min-width: 24px; }
   .qx__opt-label { font-family: var(--font-display-italic); font-size: clamp(1.1rem, 1.7vw, 1.35rem); letter-spacing: -0.01em; color: var(--paper); line-height: 1.3; }
   .qx__opt-arrow { font-family: var(--font-body); font-size: 1.3rem; color: rgba(245, 241, 234, 0.4); transition: color 250ms var(--ease), transform 250ms var(--ease); }
+
+  @media (max-width: 520px) {
+    .qx__opt { gap: 0.9rem; padding: 1.25rem 1.15rem; }
+  }
 
   .qx__form { display: flex; flex-direction: column; gap: 1.4rem; max-width: 520px; }
   .qx__form .btn { align-self: flex-start; margin-top: 0.4rem; }
@@ -913,7 +1002,7 @@ const testimonials = [
   .qx__result-list--discuss :global(li)::before { content: '→'; }
   .qx__result-ctas { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
   .qx__result-note { font-size: 0.85rem; color: var(--mute); line-height: 1.55; padding-top: 1.2rem; border-top: 1px solid var(--rule); max-width: 60ch; }
-  .qx__back { display: inline-flex; margin-top: 2.5rem; font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mute); padding: 0.5rem 0; transition: color 200ms var(--ease); }
+  .qx__back { display: inline-flex; align-items: center; margin-top: 2.5rem; font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mute); padding: 0.75rem 0; min-height: 44px; transition: color 200ms var(--ease); }
   .qx__back:hover { color: var(--paper); }
 
   /* ============ QUIZ FOCUS MODE ============
@@ -1009,6 +1098,9 @@ const testimonials = [
   .program__price-amt { font-family: var(--font-display); font-size: 2.6rem; color: var(--paper); letter-spacing: -0.022em; font-variation-settings: 'opsz' 96; font-feature-settings: 'tnum'; }
   .program__price-cad { font-family: var(--font-mono); font-size: 0.85rem; color: var(--mute); }
   .program__body { color: rgba(245, 241, 234, 0.65); font-size: 0.92rem; flex-grow: 1; margin-bottom: 1rem; }
+  .programs-terms { color: var(--mute); font-size: 0.8rem; line-height: 1.5; text-align: center; max-width: 640px; margin: 1.4rem auto 0; }
+  .programs-terms a { color: var(--mute); text-decoration: underline; text-underline-offset: 2px; }
+  .programs-terms a:hover { color: var(--bronze); }
   .program__link { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--bronze); align-self: flex-start; }
   .program__link:hover { color: var(--bronze-bright); }
   .programs-foot { margin-top: 3rem; text-align: center; }
@@ -1020,11 +1112,11 @@ const testimonials = [
   .testimonials::after { content: ''; position: absolute; inset: 0; z-index: 1; background: linear-gradient(180deg, rgba(20,13,9,0.6), rgba(20,13,9,0.72)); pointer-events: none; }
   .testimonials > .container { position: relative; z-index: 2; }
   .testimonials > .container { position: relative; }
-  .testimonials__head { margin-bottom: clamp(2.5rem, 5vw, 4rem); max-width: 900px; }
-  .testimonials__title { font-size: clamp(2rem, 5vw, 3.6rem); line-height: 1.05; letter-spacing: -0.005em; margin: 0.7rem 0 2rem; max-width: 22ch; }
+  .testimonials__head { margin-bottom: var(--head-gap); max-width: 900px; }
+  .testimonials__title { font-size: clamp(2rem, 5vw, 3.6rem); line-height: 1.05; letter-spacing: -0.02em; margin: 0.7rem 0 2rem; max-width: 22ch; }
   .testimonials__title .italic-display { color: var(--bronze); }
   .testimonials__rating { display: inline-flex; align-items: center; gap: 1rem; padding: 1rem 1.4rem; border: 1px solid var(--rule-strong); background: var(--ink-2); border-radius: var(--radius-pill); transition: background 220ms var(--ease), border-color 220ms var(--ease); }
-  .testimonials__rating:hover { background: var(--ink-3); border-color: rgba(201, 120, 58, 0.5); }
+  .testimonials__rating:hover { background: var(--ink-3); border-color: rgba(214, 134, 74, 0.5); }
   .testimonials__stars { display: inline-flex; gap: 3px; }
   .star { width: 18px; height: 18px; background: var(--bronze-bright); display: inline-block; -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='black'%3E%3Cpath d='M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z'/%3E%3C/svg%3E"); mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='black'%3E%3Cpath d='M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z'/%3E%3C/svg%3E"); -webkit-mask-size: contain; mask-size: contain; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; flex-shrink: 0; }
   .testimonials__rating-meta { display: flex; align-items: baseline; gap: 0.5rem; flex-wrap: wrap; }
@@ -1037,7 +1129,7 @@ const testimonials = [
   .testimonials__disclaimer {
     font-size: 0.72rem;
     line-height: 1.5;
-    color: rgba(245, 241, 234, 0.45);
+    color: rgba(245, 241, 234, 0.55);
     max-width: 56ch;
     margin: 1rem 0 0;
     letter-spacing: 0.01em;
@@ -1084,6 +1176,7 @@ const testimonials = [
     margin: 0;
     flex-grow: 1;
     max-width: 65ch;
+    font-variation-settings: 'opsz' 60, 'SOFT' 60, 'WONK' 1;
   }
   .t-slide__author {
     display: flex;
@@ -1117,8 +1210,8 @@ const testimonials = [
     background: transparent;
     border: 1px solid var(--rule-strong);
     color: var(--paper);
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
     display: grid;
     place-items: center;
     cursor: pointer;
@@ -1127,6 +1220,7 @@ const testimonials = [
     font-size: 1.05rem;
   }
   .t-rotator__nav:hover { background: rgba(214, 134, 74, 0.1); border-color: var(--bronze); }
+  .t-rotator__nav:active { background: rgba(214, 134, 74, 0.18); border-color: var(--bronze-deep); }
   .t-rotator__dots { display: flex; gap: 0.5rem; }
   .t-dot {
     width: 32px;
@@ -1160,12 +1254,13 @@ const testimonials = [
     pointer-events: none;
   }
   .faq > .container { position: relative; }
-  .faq__head { max-width: 900px; margin-bottom: clamp(2.5rem, 5vw, 4rem); }
+  .faq__head { max-width: 900px; margin-bottom: var(--head-gap); }
   .faq__head .eyebrow { color: var(--bronze-deep); }
-  .faq__head .index { color: rgba(10, 9, 8, 0.5); }
+  .faq__head .index { color: rgba(10, 9, 8, 0.6); }
   .faq__head .index::before { color: var(--bronze-deep); }
   .faq__title {
     font-size: clamp(2rem, 5vw, 3.6rem);
+    letter-spacing: -0.02em;
     margin: 0.7rem 0 1.2rem;
     max-width: 22ch;
     line-height: 1.05;
@@ -1245,26 +1340,201 @@ const testimonials = [
   .faq__foot .btn { color: var(--ink); border-color: rgba(10, 9, 8, 0.4); }
   .faq__foot .btn:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
 
-  /* ============ VITALITY PULSE divider ============ */
-  .pulse-divider { max-width: 880px; margin: 0 auto; padding: clamp(2rem, 5vw, 3.5rem) var(--gutter); }
-  .pulse-divider svg { width: 100%; height: 46px; display: block; overflow: visible; }
-  .pulse-divider path {
-    fill: none;
-    stroke: var(--bronze);
-    stroke-width: 2.5;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    filter: drop-shadow(0 0 6px rgba(214, 134, 74, 0.45));
-    stroke-dasharray: 1300;
-    stroke-dashoffset: 1300;
+/* ============ VITALITY PULSE divider ============ */
+/* A bright bronze "beat" travels along a steady dim trace, popping at the QRS
+   spike. Two stacked paths share the same geometry: .pulse-base is the resting
+   line; .pulse-travel is one short stroke-dasharray segment swept via
+   stroke-dashoffset. Path arc-length is ~1070; the spike cluster sits at
+   ~400-588 of that, i.e. ~37%-55% of the sweep — the timeline lingers and
+   brightens through that window. Gated behind .is-revealed; frozen under
+   reduced-motion. Zero payload, pure SVG/CSS. */
+.pulse-divider {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: clamp(2rem, 5vw, 3.5rem) var(--gutter);
+}
+.pulse-divider svg {
+  width: 100%;
+  height: 46px;
+  display: block;
+  overflow: visible;
+}
+.pulse-divider path {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Steady resting trace — always visible, dim. */
+.pulse-base {
+  stroke: var(--bronze-deep);
+  stroke-width: 2;
+  opacity: 0.5;
+}
+
+/* Traveling beat — one bright dash on a transparent base, drawn over the trace.
+   dasharray = [visible comet, full-length gap]; offset sweeps it L→R.
+   1070 ≈ total path length; 150 ≈ comet length (head + soft tail). */
+.pulse-travel {
+  stroke: var(--bronze-bright);
+  stroke-width: 2.75;
+  stroke-dasharray: 150 1070;
+  stroke-dashoffset: 150;            /* parked off the left edge before reveal */
+  opacity: 0;
+  filter: drop-shadow(0 0 5px rgba(214, 134, 74, 0.55));
+}
+
+/* On reveal: a one-time draw-in of the comet from the left, then it loops,
+   traveling the whole trace and flaring as it crosses the QRS spike. */
+.pulse-divider.is-revealed .pulse-travel {
+  animation:
+    pulse-travel-sweep 3.4s cubic-bezier(0.4, 0, 0.5, 1) 0.5s infinite,
+    pulse-travel-glow 3.4s ease-in-out 0.5s infinite;
+}
+
+/* Sweep the comet across the full arc-length and loop.
+   Offset 150 → -1070 moves the visible dash from left edge to past right edge.
+   Eased percentages slow the comet through the spike window (~37%-55%). */
+@keyframes pulse-travel-sweep {
+  0%   { stroke-dashoffset: 150; }    /* comet entering from the left */
+  34%  { stroke-dashoffset: -250; }   /* approaching the QRS spike, quickening */
+  44%  { stroke-dashoffset: -440; }   /* climbing the spike — dwell here */
+  56%  { stroke-dashoffset: -560; }   /* cresting the spike, slowed */
+  70%  { stroke-dashoffset: -760; }   /* leaving the spike, accelerating */
+  100% { stroke-dashoffset: -1070; }  /* off the right edge — loop */
+}
+
+/* Brightness/glow flares as the comet hits the spike, fades on the flatline. */
+@keyframes pulse-travel-glow {
+  0%   { opacity: 0; filter: drop-shadow(0 0 4px rgba(214, 134, 74, 0.30)); }
+  18%  { opacity: 0.85; filter: drop-shadow(0 0 5px rgba(214, 134, 74, 0.45)); }
+  44%  { opacity: 1; filter: drop-shadow(0 0 11px rgba(240, 168, 119, 0.85)); }   /* QRS pop */
+  56%  { opacity: 1; filter: drop-shadow(0 0 13px rgba(240, 168, 119, 0.95)); }
+  78%  { opacity: 0.9; filter: drop-shadow(0 0 5px rgba(214, 134, 74, 0.45)); }
+  100% { opacity: 0; filter: drop-shadow(0 0 4px rgba(214, 134, 74, 0.30)); }
+}
+
+/* Reduced motion: no travel, no flicker. Show the resting trace plus a single
+   static bright accent over the QRS spike so the motif still reads as a beat. */
+@media (prefers-reduced-motion: reduce) {
+  .pulse-base { opacity: 0.55; }
+  .pulse-travel,
+  .pulse-divider.is-revealed .pulse-travel {
+    animation: none;
+    opacity: 0.95;
+    /* park the bright dash centered on the QRS spike (offset ≈ -380) */
+    stroke-dashoffset: -380;
+    filter: drop-shadow(0 0 6px rgba(214, 134, 74, 0.5));
   }
-  .pulse-divider.is-revealed path { animation: pulse-draw 1.6s var(--ease) forwards, pulse-beat 2.8s ease-in-out 1.9s infinite; }
-  @keyframes pulse-draw { to { stroke-dashoffset: 0; } }
-  @keyframes pulse-beat { 0%, 100% { opacity: 0.92; } 50% { opacity: 0.5; } }
-  @media (prefers-reduced-motion: reduce) {
-    .pulse-divider path { stroke-dashoffset: 0; }
-    .pulse-divider.is-revealed path { animation: none; }
-  }
+}
+
+.trust{background:var(--ink);border-bottom:1px solid var(--rule);padding:clamp(2.25rem,5vw,3.5rem) 0}.trust__grid{display:grid;grid-template-columns:repeat(4,1fr)}.trust__cell{display:flex;flex-direction:column;gap:.55rem;padding:.25rem clamp(1rem,2.5vw,2rem);border-left:1px solid var(--rule)}.trust__cell:first-child{border-left:0;padding-left:0}.trust__num{font-family:var(--font-mono);font-size:.66rem;letter-spacing:.18em;color:var(--bronze)}.trust__label{font-family:var(--font-mono);font-size:.74rem;line-height:1.55;letter-spacing:.12em;text-transform:uppercase;color:var(--paper);font-weight:500;max-width:none;margin:0}@media(max-width:880px){.trust__grid{grid-template-columns:1fr 1fr;row-gap:clamp(1.5rem,4vw,2rem)}.trust__cell:nth-child(odd){border-left:0;padding-left:0}}@media(max-width:520px){.trust__grid{grid-template-columns:1fr}.trust__cell{border-left:0;padding:clamp(1rem,5vw,1.4rem) 0 0;border-top:1px solid var(--rule)}.trust__cell:first-child{padding-top:0;border-top:0}}
+
+/* ============ PROVIDER BAND ============ */
+/* Warm-paper inversion (same .section--paper treatment used by the About
+   founder section) so the named-provider moment reads as a calm, editorial
+   breath between the dark Programs grid and the dark Testimonials rotator. */
+.provider-band {
+  padding: var(--section-pad) 0;
+}
+.provider-band__inner {
+  display: grid;
+  grid-template-columns: 5fr 7fr;
+  gap: clamp(2.5rem, 6vw, 6rem);
+  align-items: center;
+}
+@media (max-width: 900px) {
+  .provider-band__inner { grid-template-columns: 1fr; align-items: start; }
+}
+
+.provider-band__media {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+/* Mirrors .founder__frame on the About page so the shared-element
+   transition:name="provider-photo" morph lands on a matching shape. */
+.provider-band__frame {
+  aspect-ratio: 4 / 5;
+  background: linear-gradient(135deg, var(--bronze-deep) 0%, var(--ink-3) 100%);
+  overflow: hidden;
+  border-radius: 2px;
+  position: relative;
+}
+.provider-band__frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+.provider-band__frame::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='pbn'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23pbn)' opacity='0.4'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+.provider-band__caption {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.provider-band__name {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  color: var(--ink);
+  line-height: 1.3;
+}
+.provider-band__creds {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--bronze-deep);
+}
+
+.provider-band__copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.4rem;
+}
+.provider-band__title {
+  font-size: clamp(2rem, 4.5vw, 3.4rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  max-width: 16ch;
+  margin: 0;
+}
+/* On the paper inversion the italic accent uses the deeper bronze for
+   contrast against the light surface — same rule the About founder/section
+   heads follow. */
+.provider-band__title .italic-display { color: var(--bronze-deep); }
+.provider-band__voice {
+  font-family: var(--font-display-italic);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(1.25rem, 2.4vw, 1.85rem);
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  max-width: 30ch;
+  font-variation-settings: 'opsz' 96, 'SOFT' 60, 'WONK' 1;
+  margin: 0;
+}
+.provider-band__cta { margin-top: 0.4rem; }
+
+/* Scroll reveal: stagger the copy slightly behind the photo. The base
+   .to-reveal / .is-revealed pattern is defined in global.css and is applied
+   by the homepage IntersectionObserver on astro:page-load. Without JS the
+   elements stay visible (progressive enhancement). */
+.provider-band__copy.to-reveal { transition-delay: 90ms; }
+
+@media (max-width: 900px) {
+  .provider-band__media { max-width: 340px; }
+}
 
   /* ============ CTA ============ */
   .cta { padding: clamp(5rem, 10vw, 9rem) 0; background: var(--ink); position: relative; overflow: hidden; border-top: 1px solid var(--rule); }

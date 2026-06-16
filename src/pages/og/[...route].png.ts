@@ -18,7 +18,7 @@ const blogPosts = await getCollection('blog', ({ data }) => !data.draft);
 const pages: Record<string, { title: string; tagline: string }> = {
   home: {
     title: 'Peptide therapy, engineered for the body you train.',
-    tagline: 'Concierge Telehealth · Austin · TX · CO · FL',
+    tagline: 'Concierge Telehealth · Austin · TX · CO · FL · IA',
   },
   about: {
     title: 'I treat health like training.',
@@ -26,7 +26,7 @@ const pages: Record<string, { title: string; tagline: string }> = {
   },
   services: {
     title: 'Peptide therapy. TRT. GLP-1. Hormone optimization.',
-    tagline: 'Concierge Memberships · From $99 / month · TX · CO · FL',
+    tagline: 'Concierge Memberships · From $99 / month · TX · CO · FL · IA',
   },
   partners: {
     title: 'The Austin partners I trust with my patients.',

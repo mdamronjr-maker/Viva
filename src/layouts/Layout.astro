@@ -8,7 +8,7 @@ import MobileStickyCta from '../components/MobileStickyCta.astro';
 
 const {
   title = 'Concierge Telehealth in Austin | Viva Wellness Co.',
-  description = 'Concierge peptide therapy, GLP-1 weight loss, hormone optimization, and recovery protocols delivered virtually from Austin, TX. Provider-led. Texas, Colorado, and Florida.',
+  description = 'Concierge peptide therapy, GLP-1 weight loss, hormone optimization, and recovery protocols delivered virtually from Austin, TX. Provider-led. Texas, Colorado, Florida, and Iowa.',
   ogImage = '/og-image.jpg',
   ogType = 'website',
   publishDate,
@@ -21,6 +21,11 @@ const {
 const normalizedPath = Astro.url.pathname === '/' ? '/' : Astro.url.pathname.replace(/\/$/, '');
 const canonicalURL = new URL(normalizedPath, Astro.site).href;
 const isHome = normalizedPath === '/';
+
+// Staging/feedback builds (set PUBLIC_DEPLOY_TARGET=feedback at build time) must
+// never be indexed: they mirror the live domain and canonicalize to it, so an
+// indexable mirror would compete as duplicate content / a parallel "live" site.
+const isFeedbackBuild = import.meta.env.PUBLIC_DEPLOY_TARGET === 'feedback';
 
 // Resolve the og:image. If a caller passed an explicit non-default value,
 // use it. Otherwise derive from the path: every static page and blog post
@@ -38,7 +43,8 @@ const resolvedOgImage = ogImage && ogImage !== '/og-image.jpg' ? ogImage : ogFor
 // that already cached the preview for a shared URL (Slack, iMessage,
 // LinkedIn, etc.) refetch instead of serving the stale thumbnail.
 // v2 = Matt Johnson photo background + Fraunces italic title (May 2026).
-const OG_CACHE_VERSION = '2';
+// v3 = state taglines now include Iowa (June 2026).
+const OG_CACHE_VERSION = '3';
 const ogImageURL = new URL(`${resolvedOgImage}?v=${OG_CACHE_VERSION}`, Astro.site).href;
 const siteName = 'Viva Wellness Co.';
 
@@ -74,6 +80,7 @@ const orgSchema = {
         { '@type': 'State', name: 'Texas' },
         { '@type': 'State', name: 'Colorado' },
         { '@type': 'State', name: 'Florida' },
+        { '@type': 'State', name: 'Iowa' },
       ],
       medicalSpecialty: [
         'Peptide Therapy',
@@ -111,14 +118,14 @@ const orgSchema = {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#0c0a09" />
+  <meta name="theme-color" content="#110e0b" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
   <title>{title}</title>
   <meta name="description" content={description} />
   <link rel="canonical" href={canonicalURL} />
 
-  {noindex && <meta name="robots" content="noindex, nofollow" />}
+  {(noindex || isFeedbackBuild) && <meta name="robots" content="noindex, nofollow" />}
 
   {/* Open Graph */}
   <meta property="og:title" content={title} />
@@ -159,8 +166,10 @@ const orgSchema = {
     />
   )}
 
-  {/* DNS prefetch for the booking destination */}
+  {/* Preconnect to the booking destination + the Turnstile challenge host */}
+  <link rel="preconnect" href="https://vivawellnessco.glossgenius.com" crossorigin />
   <link rel="dns-prefetch" href="https://vivawellnessco.glossgenius.com" />
+  <link rel="preconnect" href="https://challenges.cloudflare.com" crossorigin />
 
   {/* RSS feed for the blog · power readers, news aggregators */}
   <link rel="alternate" type="application/rss+xml" title="Viva Wellness Co. Blog" href="/rss.xml" />
@@ -171,6 +180,7 @@ const orgSchema = {
   {/* Fonts · SELF-HOSTED (privacy/compliance + perf, no Google CDN). @font-face is in fonts.css; preload the critical cuts so the Fraunces headline + Geist body paint fast. */}
   <link rel="preload" href="/fonts/fraunces-normal-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="/fonts/geist-normal-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="/fonts/geistmono-normal-latin.woff2" as="font" type="font/woff2" crossorigin />
 
   <ClientRouter />
 
