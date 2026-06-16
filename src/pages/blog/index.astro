@@ -72,7 +72,7 @@ const blogSchema = {
                 <p class="post-card__desc">{post.data.description}</p>
                 <div class="post-card__meta">
                   <time datetime={post.data.publishDate.toISOString()}>
-                    {post.data.publishDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+                    {post.data.publishDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' })}
                   </time>
                   <span class="post-card__author">{post.data.author}</span>
                 </div>
