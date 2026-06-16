@@ -335,6 +335,8 @@ p { max-width: 62ch; }
 
 /* Accessibility */
 :focus-visible { outline: 2px solid var(--bronze); outline-offset: 3px; }
+::selection { background: var(--bronze); color: var(--ink); }
+::-moz-selection { background: var(--bronze); color: var(--ink); }
 .sr-only {
   position: absolute;
   width: 1px; height: 1px;
