@@ -63,9 +63,9 @@ export async function onRequestGet(context) {
   const { ok, email } = await handle(context);
   if (!ok) {
     return page(
-      'Link expired',
+      'Link not recognized',
       `<h1>That link didn't work.</h1>
-       <p>The unsubscribe link is invalid or expired. Reply with "stop" to any email
+       <p>The unsubscribe link wasn't recognized. Reply with "stop" to any email
        and we'll remove you, or email
        <a href="mailto:info@vivawellnessco.com">info@vivawellnessco.com</a>.</p>`
     );
