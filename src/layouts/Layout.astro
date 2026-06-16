@@ -43,7 +43,8 @@ const resolvedOgImage = ogImage && ogImage !== '/og-image.jpg' ? ogImage : ogFor
 // that already cached the preview for a shared URL (Slack, iMessage,
 // LinkedIn, etc.) refetch instead of serving the stale thumbnail.
 // v2 = Matt Johnson photo background + Fraunces italic title (May 2026).
-const OG_CACHE_VERSION = '2';
+// v3 = state taglines now include Iowa (June 2026).
+const OG_CACHE_VERSION = '3';
 const ogImageURL = new URL(`${resolvedOgImage}?v=${OG_CACHE_VERSION}`, Astro.site).href;
 const siteName = 'Viva Wellness Co.';
 
