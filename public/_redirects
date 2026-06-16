@@ -4,3 +4,6 @@
 
 # /quiz folded into the home page quiz section after audit pass
 /quiz /#quiz 301
+
+# /refer unpublished pending final reward confirmation; send traffic to contact
+/refer /contact 301
