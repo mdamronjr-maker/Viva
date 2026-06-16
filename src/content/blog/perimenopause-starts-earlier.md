@@ -2,6 +2,7 @@
 title: "Perimenopause Starts Earlier Than You Were Told"
 description: "Most women are taught menopause is a thing that happens in their fifties. The transition that causes the symptoms often starts years earlier — and a single 'normal' lab doesn't rule it out. What the evidence actually says, and what to do about it."
 publishDate: 2026-06-15
+heroImage: "/blog/perimenopause-starts-earlier.webp"
 category: "Hormones"
 keywords: ["perimenopause", "perimenopause symptoms", "early perimenopause", "menopause hormone therapy", "perimenopause Austin", "HRT perimenopause", "hormone optimization"]
 ---

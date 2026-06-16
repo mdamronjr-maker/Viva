@@ -2,6 +2,7 @@
 title: "The Parent Tax: What Running on Empty Does to Your Body"
 description: "Parents are wired to put themselves last. The problem is that your physiology keeps a ledger — and chronic short sleep and stress show up in your metabolism, your hormones, and your labs. A clinician (and mom) on why caring for yourself is part of caring for them."
 publishDate: 2026-06-15
+heroImage: "/blog/the-parent-tax.webp"
 category: "Lifestyle"
 keywords: ["parental burnout", "caregiver stress and health", "sleep deprivation metabolism", "parents self care", "stress cortisol weight", "working parent health", "telehealth for parents"]
 ---
