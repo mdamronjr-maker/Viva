@@ -34,7 +34,7 @@
   --font-display: 'Fraunces', 'Georgia', 'Times New Roman', serif;
   --font-display-italic: 'Fraunces', 'Georgia', 'Times New Roman', serif;
   --font-body: 'Geist', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-mono: 'Geist', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'Geist Mono', 'JetBrains Mono', 'Courier New', monospace;
   --font-code: 'Geist Mono', 'JetBrains Mono', 'Courier New', monospace;
 
   /* Layout */
