@@ -1,0 +1,211 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+/* ============================================================
+   /menu · the full treatment catalog. The /services pillars deep-link
+   into each category here (e.g. /menu#peptides).
+
+   DRAFT CONTENT — PENDING LILIANA'S CLINICAL REVIEW before promotion to
+   the live site. This is a comprehensive starting menu drawn from what the
+   site already documents (hormones, GLP-1s, the named peptides) plus common
+   peptide/hormone-clinic offerings. Liliana should fix descriptors and
+   REMOVE anything Viva does not actually offer. Every item is a compounded,
+   patient-specific preparation prescribed individually after a clinical
+   evaluation (see the note near the bottom of the page).
+   ============================================================ */
+
+const menu = [
+  {
+    id: 'hormone',
+    label: 'Hormone Optimization',
+    blurb: 'Bioidentical and compounded hormone therapy, dosed to how you want to feel and perform, not just to the bottom of a lab range.',
+    items: [
+      { name: 'Testosterone — men (TRT)', desc: 'Injectable, cream, or pellet for energy, libido, strength, mood, and recovery.' },
+      { name: 'Testosterone — women, low-dose', desc: 'Micro-dosed for energy, libido, focus, and lean mass.' },
+      { name: 'Estradiol', desc: 'Estrogen replacement for perimenopause and menopause symptoms.' },
+      { name: 'Progesterone', desc: 'Paired with estrogen for sleep, mood, and cycle support.' },
+      { name: 'HCG', desc: 'Maintains natural production and fertility alongside TRT.' },
+      { name: 'Enclomiphene', desc: 'Stimulates your own testosterone, an oral option for some men.' },
+      { name: 'Anastrozole', desc: 'Estrogen management on TRT when labs call for it.' },
+      { name: 'DHEA', desc: 'Hormone-precursor support.' },
+    ],
+  },
+  {
+    id: 'metabolic',
+    label: 'Metabolic & Weight',
+    blurb: 'Compounded GLP-1 and multi-agonist protocols, provider-titrated to your physiology with muscle preservation in mind.',
+    items: [
+      { name: 'Semaglutide', desc: 'GLP-1 for appetite control and steady fat loss.' },
+      { name: 'Tirzepatide', desc: 'Dual GIP/GLP-1 for stronger appetite control and metabolic effect.' },
+      { name: 'Retatrutide', desc: 'Triple agonist, the most aggressive metabolic tier.' },
+      { name: 'Micro-dose protocols', desc: 'Lower-dose semaglutide or tirzepatide for gentle starts or maintenance.' },
+    ],
+  },
+  {
+    id: 'peptides',
+    label: 'Peptide Therapy',
+    blurb: 'Compounded peptides for recovery, repair, and growth-hormone support.',
+    items: [
+      { name: 'BPC-157', desc: 'Soft-tissue and gut repair: tendons, ligaments, gut lining.' },
+      { name: 'TB-500', desc: 'Thymosin beta-4; healing, flexibility, and inflammation.' },
+      { name: 'GHK-Cu', desc: 'Copper peptide for skin, hair, wound healing, and antioxidant support.' },
+      { name: 'CJC-1295 / Ipamorelin', desc: "Prompts your body's own pulsatile growth-hormone release for recovery, body composition, and sleep." },
+      { name: 'Sermorelin', desc: 'Growth-hormone-releasing peptide, a gentler GH-support option.' },
+      { name: 'Tesamorelin', desc: 'GH-releasing peptide studied for visceral fat.' },
+      { name: 'MOTS-c', desc: 'Mitochondrial peptide for metabolic and exercise support.' },
+      { name: 'PT-141', desc: 'Peptide for sexual health and libido.' },
+      { name: 'Thymosin Alpha-1', desc: 'Immune-support peptide.' },
+    ],
+  },
+  {
+    id: 'performance',
+    label: 'Performance',
+    blurb: 'For athletes and high-output professionals: hormone optimization, recovery peptides, and metabolic support tuned to keep you on the line.',
+    items: [
+      { name: 'Testosterone optimization', desc: 'Dialed for output, recovery, and drive.' },
+      { name: 'Recovery peptide stack', desc: 'BPC-157 + TB-500 for soft-tissue recovery between sessions.' },
+      { name: 'CJC-1295 / Ipamorelin', desc: 'GH support for recovery, sleep, and body composition.' },
+      { name: 'NAD+', desc: 'Cellular energy and recovery support.' },
+    ],
+  },
+  {
+    id: 'recomp',
+    label: 'Recomposition',
+    blurb: 'Change your body composition while training stays intact: metabolic, hormone, and recovery support working as one.',
+    items: [
+      { name: 'GLP-1, micro to standard dose', desc: 'Fat loss without giving back hard-earned muscle.' },
+      { name: 'Hormone support', desc: 'Protects lean mass through a deficit.' },
+      { name: 'Recovery peptides', desc: 'Keep training quality high while you cut.' },
+    ],
+  },
+  {
+    id: 'longevity',
+    label: 'Lifestyle & Longevity',
+    blurb: 'The long game: cellular energy, sleep, inflammation, and healthspan.',
+    items: [
+      { name: 'NAD+ / NAD injections', desc: 'Cellular energy, metabolism, and recovery.' },
+      { name: 'MOTS-c', desc: 'Mitochondrial and metabolic support.' },
+      { name: 'Glutathione', desc: 'Antioxidant and detox support.' },
+      { name: 'GHK-Cu', desc: 'Skin, hair, and tissue support.' },
+      { name: '5-Amino-1MQ', desc: 'Studied for metabolism and body composition.' },
+    ],
+  },
+  {
+    id: 'labs',
+    label: 'Labs & Diagnostics',
+    blurb: 'The measurement layer underneath every protocol. Ordered through your insurance where possible, read by the same provider running your plan.',
+    items: [
+      { name: 'Comprehensive hormone panel', desc: 'Total/free testosterone, estradiol, LH/FSH, SHBG, and more.' },
+      { name: 'Metabolic panel', desc: 'Glucose, insulin, HbA1c, and lipids.' },
+      { name: 'Thyroid panel', desc: 'TSH, free T3/T4, and antibodies.' },
+      { name: 'Inflammation & micronutrients', desc: 'hs-CRP, vitamin D, B12, ferritin, and more.' },
+    ],
+  },
+];
+---
+
+<Layout
+  title="Treatment Menu · Peptides, Hormones, GLP-1 & Labs | Viva Wellness Co."
+  description="The full Viva Wellness Co. treatment menu: compounded peptides (BPC-157, TB-500, GHK-Cu, CJC-1295/Ipamorelin, MOTS-c), hormone optimization (TRT/HRT), metabolic GLP-1 protocols, performance, longevity, and labs. Concierge telehealth in Texas, Colorado, Florida, and Iowa."
+>
+  <section class="menu-hero">
+    <div class="container menu-hero__inner">
+      <span class="eyebrow">· The full menu</span>
+      <h1 class="menu-hero__title">
+        Everything <span class="italic-display">available.</span>
+      </h1>
+      <p class="lead menu-hero__lead">
+        The compounds and protocols I work with, grouped by goal. Nothing here is
+        picked off a shelf: every item is a compounded, patient-specific
+        preparation, prescribed individually after we talk and look at your labs.
+      </p>
+      <nav class="menu-jump" aria-label="Jump to a category">
+        {menu.map((c) => (
+          <a href={`#${c.id}`} class="menu-jump__link">{c.label}</a>
+        ))}
+      </nav>
+    </div>
+  </section>
+
+  {menu.map((c) => (
+    <section class="menu-cat" id={c.id} aria-labelledby={`${c.id}-h`}>
+      <div class="container menu-cat__inner">
+        <div class="menu-cat__head">
+          <h2 id={`${c.id}-h`} class="menu-cat__title">{c.label}</h2>
+          <p class="menu-cat__blurb">{c.blurb}</p>
+        </div>
+        <ul class="menu-list">
+          {c.items.map((it) => (
+            <li class="menu-item">
+              <span class="menu-item__name">{it.name}</span>
+              <span class="menu-item__desc">{it.desc}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  ))}
+
+  <section class="section section--paper menu-note-section">
+    <div class="container">
+      <p class="menu-note">
+        Compounded medications (GLP-1, testosterone, estradiol, progesterone,
+        peptides) are patient-specific preparations from FDA-regulated 503A
+        pharmacies. They are not FDA-approved finished products, and not every
+        item is right for every patient. Each is prescribed individually after a
+        clinical evaluation. Your protocol is built with me, never chosen from
+        this page.
+      </p>
+    </div>
+  </section>
+
+  <section class="menu-cta">
+    <div class="container menu-cta__inner">
+      <h2 class="menu-cta__title">
+        Not sure what fits? <span class="italic-display">Start with a visit.</span>
+      </h2>
+      <p class="lead">
+        Tell me your goals and I'll build the protocol: the right compounds, the
+        right doses, adjusted as we go.
+      </p>
+      <div class="menu-cta__ctas">
+        <a href="/start?utm_source=vivawellnessco&utm_medium=cta&utm_content=menu_cta" class="btn btn--bronze">Book your first visit</a>
+        <a href="/#quiz" class="btn">Take the match quiz</a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .menu-hero { padding: clamp(6rem, 12vw, 9rem) 0 clamp(2.5rem, 6vw, 4rem); }
+  .menu-hero__inner { max-width: 900px; display: flex; flex-direction: column; gap: 1.4rem; }
+  .menu-hero__title { font-size: clamp(2.6rem, 7vw, 5rem); line-height: 1.02; letter-spacing: -0.028em; }
+  .menu-hero__title .italic-display { color: var(--bronze); }
+  .menu-hero__lead { max-width: 60ch; }
+  .menu-jump { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.6rem; }
+  .menu-jump__link { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--paper); border: 1px solid var(--rule-strong); border-radius: var(--radius-pill); padding: 0.5rem 0.9rem; text-decoration: none; transition: background 200ms var(--ease), border-color 200ms var(--ease), color 200ms var(--ease); }
+  .menu-jump__link:hover { background: var(--bronze); color: var(--ink); border-color: var(--bronze); }
+
+  .menu-cat { padding: clamp(2rem, 5vw, 3.5rem) 0; border-top: 1px solid var(--rule); scroll-margin-top: 90px; }
+  .menu-cat__inner { display: grid; grid-template-columns: 1fr 2fr; gap: clamp(1.5rem, 4vw, 3rem); align-items: start; }
+  .menu-cat__title { font-size: clamp(1.6rem, 3.5vw, 2.4rem); letter-spacing: -0.02em; }
+  .menu-cat__blurb { color: rgba(245, 241, 234, 0.7); font-size: 0.95rem; line-height: 1.5; margin-top: 0.6rem; max-width: 36ch; }
+  .menu-list { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
+  .menu-item { background: var(--ink); padding: 1.1rem 1.2rem; display: flex; flex-direction: column; gap: 0.35rem; }
+  .menu-item__name { font-family: var(--font-mono); font-size: 0.82rem; letter-spacing: 0.02em; color: var(--bronze); }
+  .menu-item__desc { color: rgba(245, 241, 234, 0.7); font-size: 0.85rem; line-height: 1.45; }
+
+  .menu-note-section { padding: clamp(2.5rem, 6vw, 4rem) 0; }
+  .menu-note { max-width: 70ch; color: var(--ink); opacity: 0.78; font-size: 0.9rem; line-height: 1.6; }
+
+  .menu-cta { padding: clamp(3rem, 8vw, 6rem) 0; text-align: center; }
+  .menu-cta__inner { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; gap: 1.2rem; align-items: center; }
+  .menu-cta__title { font-size: clamp(2rem, 5vw, 3.4rem); letter-spacing: -0.02em; }
+  .menu-cta__title .italic-display { color: var(--bronze); }
+  .menu-cta__ctas { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; margin-top: 0.4rem; }
+
+  @media (max-width: 800px) {
+    .menu-cat__inner { grid-template-columns: 1fr; }
+    .menu-list { grid-template-columns: 1fr; }
+  }
+</style>

@@ -159,26 +159,13 @@ const includedAlways = [
 ];
 
 const pillars = [
-  { num: '01', title: 'Hormone Optimization', body: 'TRT and HRT tuned to how you actually want to feel and perform. Not just to where the lab range happens to start.' },
-  { num: '02', title: 'Metabolic Reset', body: 'Compounded GLP-1 protocols matched to your physiology. Real appetite control, without giving back the muscle you worked for.' },
-  { num: '03', title: 'Peptide Therapy', body: 'Compounded peptide protocols for recovery, healing, and tissue repair. <a href="#peptide-bpc-157">BPC-157</a>, <a href="#peptide-tb-500">TB-500</a>, <a href="#peptide-ghk-cu">GHK-Cu</a>, <a href="#peptide-cjc-1295-ipamorelin">CJC-1295 / Ipamorelin</a>: the stack that closes the gap between how hard you train and what your body can actually bounce back from.' },
-  { num: '04', title: 'Performance', body: 'For athletes and people who run hot at work. Peptide and hormone protocols built to keep you on the line instead of behind it.' },
-  { num: '05', title: 'Recomp', body: 'Metabolic, hormone, and recovery support working together to change your body composition while your training stays intact.' },
-  { num: '06', title: 'Lifestyle & Longevity', body: 'The long game. Sleep, hormones, inflammation, and longevity peptides handled as one system instead of six separate problems.' },
-  { num: '07', title: 'Labs & Diagnostics', body: 'Hormone, metabolic, inflammation, and micronutrient panels. Ordered through your insurance, read by the same provider running your protocol. This is the measurement layer underneath every tier.' },
-];
-
-// Peptide reference · plain-language notes for the compounds named in the
-// Peptide Therapy pillar (the names there link down to these entries).
-// Deliberately conservative — every one is a compounded, patient-specific
-// preparation prescribed individually after clinical evaluation (see fine print).
-// NOTE: pending Liliana's clinical review before promotion to the live site.
-const peptides = [
-  { id: 'bpc-157', name: 'BPC-157', note: 'A synthetic peptide based on a sequence found in gastric protein. Studied for soft-tissue and gut repair: tendons, ligaments, and the gut lining. Used in protocols that support recovery after hard training or injury.' },
-  { id: 'tb-500', name: 'TB-500', note: 'A synthetic form of thymosin beta-4, a peptide involved in cell migration and tissue repair. Used in recovery protocols for healing, flexibility, and managing inflammation.' },
-  { id: 'ghk-cu', name: 'GHK-Cu', note: 'A naturally occurring copper-binding peptide studied for skin remodeling, wound healing, hair, and antioxidant support.' },
-  { id: 'cjc-1295-ipamorelin', name: 'CJC-1295 / Ipamorelin', note: "A growth-hormone-releasing-hormone analog paired with a selective secretagogue. Together they prompt your body's own pulsatile growth-hormone release to support recovery, body composition, and sleep, without the spikes of injected GH." },
-  { id: 'mots-c', name: 'MOTS-c', note: 'A mitochondrial-derived peptide studied for metabolic regulation, insulin sensitivity, and exercise capacity.' },
+  { num: '01', cat: 'hormone', title: 'Hormone Optimization', body: 'TRT and HRT tuned to how you actually want to feel and perform. Not just to where the lab range happens to start.' },
+  { num: '02', cat: 'metabolic', title: 'Metabolic Reset', body: 'Compounded GLP-1 protocols matched to your physiology. Real appetite control, without giving back the muscle you worked for.' },
+  { num: '03', cat: 'peptides', title: 'Peptide Therapy', body: 'Compounded peptide protocols for recovery, healing, and tissue repair. BPC-157, TB-500, GHK-Cu, CJC-1295 / Ipamorelin: the stack that closes the gap between how hard you train and what your body can actually bounce back from.' },
+  { num: '04', cat: 'performance', title: 'Performance', body: 'For athletes and people who run hot at work. Peptide and hormone protocols built to keep you on the line instead of behind it.' },
+  { num: '05', cat: 'recomp', title: 'Recomp', body: 'Metabolic, hormone, and recovery support working together to change your body composition while your training stays intact.' },
+  { num: '06', cat: 'longevity', title: 'Lifestyle & Longevity', body: 'The long game. Sleep, hormones, inflammation, and longevity peptides handled as one system instead of six separate problems.' },
+  { num: '07', cat: 'labs', title: 'Labs & Diagnostics', body: 'Hormone, metabolic, inflammation, and micronutrient panels. Ordered through your insurance, read by the same provider running your protocol. This is the measurement layer underneath every tier.' },
 ];
 
 // Schema.org · each tier emits a MedicalProcedure node so Google can
@@ -259,34 +246,12 @@ const servicesSchema = {
       <ul class="pillars">
         {pillars.map((p, i) => (
           <li class:list={["pillar", i === pillars.length - 1 && 'pillar--foundation']}>
-            <span class="pillar__num">{p.num}</span>
-            <h3 class="pillar__title">{p.title}</h3>
-            <p class="pillar__body" set:html={p.body}></p>
-          </li>
-        ))}
-      </ul>
-    </div>
-  </section>
-
-  {/* PEPTIDE REFERENCE · plain-language notes; the pillar names link here */}
-  <section class="section peptides-section" aria-labelledby="peptides-heading">
-    <div class="container">
-      <div class="section-head">
-        <span class="index" data-num="·">Peptide reference</span>
-        <h2 id="peptides-heading" class="section-head__title">
-          The compounds, <span class="italic-display">in plain language.</span>
-        </h2>
-        <p class="lead section-head__lead">
-          Short notes on the peptides that show up in these protocols. Each is a
-          compounded, patient-specific preparation, prescribed individually after
-          a clinical evaluation, never picked from a menu.
-        </p>
-      </div>
-      <ul class="peptides">
-        {peptides.map((pep) => (
-          <li class="peptide" id={`peptide-${pep.id}`}>
-            <h3 class="peptide__name">{pep.name}</h3>
-            <p class="peptide__note">{pep.note}</p>
+            <a class="pillar__link" href={`/menu#${p.cat}`}>
+              <span class="pillar__num">{p.num}</span>
+              <h3 class="pillar__title">{p.title}</h3>
+              <p class="pillar__body">{p.body}</p>
+              <span class="pillar__more">On the menu →</span>
+            </a>
           </li>
         ))}
       </ul>
@@ -501,17 +466,11 @@ const servicesSchema = {
   .pillar--foundation .pillar__body { max-width: 70ch; }
   @media (max-width: 960px) { .pillars { grid-template-columns: repeat(2, 1fr); } .pillar { border-right: 1px solid var(--rule); padding: 1.4rem 1.2rem; } .pillar:nth-child(2n) { border-right: 0; } .pillar:nth-child(2n+1) { padding-left: 0; } .pillar--foundation { padding-left: 0; } }
   @media (max-width: 600px) { .pillars { grid-template-columns: 1fr; } .pillar { border-right: 0 !important; padding-left: 0; } }
-  .pillar__body a { color: var(--bronze-bright); text-decoration: none; border-bottom: 1px solid rgba(214, 134, 74, 0.4); transition: color 200ms var(--ease), border-color 200ms var(--ease); }
-  .pillar__body a:hover { color: var(--paper); border-bottom-color: var(--bronze-bright); }
-
-  /* PEPTIDE REFERENCE */
-  .peptides-section { padding: clamp(2.5rem, 6vw, 4rem) 0; }
-  .peptides { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--rule); border: 1px solid var(--rule); margin-top: clamp(1.5rem, 4vw, 2.5rem); }
-  .peptide { background: var(--ink); padding: 1.4rem; scroll-margin-top: 100px; transition: background 240ms var(--ease); }
-  .peptide:target { background: rgba(214, 134, 74, 0.08); }
-  .peptide__name { font-family: var(--font-mono); font-size: 0.9rem; letter-spacing: 0.02em; color: var(--bronze); margin-bottom: 0.5rem; }
-  .peptide__note { color: rgba(245, 241, 234, 0.7); font-size: 0.9rem; line-height: 1.5; }
-  @media (max-width: 600px) { .peptides { grid-template-columns: 1fr; } }
+  .pillar__link { display: flex; flex-direction: column; height: 100%; color: inherit; text-decoration: none; }
+  .pillar__link:focus-visible { outline: 2px solid var(--bronze); outline-offset: 4px; }
+  .pillar__more { font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.1em; color: var(--bronze); margin-top: auto; padding-top: 0.9rem; opacity: 0; transform: translateX(-4px); transition: opacity 220ms var(--ease), transform 220ms var(--ease); }
+  .pillar:hover .pillar__more, .pillar:focus-within .pillar__more { opacity: 1; transform: none; }
+  @media (max-width: 600px) { .pillar__more { opacity: 1; transform: none; } }
 
   /* INCLUDED */
   .included {
