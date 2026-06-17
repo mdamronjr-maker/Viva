@@ -3,7 +3,7 @@
 // duplicate the page's primary action.
 // Strip trailing slash for matching (Astro emits both /contact and /contact/)
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
-const hideOn = ['/contact', '/privacy', '/terms'];
+const hideOn = ['/privacy', '/terms'];
 const hide = hideOn.includes(path);
 ---
 

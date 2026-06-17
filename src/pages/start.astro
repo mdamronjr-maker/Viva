@@ -20,12 +20,6 @@ const FIRST_VISIT_DEPOSIT_USD = 50;
 const FIRST_VISIT_CREDIT_NOTE =
   `One-time fee, separate from any membership. $${FIRST_VISIT_DEPOSIT_USD} deposit due at booking, balance billed at the visit.`;
 
-// TODO: replace with the real Calendly (or other scheduler) URL for the free
-// 15-minute discovery call. Leaving as a placeholder so the CTA renders and
-// can be flipped on by editing one constant when the link is ready. If left
-// empty, the discovery-call CTA won't render anywhere.
-const DISCOVERY_CALL_URL = ''; // e.g. 'https://calendly.com/liliana-viva/intro'
-
 // Pass any UTM params from the inbound link straight through to the booking
 // destination, so attribution survives the /start intermediate page. Fall
 // back to a start_page default when the page is visited directly.
@@ -233,11 +227,6 @@ const ninetyDays = [
         <a href={bookingHref} target="_blank" rel="noopener" class="btn btn--bronze">
           Schedule my first visit
         </a>
-        {DISCOVERY_CALL_URL && (
-          <a href={DISCOVERY_CALL_URL} target="_blank" rel="noopener" class="btn">
-            Talk to Liliana first · 15 min, free
-          </a>
-        )}
         <a href="/contact" class="btn">Ask a question first</a>
       </div>
       <p class="start-cta__fine">
