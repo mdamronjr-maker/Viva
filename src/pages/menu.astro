@@ -2,122 +2,109 @@
 import Layout from '../layouts/Layout.astro';
 
 /* ============================================================
-   /menu · the full treatment catalog. The /services pillars deep-link
-   into each category here (e.g. /menu#peptides).
+   /menu · the full Stacks & Protocols catalog. The /services pillars
+   deep-link into each category here (e.g. /menu#peptides).
 
-   DRAFT CONTENT — PENDING LILIANA'S CLINICAL REVIEW before promotion to
-   the live site. This is a comprehensive starting menu drawn from what the
-   site already documents (hormones, GLP-1s, the named peptides) plus common
-   peptide/hormone-clinic offerings. Liliana should fix descriptors and
-   REMOVE anything Viva does not actually offer. Every item is a compounded,
-   patient-specific preparation prescribed individually after a clinical
-   evaluation (see the note near the bottom of the page).
+   Content is from Viva's own "Stacks & Protocols" document (branded stack
+   names + compounds + benefits + Essential/Core/Elite tiers). Organized here
+   by goal so the goal-based pillar links resolve.
+
+   PENDING LILIANA'S REVIEW before promotion to live. Open questions flagged
+   to Michael: (1) TRT price — the source doc says "starting at $150/mo" but
+   the live Services page / GlossGenius says $199, so NO price is shown here;
+   (2) a couple of stack names are edgy Spanish slang — kept verbatim from the
+   doc, tone down if desired. Every stack is a compounded, patient-specific
+   protocol prescribed individually after a consult (see disclaimer below).
    ============================================================ */
 
 const menu = [
   {
     id: 'hormone',
     label: 'Hormone Optimization',
-    blurb: 'Bioidentical and compounded hormone therapy, dosed to how you want to feel and perform, not just to the bottom of a lab range.',
-    items: [
-      { name: 'Testosterone — men (TRT)', desc: 'Injectable, cream, or pellet for energy, libido, strength, mood, and recovery.' },
-      { name: 'Testosterone — women, low-dose', desc: 'Micro-dosed for energy, libido, focus, and lean mass.' },
-      { name: 'Estradiol', desc: 'Estrogen replacement for perimenopause and menopause symptoms.' },
-      { name: 'Progesterone', desc: 'Paired with estrogen for sleep, mood, and cycle support.' },
-      { name: 'HCG', desc: 'Maintains natural production and fertility alongside TRT.' },
-      { name: 'Enclomiphene', desc: 'Stimulates your own testosterone, an oral option for some men.' },
-      { name: 'Anastrozole', desc: 'Estrogen management on TRT when labs call for it.' },
-      { name: 'DHEA', desc: 'Hormone-precursor support.' },
+    blurb: 'All-inclusive TRT and HRT for men and women, fully managed: medication, supplies, home delivery, and labs.',
+    stacks: [
+      { brand: 'All-Inclusive TRT / HRT Program', compounds: 'Testosterone · estradiol · progesterone · thyroid · enclomiphene & more', benefit: 'A bundled membership for men and women: compounded medication, supplies, home delivery, follow-up consults, and labs twice a year. Membership pricing is on the Services page.', tier: 'Membership' },
     ],
   },
   {
     id: 'metabolic',
-    label: 'Metabolic & Weight',
-    blurb: 'Compounded GLP-1 and multi-agonist protocols, provider-titrated to your physiology with muscle preservation in mind.',
-    items: [
-      { name: 'Semaglutide', desc: 'GLP-1 for appetite control and steady fat loss.' },
-      { name: 'Tirzepatide', desc: 'Dual GIP/GLP-1 for stronger appetite control and metabolic effect.' },
-      { name: 'Retatrutide', desc: 'Triple agonist, the most aggressive metabolic tier.' },
-      { name: 'Micro-dose protocols', desc: 'Lower-dose semaglutide or tirzepatide for gentle starts or maintenance.' },
+    label: 'Metabolic & Weight Loss',
+    blurb: 'Compounded GLP-1 and metabolic protocols, provider-titrated, with lean muscle preserved.',
+    stacks: [
+      { brand: 'Slimaglutide Stack', compounds: 'Semaglutide + L-Carnitine', benefit: 'Appetite control, fat metabolism, and steady energy for weight loss. Price varies by dose.', tier: 'Essential' },
+      { brand: 'Texaglutide Stack', compounds: 'Tirzepatide + L-Carnitine', benefit: 'Premium weight loss and energy support: appetite control, better insulin response, and metabolic correction. Price varies by dose.', tier: 'Core' },
+      { brand: 'A Toda Madre', compounds: 'SLU-PP-332', benefit: 'Mimics endurance training by switching the body to burn fat for fuel, with lean-muscle preservation.', tier: 'Core' },
+      { brand: 'El Rey', compounds: 'Retatrutide', benefit: 'Deeper appetite control, stronger insulin-sensitivity support, and enhanced fat-to-energy conversion while preserving lean muscle. Price varies by dose.', tier: 'Elite' },
     ],
   },
   {
     id: 'peptides',
-    label: 'Peptide Therapy',
-    blurb: 'Compounded peptides for recovery, repair, and growth-hormone support.',
-    items: [
-      { name: 'BPC-157', desc: 'Soft-tissue and gut repair: tendons, ligaments, gut lining.' },
-      { name: 'TB-500', desc: 'Thymosin beta-4; healing, flexibility, and inflammation.' },
-      { name: 'GHK-Cu', desc: 'Copper peptide for skin, hair, wound healing, and antioxidant support.' },
-      { name: 'CJC-1295 / Ipamorelin', desc: "Prompts your body's own pulsatile growth-hormone release for recovery, body composition, and sleep." },
-      { name: 'Sermorelin', desc: 'Growth-hormone-releasing peptide, a gentler GH-support option.' },
-      { name: 'Tesamorelin', desc: 'GH-releasing peptide studied for visceral fat.' },
-      { name: 'MOTS-c', desc: 'Mitochondrial peptide for metabolic and exercise support.' },
-      { name: 'PT-141', desc: 'Peptide for sexual health and libido.' },
-      { name: 'Thymosin Alpha-1', desc: 'Immune-support peptide.' },
+    label: 'Peptide Therapy — Recovery & Repair',
+    blurb: 'Compounded peptides for joints, tendons, gut, and tissue repair.',
+    stacks: [
+      { brand: 'El Curandero', compounds: 'BPC-157', benefit: 'Supports joints, tendons, and gut health, and one of the few peptides that can be taken orally.', tier: 'Essential' },
+      { brand: 'El Lobo Stack', compounds: 'BPC-157 + TB-500', benefit: 'A recovery classic: gut health, faster recovery, and injury healing.', tier: 'Core' },
+      { brand: 'Sana Sana Colita de Rana', compounds: 'BPC-157 + TB-500 + KPV + GHK-Cu', benefit: 'A powerhouse stack that synergistically boosts tissue repair, lowers inflammation, and accelerates recovery.', tier: 'Elite' },
     ],
   },
   {
     id: 'performance',
-    label: 'Performance',
-    blurb: 'For athletes and high-output professionals: hormone optimization, recovery peptides, and metabolic support tuned to keep you on the line.',
-    items: [
-      { name: 'Testosterone optimization', desc: 'Dialed for output, recovery, and drive.' },
-      { name: 'Recovery peptide stack', desc: 'BPC-157 + TB-500 for soft-tissue recovery between sessions.' },
-      { name: 'CJC-1295 / Ipamorelin', desc: 'GH support for recovery, sleep, and body composition.' },
-      { name: 'NAD+', desc: 'Cellular energy and recovery support.' },
+    label: 'Performance & Growth',
+    blurb: 'Growth-hormone support and output for athletes and high-drive professionals.',
+    stacks: [
+      { brand: 'Savage Protocol', compounds: 'Sermorelin', benefit: 'Recovery, sleep, and anti-aging. Stimulates the body’s own HGH production to improve body composition.', tier: 'Essential' },
+      { brand: 'Échale Ganas Stack', compounds: 'CJC-1295 + Ipamorelin', benefit: 'Lean muscle, fat metabolism, deeper sleep, and faster recovery.', tier: 'Elite' },
+      { brand: 'Ponte Mamado', compounds: 'IGF-1 LR3', benefit: 'Muscle growth and recovery by enhancing protein synthesis and cell repair.', tier: 'Elite' },
     ],
   },
   {
     id: 'recomp',
-    label: 'Recomposition',
-    blurb: 'Change your body composition while training stays intact: metabolic, hormone, and recovery support working as one.',
-    items: [
-      { name: 'GLP-1, micro to standard dose', desc: 'Fat loss without giving back hard-earned muscle.' },
-      { name: 'Hormone support', desc: 'Protects lean mass through a deficit.' },
-      { name: 'Recovery peptides', desc: 'Keep training quality high while you cut.' },
+    label: 'Recomposition & Cutting',
+    blurb: 'Drop fat, hold muscle: cutting and body-recomposition stacks.',
+    stacks: [
+      { brand: 'Fuego Protocol', compounds: 'MOTS-c', benefit: 'Promotes fat burning, higher cellular energy, and lean muscle.', tier: 'Essential' },
+      { brand: 'El Corte Stack', compounds: 'Tesamorelin + Ipamorelin', benefit: 'Built for cutting: visceral and abdominal fat loss, lean muscle, and sleep.', tier: 'Core' },
+      { brand: 'Peso Pluma Protocol', compounds: 'Tesamorelin + Ipamorelin + AOD-9604 + MOTS-c', benefit: 'The ultimate body-recomposition stack: fat loss, lean muscle, and recovery.', tier: 'Elite' },
     ],
   },
   {
     id: 'longevity',
     label: 'Lifestyle & Longevity',
-    blurb: 'The long game: cellular energy, sleep, inflammation, and healthspan.',
-    items: [
-      { name: 'NAD+ / NAD injections', desc: 'Cellular energy, metabolism, and recovery.' },
-      { name: 'MOTS-c', desc: 'Mitochondrial and metabolic support.' },
-      { name: 'Glutathione', desc: 'Antioxidant and detox support.' },
-      { name: 'GHK-Cu', desc: 'Skin, hair, and tissue support.' },
-      { name: '5-Amino-1MQ', desc: 'Studied for metabolism and body composition.' },
+    blurb: 'Cellular energy, skin, immunity, sleep, and a clearer head.',
+    stacks: [
+      { brand: 'De NAD+a', compounds: 'NAD+', benefit: 'Energy, cellular repair, skin health, and weight management by helping the body use fat for fuel.', tier: 'Essential' },
+      { brand: 'La Reina', compounds: 'GHK-Cu', benefit: 'Better skin elasticity, fewer wrinkles, hair growth, and wound healing.', tier: 'Essential' },
+      { brand: 'Bidi Bidi Bombshell Stack', compounds: 'GHK-Cu + Epithalon', benefit: 'Skin elasticity, collagen, cellular longevity, hair growth, and a youthful glow.', tier: 'Core' },
+      { brand: 'La Guardia', compounds: 'Thymosin Alpha-1', benefit: 'Boosts immunity and lowers inflammation by promoting T-cell activity and both innate and adaptive immunity.', tier: 'Core' },
+      { brand: 'No Chingues, Relax Stack', compounds: 'Semax + Selank', benefit: 'Sharper focus, less stress, and clearer thinking with no crash; supports anxiety and ADHD symptoms.', tier: 'Elite' },
     ],
   },
   {
     id: 'labs',
     label: 'Labs & Diagnostics',
-    blurb: 'The measurement layer underneath every protocol. Ordered through your insurance where possible, read by the same provider running your plan.',
-    items: [
-      { name: 'Comprehensive hormone panel', desc: 'Total/free testosterone, estradiol, LH/FSH, SHBG, and more.' },
-      { name: 'Metabolic panel', desc: 'Glucose, insulin, HbA1c, and lipids.' },
-      { name: 'Thyroid panel', desc: 'TSH, free T3/T4, and antibodies.' },
-      { name: 'Inflammation & micronutrients', desc: 'hs-CRP, vitamin D, B12, ferritin, and more.' },
+    blurb: 'The measurement layer underneath every protocol.',
+    stacks: [
+      { brand: 'Targeted Lab Analysis', compounds: 'Hormone · metabolic · thyroid · inflammation panels', benefit: 'Discounted cash-pay lab pricing for full transparency, read by your provider. Insurance may be used for lab coverage and certain retail prescriptions.', tier: '' },
     ],
   },
 ];
 ---
 
 <Layout
-  title="Treatment Menu · Peptides, Hormones, GLP-1 & Labs | Viva Wellness Co."
-  description="The full Viva Wellness Co. treatment menu: compounded peptides (BPC-157, TB-500, GHK-Cu, CJC-1295/Ipamorelin, MOTS-c), hormone optimization (TRT/HRT), metabolic GLP-1 protocols, performance, longevity, and labs. Concierge telehealth in Texas, Colorado, Florida, and Iowa."
+  title="Stacks & Protocols Menu · Peptides, GLP-1, TRT/HRT | Viva Wellness Co."
+  description="The full Viva Wellness Co. stacks & protocols menu: compounded peptide, GLP-1 weight-loss, performance, recomposition, longevity, and TRT/HRT protocols. Each stack is prescribed individually after a provider consult. Concierge telehealth in Texas, Colorado, Florida, and Iowa."
 >
   <section class="menu-hero">
     <div class="container menu-hero__inner">
-      <span class="eyebrow">· The full menu</span>
+      <span class="eyebrow">· Stacks &amp; protocols</span>
       <h1 class="menu-hero__title">
         Everything <span class="italic-display">available.</span>
       </h1>
       <p class="lead menu-hero__lead">
-        The compounds and protocols I work with, grouped by goal. Nothing here is
-        picked off a shelf: every item is a compounded, patient-specific
-        preparation, prescribed individually after we talk and look at your labs.
+        Every protocol has a name; under it is exactly what's in it. Grouped by
+        goal, tiered from Essential to Elite. Nothing here is picked off a shelf,
+        each is a compounded, patient-specific protocol prescribed individually
+        after we talk and look at your labs.
       </p>
       <nav class="menu-jump" aria-label="Jump to a category">
         {menu.map((c) => (
@@ -134,11 +121,13 @@ const menu = [
           <h2 id={`${c.id}-h`} class="menu-cat__title">{c.label}</h2>
           <p class="menu-cat__blurb">{c.blurb}</p>
         </div>
-        <ul class="menu-list">
-          {c.items.map((it) => (
-            <li class="menu-item">
-              <span class="menu-item__name">{it.name}</span>
-              <span class="menu-item__desc">{it.desc}</span>
+        <ul class:list={["menu-list", c.stacks.length === 1 && 'menu-list--single']}>
+          {c.stacks.map((s) => (
+            <li class="stack">
+              {s.tier && <span class="stack__tier">{s.tier}</span>}
+              <h3 class="stack__brand">{s.brand}</h3>
+              <p class="stack__compounds">{s.compounds}</p>
+              <p class="stack__benefit">{s.benefit}</p>
             </li>
           ))}
         </ul>
@@ -149,12 +138,13 @@ const menu = [
   <section class="section section--paper menu-note-section">
     <div class="container">
       <p class="menu-note">
-        Compounded medications (GLP-1, testosterone, estradiol, progesterone,
-        peptides) are patient-specific preparations from FDA-regulated 503A
-        pharmacies. They are not FDA-approved finished products, and not every
-        item is right for every patient. Each is prescribed individually after a
-        clinical evaluation. Your protocol is built with me, never chosen from
-        this page.
+        Stack names are for branding and educational purposes only and are not
+        the names of FDA-approved medications. Each stack is a wellness protocol
+        of compounded peptides and/or medications, prescribed individually based
+        on a licensed provider consultation. A medical consultation is required
+        before prescribing. Individual results may vary. These protocols are
+        intended for wellness support and should not be interpreted as claims to
+        diagnose, treat, cure, or prevent any disease.
       </p>
     </div>
   </section>
@@ -162,7 +152,7 @@ const menu = [
   <section class="menu-cta">
     <div class="container menu-cta__inner">
       <h2 class="menu-cta__title">
-        Not sure what fits? <span class="italic-display">Start with a visit.</span>
+        Not sure which stack? <span class="italic-display">Start with a visit.</span>
       </h2>
       <p class="lead">
         Tell me your goals and I'll build the protocol: the right compounds, the
@@ -181,7 +171,7 @@ const menu = [
   .menu-hero__inner { max-width: 900px; display: flex; flex-direction: column; gap: 1.4rem; }
   .menu-hero__title { font-size: clamp(2.6rem, 7vw, 5rem); line-height: 1.02; letter-spacing: -0.028em; }
   .menu-hero__title .italic-display { color: var(--bronze); }
-  .menu-hero__lead { max-width: 60ch; }
+  .menu-hero__lead { max-width: 62ch; }
   .menu-jump { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.6rem; }
   .menu-jump__link { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--paper); border: 1px solid var(--rule-strong); border-radius: var(--radius-pill); padding: 0.5rem 0.9rem; text-decoration: none; transition: background 200ms var(--ease), border-color 200ms var(--ease), color 200ms var(--ease); }
   .menu-jump__link:hover { background: var(--bronze); color: var(--ink); border-color: var(--bronze); }
@@ -190,13 +180,17 @@ const menu = [
   .menu-cat__inner { display: grid; grid-template-columns: 1fr 2fr; gap: clamp(1.5rem, 4vw, 3rem); align-items: start; }
   .menu-cat__title { font-size: clamp(1.6rem, 3.5vw, 2.4rem); letter-spacing: -0.02em; }
   .menu-cat__blurb { color: rgba(245, 241, 234, 0.7); font-size: 0.95rem; line-height: 1.5; margin-top: 0.6rem; max-width: 36ch; }
+
   .menu-list { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
-  .menu-item { background: var(--ink); padding: 1.1rem 1.2rem; display: flex; flex-direction: column; gap: 0.35rem; }
-  .menu-item__name { font-family: var(--font-mono); font-size: 0.82rem; letter-spacing: 0.02em; color: var(--bronze); }
-  .menu-item__desc { color: rgba(245, 241, 234, 0.7); font-size: 0.85rem; line-height: 1.45; }
+  .menu-list--single { grid-template-columns: 1fr; }
+  .stack { background: var(--ink); padding: 1.2rem 1.3rem; display: flex; flex-direction: column; gap: 0.4rem; }
+  .stack__tier { align-self: flex-start; font-family: var(--font-mono); font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--bronze-bright); border: 1px solid rgba(214, 134, 74, 0.4); border-radius: var(--radius-pill); padding: 0.15rem 0.55rem; }
+  .stack__brand { font-size: 1.15rem; line-height: 1.15; color: var(--paper); letter-spacing: -0.01em; }
+  .stack__compounds { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--bronze); }
+  .stack__benefit { color: rgba(245, 241, 234, 0.7); font-size: 0.86rem; line-height: 1.45; }
 
   .menu-note-section { padding: clamp(2.5rem, 6vw, 4rem) 0; }
-  .menu-note { max-width: 70ch; color: var(--ink); opacity: 0.78; font-size: 0.9rem; line-height: 1.6; }
+  .menu-note { max-width: 76ch; color: var(--ink); opacity: 0.72; font-size: 0.82rem; line-height: 1.6; }
 
   .menu-cta { padding: clamp(3rem, 8vw, 6rem) 0; text-align: center; }
   .menu-cta__inner { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; gap: 1.2rem; align-items: center; }
