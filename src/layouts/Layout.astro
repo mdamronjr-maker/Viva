@@ -32,7 +32,7 @@ const isFeedbackBuild = import.meta.env.PUBLIC_DEPLOY_TARGET === 'feedback';
 // has its own PNG generated at build time by src/pages/og/[...route].png.ts.
 function ogForPath(p: string): string {
   if (p === '/') return '/og/home.png';
-  if (['/about', '/services', '/partners', '/contact', '/privacy', '/terms', '/blog'].includes(p)) {
+  if (['/about', '/services', '/partners', '/contact', '/privacy', '/terms', '/blog', '/menu'].includes(p)) {
     return `/og${p}.png`;
   }
   if (p.startsWith('/blog/')) return `/og${p}.png`;

@@ -59,10 +59,10 @@ const PICON = {
   trophy: '<path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>',
 };
 const programs = [
-  { tier: 'Entry', name: 'Concierge Access', price: '$99', cadence: '/mo', icon: 'key', body: 'Provider access plus member pricing on compounded peptides, GLP-1, and add-ons. Pay a la carte for the protocols you want instead of a bundled monthly fee.' },
-  { tier: 'Foundational', name: 'TRT & HRT All Inclusive', price: '$199', cadence: '/mo', icon: 'pulse', body: 'Personalized testosterone optimization with compounded medication, supplies, and biannual labs.' },
-  { tier: 'Core', name: 'Metabolic Core', price: '$349', cadence: '/mo', icon: 'flame', body: 'Compounded tirzepatide, fully managed, for stronger appetite control and consistent fat loss.', featured: true },
-  { tier: 'Premium', name: 'Metabolic Advanced', price: '$499', cadence: '/mo', icon: 'trophy', body: 'Our most advanced metabolic tier: a fully managed, provider-titrated protocol for the most aggressive appetite control and fat loss. Your specific medication is selected during your clinical evaluation.' },
+  { tier: 'Entry', name: 'Concierge Access', price: '$99', cadence: '/mo', icon: 'key', href: '/services#viva-concierge-access', body: 'Provider access plus member pricing on compounded peptides, GLP-1, and add-ons. Pay a la carte for the protocols you want instead of a bundled monthly fee.' },
+  { tier: 'Foundational', name: 'TRT & HRT All Inclusive', price: '$199', cadence: '/mo', icon: 'pulse', href: '/services#trt-hrt-all-inclusive', body: 'Personalized testosterone optimization with compounded medication, supplies, and biannual labs.' },
+  { tier: 'Core', name: 'Metabolic Core', price: '$349', cadence: '/mo', icon: 'flame', href: '/services#metabolic-core', body: 'Compounded tirzepatide, fully managed, for stronger appetite control and consistent fat loss.', featured: true },
+  { tier: 'Premium', name: 'Metabolic Advanced', price: '$499', cadence: '/mo', icon: 'trophy', href: '/services#metabolic-advanced', body: 'Our most advanced metabolic tier: a fully managed, provider-titrated protocol for the most aggressive appetite control and fat loss. Your specific medication is selected during your clinical evaluation.' },
 ];
 
 const testimonials = [
@@ -330,7 +330,7 @@ const testimonials = [
               <span class="program__price-cad">{p.cadence}</span>
             </div>
             <p class="program__body">{p.body}</p>
-            <a href="/services" class="program__link">Learn more →</a>
+            <a href={p.href} class="program__link">Learn more →</a>
           </li>
         ))}
       </ul>

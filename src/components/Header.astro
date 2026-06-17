@@ -29,8 +29,8 @@ const isActive = (p: string) => path === p || (p !== '/' && path.startsWith(p));
       Start Your Protocol
     </a>
 
-    <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="site-mobile-nav">
-      <span></span><span></span>
+    <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="site-mobile-nav">
+      <span aria-hidden="true"></span><span aria-hidden="true"></span>
     </button>
   </div>
 </header>
@@ -69,7 +69,7 @@ const isActive = (p: string) => path === p || (p !== '/' && path.startsWith(p));
   }
   .nav {
     display: flex;
-    gap: 1.6rem;
+    gap: 1.1rem;
     justify-content: center;
   }
   .nav__link {
@@ -78,6 +78,7 @@ const isActive = (p: string) => path === p || (p !== '/' && path.startsWith(p));
     letter-spacing: 0.16em;
     text-transform: uppercase;
     color: rgba(245, 241, 234, 0.6);
+    white-space: nowrap;
     padding: 0.4rem 0;
     position: relative;
     transition: color 200ms var(--ease);
@@ -102,12 +103,12 @@ const isActive = (p: string) => path === p || (p !== '/' && path.startsWith(p));
 
   .nav-toggle { display: none; }
 
-  @media (max-width: 900px) {
+  @media (max-width: 1120px) {
     .site-header__inner { grid-template-columns: auto 1fr auto; }
     .nav { display: none; }
     .nav-toggle {
       display: grid; gap: 5px;
-      width: 32px; height: 32px;
+      width: 44px; height: 44px;
       align-content: center; justify-content: center;
     }
     .nav-toggle span {
@@ -146,7 +147,7 @@ const isActive = (p: string) => path === p || (p !== '/' && path.startsWith(p));
 <style>
   .site-mobile-nav {
     position: fixed;
-    inset: 64px 0 0 0;
+    inset: 76px 0 0 0;
     z-index: 90;
     background: var(--ink);
     transform: translateY(-110%);
@@ -171,7 +172,7 @@ const isActive = (p: string) => path === p || (p !== '/' && path.startsWith(p));
     font-style: italic;
     text-transform: none !important;
   }
-  @media (min-width: 901px) { .site-mobile-nav { display: none; } }
+  @media (min-width: 1121px) { .site-mobile-nav { display: none; } }
 </style>
 
 <script>
@@ -188,6 +189,7 @@ const isActive = (p: string) => path === p || (p !== '/' && path.startsWith(p));
     function setOpen(open: boolean) {
       document.body.classList.toggle('menu-open', open);
       toggle!.setAttribute('aria-expanded', open ? 'true' : 'false');
+      toggle!.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
       if (open) mobileNav!.removeAttribute('inert');
       else mobileNav!.setAttribute('inert', '');
     }

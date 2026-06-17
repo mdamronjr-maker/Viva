@@ -48,6 +48,10 @@ const pages: Record<string, { title: string; tagline: string }> = {
     title: 'Real answers, written by a clinician.',
     tagline: 'Patient Education · Peptide therapy, hormones, GLP-1',
   },
+  menu: {
+    title: 'Stacks & protocols.',
+    tagline: 'The Full Menu · Peptides · GLP-1 · TRT/HRT',
+  },
 };
 
 for (const post of blogPosts) {
