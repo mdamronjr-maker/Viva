@@ -179,7 +179,7 @@ const areaServed = [
 ];
 const servicesSchema = {
   '@context': 'https://schema.org',
-  '@graph': programs.map((prog) => ({
+  '@graph': [...programs.map((prog) => ({
     '@type': 'MedicalProcedure',
     '@id': `https://vivawellnessco.com/services#${slugify(prog.name)}`,
     name: prog.name,
@@ -198,7 +198,13 @@ const servicesSchema = {
       availability: 'https://schema.org/InStock',
       areaServed,
     },
-  })),
+  })), {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://vivawellnessco.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://vivawellnessco.com/services' },
+    ],
+  }],
 };
 ---
 

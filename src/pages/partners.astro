@@ -6,23 +6,34 @@ const partnerCount = partners.length;
 
 const partnersSchema = {
   '@context': 'https://schema.org',
-  '@type': 'CollectionPage',
-  name: 'Trusted Austin Partners',
-  description: 'The Austin practitioners, gyms, and physical therapists Liliana Damron, FNP-BC refers Viva Wellness patients to for care outside the concierge telehealth scope.',
-  url: 'https://vivawellnessco.com/partners',
-  isPartOf: { '@id': 'https://vivawellnessco.com/#organization' },
-  about: partners.map((p) => ({
-    '@type': 'LocalBusiness',
-    name: p.name,
-    description: p.description,
-    address: {
-      '@type': 'PostalAddress',
-      addressLocality: 'Austin',
-      addressRegion: 'TX',
-      addressCountry: 'US',
+  '@graph': [
+    {
+      '@type': 'CollectionPage',
+      name: 'Trusted Austin Partners',
+      description: 'The Austin practitioners, gyms, and physical therapists Liliana Damron, FNP-BC refers Viva Wellness patients to for care outside the concierge telehealth scope.',
+      url: 'https://vivawellnessco.com/partners',
+      isPartOf: { '@id': 'https://vivawellnessco.com/#organization' },
+      about: partners.map((p) => ({
+        '@type': 'LocalBusiness',
+        name: p.name,
+        description: p.description,
+        address: {
+          '@type': 'PostalAddress',
+          addressLocality: 'Austin',
+          addressRegion: 'TX',
+          addressCountry: 'US',
+        },
+        url: p.links[0]?.href,
+      })),
     },
-    url: p.links[0]?.href,
-  })),
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://vivawellnessco.com/' },
+        { '@type': 'ListItem', position: 2, name: 'Partners', item: 'https://vivawellnessco.com/partners' },
+      ],
+    },
+  ],
 };
 ---
 
