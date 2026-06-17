@@ -88,11 +88,39 @@ const menu = [
     ],
   },
 ];
+
+// Structured data: an ItemList of the catalog categories (label + anchor only,
+// no benefit/compound/claim copy) + a breadcrumb. Mirrors the schema coverage
+// the other main pages already have.
+const SITE = 'https://vivawellnessco.com';
+const menuSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE}/` },
+        { '@type': 'ListItem', position: 2, name: 'Stacks & Protocols', item: `${SITE}/menu` },
+      ],
+    },
+    {
+      '@type': 'ItemList',
+      name: 'Viva Wellness Co. Stacks & Protocols',
+      itemListElement: menu.map((c, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        name: c.label,
+        url: `${SITE}/menu#${c.id}`,
+      })),
+    },
+  ],
+};
 ---
 
 <Layout
   title="Stacks & Protocols Menu · Peptides, GLP-1, TRT/HRT | Viva Wellness Co."
   description="The full Viva Wellness Co. stacks & protocols menu: compounded peptide, GLP-1 weight-loss, performance, recomposition, longevity, and TRT/HRT protocols. Each stack is prescribed individually after a provider consult. Concierge telehealth in Texas, Colorado, Florida, and Iowa."
+  schema={menuSchema}
 >
   <section class="menu-hero">
     <div class="container menu-hero__inner">
@@ -120,6 +148,7 @@ const menu = [
         <div class="menu-cat__head">
           <h2 id={`${c.id}-h`} class="menu-cat__title">{c.label}</h2>
           <p class="menu-cat__blurb">{c.blurb}</p>
+          <a class="menu-cat__cta" href={`/start?utm_source=vivawellnessco&utm_medium=cta&utm_content=menu_${c.id}`}>Start a visit →</a>
         </div>
         <ul class:list={["menu-list", c.stacks.length === 1 && 'menu-list--single']}>
           {c.stacks.map((s) => (
@@ -173,13 +202,16 @@ const menu = [
   .menu-hero__title .italic-display { color: var(--bronze); }
   .menu-hero__lead { max-width: 62ch; }
   .menu-jump { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.6rem; }
-  .menu-jump__link { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--paper); border: 1px solid var(--rule-strong); border-radius: var(--radius-pill); padding: 0.5rem 0.9rem; text-decoration: none; transition: background 200ms var(--ease), border-color 200ms var(--ease), color 200ms var(--ease); }
+  .menu-jump__link { display: inline-flex; align-items: center; min-height: 44px; font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--paper); border: 1px solid var(--rule-strong); border-radius: var(--radius-pill); padding: 0.5rem 0.9rem; text-decoration: none; transition: background 200ms var(--ease), border-color 200ms var(--ease), color 200ms var(--ease); }
   .menu-jump__link:hover { background: var(--bronze); color: var(--ink); border-color: var(--bronze); }
+  .menu-jump__link.is-current { background: var(--bronze); color: var(--ink); border-color: var(--bronze); }
 
   .menu-cat { padding: clamp(2rem, 5vw, 3.5rem) 0; border-top: 1px solid var(--rule); scroll-margin-top: 80px; }
   .menu-cat__inner { display: grid; grid-template-columns: 1fr 2fr; gap: clamp(1.5rem, 4vw, 3rem); align-items: start; }
   .menu-cat__title { font-size: clamp(1.6rem, 3.5vw, 2.4rem); letter-spacing: -0.02em; }
   .menu-cat__blurb { color: rgba(245, 241, 234, 0.7); font-size: 0.95rem; line-height: 1.5; margin-top: 0.6rem; max-width: 36ch; }
+  .menu-cat__cta { display: inline-block; margin-top: 1rem; font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--bronze); text-decoration: none; border-bottom: 1px solid rgba(214, 134, 74, 0.4); padding-bottom: 2px; transition: color 200ms var(--ease), border-color 200ms var(--ease); }
+  .menu-cat__cta:hover { color: var(--bronze-bright); border-bottom-color: var(--bronze-bright); }
 
   .menu-list { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--rule-strong); border: 1px solid var(--rule-strong); }
   .menu-list--single { grid-template-columns: 1fr; }
@@ -204,3 +236,27 @@ const menu = [
     .menu-list { grid-template-columns: 1fr; }
   }
 </style>
+
+<script>
+  // Scroll-spy: highlight the jump-nav link for the category currently in view.
+  // Re-binds on every Astro view-transition navigation.
+  function bindMenuSpy() {
+    const links = Array.from(document.querySelectorAll('.menu-jump__link'));
+    const cats = Array.from(document.querySelectorAll('.menu-cat'));
+    if (!links.length || !cats.length) return;
+    const setCurrent = (id: string) => {
+      links.forEach((l) => {
+        const on = l.getAttribute('href') === '#' + id;
+        l.classList.toggle('is-current', on);
+        if (on) l.setAttribute('aria-current', 'true');
+        else l.removeAttribute('aria-current');
+      });
+    };
+    const obs = new IntersectionObserver(
+      (entries) => entries.forEach((e) => { if (e.isIntersecting) setCurrent((e.target as HTMLElement).id); }),
+      { rootMargin: '-45% 0px -50% 0px', threshold: 0 }
+    );
+    cats.forEach((c) => obs.observe(c));
+  }
+  document.addEventListener('astro:page-load', bindMenuSpy);
+</script>
