@@ -24,7 +24,7 @@ const menu = [
       { name: 'Estradiol', klass: 'Estrogen hormone', definition: "The principal form of estrogen, prepared in compounded formulations for hormone therapy. It has been studied in relation to estrogen levels, menopausal symptoms, bone health, and vaginal and skin tissue." },
       { name: 'Progesterone', klass: 'Progestogen hormone', definition: "A naturally occurring progestogen hormone, available in compounded preparations. It is studied in relation to hormonal balance, the menstrual cycle, sleep, and mood, and is sometimes used alongside estrogen therapy." },
       { name: 'Enclomiphene', klass: 'Selective estrogen receptor modulator (SERM)', definition: "A selective estrogen receptor modulator that signals the pituitary to increase luteinizing and follicle-stimulating hormone. It is studied for supporting the body's own testosterone production while helping preserve fertility." },
-      { name: 'Compounded Thyroid (T4/T3)', klass: 'Thyroid hormone preparation', definition: "A thyroid hormone formulation that may combine T4 and T3 forms. It is studied in relation to thyroid hormone balance and is prescribed individually after consultation." },
+      { name: 'Thyroid', klass: 'Thyroid hormone preparation', definition: "A thyroid hormone formulation that may combine T4 and T3 forms. It is studied in relation to thyroid hormone balance and is prescribed individually after consultation." },
     ],
   },
   {
@@ -35,7 +35,6 @@ const menu = [
       { name: 'Semaglutide', klass: 'GLP-1 receptor agonist', definition: "A peptide that mimics the incretin hormone GLP-1, acting on receptors involved in blood sugar regulation and appetite. It is studied and used to support glycemic regulation and weight management." },
       { name: 'Tirzepatide', klass: 'Dual GIP/GLP-1 receptor agonist', definition: "A peptide that activates both the GIP and GLP-1 incretin receptors, pathways tied to blood sugar and appetite regulation. It is studied and used to support glycemic regulation and weight management." },
       { name: 'Retatrutide', klass: 'Triple GIP/GLP-1/glucagon receptor agonist', definition: "An investigational peptide that engages the GIP, GLP-1, and glucagon receptors, pathways involved in appetite, blood sugar, and energy metabolism. It is being studied for its potential role in weight management and metabolic health." },
-      { name: 'L-Carnitine', klass: 'Amino acid derivative', definition: "A naturally occurring compound derived from amino acids that is involved in transporting fatty acids into the mitochondria. It is studied and used to support its role in fat metabolism and exercise performance." },
     ],
   },
   {
@@ -44,8 +43,9 @@ const menu = [
     blurb: 'Research peptides studied for their potential roles in tissue repair and recovery.',
     entries: [
       { name: 'BPC-157', klass: 'Synthetic peptide (pentadecapeptide)', definition: "A synthetic 15-amino-acid peptide derived from a sequence found in gastric juice. It is studied for its potential role in tissue repair and recovery, including the gut, tendon, and connective tissue." },
-      { name: 'TB-500 (thymosin beta-4 fragment)', klass: 'Synthetic peptide (thymosin beta-4 fragment/analog)', definition: "A synthetic peptide related to thymosin beta-4, a naturally occurring protein involved in cell movement and tissue organization. It is studied for its potential role in tissue repair, recovery, and mobility." },
+      { name: 'TB-500', klass: 'Synthetic peptide (thymosin beta-4 fragment/analog)', definition: "A synthetic peptide related to thymosin beta-4, a naturally occurring protein involved in cell movement and tissue organization. It is studied for its potential role in tissue repair, recovery, and mobility." },
       { name: 'KPV', klass: 'Tripeptide (alpha-MSH fragment)', definition: "A short three-amino-acid peptide derived from the C-terminal region of the hormone alpha-melanocyte-stimulating hormone (alpha-MSH). It is studied for its potential role in the body's inflammatory response and gut and skin health." },
+      { name: 'GHK-Cu', klass: 'Copper-binding tripeptide', definition: "A naturally occurring copper-binding peptide (glycyl-histidyl-lysine) found in human plasma. It is studied and used to support tissue repair, skin health, and collagen-related processes." },
     ],
   },
   {
@@ -57,7 +57,7 @@ const menu = [
       { name: 'CJC-1295', klass: 'Growth hormone-releasing hormone (GHRH) analog', definition: "A modified GHRH-analog peptide (based on GRF 1-29) that signals the pituitary to release growth hormone. It is studied to support the body's own growth hormone and IGF-1 levels, and some forms are modified to extend their duration of activity." },
       { name: 'Ipamorelin', klass: 'Growth hormone secretagogue / ghrelin receptor agonist', definition: "A selective peptide secretagogue that stimulates the pituitary to release growth hormone through the ghrelin receptor pathway. It is studied for supporting growth hormone release and is noted for receptor selectivity." },
       { name: 'Tesamorelin', klass: 'Growth hormone-releasing hormone (GHRH) analog', definition: "A stabilized GHRH-analog peptide that stimulates the pituitary to release growth hormone. It has been studied most extensively in relation to excess visceral (abdominal) adipose tissue and body composition." },
-      { name: 'IGF-1 LR3', klass: 'Insulin-like growth factor-1 analog (Long R3 variant)', definition: "A modified, longer-acting analog of insulin-like growth factor-1, a hormone that mediates many of the downstream effects of growth hormone on tissue growth and repair. It is studied in relation to cellular growth, recovery, and anabolic signaling." },
+      { name: 'IGF-LR3', klass: 'Insulin-like growth factor-1 analog (Long R3 variant)', definition: "A modified, longer-acting analog of insulin-like growth factor-1, a hormone that mediates many of the downstream effects of growth hormone on tissue growth and repair. It is studied in relation to cellular growth, recovery, and anabolic signaling." },
     ],
   },
   {
@@ -77,7 +77,6 @@ const menu = [
     entries: [
       { name: 'NAD+', klass: 'Coenzyme (nicotinamide adenine dinucleotide)', definition: "An essential coenzyme present in every cell that participates in energy metabolism and cellular repair pathways. It is studied and used to support mitochondrial function, cellular energy production, and aspects of healthy aging." },
       { name: 'Epithalon', klass: 'Synthetic tetrapeptide (pineal-derived)', definition: "A synthetic four-amino-acid peptide modeled on a pineal gland extract. It is being studied for its potential role in regulating circadian and endocrine rhythms and in telomere and cellular-aging biology." },
-      { name: 'GHK-Cu', klass: 'Copper-binding tripeptide', definition: "A naturally occurring copper-binding peptide (glycyl-histidyl-lysine) found in human plasma. It is studied and used to support skin health, tissue repair, and collagen-related processes." },
       { name: 'Thymosin Alpha-1', klass: 'Synthetic thymic peptide (immunomodulator)', definition: "A synthetic peptide based on a naturally occurring thymus-derived hormone involved in immune regulation. It is studied for its potential role in immune regulation." },
       { name: 'Semax', klass: 'Synthetic peptide (ACTH-derived; nootropic)', definition: "A synthetic peptide derived from a fragment of adrenocorticotropic hormone (ACTH). It is studied for its potential effects on cognition, focus, and neuroprotection." },
       { name: 'Selank', klass: 'Synthetic peptide (tuftsin analog; anxiolytic)', definition: "A synthetic peptide analog of the naturally occurring immune peptide tuftsin. It is studied for its potential effects on anxiety, stress resilience, and cognitive function." },
