@@ -19,6 +19,7 @@ const isActive = (p: string) => path === p || (p !== '/' && path.startsWith(p));
       <a href="/" class:list={["nav__link", isActive('/') && 'is-active']}>Home</a>
       <a href="/about" class:list={["nav__link", isActive('/about') && 'is-active']}>Provider</a>
       <a href="/services" class:list={["nav__link", isActive('/services') && 'is-active']}>Services</a>
+      <a href="/menu" class:list={["nav__link", isActive('/menu') && 'is-active']}>Menu</a>
       <a href="/partners" class:list={["nav__link", isActive('/partners') && 'is-active']}>Partners</a>
       <a href="/blog" class:list={["nav__link", isActive('/blog') && 'is-active']}>Blog</a>
       <a href="/contact" class:list={["nav__link", isActive('/contact') && 'is-active']}>Contact</a>
@@ -135,6 +136,7 @@ const isActive = (p: string) => path === p || (p !== '/' && path.startsWith(p));
   <a href="/">Home</a>
   <a href="/about">Provider</a>
   <a href="/services">Services</a>
+  <a href="/menu">Menu</a>
   <a href="/partners">Partners</a>
   <a href="/blog">Blog</a>
   <a href="/contact">Contact</a>

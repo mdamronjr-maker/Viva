@@ -183,6 +183,7 @@ const menu = [
 
   .menu-list { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
   .menu-list--single { grid-template-columns: 1fr; }
+  .menu-list > .stack:last-child:nth-child(odd) { grid-column: 1 / -1; }
   .stack { background: var(--ink); padding: 1.2rem 1.3rem; display: flex; flex-direction: column; gap: 0.4rem; }
   .stack__tier { align-self: flex-start; font-family: var(--font-mono); font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--bronze-bright); border: 1px solid rgba(214, 134, 74, 0.4); border-radius: var(--radius-pill); padding: 0.15rem 0.55rem; }
   .stack__brand { font-size: 1.15rem; line-height: 1.15; color: var(--paper); letter-spacing: -0.01em; }
