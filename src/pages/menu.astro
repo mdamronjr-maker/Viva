@@ -2,115 +2,109 @@
 import Layout from '../layouts/Layout.astro';
 
 /* ============================================================
-   /menu · plain-language peptide & compound dictionary. The /services
-   pillars deep-link into each category here (e.g. /menu#peptides).
+   /menu · the full Stacks & Protocols catalog. The /services pillars
+   deep-link into each category here (e.g. /menu#peptides).
 
-   Entries (name + class + definition) were drafted and adversarially
-   accuracy/compliance-reviewed by a multi-agent pass. Conservative by design:
-   "studied for" / "studied in relation to", no efficacy guarantees, no disease
-   claims, no dosing, no brand/stack names, no prices. Every compound is a
-   compounded, patient-specific preparation prescribed individually after a
-   consult (see disclaimer). PENDING LILIANA'S REVIEW before promotion to live.
-   The Labs category is a plain-panels reference (not from the agent pass).
+   Content is from Viva's own "Stacks & Protocols" document (branded stack
+   names + compounds + benefits + Essential/Core/Elite tiers). Organized here
+   by goal so the goal-based pillar links resolve.
+
+   PENDING LILIANA'S REVIEW before promotion to live. No prices shown (pricing
+   lives on Services / GlossGenius). L-Carnitine dropped from the GLP-1 stacks
+   and GHK-Cu's stack (La Reina) placed under Recovery, per Michael. A couple of
+   stack names are edgy Spanish slang — kept verbatim from the doc; tone down if
+   desired. Every stack is a compounded, patient-specific protocol prescribed
+   individually after a consult (see disclaimer below).
    ============================================================ */
 
 const menu = [
   {
     id: 'hormone',
     label: 'Hormone Optimization',
-    blurb: 'Foundational sex and thyroid hormones used in individualized hormone therapy.',
-    entries: [
-      { name: 'Testosterone', klass: 'Androgen hormone', definition: "The primary androgen sex hormone, available in compounded forms for hormone therapy. It has been studied in relation to energy, libido, mood, muscle mass, and bone density." },
-      { name: 'Estradiol', klass: 'Estrogen hormone', definition: "The principal form of estrogen, prepared in compounded formulations for hormone therapy. It has been studied in relation to estrogen levels, menopausal symptoms, bone health, and vaginal and skin tissue." },
-      { name: 'Progesterone', klass: 'Progestogen hormone', definition: "A naturally occurring progestogen hormone, available in compounded preparations. It is studied in relation to hormonal balance, the menstrual cycle, sleep, and mood, and is sometimes used alongside estrogen therapy." },
-      { name: 'Enclomiphene', klass: 'Selective estrogen receptor modulator (SERM)', definition: "A selective estrogen receptor modulator that signals the pituitary to increase luteinizing and follicle-stimulating hormone. It is studied for supporting the body's own testosterone production while helping preserve fertility." },
-      { name: 'Thyroid', klass: 'Thyroid hormone preparation', definition: "A thyroid hormone formulation that may combine T4 and T3 forms. It is studied in relation to thyroid hormone balance and is prescribed individually after consultation." },
+    blurb: 'All-inclusive TRT and HRT for men and women, fully managed: medication, supplies, home delivery, and labs.',
+    stacks: [
+      { brand: 'All-Inclusive TRT / HRT Program', compounds: 'Testosterone · estradiol · progesterone · thyroid · enclomiphene & more', benefit: 'A bundled membership for men and women: compounded medication, supplies, home delivery, follow-up consults, and labs twice a year.', tier: 'Membership' },
     ],
   },
   {
     id: 'metabolic',
     label: 'Metabolic & Weight Loss',
-    blurb: 'Incretin-based and metabolic agents studied in relation to blood sugar, appetite, and weight.',
-    entries: [
-      { name: 'Semaglutide', klass: 'GLP-1 receptor agonist', definition: "A peptide that mimics the incretin hormone GLP-1, acting on receptors involved in blood sugar regulation and appetite. It is studied and used to support glycemic regulation and weight management." },
-      { name: 'Tirzepatide', klass: 'Dual GIP/GLP-1 receptor agonist', definition: "A peptide that activates both the GIP and GLP-1 incretin receptors, pathways tied to blood sugar and appetite regulation. It is studied and used to support glycemic regulation and weight management." },
-      { name: 'Retatrutide', klass: 'Triple GIP/GLP-1/glucagon receptor agonist', definition: "An investigational peptide that engages the GIP, GLP-1, and glucagon receptors, pathways involved in appetite, blood sugar, and energy metabolism. It is being studied for its potential role in weight management and metabolic health." },
+    blurb: 'Compounded GLP-1 and metabolic protocols, provider-titrated, with lean muscle preserved.',
+    stacks: [
+      { brand: 'Slimaglutide Stack', compounds: 'Semaglutide', benefit: 'Appetite control, fat metabolism, and steady energy for weight loss.', tier: 'Essential' },
+      { brand: 'Texaglutide Stack', compounds: 'Tirzepatide', benefit: 'Premium weight loss and energy support: appetite control, better insulin response, and metabolic correction.', tier: 'Core' },
+      { brand: 'A Toda Madre', compounds: 'SLU-PP-332', benefit: 'Mimics endurance training by switching the body to burn fat for fuel, with lean-muscle preservation.', tier: 'Core' },
+      { brand: 'El Rey', compounds: 'Retatrutide', benefit: 'Deeper appetite control, stronger insulin-sensitivity support, and enhanced fat-to-energy conversion while preserving lean muscle.', tier: 'Elite' },
     ],
   },
   {
     id: 'peptides',
     label: 'Peptide Therapy — Recovery & Repair',
-    blurb: 'Research peptides studied for their potential roles in tissue repair and recovery.',
-    entries: [
-      { name: 'BPC-157', klass: 'Synthetic peptide (pentadecapeptide)', definition: "A synthetic 15-amino-acid peptide derived from a sequence found in gastric juice. It is studied for its potential role in tissue repair and recovery, including the gut, tendon, and connective tissue." },
-      { name: 'TB-500', klass: 'Synthetic peptide (thymosin beta-4 fragment/analog)', definition: "A synthetic peptide related to thymosin beta-4, a naturally occurring protein involved in cell movement and tissue organization. It is studied for its potential role in tissue repair, recovery, and mobility." },
-      { name: 'KPV', klass: 'Tripeptide (alpha-MSH fragment)', definition: "A short three-amino-acid peptide derived from the C-terminal region of the hormone alpha-melanocyte-stimulating hormone (alpha-MSH). It is studied for its potential role in the body's inflammatory response and gut and skin health." },
-      { name: 'GHK-Cu', klass: 'Copper-binding tripeptide', definition: "A naturally occurring copper-binding peptide (glycyl-histidyl-lysine) found in human plasma. It is studied and used to support tissue repair, skin health, and collagen-related processes." },
+    blurb: 'Compounded peptides for joints, tendons, gut, and tissue repair.',
+    stacks: [
+      { brand: 'El Curandero', compounds: 'BPC-157', benefit: 'Supports joints, tendons, and gut health, and one of the few peptides that can be taken orally.', tier: 'Essential' },
+      { brand: 'El Lobo Stack', compounds: 'BPC-157 + TB-500', benefit: 'A recovery classic: gut health, faster recovery, and injury healing.', tier: 'Core' },
+      { brand: 'La Reina', compounds: 'GHK-Cu', benefit: 'A copper peptide that supports tissue and wound healing, skin elasticity, and hair.', tier: 'Essential' },
+      { brand: 'Sana Sana Colita de Rana', compounds: 'BPC-157 + TB-500 + KPV + GHK-Cu', benefit: 'A powerhouse stack that synergistically boosts tissue repair, lowers inflammation, and accelerates recovery.', tier: 'Elite' },
     ],
   },
   {
     id: 'performance',
     label: 'Performance & Growth',
-    blurb: "Peptides and analogs studied for their effects on the body's own growth hormone and related signaling.",
-    entries: [
-      { name: 'Sermorelin', klass: 'Growth hormone-releasing hormone (GHRH) analog', definition: "A synthetic peptide that mimics a fragment of the body's natural growth hormone-releasing hormone, prompting the pituitary gland to release growth hormone. It is studied for supporting the body's own growth hormone output, with interest in areas such as body composition, recovery, and sleep quality." },
-      { name: 'CJC-1295', klass: 'Growth hormone-releasing hormone (GHRH) analog', definition: "A modified GHRH-analog peptide (based on GRF 1-29) that signals the pituitary to release growth hormone. It is studied to support the body's own growth hormone and IGF-1 levels, and some forms are modified to extend their duration of activity." },
-      { name: 'Ipamorelin', klass: 'Growth hormone secretagogue / ghrelin receptor agonist', definition: "A selective peptide secretagogue that stimulates the pituitary to release growth hormone through the ghrelin receptor pathway. It is studied for supporting growth hormone release and is noted for receptor selectivity." },
-      { name: 'Tesamorelin', klass: 'Growth hormone-releasing hormone (GHRH) analog', definition: "A stabilized GHRH-analog peptide that stimulates the pituitary to release growth hormone. It has been studied most extensively in relation to excess visceral (abdominal) adipose tissue and body composition." },
-      { name: 'IGF-LR3', klass: 'Insulin-like growth factor-1 analog (Long R3 variant)', definition: "A modified, longer-acting analog of insulin-like growth factor-1, a hormone that mediates many of the downstream effects of growth hormone on tissue growth and repair. It is studied in relation to cellular growth, recovery, and anabolic signaling." },
+    blurb: 'Growth-hormone support and output for athletes and high-drive professionals.',
+    stacks: [
+      { brand: 'Savage Protocol', compounds: 'Sermorelin', benefit: 'Recovery, sleep, and anti-aging. Stimulates the body’s own HGH production to improve body composition.', tier: 'Essential' },
+      { brand: 'Échale Ganas Stack', compounds: 'CJC-1295 + Ipamorelin', benefit: 'Lean muscle, fat metabolism, deeper sleep, and faster recovery.', tier: 'Elite' },
+      { brand: 'Ponte Mamado', compounds: 'IGF-LR3', benefit: 'Muscle growth and recovery by enhancing protein synthesis and cell repair.', tier: 'Elite' },
     ],
   },
   {
     id: 'recomp',
-    label: 'Recomposition',
-    blurb: 'Agents studied for their potential roles in fat metabolism and lean-mass support.',
-    entries: [
-      { name: 'AOD-9604', klass: 'Peptide fragment (modified hGH 176-191)', definition: "A synthetic peptide derived from the C-terminal fragment of human growth hormone. It is studied for its potential role in fat metabolism without the broader growth-hormone effects of the full molecule." },
-      { name: 'MOTS-c', klass: 'Mitochondrial-derived peptide', definition: "A small peptide encoded in mitochondrial DNA that acts as a metabolic regulator. It is studied for its potential role in cellular energy production, insulin sensitivity, and fat metabolism." },
-      { name: 'SLU-PP-332', klass: 'Synthetic ERR (estrogen-related receptor) agonist', definition: "An investigational small-molecule compound that activates estrogen-related receptors involved in energy metabolism. It is being studied for its potential role in fat metabolism and exercise-related adaptations." },
+    label: 'Recomposition & Cutting',
+    blurb: 'Drop fat, hold muscle: cutting and body-recomposition stacks.',
+    stacks: [
+      { brand: 'Fuego Protocol', compounds: 'MOTS-c', benefit: 'Promotes fat burning, higher cellular energy, and lean muscle.', tier: 'Essential' },
+      { brand: 'El Corte Stack', compounds: 'Tesamorelin + Ipamorelin', benefit: 'Built for cutting: visceral and abdominal fat loss, lean muscle, and sleep.', tier: 'Core' },
+      { brand: 'Peso Pluma Protocol', compounds: 'Tesamorelin + Ipamorelin + AOD-9604 + MOTS-c', benefit: 'The ultimate body-recomposition stack: fat loss, lean muscle, and recovery.', tier: 'Elite' },
     ],
   },
   {
     id: 'longevity',
     label: 'Lifestyle & Longevity',
-    blurb: 'Coenzymes and peptides studied in relation to cellular aging, immune balance, and cognitive support.',
-    entries: [
-      { name: 'NAD+', klass: 'Coenzyme (nicotinamide adenine dinucleotide)', definition: "An essential coenzyme present in every cell that participates in energy metabolism and cellular repair pathways. It is studied and used to support mitochondrial function, cellular energy production, and aspects of healthy aging." },
-      { name: 'Epithalon', klass: 'Synthetic tetrapeptide (pineal-derived)', definition: "A synthetic four-amino-acid peptide modeled on a pineal gland extract. It is being studied for its potential role in regulating circadian and endocrine rhythms and in telomere and cellular-aging biology." },
-      { name: 'Thymosin Alpha-1', klass: 'Synthetic thymic peptide (immunomodulator)', definition: "A synthetic peptide based on a naturally occurring thymus-derived hormone involved in immune regulation. It is studied for its potential role in immune regulation." },
-      { name: 'Semax', klass: 'Synthetic peptide (ACTH-derived; nootropic)', definition: "A synthetic peptide derived from a fragment of adrenocorticotropic hormone (ACTH). It is studied for its potential effects on cognition, focus, and neuroprotection." },
-      { name: 'Selank', klass: 'Synthetic peptide (tuftsin analog; anxiolytic)', definition: "A synthetic peptide analog of the naturally occurring immune peptide tuftsin. It is studied for its potential effects on anxiety, stress resilience, and cognitive function." },
+    blurb: 'Cellular energy, skin, immunity, sleep, and a clearer head.',
+    stacks: [
+      { brand: 'De NAD+a', compounds: 'NAD+', benefit: 'Energy, cellular repair, skin health, and weight management by helping the body use fat for fuel.', tier: 'Essential' },
+      { brand: 'Bidi Bidi Bombshell Stack', compounds: 'GHK-Cu + Epithalon', benefit: 'Skin elasticity, collagen, cellular longevity, hair growth, and a youthful glow.', tier: 'Core' },
+      { brand: 'La Guardia', compounds: 'Thymosin Alpha-1', benefit: 'Boosts immunity and lowers inflammation by promoting T-cell activity and both innate and adaptive immunity.', tier: 'Core' },
+      { brand: 'No Chingues, Relax Stack', compounds: 'Semax + Selank', benefit: 'Sharper focus, less stress, and clearer thinking with no crash; supports anxiety and ADHD symptoms.', tier: 'Elite' },
     ],
   },
   {
     id: 'labs',
     label: 'Labs & Diagnostics',
-    blurb: 'The measurement layer underneath every protocol, read by the same provider running your plan.',
-    entries: [
-      { name: 'Hormone panel', klass: 'Diagnostic', definition: "Total and free testosterone, estradiol, LH/FSH, SHBG, and related markers to guide hormone therapy." },
-      { name: 'Metabolic panel', klass: 'Diagnostic', definition: "Glucose, insulin, HbA1c, and lipids to track metabolic and weight-related health." },
-      { name: 'Thyroid panel', klass: 'Diagnostic', definition: "TSH, free T3 and T4, and thyroid antibodies to assess thyroid function." },
-      { name: 'Inflammation & micronutrients', klass: 'Diagnostic', definition: "Markers such as hs-CRP, plus vitamin D, B12, and ferritin, to round out the picture." },
+    blurb: 'The measurement layer underneath every protocol.',
+    stacks: [
+      { brand: 'Targeted Lab Analysis', compounds: 'Hormone · metabolic · thyroid · inflammation panels', benefit: 'Run before and during your protocol and read by the same provider, so your dosing is guided by data, not guesswork.', tier: '' },
     ],
   },
 ];
 ---
 
 <Layout
-  title="Peptide & Compound Dictionary · TRT, GLP-1, Peptides | Viva Wellness Co."
-  description="A plain-language dictionary of the peptides and compounds used at Viva Wellness Co.: hormones, GLP-1s, recovery and growth peptides, longevity and cognitive agents, and labs. Each is prescribed individually after a provider consult. Concierge telehealth in Texas, Colorado, Florida, and Iowa."
+  title="Stacks & Protocols Menu · Peptides, GLP-1, TRT/HRT | Viva Wellness Co."
+  description="The full Viva Wellness Co. stacks & protocols menu: compounded peptide, GLP-1 weight-loss, performance, recomposition, longevity, and TRT/HRT protocols. Each stack is prescribed individually after a provider consult. Concierge telehealth in Texas, Colorado, Florida, and Iowa."
 >
   <section class="menu-hero">
     <div class="container menu-hero__inner">
-      <span class="eyebrow">· Peptide &amp; compound dictionary</span>
+      <span class="eyebrow">· Stacks &amp; protocols</span>
       <h1 class="menu-hero__title">
-        Know what's <span class="italic-display">in it.</span>
+        Everything <span class="italic-display">available.</span>
       </h1>
       <p class="lead menu-hero__lead">
-        A plain-language reference to every peptide and compound I work with,
-        grouped by goal: what each one is, and what it's studied to support. No
-        brand names, no hype. Your actual protocol is built with me, after we talk
-        and look at your labs.
+        Every protocol has a name; under it is exactly what's in it. Grouped by
+        goal, tiered from Essential to Elite. Nothing here is picked off a shelf,
+        each is a compounded, patient-specific protocol prescribed individually
+        after we talk and look at your labs.
       </p>
       <nav class="menu-jump" aria-label="Jump to a category">
         {menu.map((c) => (
@@ -127,12 +121,13 @@ const menu = [
           <h2 id={`${c.id}-h`} class="menu-cat__title">{c.label}</h2>
           <p class="menu-cat__blurb">{c.blurb}</p>
         </div>
-        <ul class="menu-list">
-          {c.entries.map((e) => (
-            <li class="entry">
-              <h3 class="entry__name">{e.name}</h3>
-              <span class="entry__klass">{e.klass}</span>
-              <p class="entry__def">{e.definition}</p>
+        <ul class:list={["menu-list", c.stacks.length === 1 && 'menu-list--single']}>
+          {c.stacks.map((s) => (
+            <li class="stack">
+              {s.tier && <span class="stack__tier">{s.tier}</span>}
+              <h3 class="stack__brand">{s.brand}</h3>
+              <p class="stack__compounds">{s.compounds}</p>
+              <p class="stack__benefit">{s.benefit}</p>
             </li>
           ))}
         </ul>
@@ -143,13 +138,13 @@ const menu = [
   <section class="section section--paper menu-note-section">
     <div class="container">
       <p class="menu-note">
-        These names are for educational purposes and are not the names of
-        FDA-approved medications. Each is a wellness protocol of compounded
-        peptides and/or medications, prescribed individually based on a licensed
-        provider consultation. A medical consultation is required before
-        prescribing. Individual results may vary. These protocols are intended
-        for wellness support and should not be interpreted as claims to diagnose,
-        treat, cure, or prevent any disease.
+        Stack names are for branding and educational purposes only and are not
+        the names of FDA-approved medications. Each stack is a wellness protocol
+        of compounded peptides and/or medications, prescribed individually based
+        on a licensed provider consultation. A medical consultation is required
+        before prescribing. Individual results may vary. These protocols are
+        intended for wellness support and should not be interpreted as claims to
+        diagnose, treat, cure, or prevent any disease.
       </p>
     </div>
   </section>
@@ -157,7 +152,7 @@ const menu = [
   <section class="menu-cta">
     <div class="container menu-cta__inner">
       <h2 class="menu-cta__title">
-        Not sure what fits? <span class="italic-display">Start with a visit.</span>
+        Not sure which stack? <span class="italic-display">Start with a visit.</span>
       </h2>
       <p class="lead">
         Tell me your goals and I'll build the protocol: the right compounds, the
@@ -187,10 +182,12 @@ const menu = [
   .menu-cat__blurb { color: rgba(245, 241, 234, 0.7); font-size: 0.95rem; line-height: 1.5; margin-top: 0.6rem; max-width: 36ch; }
 
   .menu-list { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
-  .entry { background: var(--ink); padding: 1.2rem 1.3rem; display: flex; flex-direction: column; gap: 0.35rem; }
-  .entry__name { font-size: 1.1rem; line-height: 1.2; color: var(--paper); letter-spacing: -0.01em; }
-  .entry__klass { font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--bronze); }
-  .entry__def { color: rgba(245, 241, 234, 0.7); font-size: 0.85rem; line-height: 1.5; margin-top: 0.15rem; }
+  .menu-list--single { grid-template-columns: 1fr; }
+  .stack { background: var(--ink); padding: 1.2rem 1.3rem; display: flex; flex-direction: column; gap: 0.4rem; }
+  .stack__tier { align-self: flex-start; font-family: var(--font-mono); font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--bronze-bright); border: 1px solid rgba(214, 134, 74, 0.4); border-radius: var(--radius-pill); padding: 0.15rem 0.55rem; }
+  .stack__brand { font-size: 1.15rem; line-height: 1.15; color: var(--paper); letter-spacing: -0.01em; }
+  .stack__compounds { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--bronze); }
+  .stack__benefit { color: rgba(245, 241, 234, 0.7); font-size: 0.86rem; line-height: 1.45; }
 
   .menu-note-section { padding: clamp(2.5rem, 6vw, 4rem) 0; }
   .menu-note { max-width: 76ch; color: var(--ink); opacity: 0.72; font-size: 0.82rem; line-height: 1.6; }
