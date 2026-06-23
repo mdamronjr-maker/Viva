@@ -35,8 +35,12 @@ const hide = hideOn.includes(path);
   }
   @media (max-width: 720px) {
     .msc { display: flex; }
-    /* Reserve space at page bottom so the CTA never covers final content */
-    :global(body) { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
+    /* Reserve space at page bottom so the CTA never covers final content.
+       Must match the bar's rendered height (~75px: 0.7rem top pad + ~52px
+       button row + 0.7rem bottom pad + 1px border) or the bar overlaps the
+       last sliver of footer content. The env() term mirrors the bar's own
+       bottom padding so the reserve tracks the safe-area inset too. */
+    :global(body) { padding-bottom: calc(76px + env(safe-area-inset-bottom)); }
   }
   .msc__btn {
     flex: 1;

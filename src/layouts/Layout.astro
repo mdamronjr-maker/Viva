@@ -237,12 +237,23 @@ const orgSchema = {
     document.addEventListener('astro:page-load', initScrollReveal);
 
     // Booking links open in a centered popup over the page (GlossGenius can't be iframed).
-    // Falls back to normal navigation if the browser blocks the popup.
+    // DESKTOP ONLY — on touch devices we never call window.open (see the gate
+    // inside the handler) and let the link navigate normally instead.
     function initBookingPopup() {
       document.querySelectorAll('a[href*="glossgenius.com"]').forEach((a) => {
         if (a.dataset.popupBound) return;
         a.dataset.popupBound = '1';
         a.addEventListener('click', (e) => {
+          // Touch devices have no popup windows, and window.open with size
+          // features is unreliable there: iOS can hand back a truthy-but-blank
+          // window, after which the preventDefault below would swallow the tap
+          // and nothing opens. So on mobile we do nothing here and let the link
+          // navigate natively — booking links carry target="_blank" rel="noopener".
+          // Evaluated per-click so resizing / device emulation stays correct.
+          const canPopup =
+            window.matchMedia('(hover: hover) and (pointer: fine)').matches &&
+            window.innerWidth > 720;
+          if (!canPopup) return;
           const w = 480;
           const h = Math.min(880, (window.screen.availHeight || 900) - 60);
           const left = Math.max(0, Math.round(((window.screen.availWidth || 1280) - w) / 2));
