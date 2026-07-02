@@ -49,7 +49,9 @@ export async function onRequestPost({ request, env }) {
       },
       body: JSON.stringify({
         from: env.CONTACT_FROM,
-        to: env.CONTACT_TO,
+        // Send to the configured inbox plus Jorge directly, so results land
+        // reliably even while the hello@ alias isn't routing.
+        to: [env.CONTACT_TO, 'jorge@vivawellnessco.com'].filter(Boolean),
         reply_to: email,
         subject: `Quiz lead: ${result.name} · ${email}`,
         text: leadText,
