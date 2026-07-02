@@ -264,6 +264,13 @@ export async function onRequestPost(context) {
     ? `New referral from ${cleanName}: ${cleanReferee.name}${utmTag}`
     : `New ${source === 'quiz' ? 'quiz match' : 'contact lead'}: ${cleanName}${utmTag}`;
 
+  // Quiz match notifications also go to Jorge directly, alongside the standard
+  // notify inbox (info@). Other lead sources (contact, refer) notify info@ only.
+  const notifyTo =
+    source === 'quiz'
+      ? [notifyEmail, 'jorge@vivawellnessco.com']
+      : [notifyEmail];
+
   // --- Send emails in parallel ---
   // For non-referrals: eBook + notify.
   // For referrals: confirmation to referrer + notify. Outreach to referee is
@@ -283,7 +290,7 @@ export async function onRequestPost(context) {
     }),
     sendEmail(apiKey, {
       from: fromEmail,
-      to: [notifyEmail],
+      to: notifyTo,
       subject: notifySubject,
       html: notifyEmailBody.html,
       text: notifyEmailBody.text,
