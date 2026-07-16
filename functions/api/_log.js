@@ -2,7 +2,7 @@
  * _log.js · shared helpers for the email delivery audit log.
  *
  * Underscore-prefixed, so the Pages router does NOT expose it as an endpoint.
- * Imported by lead.js / contact.js (record outbound sends) and
+ * Imported by lead.js (record outbound sends) and
  * resend-webhook.js (record delivery lifecycle events). Read back by
  * email-status.js for the dashboard.
  *

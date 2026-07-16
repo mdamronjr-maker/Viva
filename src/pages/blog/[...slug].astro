@@ -218,6 +218,10 @@ const formattedUpdate = hasUpdate
 </Layout>
 
 <script>
+  // Module-scoped so each astro:page-load removes the prior (detached-closure)
+  // scroll/resize handler before rebinding — bounds listener accumulation as a
+  // reader moves post-to-post via view transitions (mirrors Layout's __pxScroll).
+  let rpScroll: (() => void) | undefined;
   function initReadingProgress() {
     const bar = document.querySelector('.reading-progress') as HTMLElement | null;
     const article = document.querySelector('.post-body') as HTMLElement | null;
@@ -234,6 +238,8 @@ const formattedUpdate = hasUpdate
       if (raf) return;
       raf = requestAnimationFrame(() => { update(); raf = 0; });
     }
+    if (rpScroll) { window.removeEventListener('scroll', rpScroll); window.removeEventListener('resize', rpScroll); }
+    rpScroll = onScroll;
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll, { passive: true });
     update();

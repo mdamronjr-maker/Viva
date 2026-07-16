@@ -191,7 +191,7 @@ const testimonials = [
 
       {/* Step 1 */}
       <div class="qx__step is-active" data-step="1">
-        <p class="qx__q" id="qx-q1" role="heading" aria-level="3">What is your <span class="italic-display">primary goal</span> right now?</p>
+        <p class="qx__q" id="qx-q1" role="heading" aria-level="3" tabindex="-1">What is your <span class="italic-display">primary goal</span> right now?</p>
         <div class="qx__options" role="group" aria-labelledby="qx-q1">
           <button class="qx__opt" data-q="goal" data-v="weight"><span class="qx__opt-num">01</span><span class="qx__opt-label">Lose weight or reset metabolism</span><span class="qx__opt-arrow">→</span></button>
           <button class="qx__opt" data-q="goal" data-v="hormones"><span class="qx__opt-num">02</span><span class="qx__opt-label">Optimize hormones · energy, libido, mood</span><span class="qx__opt-arrow">→</span></button>
@@ -203,7 +203,7 @@ const testimonials = [
 
       {/* Step 2 */}
       <div class="qx__step" data-step="2">
-        <p class="qx__q" id="qx-q2" role="heading" aria-level="3">What is your <span class="italic-display">age range</span>?</p>
+        <p class="qx__q" id="qx-q2" role="heading" aria-level="3" tabindex="-1">What is your <span class="italic-display">age range</span>?</p>
         <div class="qx__options" role="group" aria-labelledby="qx-q2">
           <button class="qx__opt" data-q="age" data-v="u35"><span class="qx__opt-num">01</span><span class="qx__opt-label">Under 35</span><span class="qx__opt-arrow">→</span></button>
           <button class="qx__opt" data-q="age" data-v="35to44"><span class="qx__opt-num">02</span><span class="qx__opt-label">35 to 44</span><span class="qx__opt-arrow">→</span></button>
@@ -214,7 +214,7 @@ const testimonials = [
 
       {/* Step 3 */}
       <div class="qx__step" data-step="3">
-        <p class="qx__q" id="qx-q3" role="heading" aria-level="3">For protocol routing, sex <span class="italic-display">assigned at birth</span>?</p>
+        <p class="qx__q" id="qx-q3" role="heading" aria-level="3" tabindex="-1">For protocol routing, sex <span class="italic-display">assigned at birth</span>?</p>
         <div class="qx__options" role="group" aria-labelledby="qx-q3">
           <button class="qx__opt" data-q="sex" data-v="m"><span class="qx__opt-num">01</span><span class="qx__opt-label">Male</span><span class="qx__opt-arrow">→</span></button>
           <button class="qx__opt" data-q="sex" data-v="f"><span class="qx__opt-num">02</span><span class="qx__opt-label">Female</span><span class="qx__opt-arrow">→</span></button>
@@ -223,7 +223,7 @@ const testimonials = [
 
       {/* Step 4 */}
       <div class="qx__step" data-step="4">
-        <p class="qx__q" id="qx-q4" role="heading" aria-level="3">How <span class="italic-display">active</span> are you?</p>
+        <p class="qx__q" id="qx-q4" role="heading" aria-level="3" tabindex="-1">How <span class="italic-display">active</span> are you?</p>
         <div class="qx__options" role="group" aria-labelledby="qx-q4">
           <button class="qx__opt" data-q="activity" data-v="sedentary"><span class="qx__opt-num">01</span><span class="qx__opt-label">Mostly sedentary right now</span><span class="qx__opt-arrow">→</span></button>
           <button class="qx__opt" data-q="activity" data-v="moderate"><span class="qx__opt-num">02</span><span class="qx__opt-label">2 to 4 workouts a week</span><span class="qx__opt-arrow">→</span></button>
@@ -234,7 +234,7 @@ const testimonials = [
 
       {/* Step 5 */}
       <div class="qx__step" data-step="5">
-        <p class="qx__q" id="qx-q5" role="heading" aria-level="3">Where is your <span class="italic-display">monthly comfort</span>?</p>
+        <p class="qx__q" id="qx-q5" role="heading" aria-level="3" tabindex="-1">Where is your <span class="italic-display">monthly comfort</span>?</p>
         <div class="qx__options" role="group" aria-labelledby="qx-q5">
           <button class="qx__opt" data-q="budget" data-v="b99"><span class="qx__opt-num">01</span><span class="qx__opt-label">Up to $99 a month</span><span class="qx__opt-arrow">→</span></button>
           <button class="qx__opt" data-q="budget" data-v="b199"><span class="qx__opt-num">02</span><span class="qx__opt-label">Up to $199 a month</span><span class="qx__opt-arrow">→</span></button>
@@ -245,7 +245,7 @@ const testimonials = [
 
       {/* Step 6 · gate */}
       <div class="qx__step" data-step="6">
-        <p class="qx__q" role="heading" aria-level="3">Almost done. <span class="italic-display">Three details</span> to see your match.</p>
+        <p class="qx__q" role="heading" aria-level="3" tabindex="-1">Almost done. <span class="italic-display">Three details</span> to see your match.</p>
         <p class="qx__lede">
           I'll email your matched protocol plus the Precision Hormone &amp;
           Peptide Therapy eBook. I follow up personally only if you want me to.
@@ -512,6 +512,9 @@ const testimonials = [
 <script>
   // Testimonial carousel · prev/next arrows + longer interval for reading.
   let tRotatorTimer: number | undefined;
+  // Document-level visibilitychange handler, kept at module scope so each
+  // astro:page-load can remove the previous (stale-closure) one before rebinding.
+  let tVisHandler: (() => void) | undefined;
 
   function initTestimonialsRotator() {
     const rotator = document.querySelector('[data-trotator]') as HTMLElement | null;
@@ -563,7 +566,9 @@ const testimonials = [
     // keyboard users: pause while focus is inside the rotator, resume when it leaves
     rotator.addEventListener('focusin', stop);
     rotator.addEventListener('focusout', (e) => { if (!rotator.contains(e.relatedTarget as Node)) start(); });
-    document.addEventListener('visibilitychange', () => { if (document.hidden) stop(); else start(); });
+    if (tVisHandler) document.removeEventListener('visibilitychange', tVisHandler);
+    tVisHandler = () => { if (document.hidden) stop(); else start(); };
+    document.addEventListener('visibilitychange', tVisHandler);
     show(0);
     // reduced motion: reflect the no-autoplay state in the control on load
     if (reduceMotion) setPaused(true);
@@ -580,6 +585,10 @@ const testimonials = [
 
 <script>
   import { match, type Answers } from '../lib/quiz';
+
+  // Document-level Escape handler for quiz focus mode, kept at module scope so
+  // each astro:page-load removes the previous binding before re-adding it.
+  let qxKeyHandler: ((e: KeyboardEvent) => void) | undefined;
 
   // Wrapped in an init function and rebound on every astro:page-load so
   // view transitions reset quiz state and rebind to the freshly-rendered DOM.
@@ -618,9 +627,15 @@ const testimonials = [
     } else {
       section?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
-    // Land keyboard + SR focus on the result when it appears (otherwise it is silent to AT)
+    // Move keyboard + SR focus to the active step on every advance so users
+    // don't get dumped on <body> (the clicked option is display:none'd) and
+    // screen readers voice the new question / result. render() only runs after
+    // a user action, so this never steals focus on initial load.
+    const activeStep = stepEls[state.step - 1] as HTMLElement | undefined;
     if (state.step === TOTAL + 2) {
-      (stepEls[state.step - 1] as HTMLElement | undefined)?.focus({ preventScroll: true });
+      activeStep?.focus({ preventScroll: true });
+    } else {
+      (activeStep?.querySelector('.qx__q') as HTMLElement | null)?.focus({ preventScroll: true });
     }
   }
 
@@ -654,9 +669,11 @@ const testimonials = [
   });
 
   document.getElementById('qx-exit')?.addEventListener('click', exitFocus);
-  document.addEventListener('keydown', (e) => {
+  if (qxKeyHandler) document.removeEventListener('keydown', qxKeyHandler);
+  qxKeyHandler = (e) => {
     if (e.key === 'Escape' && document.body.classList.contains('quiz-focus')) exitFocus();
-  });
+  };
+  document.addEventListener('keydown', qxKeyHandler);
 
   const form = document.getElementById('qx-form') as HTMLFormElement | null;
   const status = document.getElementById('qx-status') as HTMLDivElement | null;
@@ -1224,15 +1241,18 @@ const testimonials = [
   .t-rotator__dots { display: flex; gap: 0.5rem; }
   .t-dot {
     width: 32px;
-    height: 4px;
-    background: var(--rule-strong);
+    /* 24px tall hit target (WCAG 2.5.8) with the visible bar kept at 4px via
+       vertical padding + content-box clip — box-sizing:border-box is global. */
+    height: 24px;
+    padding: 10px 0;
+    background-color: var(--rule-strong);
+    background-clip: content-box;
     border: 0;
     cursor: pointer;
-    padding: 0;
-    transition: background 280ms var(--ease), width 280ms var(--ease);
+    transition: background-color 280ms var(--ease), width 280ms var(--ease);
   }
-  .t-dot:hover { background: var(--mute); }
-  .t-dot.is-active { background: var(--bronze); width: 56px; }
+  .t-dot:hover { background-color: var(--mute); }
+  .t-dot.is-active { background-color: var(--bronze); width: 56px; }
   .testimonials__foot { margin-top: 2.5rem; text-align: center; }
 
   /* ============ FAQ ============

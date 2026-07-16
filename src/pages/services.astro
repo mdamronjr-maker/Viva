@@ -168,8 +168,10 @@ const pillars = [
   { num: '07', cat: 'labs', title: 'Labs & Diagnostics', body: 'Hormone, metabolic, inflammation, and micronutrient panels. Ordered through your insurance, read by the same provider running your protocol. This is the measurement layer underneath every tier.' },
 ];
 
-// Schema.org · each tier emits a MedicalProcedure node so Google can
-// surface a specific program in search.
+// Schema.org · each tier emits a Service node so Google can surface a specific
+// program in search. Service (not MedicalProcedure) is used because it is the
+// type that actually defines `offers` and `provider` — MedicalProcedure does
+// not, and validators reject those properties on it, discarding the pricing.
 const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 const areaServed = [
   { '@type': 'State', name: 'Texas' },
@@ -180,7 +182,7 @@ const areaServed = [
 const servicesSchema = {
   '@context': 'https://schema.org',
   '@graph': [...programs.map((prog) => ({
-    '@type': 'MedicalProcedure',
+    '@type': 'Service',
     '@id': `https://vivawellnessco.com/services#${slugify(prog.name)}`,
     name: prog.name,
     description: prog.body,
@@ -372,7 +374,7 @@ const servicesSchema = {
                 )}
               </div>
             )}
-            <a href="/start?utm_source=vivawellnessco&utm_medium=cta&utm_content=services_tier" class="btn btn--bronze prog-card__cta">
+            <a href={`/start?utm_source=vivawellnessco&utm_medium=cta&utm_content=services_tier_${slugify(p.name)}`} class="btn btn--bronze prog-card__cta">
               Start with {p.name}
             </a>
           </li>

@@ -494,7 +494,7 @@ function buildLeadEmail({ name, ebookUrl, canSpamAddress }) {
         </td></tr>
 
         <tr><td style="background:#f5f1ea;padding:20px 32px;font-size:11px;color:#8a7d72;line-height:1.6;border-top:1px solid #ebe5db;">
-          <strong>Viva Wellness Co.</strong> &nbsp;·&nbsp; 100% Telehealth &nbsp;·&nbsp; TX, CO, FL<br/>
+          <strong>Viva Wellness Co.</strong> &nbsp;·&nbsp; 100% Telehealth &nbsp;·&nbsp; TX, CO, FL, IA<br/>
           ${esc(canSpamAddress)}<br/>
           <a href="https://vivawellnessco.com" style="color:#8a4d22;text-decoration:none;">vivawellnessco.com</a> &nbsp;·&nbsp;
           <a href="tel:+17372107283" style="color:#8a4d22;text-decoration:none;">(737) 210-7283</a> &nbsp;·&nbsp;
@@ -568,7 +568,7 @@ function buildReferrerConfirmEmail({ referrerName, referee, canSpamAddress }) {
           <p style="font-size:13px;color:#8a7d72;margin:0;">Founder &amp; Provider, Viva Wellness Co.</p>
         </td></tr>
         <tr><td style="background:#f5f1ea;padding:20px 32px;font-size:11px;color:#8a7d72;line-height:1.6;border-top:1px solid #ebe5db;">
-          <strong>Viva Wellness Co.</strong> &nbsp;·&nbsp; 100% Telehealth &nbsp;·&nbsp; TX, CO, FL<br/>
+          <strong>Viva Wellness Co.</strong> &nbsp;·&nbsp; 100% Telehealth &nbsp;·&nbsp; TX, CO, FL, IA<br/>
           ${esc(canSpamAddress)}<br/>
           <a href="https://vivawellnessco.com" style="color:#8a4d22;text-decoration:none;">vivawellnessco.com</a> &nbsp;·&nbsp;
           <a href="tel:+17372107283" style="color:#8a4d22;text-decoration:none;">(737) 210-7283</a>
@@ -823,7 +823,7 @@ function nurtureWrap({ eyebrow, title, bodyHtml, canSpamAddress, unsubscribeUrl 
         </td></tr>
 
         <tr><td style="background:#f5f1ea;padding:20px 32px;font-size:11px;color:#8a7d72;line-height:1.6;border-top:1px solid #ebe5db;">
-          <strong>Viva Wellness Co.</strong> &nbsp;·&nbsp; 100% Telehealth &nbsp;·&nbsp; TX, CO, FL<br/>
+          <strong>Viva Wellness Co.</strong> &nbsp;·&nbsp; 100% Telehealth &nbsp;·&nbsp; TX, CO, FL, IA<br/>
           ${esc(canSpamAddress)}<br/>
           <a href="https://vivawellnessco.com" style="color:#8a4d22;text-decoration:none;">vivawellnessco.com</a> &nbsp;·&nbsp;
           <a href="tel:+17372107283" style="color:#8a4d22;text-decoration:none;">(737) 210-7283</a>

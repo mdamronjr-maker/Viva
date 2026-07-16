@@ -157,6 +157,11 @@ const isActive = (p: string) => path === p || (p !== '/' && path.startsWith(p));
     gap: 0.25rem;
     padding: 2.5rem var(--gutter);
     border-bottom: 1px solid var(--rule);
+    /* Scroll when the links + CTA are taller than the viewport (short/landscape
+       phones), so the bottom links and the Start CTA stay reachable. */
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
   }
   .site-mobile-nav a {
     font-family: var(--font-display);
@@ -186,12 +191,21 @@ const isActive = (p: string) => path === p || (p !== '/' && path.startsWith(p));
     const mobileNav = document.getElementById('site-mobile-nav');
     if (!toggle || !mobileNav) return;
 
+    // Background regions to make inert while the full-screen menu is open, so
+    // keyboard/SR focus can't escape behind the opaque overlay.
+    const bg = () => [document.querySelector('main'), document.querySelector('.site-footer')];
+
     function setOpen(open: boolean) {
       document.body.classList.toggle('menu-open', open);
       toggle!.setAttribute('aria-expanded', open ? 'true' : 'false');
       toggle!.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
-      if (open) mobileNav!.removeAttribute('inert');
-      else mobileNav!.setAttribute('inert', '');
+      if (open) {
+        mobileNav!.removeAttribute('inert');
+        bg().forEach((el) => el?.setAttribute('inert', ''));
+      } else {
+        mobileNav!.setAttribute('inert', '');
+        bg().forEach((el) => el?.removeAttribute('inert'));
+      }
     }
 
     toggle.addEventListener('click', () => {
@@ -209,6 +223,10 @@ const isActive = (p: string) => path === p || (p !== '/' && path.startsWith(p));
         const t = document.querySelector('.nav-toggle') as HTMLButtonElement | null;
         t?.setAttribute('aria-expanded', 'false');
         document.getElementById('site-mobile-nav')?.setAttribute('inert', '');
+        // Mirror setOpen's cleanup: this handler bypasses setOpen (stale-closure
+        // guard), so clear the background inert here too or the page stays locked.
+        document.querySelector('main')?.removeAttribute('inert');
+        document.querySelector('.site-footer')?.removeAttribute('inert');
         t?.focus();
       });
     }

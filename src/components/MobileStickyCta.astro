@@ -40,7 +40,9 @@ const hide = hideOn.includes(path);
        button row + 0.7rem bottom pad + 1px border) or the bar overlaps the
        last sliver of footer content. The env() term mirrors the bar's own
        bottom padding so the reserve tracks the safe-area inset too. */
-    :global(body) { padding-bottom: calc(76px + env(safe-area-inset-bottom)); }
+    /* Only reserve space when the bar is actually rendered (it's hidden on
+       /privacy and /terms) — otherwise those pages get an empty bottom band. */
+    :global(body:has(.msc)) { padding-bottom: calc(76px + env(safe-area-inset-bottom)); }
   }
   .msc__btn {
     flex: 1;

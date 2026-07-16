@@ -40,7 +40,7 @@ const lastUpdated = 'May 13, 2026';
         <li>Focus indicators are visible on links, buttons, and form fields (bronze outline)</li>
         <li>Color contrast meets AA on body and large text</li>
         <li>Form inputs have associated labels; required fields are announced to assistive technology</li>
-        <li>Modal-style overlays (mobile menu, quiz focus mode) use the inert attribute so keyboard and screen-reader users cannot tab into hidden content</li>
+        <li>Modal-style overlays (mobile menu, quiz focus mode) remove the rest of the page from the tab order so keyboard and screen-reader users cannot reach hidden content</li>
         <li>Motion is reduced when the operating system reports <code>prefers-reduced-motion</code></li>
         <li>Images have alternative text where they carry meaning; decorative images are marked aria-hidden</li>
         <li>The site is responsive from 320px viewports up to ultrawide, and zooms cleanly to 200% without horizontal scrolling</li>

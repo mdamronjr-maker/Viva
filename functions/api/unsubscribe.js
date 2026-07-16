@@ -23,6 +23,12 @@
 
 import { verifyUnsubscribe, suppressAndCancel } from './_suppress.js';
 
+// Local HTML-escape (esc is a private const in lead.js / email-status.js, not
+// exported). Guards the one interpolated value below — the HMAC-verified email,
+// which the lead-side validator still permits angle brackets in.
+const esc = (s) =>
+  String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
 function page(title, body) {
   return new Response(
     `<!doctype html><html><head><meta charset="utf-8">
@@ -73,7 +79,7 @@ export async function onRequestGet(context) {
   return page(
     'Unsubscribed',
     `<h1>You're unsubscribed.</h1>
-     <p>${email} won't receive any more follow-up emails from Viva Wellness Co.
+     <p>${esc(email)} won't receive any more follow-up emails from Viva Wellness Co.
      Any scheduled notes have been cancelled.</p>
      <p>Changed your mind? Just reach out at
      <a href="mailto:info@vivawellnessco.com">info@vivawellnessco.com</a>.</p>`

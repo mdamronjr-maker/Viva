@@ -185,10 +185,10 @@ const standards = [
           <input class="state__input" name="state" placeholder="Your state" maxlength="24" autocomplete="address-level1" required aria-label="Tell me your state" />
           <button class="state__add-btn" type="submit">Tell me</button>
         </form>
-        <div class="state state--active state--thanks" id="state-thanks" hidden>
+        <div class="state state--active state--thanks" id="state-thanks" tabindex="-1" hidden>
           <div class="state__abbrev">&#10003;</div>
           <div class="state__name">Thank you</div>
-          <div class="state__status" id="state-thanks-status">Noted</div>
+          <div class="state__status" id="state-thanks-status" role="status">Noted</div>
         </div>
       </div>
     </div>
@@ -462,8 +462,11 @@ const standards = [
 </style>
 
 <script>
-  const f = document.getElementById('state-form');
-  if (f) {
+  // Re-bound on every astro:page-load so view transitions get fresh listeners
+  // (the router swaps in a fresh #state-form on each navigation to /about).
+  function initStateForm() {
+    const f = document.getElementById('state-form');
+    if (!f) return;
     f.addEventListener('submit', (e) => {
       e.preventDefault();
       const input = f.querySelector('input[name="state"]');
@@ -473,7 +476,10 @@ const standards = [
       const status = document.getElementById('state-thanks-status');
       if (status) status.textContent = 'Noted · ' + v;
       f.setAttribute('hidden', '');
-      if (thanks) thanks.removeAttribute('hidden');
+      // Reveal the card and move focus to it so screen readers announce the
+      // confirmation (role=status) and keyboard focus doesn't fall to <body>.
+      if (thanks) { thanks.removeAttribute('hidden'); thanks.focus(); }
     });
   }
+  document.addEventListener('astro:page-load', initStateForm);
 </script>
