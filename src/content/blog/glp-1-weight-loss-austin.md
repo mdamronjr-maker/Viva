@@ -83,7 +83,7 @@ What's the total monthly cost, all in? Add-on fees on top of the headline price 
 
 Viva Wellness Co. is a concierge telehealth practice based in Austin and licensed in Texas, Colorado, Florida, and Iowa. I lead every patient relationship directly, and the metabolic protocols are built around the medication instead of treating the medication as the whole protocol.
 
-The tiers run from a metabolic micro-dose for folks fine-tuning, up through retatrutide-based protocols for people ready to push fat loss further. Every tier includes home delivery of supplies, baseline labs, direct messaging, and quarterly reviews. No hidden costs.
+The tiers run from a metabolic micro-dose for folks fine-tuning, up through the most advanced fully-managed protocols for people ready to push fat loss further. Every tier includes home delivery of supplies, baseline labs, direct messaging, and quarterly reviews. No hidden costs.
 
 If you're stuck deciding between concierge and a DTC platform, here's the simplest test I know. Do you want a service that delivers a medication, or a relationship with a provider who happens to deliver the medication? Both are legitimate. They're just not the same thing.
 

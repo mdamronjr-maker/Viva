@@ -11,7 +11,6 @@ public/
   matt-johnson.jpg          · 1600x2400, 306KB
   matt-johnson-sm.jpg       · 800x1200, 87KB (mobile srcset)
   viva-ebook.pdf            · 1.1MB lead magnet
-  viva-brochure.pdf         · 2.9MB optional download
 
 src/
   styles/global.css         · Anton added, h1/h2 in Anton, h3 + italic stays Fraunces
@@ -152,7 +151,6 @@ Adjust in `src/pages/quiz.astro` → `match()` function. Each branch has its own
 
 - Snippet to track quiz-source vs contact-source leads in the notify email subject (already there: `New quiz match: ...` vs `New contact lead: ...`)
 - UTM passthrough into the notify email (currently not captured)
-- Brochure as a footer-level "Download brochure" link if you want both eBook and brochure
 - Astro Image component for `matt-johnson.jpg` (currently using a raw `<img>` with srcset · works, but Astro's component would auto-optimize on build)
 
 ## Em dash audit · CLEAN

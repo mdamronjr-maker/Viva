@@ -17,8 +17,6 @@
 # PDFs cached but with reasonable revalidation
 /viva-ebook.pdf
   Cache-Control: public, max-age=86400
-/viva-brochure.pdf
-  Cache-Control: public, max-age=86400
 
 # Logos and hero images cached aggressively. Bust by renaming when updating.
 /viva-logo-paper.png
