@@ -33,8 +33,8 @@ const faqs = [
     a: 'Yes. Memberships require an initial twelve-week commitment so the protocol has enough runway to produce measurable results. After that, you can cancel any time with no penalty. Memberships renew automatically every thirty days until you cancel.',
   },
   {
-    q: 'What does Concierge Access at $99 actually include?',
-    a: 'Two things. First, provider access: direct messaging with your provider, a monthly evaluation visit plus one acute/sick visit credit each month, lab orders routed through your insurance, and ongoing guidance across hormones, peptides, metabolic, and recovery. Second, member pricing: when you do want to add provider-selected compounded peptides, compounded GLP-1, or TRT add-ons, you get them at member rates instead of paying retail. It is the right tier when you want a provider thinking about you and the flexibility to pay a la carte for protocols, rather than committing to one of the all-inclusive bundles (TRT, Metabolic Core, Metabolic Advanced).',
+    q: 'What does Viva Concierge at $99 actually include?',
+    a: 'Two things. First, provider access: direct messaging with your provider, a monthly evaluation visit plus one acute/sick visit credit each month, lab orders routed through your insurance, and ongoing guidance across hormones, peptides, metabolic, and recovery. Second, member pricing: when you do want to add provider-selected compounded peptides, compounded GLP-1, or TRT add-ons, you get them at member rates instead of paying retail. It is the right tier when you want a provider thinking about you and the flexibility to pay a la carte for protocols, rather than committing to one of the all-inclusive bundles (TRT, Metabolic Essential, Metabolic Core).',
   },
   {
     q: 'Is my health information private?',
@@ -56,13 +56,13 @@ const PICON = {
   key: '<path d="m15.5 7.5 2.3 2.3a1 1 0 0 0 1.4 0l2.1-2.1a1 1 0 0 0 0-1.4L19 4"/><path d="m21 2-9.6 9.6"/><circle cx="7.5" cy="15.5" r="5.5"/>',
   pulse: '<path d="M22 12h-4l-3 9L9 3l-3 9H2"/>',
   flame: '<path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>',
-  trophy: '<path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>',
+  leaf: '<path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>',
 };
 const programs = [
-  { tier: 'Entry', name: 'Concierge Access', price: '$99', cadence: '/mo', icon: 'key', href: '/services#viva-concierge-access', body: 'Provider access plus member pricing on compounded peptides, GLP-1, and add-ons. Pay a la carte for the protocols you want instead of a bundled monthly fee.' },
+  { tier: 'Entry', name: 'Viva Concierge', price: '$99', cadence: '/mo', icon: 'key', href: '/services#viva-concierge-access', body: 'Provider access plus member pricing on compounded peptides, GLP-1, and add-ons. Pay a la carte for the protocols you want instead of a bundled monthly fee.' },
   { tier: 'Foundational', name: 'TRT & HRT All Inclusive', price: '$199', cadence: '/mo', icon: 'pulse', href: '/services#trt-hrt-all-inclusive', body: 'Personalized testosterone optimization with compounded medication, supplies, and biannual labs.' },
+  { tier: 'Essential', name: 'Metabolic Essential', price: '$249', cadence: '/mo', icon: 'leaf', href: '/services#metabolic-essential', body: 'Compounded semaglutide, or micro-dose tirzepatide. Appetite regulation, insulin support, and steady fat loss — the GLP-1 on-ramp.' },
   { tier: 'Core', name: 'Metabolic Core', price: '$349', cadence: '/mo', icon: 'flame', href: '/services#metabolic-core', body: 'Compounded tirzepatide, fully managed, for stronger appetite control and consistent fat loss.', featured: true },
-  { tier: 'Premium', name: 'Metabolic Advanced', price: '$499', cadence: '/mo', icon: 'trophy', href: '/services#metabolic-advanced', body: 'Our most advanced metabolic tier: a fully managed, provider-titrated protocol for the most aggressive appetite control and fat loss. Your specific medication is selected during your clinical evaluation.' },
 ];
 
 const testimonials = [
@@ -313,7 +313,7 @@ const testimonials = [
           Explore the programs <span class="italic-display">and memberships.</span>
         </h2>
         <p class="lead section-head__lead">
-          From a $99 concierge entry point to a $499 fully-managed metabolic
+          From a $99 concierge entry point to a $349 fully-managed metabolic
           plan. Every tier includes provider access, home delivery, and protocol
           adjustments built in.
         </p>

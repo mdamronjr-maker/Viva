@@ -132,7 +132,7 @@ export function match(a: Answers): Match {
     };
   }
 
-  // 4. Default -> Concierge Access (includes performance-goal leads, who
+  // 4. Default -> Viva Concierge (includes performance-goal leads, who
   //    build their peptide stack a la carte at member pricing)
   const discuss =
     goal === 'performance'
@@ -157,7 +157,7 @@ export function match(a: Answers): Match {
           ];
   return {
     key: 'concierge',
-    name: 'Concierge Access',
+    name: 'Viva Concierge',
     price: '$99',
     body: 'Provider access plus member pricing on compounded peptides, GLP-1, and add-ons. Pay a la carte for the protocols you want instead of committing to an all-inclusive monthly fee. The right tier when you want flexibility and provider expertise without a bundled price.',
     bullets: [
