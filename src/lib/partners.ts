@@ -19,39 +19,61 @@ export type Partner = {
 // Categorization rule: group by what the partner IS, not what they do.
 // A personal trainer and a "strength coach" are functionally identical — both
 // go in Coaching. A studio you can drop into is a Gym. A clinic that does
-// hands-on rehab is PT/Recovery. Three buckets, mutually exclusive.
+// hands-on rehab is PT/Recovery. Meal prep / nutrition sits in its own bucket.
 export type PartnerCategory =
+  | 'Physical Therapy & Recovery'
   | 'Coaching & Training'
   | 'Gyms & Studios'
-  | 'Physical Therapy & Recovery';
+  | 'Nutrition & Meal Prep';
 
+// The /partners page renders this array as a single flat grid in array order,
+// so the order here IS the on-page order. Voltex PT leads by request.
 export const partners: Partner[] = [
-  // ─── Coaching & Training ─────────────────────────────────────────────────
+  // ─── Physical Therapy & Recovery ─────────────────────────────────────────
   {
-    name: 'Team Perez',
+    name: 'Voltex PT',
     operator: 'Austin, TX',
-    category: 'Coaching & Training',
-    description: 'Online and in-person strength coaching for serious lifters and hybrid athletes. Pairs perfectly with metabolic and recomp protocols.',
+    category: 'Physical Therapy & Recovery',
+    description: 'Physical therapy and rehabilitation for the patients who need in-person, hands-on care that no telehealth visit can replace. Movement assessments, manual therapy, return-to-sport.',
+    mediaType: 'logo',
+    image: '/partners/voltex-pt.svg',
+    imageAlt: 'Voltex PT, Austin physical therapy and sports rehabilitation',
+    fallback: 'VPT',
+    links: [{ href: 'https://voltexpt.com/', label: 'voltexpt.com' }],
+  },
+  {
+    name: 'Recover + Perform',
+    operator: 'Austin, TX',
+    category: 'Physical Therapy & Recovery',
+    description: 'Physical therapy, performance training, and recovery under one roof: post-op rehab and return-to-sport strength work alongside cold plunge, infrared sauna, and EMS. The in-person care a video visit cannot cover.',
     mediaType: 'portrait',
-    image: '/partners/team-perez.avif',
-    imageAlt: 'Jorge Luis of Team Perez, Austin strength and conditioning coach',
-    fallback: 'TP',
-    links: [
-      { href: 'https://www.pontelaspilas.co/', label: 'pontelaspilas.co' },
-      { href: 'https://www.instagram.com/jorge_luis_pt/', label: '@jorge_luis_pt' },
-    ],
+    fallback: 'RP',
+    links: [{ href: 'https://www.recoverperform.com/', label: 'recoverperform.com' }],
   },
   {
-    name: 'Alloy Personal Training',
+    name: 'Swift Fit Training & PT',
     operator: 'Austin, TX',
-    category: 'Coaching & Training',
-    description: 'Small-group personal training built around the 40-plus body. Strength, mobility, and metabolic conditioning programmed for adults whose training has to actually fit their life.',
-    mediaType: 'logo-dark',
-    image: '/partners/alloy.webp',
-    imageAlt: 'Alloy Personal Training logo',
-    fallback: 'AP',
-    links: [{ href: 'https://www.alloypersonaltraining.com/', label: 'alloypersonaltraining.com' }],
+    category: 'Physical Therapy & Recovery',
+    description: 'Combined personal training and physical therapy under one roof. Useful when a Viva patient needs to rebuild capacity around an old injury.',
+    mediaType: 'logo',
+    image: '/partners/swift-fit.webp',
+    imageAlt: 'Swift Fit Training & PT, Austin personal training and physical therapy',
+    fallback: 'SF',
+    links: [{ href: 'https://www.swiftfitatx.com/', label: 'swiftfitatx.com' }],
   },
+  {
+    name: 'Austin Sports Therapy',
+    operator: 'Austin, TX',
+    category: 'Physical Therapy & Recovery',
+    description: 'Specialized sports injury recovery for athletes and active adults. Soft tissue work, joint rehabilitation, performance restoration.',
+    mediaType: 'logo-dark',
+    image: '/partners/austin-sports-therapy.png',
+    imageAlt: 'Austin Sports Therapy logo',
+    fallback: 'AST',
+    links: [{ href: 'https://www.austinsportstherapy.com/', label: 'austinsportstherapy.com' }],
+  },
+
+  // ─── Coaching & Training ─────────────────────────────────────────────────
   {
     name: 'Bodies by Bastian',
     operator: 'Austin, TX',
@@ -62,17 +84,6 @@ export const partners: Partner[] = [
     imageAlt: 'Bodies by Bastian, Austin personal training with Syd Bastian',
     fallback: 'BB',
     links: [{ href: 'https://www.bodiesbybastian.com/', label: 'bodiesbybastian.com' }],
-  },
-  {
-    name: 'Brian Venturino',
-    operator: 'Austin, TX',
-    category: 'Coaching & Training',
-    description: 'One-on-one training with a focus on consistent progression and proper breathing mechanics. Reliable referral for patients ready to build a real training habit alongside their protocol.',
-    mediaType: 'portrait',
-    image: '/partners/brian-venturino.jpg',
-    imageAlt: 'Brian Venturino, personal trainer in Austin',
-    fallback: 'BV',
-    links: [{ href: 'https://www.instagram.com/brianventurino__', label: '@brianventurino__' }],
   },
   {
     name: 'Train with Davis',
@@ -99,17 +110,6 @@ export const partners: Partner[] = [
     links: [{ href: 'https://www.liftatx.com/', label: 'liftatx.com' }],
   },
   {
-    name: 'Sweat440',
-    operator: 'Austin, TX',
-    category: 'Gyms & Studios',
-    description: '40-minute HIIT and functional training in a coached group setting. Strong fit for patients who want structured high-intensity conditioning alongside a metabolic or recomp protocol.',
-    mediaType: 'logo-dark',
-    image: '/partners/sweat440.webp',
-    imageAlt: 'Sweat440 logo',
-    fallback: 'S4',
-    links: [{ href: 'https://sweat440.com/', label: 'sweat440.com' }],
-  },
-  {
     name: 'Lifetime Fitness · Clinic South',
     operator: 'Austin, TX',
     category: 'Gyms & Studios',
@@ -121,46 +121,28 @@ export const partners: Partner[] = [
     links: [{ href: 'https://www.lifetime.life/locations/tx/austin-south.html', label: 'lifetime.life · Austin South' }],
   },
 
-  // ─── Physical Therapy & Recovery ─────────────────────────────────────────
+  // ─── Nutrition & Meal Prep ───────────────────────────────────────────────
   {
-    name: 'Swift Fit Training & PT',
+    name: 'Simple Plan Meal Prep',
     operator: 'Austin, TX',
-    category: 'Physical Therapy & Recovery',
-    description: 'Combined personal training and physical therapy under one roof. Useful when a Viva patient needs to rebuild capacity around an old injury.',
-    mediaType: 'logo',
-    image: '/partners/swift-fit.webp',
-    imageAlt: 'Swift Fit Training & PT, Austin personal training and physical therapy',
-    fallback: 'SF',
-    links: [{ href: 'https://www.swiftfitatx.com/', label: 'swiftfitatx.com' }],
-  },
-  {
-    name: 'Voltex PT',
-    operator: 'Austin, TX',
-    category: 'Physical Therapy & Recovery',
-    description: 'Physical therapy and rehabilitation for the patients who need in-person, hands-on care that no telehealth visit can replace. Movement assessments, manual therapy, return-to-sport.',
-    mediaType: 'logo',
-    image: '/partners/voltex-pt.svg',
-    imageAlt: 'Voltex PT, Austin physical therapy and sports rehabilitation',
-    fallback: 'VPT',
-    links: [{ href: 'https://voltexpt.com/', label: 'voltexpt.com' }],
-  },
-  {
-    name: 'Austin Sports Therapy',
-    operator: 'Austin, TX',
-    category: 'Physical Therapy & Recovery',
-    description: 'Specialized sports injury recovery for athletes and active adults. Soft tissue work, joint rehabilitation, performance restoration.',
+    category: 'Nutrition & Meal Prep',
+    description: 'Chef-prepared, macro-balanced meals with in-store pickup and local Austin delivery. A simple nutrition backbone for patients on a metabolic, GLP-1, or recomp protocol.',
     mediaType: 'logo-dark',
-    image: '/partners/austin-sports-therapy.png',
-    imageAlt: 'Austin Sports Therapy logo',
-    fallback: 'AST',
-    links: [{ href: 'https://www.austinsportstherapy.com/', label: 'austinsportstherapy.com' }],
+    image: '/partners/simple-plan.png',
+    imageAlt: 'Simple Plan meal prep logo',
+    fallback: 'SP',
+    links: [
+      { href: 'https://mysimpleplan.com/', label: 'mysimpleplan.com' },
+      { href: 'https://www.instagram.com/simpleplanaustin/', label: '@simpleplanaustin' },
+    ],
   },
 ];
 
 export const partnerCategoryOrder: PartnerCategory[] = [
+  'Physical Therapy & Recovery',
   'Coaching & Training',
   'Gyms & Studios',
-  'Physical Therapy & Recovery',
+  'Nutrition & Meal Prep',
 ];
 
 export const partnersByCategory = partnerCategoryOrder
