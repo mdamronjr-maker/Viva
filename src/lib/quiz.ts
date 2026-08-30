@@ -42,6 +42,17 @@ export function match(a: Answers): Match {
   const budget = a.budget || 'b199';
   const sex = a.sex || 'm';
 
+  // Hormone therapy surfaces as a potential recommendation on every path,
+  // not just the explicit hormones goal. The provider confirms clinical fit;
+  // this is a discovery-call talking point, never a prescription.
+  const midlife = a.age === '45to54' || a.age === '55plus';
+  const hormoneDiscuss =
+    sex === 'f'
+      ? midlife
+        ? 'HRT · whether perimenopause or menopause management (estradiol, progesterone) belongs in your plan'
+        : 'HRT · whether a hormone baseline panel (estradiol, progesterone, thyroid) should anchor the plan'
+      : 'TRT · whether a testosterone baseline panel belongs in your workup';
+
   // 1. Weight goal -> Metabolic Core
   if (goal === 'weight') {
     return {
@@ -60,6 +71,7 @@ export function match(a: Answers): Match {
         'CJC-1295 / Ipamorelin · lean-muscle and sleep support while the weight comes off',
         'MOTS-c · mitochondrial support for energy and insulin sensitivity',
         'Your titration plan · where tirzepatide starts and how fast it steps up',
+        hormoneDiscuss,
       ],
       ebookPath: DEFAULT_EBOOK, // TODO: /ebooks/viva-glp-1-guide.pdf
     };
@@ -127,6 +139,7 @@ export function match(a: Answers): Match {
         'GHK-Cu · tissue repair, collagen, and skin quality',
         'CJC-1295 / Ipamorelin · deep-sleep recovery and growth-hormone support',
         'Whether low-dose GLP-1 belongs in the plan for inflammation and body comp',
+        hormoneDiscuss,
       ],
       ebookPath: DEFAULT_EBOOK, // TODO: /ebooks/viva-recovery-stack.pdf
     };
@@ -155,6 +168,7 @@ export function match(a: Answers): Match {
             'MOTS-c · metabolic and mitochondrial support for healthspan',
             'Which labs to run first to anchor the plan',
           ];
+  discuss.push(hormoneDiscuss);
   return {
     key: 'concierge',
     name: 'Viva Concierge',

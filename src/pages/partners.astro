@@ -1,6 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { partners } from '../lib/partners';
+import { partners, perks } from '../lib/partners';
 
 const partnerCount = partners.length;
 
@@ -70,7 +70,7 @@ const partnersSchema = {
       <div class="how-strip__col">
         <span class="how-strip__num">01</span>
         <h3 class="how-strip__title">Nobody paid to be here</h3>
-        <p class="how-strip__body">Everyone on this page is someone I actually send patients to. No directory listings, no affiliate deals, no kickbacks.</p>
+        <p class="how-strip__body">Everyone in the directory below is someone I actually send patients to. No paid listings, no kickbacks. The Viva Perks further down are simply brand discounts I pass along.</p>
       </div>
       <div class="how-strip__col">
         <span class="how-strip__num">02</span>
@@ -136,6 +136,61 @@ const partnersSchema = {
                 </ul>
               )}
             </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  {/* VIVA PERKS · brand discount codes */}
+  <section class="part-section" id="viva-perks">
+    <div class="container">
+      <header class="part-section__head">
+        <span class="index" data-num="·">Viva Perks</span>
+        <h2 class="part-section__title">
+          Brands I use, <span class="italic-display">discounts you keep.</span>
+        </h2>
+        <p class="perks-lead">
+          The national brands I actually recommend on protocols, with the codes
+          and links that get you the patient discount. Codes are entered at each
+          brand's checkout.
+        </p>
+      </header>
+
+      <ul class="part-grid">
+        {perks.map((p) => (
+          <li class="part-card perk-card">
+            {p.pending ? (
+              <div class="part-card__link perk-card__static">
+                <div class="part-card__top perk-card__top">
+                  <div class="part-card__head">
+                    <h3 class="part-card__name">{p.name}</h3>
+                    <span class="part-card__operator">{p.pendingNote}</span>
+                  </div>
+                </div>
+                <p class="part-card__body">{p.blurb}</p>
+              </div>
+            ) : (
+              <a
+                href={p.href}
+                target="_blank"
+                rel="noopener"
+                class="part-card__link"
+                aria-label={p.name}
+              >
+                <div class="part-card__top perk-card__top">
+                  <div class="part-card__head">
+                    <h3 class="part-card__name">{p.name}</h3>
+                    {p.linkLabel && <span class="part-card__operator">{p.linkLabel}</span>}
+                  </div>
+                  <span class="part-card__arrow" aria-hidden="true">↗</span>
+                </div>
+                <p class="part-card__body">{p.blurb}</p>
+                {p.code && (
+                  <span class="perk-code">Code · <strong>{p.code}</strong></span>
+                )}
+              </a>
+            )}
           </li>
         ))}
       </ul>
@@ -411,6 +466,29 @@ const partnersSchema = {
     opacity: 1;
     transform: translate(2px, -2px);
   }
+
+  /* VIVA PERKS */
+  .perks-lead {
+    color: rgba(245, 241, 234, 0.7);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    max-width: 52ch;
+    margin: 0.9rem 0 0;
+  }
+  .perk-card__top { grid-template-columns: 1fr auto; }
+  .perk-card__static { cursor: default; }
+  .perk-code {
+    align-self: flex-start;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--bronze-bright, var(--bronze));
+    border: 1px solid rgba(214, 134, 74, 0.45);
+    border-radius: 2px;
+    padding: 0.35rem 0.7rem;
+  }
+  .perk-code strong { letter-spacing: 0.16em; }
 
   /* CTA */
   .part-cta {

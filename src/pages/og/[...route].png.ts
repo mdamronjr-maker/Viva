@@ -52,6 +52,10 @@ const pages: Record<string, { title: string; tagline: string }> = {
     title: 'Stacks & protocols.',
     tagline: 'The Full Menu · Peptides · GLP-1 · TRT/HRT',
   },
+  menopause: {
+    title: 'Your hormones changed. Your care should too.',
+    tagline: 'Perimenopause & Menopause · HRT Telehealth · TX · CO · FL · IA',
+  },
   start: {
     // Title is the page's own H1; the primary conversion page every Book CTA
     // routes to, so it needs a branded share card, not the generic fallback.

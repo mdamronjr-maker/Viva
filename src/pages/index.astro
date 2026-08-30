@@ -18,11 +18,15 @@ const faqs = [
   },
   {
     q: 'Where are your medications sourced from?',
-    a: 'Every compounded medication I dispense comes from FDA-regulated 503A compounding pharmacies that perform third-party testing for potency and sterility. I do not work with grey-market peptide vendors. Medications ship from the pharmacy directly to your home.',
+    a: 'Every compounded medication I prescribe comes from FDA-regulated 503A compounding pharmacies that perform third-party testing for potency and sterility. I do not work with grey-market peptide vendors. Medications ship from the pharmacy directly to your home.',
   },
   {
     q: 'Is your GLP-1 the same as Wegovy or Mounjaro?',
-    a: 'Not exactly. Wegovy (semaglutide) and Mounjaro and Zepbound (tirzepatide) are brand-name medications from Novo Nordisk and Eli Lilly. I dispense compounded semaglutide and tirzepatide from FDA-regulated 503A pharmacies. Same active molecules, prepared patient-specifically under a different regulatory framework, prescribed only after my clinical evaluation. Typically far less expensive than the brand versions (which insurance rarely covers for weight loss), but they are not identical products. I will not prescribe what is not clinically appropriate for you, regardless of the tier you select.',
+    a: 'Not exactly. Wegovy (semaglutide) and Mounjaro and Zepbound (tirzepatide) are brand-name medications from Novo Nordisk and Eli Lilly. I prescribe compounded semaglutide and tirzepatide from FDA-regulated 503A pharmacies. Same active molecules, prepared patient-specifically under a different regulatory framework, prescribed only after my clinical evaluation. Typically far less expensive than the brand versions (which insurance rarely covers for weight loss), but they are not identical products. I will not prescribe what is not clinically appropriate for you, regardless of the tier you select.',
+  },
+  {
+    q: 'Do you treat perimenopause and menopause?',
+    a: 'Yes, and it is one of the things I treat most. Hot flashes, disrupted sleep, brain fog, mood shifts, and weight that stopped responding are hormonal problems with real clinical answers. I manage perimenopause and menopause with compounded estradiol and progesterone, plus DHEA, low-dose testosterone, and thyroid support when labs say they belong in the plan. See the menopause care page at vivawellnessco.com/menopause for the full picture.',
   },
   {
     q: 'How fast will I receive the eBook after submitting a form?',
@@ -60,7 +64,7 @@ const PICON = {
 };
 const programs = [
   { tier: 'Entry', name: 'Viva Concierge', price: '$99', cadence: '/mo', icon: 'key', href: '/services#viva-concierge-access', body: 'Provider access plus member pricing on compounded peptides, GLP-1, and add-ons. Pay a la carte for the protocols you want instead of a bundled monthly fee.' },
-  { tier: 'Foundational', name: 'TRT & HRT All Inclusive', price: '$199', cadence: '/mo', icon: 'pulse', href: '/services#trt-hrt-all-inclusive', body: 'Personalized testosterone optimization with compounded medication, supplies, and biannual labs.' },
+  { tier: 'Foundational', name: 'TRT & HRT All Inclusive', price: '$199', cadence: '/mo', icon: 'pulse', href: '/services#trt-hrt-all-inclusive', body: 'Personalized hormone optimization for men and women: compounded testosterone (TRT) or estradiol and progesterone (HRT), supplies, and biannual labs.' },
   { tier: 'Essential', name: 'Metabolic Essential', price: '$249', cadence: '/mo', icon: 'leaf', href: '/services#metabolic-essential', body: 'Compounded semaglutide, or micro-dose tirzepatide. Appetite regulation, insulin support, and steady fat loss — the GLP-1 on-ramp.' },
   { tier: 'Core', name: 'Metabolic Core', price: '$349', cadence: '/mo', icon: 'flame', href: '/services#metabolic-core', body: 'Compounded tirzepatide, fully managed, for stronger appetite control and consistent fat loss.', featured: true },
 ];
@@ -79,22 +83,22 @@ const testimonials = [
   {
     quote: "Lili has been an exceptional provider throughout my wellness treatment journey. From our very first consultation, she truly understood my needs. She carefully listened as I explained my symptoms.",
     name: 'Priscilla Moraes',
-    role: 'Patient · Verified Google review',
+    role: 'Verified Google review',
   },
   {
     quote: "The telehealth setup is incredibly convenient and made everything so easy. The care was professional, personal, and I felt truly supported throughout the process.",
     name: 'Nancy Flores',
-    role: 'Telehealth patient · Verified Google review',
+    role: 'Verified Google review',
   },
   {
     quote: "I am so very cautious when choosing medical providers to guide me through my own health journey. Liliana exceeded every expectation.",
     name: 'Tobiah Vega',
-    role: 'Patient · Verified Google review',
+    role: 'Verified Google review',
   },
   {
     quote: "Most competent, caring provider. I get personalized care that's effective and timely. The proof is in the results and in how I feel. Just grateful everyday I found her.",
     name: 'Tiffany Plaster',
-    role: 'Patient · Verified Google review',
+    role: 'Verified Google review',
   },
 ];
 
@@ -134,8 +138,9 @@ const testimonials = [
         <p class="hero__lead">
           I'm Liliana Damron, a nurse practitioner who'd rather catch the trouble
           early than treat it late. Tell me where you want to go, and I'll run the
-          labs, build the protocol, and adjust as you go. Hormones, metabolic,
-          peptides, recovery — one provider, by video, from Austin.
+          labs, build the protocol, and adjust as you go. Hormones, perimenopause
+          and menopause, metabolic, peptides, recovery · one provider, by video,
+          from Austin.
         </p>
         <div class="hero__ctas">
           <a href="#quiz" class="btn btn--bronze">Find your protocol</a>
@@ -401,7 +406,7 @@ const testimonials = [
           </span>
         </a>
         <p class="testimonials__disclaimer">
-          Individual results vary. Testimonials reflect each patient's personal
+          Individual results vary. Testimonials reflect each reviewer's personal
           experience and are not guarantees of outcome.
         </p>
       </div>
