@@ -5,8 +5,8 @@
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
-  "background_color": "#110e0b",
-  "theme_color": "#110e0b",
+  "background_color": "#f7f2e9",
+  "theme_color": "#f7f2e9",
   "icons": [
     {
       "src": "/favicon.svg",
@@ -15,8 +15,8 @@
       "purpose": "any"
     },
     {
-      "src": "/viva-logo-paper.png",
-      "sizes": "220x48",
+      "src": "/viva-logo-ink.png",
+      "sizes": "1200x258",
       "type": "image/png",
       "purpose": "any"
     }

@@ -82,25 +82,22 @@ export const { getStaticPaths, GET } = await OGImageRoute({
     // canvaskit has no text-transform, so we uppercase here.
     description: page.tagline.toUpperCase(),
     logo: {
-      path: './public/viva-logo-paper.png',
+      path: './public/viva-logo-ink.png',
       size: [280, 60],
     },
-    // Photo background — Matt Johnson running past the Texas Capitol, pre-
-    // darkened to 1200x630 with a 55% overlay by scripts/build-og-bg.mjs.
-    // The pre-bake is necessary because astro-og-canvas draws bgImage AFTER
-    // bgGradient (no native overlay option), and the raw photo is too bright
-    // for paper/bronze text to read against the sky.
+    // Background: the light gouache Capitol art (public/og-bg.png), pre-washed
+    // with cream so charcoal type reads at full contrast.
     bgGradient: [
-      [12, 10, 9],
-      [22, 18, 16],
+      [247, 242, 233],
+      [239, 232, 218],
     ],
     bgImage: {
-      path: './public/matt-johnson-og.png',
+      path: './public/og-bg.png',
       fit: 'cover',
       position: 'center',
     },
     border: {
-      color: [201, 120, 58],
+      color: [244, 226, 155],
       width: 14,
       side: 'inline-start',
     },
@@ -119,14 +116,14 @@ export const { getStaticPaths, GET } = await OGImageRoute({
         lineHeight: 1.02,
         families: ['Fraunces', 'Georgia', 'Times New Roman', 'serif'],
         weight: 'Medium',
-        color: [247, 244, 238],
+        color: [43, 37, 29],
       },
       description: {
         size: 26,
         lineHeight: 1.4,
         families: ['Geist Mono', 'Courier New', 'monospace'],
         weight: 'Medium',
-        color: [212, 154, 100],
+        color: [111, 84, 16],
       },
     },
   }),
