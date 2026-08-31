@@ -465,7 +465,8 @@ const servicesSchema = {
   /* PILLARS */
   .pillars-section { padding: clamp(3rem, 7vw, 5rem) 0; }
   .pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-top: 1px solid var(--rule-strong); }
-  .pillar { padding: 1.4rem 1.2rem 1.4rem 0; border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule-strong); transition: background 240ms var(--ease); }
+  .pillar { padding: 1.4rem 1.2rem; border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule-strong); transition: background 240ms var(--ease); }
+  .pillars > .pillar:nth-child(3n+1) { padding-left: 0; }
   .pillar:nth-child(3n) { border-right: 0; }
   .pillar:hover { background: rgba(214, 134, 74, 0.04); }
   .pillar__title { font-size: 1.2rem; margin-bottom: 0.5rem; color: var(--paper); line-height: 1.2; }
@@ -618,11 +619,11 @@ const servicesSchema = {
     font-size: 0.72rem;
     letter-spacing: 0.13em;
     text-transform: uppercase;
-    color: var(--bronze-deep);
+    color: var(--butter);
     text-decoration: none;
     transition: color 200ms var(--ease);
   }
-  .provider-strip__link:hover { color: var(--bronze); }
+  .provider-strip__link:hover { color: var(--butter-bright); }
 
   /* PROGRAMS · five membership cards mirrored from GlossGenius */
   .programs-section { padding: clamp(3rem, 7vw, 5rem) 0; }
@@ -810,9 +811,9 @@ const servicesSchema = {
   }
   .policies__list li {
     padding: 1rem 0 1rem 2rem;
-    border-bottom: 1px solid rgba(43, 37, 29, 0.1);
+    border-bottom: 1px solid rgba(247, 242, 233, 0.14);
     position: relative;
-    color: rgba(43, 37, 29, 0.78);
+    color: rgba(247, 242, 233, 0.82); /* the band is charcoal post-flip */
     font-size: 0.98rem;
   }
   .policies__list li::before {
@@ -823,7 +824,7 @@ const servicesSchema = {
     top: 1rem;
     font-family: var(--font-mono);
     font-size: 0.7rem;
-    color: var(--bronze-deep);
+    color: var(--butter);
     letter-spacing: 0.1em;
   }
   .policies__list { counter-reset: p; }
