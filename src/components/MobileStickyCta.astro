@@ -5,15 +5,23 @@
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 const hideOn = ['/privacy', '/terms'];
 const hide = hideOn.includes(path);
+// On /start the bar used to link back to /start (a loop). Send the primary
+// action straight to the scheduler there instead.
+const onStart = path === '/start';
+const primaryHref = onStart
+  ? 'https://vivawellnessco.glossgenius.com/services?utm_source=vivawellnessco&utm_medium=cta&utm_content=mobile_sticky_start'
+  : '/start?utm_source=vivawellnessco&utm_medium=cta&utm_content=mobile_sticky';
 ---
 
 {!hide && (
   <div class="msc" aria-label="Quick actions">
     <a
-      href="/start?utm_source=vivawellnessco&utm_medium=cta&utm_content=mobile_sticky"
+      href={primaryHref}
+      target={onStart ? '_blank' : undefined}
+      rel={onStart ? 'noopener' : undefined}
       class="msc__btn msc__btn--bronze"
     >
-      Book a visit
+      {onStart ? 'Schedule now' : 'Book a visit'}
     </a>
     <a href="/#quiz" class="msc__btn msc__btn--ghost">Take the quiz</a>
   </div>

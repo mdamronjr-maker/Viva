@@ -27,6 +27,7 @@ const faqs = [
   {
     q: 'Do you treat perimenopause and menopause?',
     a: 'Yes, and it is one of the things I treat most. Hot flashes, disrupted sleep, brain fog, mood shifts, and weight that stopped responding are hormonal problems with real clinical answers. I manage perimenopause and menopause with compounded estradiol and progesterone, plus DHEA, low-dose testosterone, and thyroid support when labs say they belong in the plan. See the menopause care page at vivawellnessco.com/menopause for the full picture.',
+    aHtml: 'Yes, and it is one of the things I treat most. Hot flashes, disrupted sleep, brain fog, mood shifts, and weight that stopped responding are hormonal problems with real clinical answers. I manage perimenopause and menopause with compounded estradiol and progesterone, plus DHEA, low-dose testosterone, and thyroid support when labs say they belong in the plan. See the <a href="/menopause">menopause care page</a> for the full picture.',
   },
   {
     q: 'How fast will I receive the eBook after submitting a form?',
@@ -476,7 +477,7 @@ const testimonials = [
                 <span class="faq__q-text">{f.q}</span>
                 <span class="faq__q-icon" aria-hidden="true">+</span>
               </summary>
-              <p class="faq__a">{f.a}</p>
+              {f.aHtml ? <p class="faq__a" set:html={f.aHtml} /> : <p class="faq__a">{f.a}</p>}
             </details>
           </li>
         ))}
@@ -752,6 +753,29 @@ const testimonials = [
 </script>
 
 <style>
+  /* ============ TRUST STRIP · styles were lost in the p3 hero-style rework; restored ============ */
+  .trust {
+    padding: 1.2rem 0;
+    border-bottom: 1px solid var(--rule);
+    background: var(--ink);
+  }
+  .trust__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+  }
+  @media (max-width: 900px) { .trust__grid { grid-template-columns: repeat(2, 1fr); gap: 0.9rem 1.5rem; } }
+  @media (max-width: 520px) { .trust__grid { grid-template-columns: 1fr; gap: 0.7rem; } }
+  .trust__label {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--mute);
+    line-height: 1.5;
+    margin: 0;
+  }
+
   /* ============ HERO · type-only sky band (real photo arrives in p8) ============ */
   .hero {
     background: var(--sky);
@@ -767,8 +791,10 @@ const testimonials = [
   }
   @media (max-width: 900px) {
     .hero__inner { grid-template-columns: 1fr; }
-    /* image-first on phones: keeps the preloaded art in the initial viewport */
+    /* image-first on phones, height-capped so the headline and a CTA share
+       the first viewport with the art */
     .hero__art { order: -1; }
+    .hero__art img { max-height: 52vw; object-fit: cover; }
   }
   .hero__copy { display: flex; flex-direction: column; gap: 1.6rem; }
   .hero__art { margin: 0; display: flex; flex-direction: column; gap: 0.6rem; }
@@ -784,7 +810,8 @@ const testimonials = [
     font-size: clamp(2.6rem, 7vw, 5.6rem);
     line-height: 1.02;
     letter-spacing: -0.025em;
-    max-width: 18ch;
+    max-width: 21ch;
+    text-wrap: balance;
   }
   .hero__foot { display: flex; flex-direction: column; gap: 1.3rem; }
   .hero__lead {
@@ -1324,7 +1351,7 @@ const testimonials = [
   font-size: 0.7rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--bronze-deep);
+  color: var(--butter); /* bronze-deep was unreadable on the charcoal band */
 }
 
 .provider-band__copy {

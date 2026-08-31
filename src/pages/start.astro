@@ -236,7 +236,31 @@ const ninetyDays = [
     </div>
   </section>
 
-</Layout>
+  {/* CLOSING CTA · the page used to end after the ninety-day timeline with
+      no action left on screen */}
+  <section class="start-final">
+    <div class="container start-final__inner">
+      <p class="start-final__line">That is the whole plan. The only step left is picking a time.</p>
+      <a href={bookingHref} target="_blank" rel="noopener" class="btn btn--bronze">Schedule my first visit</a>
+    </div>
+  </section>
+
+  
+
+<script>
+  // The build-time UTM passthrough is dead in a static build; rewrite the
+  // GlossGenius links with the visitor's live utm_* params at page load.
+  document.addEventListener('astro:page-load', () => {
+    const qs = new URLSearchParams(location.search);
+    const utm = [...qs].filter(([k]) => k.startsWith('utm_'));
+    if (!utm.length) return;
+    document.querySelectorAll('a[href*="glossgenius.com"]').forEach((a) => {
+      const u = new URL((a as HTMLAnchorElement).href);
+      utm.forEach(([k, v]) => u.searchParams.set(k, v));
+      (a as HTMLAnchorElement).href = u.toString();
+    });
+  });
+</script>
 
 <style>
   .start-hero {
@@ -263,6 +287,7 @@ const ninetyDays = [
 
   .start-headline {
     padding: 0 0 clamp(2rem, 5vw, 3.5rem);
+    padding-top: 1.4rem;
   }
   .start-headline__grid {
     display: grid;
@@ -458,6 +483,25 @@ const ninetyDays = [
     max-width: none;
   }
 
+  .start-final {
+    padding: clamp(2.5rem, 5vw, 4rem) 0;
+    border-top: 1px solid var(--rule);
+    background: var(--sky);
+  }
+  .start-final__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .start-final__line {
+    font-family: var(--font-display-italic);
+    font-style: italic;
+    font-size: clamp(1.15rem, 2vw, 1.4rem);
+    margin: 0;
+    max-width: 30ch;
+  }
   .start-cta {
     padding: clamp(4rem, 8vw, 7rem) 0;
     background: var(--ink);
