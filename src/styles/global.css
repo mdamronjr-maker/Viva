@@ -276,45 +276,9 @@ p { max-width: 62ch; }
 /* Hairline rules used as section dividers / decoration */
 .rule { height: 1px; background: var(--rule-strong); border: 0; }
 
-/* Page-load reveal system REMOVED in the Lights On redesign: content
-   simply appears. The .reveal/.to-reveal classes still present in page
-   markup are inert; piece 3/4 strip them with their markup passes. */
-
-/* Scrolling marquee text */
-.marquee {
-  display: flex;
-  overflow: hidden;
-  gap: 4rem;
-  padding: 1.5rem 0;
-  border-top: 1px solid var(--rule-strong);
-  border-bottom: 1px solid var(--rule-strong);
-  font-family: var(--font-display);
-  font-weight: 500;
-  font-size: clamp(1.4rem, 2.8vw, 2.2rem);
-  letter-spacing: -0.02em;
-  color: var(--paper);
-}
-.marquee-track {
-  display: flex;
-  gap: 4rem;
-  flex-shrink: 0;
-  animation: scroll 38s linear infinite;
-  white-space: nowrap;
-}
-.marquee-track > * { display: inline-flex; align-items: center; gap: 4rem; }
-.marquee-track > *::after {
-  content: '✦';
-  color: var(--bronze);
-  font-style: normal;
-  font-size: 0.6em;
-}
-@keyframes scroll {
-  to { transform: translateX(-100%); }
-}
-
-/* Hide scrollbars on the marquee */
-.marquee { scrollbar-width: none; }
-.marquee::-webkit-scrollbar { display: none; }
+/* Page-load reveal system and the marquee were REMOVED in the Lights On
+   redesign: content simply appears, and the butter feature band replaced
+   the marquee slot on the home page. */
 
 /* Accessibility */
 :focus-visible { outline: 2px solid var(--bronze); outline-offset: 3px; }
@@ -348,7 +312,6 @@ main:focus { outline: none; }
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
-  .marquee-track { animation: none; }
 }
 
 /* Responsive */
