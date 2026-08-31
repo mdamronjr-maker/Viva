@@ -217,14 +217,13 @@ const servicesSchema = {
 
   {/* HERO */}
   <section class="services-hero">
-    <img class="services-hero__bg" src="/services-hero-gym.webp" alt="" aria-hidden="true" loading="eager" decoding="async" />
     <div class="container services-hero__inner">
-      <span class="eyebrow reveal" style="--d: 100ms;">· Peptide therapy · TRT · HRT · GLP-1</span>
-      <h1 class="services-hero__title reveal" style="--d: 250ms;">
+      <span class="eyebrow">· Peptide therapy · TRT · HRT · GLP-1</span>
+      <h1 class="services-hero__title">
         You bring the goals,<br/>
         <span class="italic-display">I'll bring the protocol.</span>
       </h1>
-      <p class="lead reveal" style="--d: 500ms;">
+      <p class="lead">
         Concierge peptide therapy, hormone optimization, and metabolic protocols
         from one provider on a flat monthly fee. Compounded peptides (BPC-157,
         TB-500, GHK-Cu, CJC-1295 / Ipamorelin), GLP-1, TRT, and HRT. Medication,
@@ -239,7 +238,7 @@ const servicesSchema = {
   <section class="section pillars-section">
     <div class="container">
       <div class="section-head">
-        <span class="index" data-num="01">The work</span>
+        <span class="eyebrow">The work</span>
         <h2 class="section-head__title">
           Seven pillars. <span class="italic-display">One body.</span>
         </h2>
@@ -270,7 +269,7 @@ const servicesSchema = {
     <div class="container">
       <div class="included__inner">
         <div class="included__head">
-          <span class="index" data-num="·">Every membership includes</span>
+          <span class="eyebrow">Every membership includes</span>
         </div>
         <ul class="included__list">
           {includedAlways.map((item) => (
@@ -323,7 +322,7 @@ const servicesSchema = {
   <section class="section programs-section">
     <div class="container">
       <div class="section-head">
-        <span class="index" data-num="02">The programs</span>
+        <span class="eyebrow">The programs</span>
         <h2 class="section-head__title">
           Five memberships. <span class="italic-display">Pick yours.</span>
         </h2>
@@ -382,11 +381,20 @@ const servicesSchema = {
     </div>
   </section>
 
+  {/* PRICING NOTE + REVIEW PULLQUOTE */}
+  <div class="container services-aside">
+    <p class="sidenote services-pricing-note">Prices mirror our booking system. If these ever differ, the booking page wins.</p>
+    <figure class="services-quote">
+      <blockquote class="pullquote">Most competent, caring provider. I get personalized care that's effective and timely. The proof is in the results and in how I feel. Just grateful everyday I found her.</blockquote>
+      <figcaption class="caption">Tiffany Plaster · <a href="https://www.google.com/maps/place/Viva+Wellness+Co./@30.448506,-93.3099761,5366828m/data=!3m2!1e3!4b1!4m6!3m5!1s0x838a2a09b2fa0069:0x23603b7d6308b72a!8m2!3d30.448506!4d-93.309976!16s%2Fg%2F11x1q1jhw9" target="_blank" rel="noopener">verified Google review</a></figcaption>
+    </figure>
+  </div>
+
   {/* POLICIES */}
   <section class="section section--paper">
     <div class="container policies">
       <div>
-        <span class="index" data-num="03">The fine print</span>
+        <span class="eyebrow">The fine print</span>
         <h2 class="policies__title">Membership policies, plainly stated.</h2>
       </div>
       <ul class="policies__list">
@@ -423,12 +431,16 @@ const servicesSchema = {
 
 <style>
   /* HERO */
+  .services-aside { padding: clamp(2rem, 4vw, 3rem) var(--gutter); display: flex; flex-direction: column; gap: 2rem; }
+  .services-pricing-note { max-width: 46ch; }
+  .services-quote { margin: 0; display: flex; flex-direction: column; gap: 0.7rem; }
   .services-hero {
+    background: var(--sky);
+    border-bottom: 1px solid var(--rule);
     padding: clamp(6rem, 12vw, 10rem) 0 clamp(4rem, 8vw, 6rem);
     position: relative;
     overflow: hidden;
   }
-  .services-hero__bg { display: none; } /* AI backdrop hidden in p2; p8 removes markup and file */ /* AI backdrop hidden in p2; p8 removes markup and file */
   .services-hero::before {
     content: '';
     position: absolute;
@@ -627,7 +639,8 @@ const servicesSchema = {
   }
   @media (max-width: 800px) { .prog-grid { grid-template-columns: 1fr; } }
   .prog-card {
-    background: var(--ink);
+    background: var(--ink-2);
+    border: 1px solid var(--rule);
     padding: clamp(1.8rem, 3.5vw, 2.4rem);
     display: flex;
     flex-direction: column;

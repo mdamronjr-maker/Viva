@@ -45,20 +45,19 @@ const partnersSchema = {
 
   {/* HERO */}
   <section class="partners-hero">
-    <img class="partners-hero__bg" src="/partners-hero.webp" alt="" aria-hidden="true" loading="eager" decoding="async" />
     <div class="container partners-hero__inner">
-      <span class="eyebrow reveal" style="--d: 100ms;">· The trusted network</span>
-      <h1 class="partners-hero__title reveal" style="--d: 250ms;">
+      <span class="eyebrow">· The trusted network</span>
+      <h1 class="partners-hero__title">
         The Austin partners<br/>
         <span class="italic-display">I trust with my patients.</span>
       </h1>
-      <p class="lead reveal" style="--d: 500ms;">
+      <p class="lead">
         What I do is one piece of a much bigger picture. For the parts that live
         outside my lane (strength coaching, physical therapy, sports recovery,
         the in-person stuff), I send people to a handful of folks I'd trust with
         my own family. That's the whole bar.
       </p>
-      <div class="partners-hero__meta reveal" style="--d: 700ms;">
+      <div class="partners-hero__meta">
         <span class="index" data-num="·">{partnerCount} partners · Austin, TX</span>
       </div>
     </div>
@@ -75,7 +74,7 @@ const partnersSchema = {
       <div class="how-strip__col">
         <span class="how-strip__num">02</span>
         <h3 class="how-strip__title">A video visit can't do everything</h3>
-        <p class="how-strip__body">Strength coaching, hands-on PT, a real gym — that's what makes a protocol actually stick. I keep a short list of who's good at each.</p>
+        <p class="how-strip__body">Strength coaching, hands-on PT, a real gym. That is what makes a protocol stick. I keep a short list of who's good at each.</p>
       </div>
       <div class="how-strip__col">
         <span class="how-strip__num">03</span>
@@ -106,18 +105,6 @@ const partnersSchema = {
               aria-label={p.name}
             >
               <div class="part-card__top">
-                <span class:list={[
-                  'part-card__thumb',
-                  p.mediaType === 'portrait' && 'part-card__thumb--portrait',
-                  p.mediaType === 'logo' && 'part-card__thumb--logo',
-                  p.mediaType === 'logo-dark' && 'part-card__thumb--logo-dark',
-                ]}>
-                  {p.image
-                    ? <img src={p.image} alt={p.imageAlt || p.name} loading="lazy" decoding="async" />
-                    : <span class="part-card__mono">{p.fallback}</span>
-                  }
-                </span>
-
                 <div class="part-card__head">
                   <h3 class="part-card__name">{p.name}</h3>
                   <span class="part-card__operator">{p.operator}</span>
@@ -221,11 +208,12 @@ const partnersSchema = {
 <style>
   /* HERO */
   .partners-hero {
+    background: var(--sky);
+    border-bottom: 1px solid var(--rule);
     padding: clamp(4.5rem, 14vw, 10rem) 0 clamp(2.5rem, 6vw, 5rem);
     position: relative;
     overflow: hidden;
   }
-  .partners-hero__bg { display: none; } /* AI backdrop hidden in p2; p8 removes markup and file */ /* AI backdrop hidden in p2; p8 removes markup and file */
   .partners-hero::before {
     content: '';
     position: absolute;
@@ -343,55 +331,16 @@ const partnersSchema = {
   }
   .part-card__top {
     display: grid;
-    grid-template-columns: 88px 1fr auto;
+    grid-template-columns: 1fr auto;
     gap: 1.1rem;
     align-items: center;
   }
   @media (max-width: 540px) {
     .part-card__top {
-      grid-template-columns: 64px 1fr auto;
+      grid-template-columns: 1fr auto;
       gap: 0.95rem;
       align-items: center;
     }
-  }
-
-  .part-card__thumb {
-    width: 88px;
-    height: 88px;
-    border-radius: 2px;
-    overflow: hidden;
-    display: grid;
-    place-items: center;
-    flex-shrink: 0;
-  }
-  @media (max-width: 540px) {
-    .part-card__thumb { width: 64px; height: 64px; }
-  }
-  .part-card__thumb--portrait { background: linear-gradient(160deg, var(--bronze-deep) 0%, var(--ink-2) 100%); }
-  .part-card__thumb--portrait img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
-  .part-card__thumb--logo { background: var(--paper); }
-  .part-card__thumb--logo-dark { background: var(--ink-3); }
-  .part-card__thumb--logo img,
-  .part-card__thumb--logo-dark img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    padding: 8px 10px;
-  }
-  .part-card__mono {
-    font-family: var(--font-display-italic);
-    font-style: italic;
-    font-size: 1.7rem;
-    color: var(--paper);
-    background: linear-gradient(160deg, var(--bronze-deep) 0%, var(--ink-2) 100%);
-    width: 100%;
-    height: 100%;
-    display: grid;
-    place-items: center;
-    letter-spacing: -0.02em;
-  }
-  @media (max-width: 540px) {
-    .part-card__mono { font-size: 1.4rem; }
   }
 
   .part-card__head {

@@ -11,7 +11,7 @@ import Layout from '../layouts/Layout.astro';
    ============================================================ */
 
 const symptoms = [
-  { name: 'Hot flashes & night sweats', body: 'The classic vasomotor symptoms, and the ones HRT treats most reliably.' },
+  { name: 'Hot flashes & night sweats', body: 'The classic vasomotor symptoms, and the ones HRT treats most reliably. Symptoms can be treated in both phases; you do not have to wait until your cycles stop to get help.' },
   { name: 'Sleep that stopped working', body: 'Waking at 3 a.m., light sleep, never feeling rested no matter what you try.' },
   { name: 'Brain fog', body: 'Losing words mid-sentence, rereading the same email, a focus that used to be automatic.' },
   { name: 'Mood shifts', body: 'Irritability, anxiety, or a flatness that does not match your circumstances.' },
@@ -106,19 +106,19 @@ const faqSchema = {
   {/* HERO */}
   <section class="meno-hero">
     <div class="container meno-hero__inner">
-      <span class="eyebrow reveal" style="--d: 100ms;">Telehealth · TX · CO · FL · IA</span>
-      <h1 class="meno-hero__title reveal" style="--d: 250ms;">
+      <span class="eyebrow">Telehealth · TX · CO · FL · IA</span>
+      <h1 class="meno-hero__title">
         Your hormones changed.<br/>
         <span class="italic-display">Your care should too.</span>
       </h1>
-      <p class="lead reveal" style="--d: 500ms;">
+      <p class="lead">
         Perimenopause and menopause are not something to white-knuckle through.
         I'm Liliana Damron, a board-certified nurse practitioner, and treating
         the women everyone else told "your labs are normal" is a core part of my
         practice. Labs first, then a protocol built for your case, adjusted as
         your body responds.
       </p>
-      <div class="meno-hero__ctas reveal" style="--d: 700ms;">
+      <div class="meno-hero__ctas">
         <a href="/#quiz" class="btn btn--bronze">Find your protocol</a>
         <a href="/start?utm_source=vivawellnessco&utm_medium=cta&utm_content=menopause_page" class="btn meno-hero__btn-quiet">Book your first visit</a>
       </div>
@@ -167,6 +167,14 @@ const faqSchema = {
       </ol>
     </div>
   </section>
+
+  {/* REVIEW PULLQUOTE */}
+  <div class="container meno-quote-wrap">
+    <figure class="meno-quote">
+      <blockquote class="pullquote">Lili has been an exceptional provider throughout my wellness treatment journey. From our very first consultation, she truly understood my needs. She carefully listened as I explained my symptoms.</blockquote>
+      <figcaption class="caption">Priscilla Moraes · <a href="https://www.google.com/maps/place/Viva+Wellness+Co./@30.448506,-93.3099761,5366828m/data=!3m2!1e3!4b1!4m6!3m5!1s0x838a2a09b2fa0069:0x23603b7d6308b72a!8m2!3d30.448506!4d-93.309976!16s%2Fg%2F11x1q1jhw9" target="_blank" rel="noopener">verified Google review</a></figcaption>
+    </figure>
+  </div>
 
   {/* TIERS */}
   <section class="meno-tiers">
@@ -250,6 +258,8 @@ const faqSchema = {
 <style>
   /* HERO */
   .meno-hero {
+    background: var(--sky);
+    border-bottom: 1px solid var(--rule);
     padding: clamp(4.5rem, 14vw, 10rem) 0 clamp(2.5rem, 6vw, 5rem);
     position: relative;
     overflow: hidden;
@@ -281,6 +291,9 @@ const faqSchema = {
   }
   .meno-hero__btn-quiet:hover { border-color: var(--bronze); }
 
+  .meno-quote-wrap { padding: clamp(2rem, 4vw, 3rem) var(--gutter); }
+  .meno-quote { margin: 0; display: flex; flex-direction: column; gap: 0.7rem; }
+
   /* SECTION HEADS */
   .meno-head { margin-bottom: clamp(1.6rem, 3vw, 2.4rem); max-width: 800px; }
   .meno-head__title {
@@ -308,6 +321,9 @@ const faqSchema = {
   }
   @media (max-width: 1000px) { .meno-grid { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 540px) { .meno-grid { grid-template-columns: 1fr; } }
+  /* deliberately uneven grid: the most-treated cluster gets the wide cell */
+  .meno-grid li:first-child { grid-column: span 2; }
+  @media (max-width: 540px) { .meno-grid li:first-child { grid-column: auto; } }
   .meno-cell {
     background: var(--ink);
     border: 1px solid var(--rule-strong);
@@ -473,9 +489,9 @@ const faqSchema = {
 
   /* CTA */
   .meno-cta {
+    background: var(--sky);
     padding: clamp(4rem, 9vw, 8rem) 0;
     text-align: center;
-    background: var(--ink);
     position: relative;
     overflow: hidden;
     border-top: 1px solid var(--rule);
