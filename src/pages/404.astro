@@ -79,7 +79,7 @@ const recent = (await getCollection('blog', ({ data }) => !data.draft))
     content: '';
     position: absolute;
     inset: 0;
-    background: radial-gradient(800px 500px at 75% 30%, rgba(201, 120, 58, 0.14), transparent 60%);
+    background: none; /* bronze glow removed in p2 */
     pointer-events: none;
   }
   .notfound__inner {
@@ -133,7 +133,7 @@ const recent = (await getCollection('blog', ({ data }) => !data.draft))
   }
   .nf-card__desc {
     font-size: 0.9rem;
-    color: rgba(245, 241, 234, 0.6);
+    color: rgba(43, 37, 29, 0.7);
     line-height: 1.5;
   }
 
