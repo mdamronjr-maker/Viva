@@ -23,3 +23,7 @@ pnpm-debug.log*
 # jetbrains setting folder
 .idea/
 .wrangler/
+
+# raw incoming imagery (processed into /public)
+asset-drop/*
+!asset-drop/README.md
