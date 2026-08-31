@@ -834,8 +834,6 @@ const testimonials = [
   /* ============ SECTION HEAD ============ */
   .section-head { display: grid; grid-template-columns: 1fr; gap: var(--space-sm); margin-bottom: var(--head-gap); max-width: 100%; }
   .section-head__title { font-size: clamp(2rem, 4.5vw, 3.5rem); max-width: 16ch; letter-spacing: -0.018em; }
-  .section-head__title .italic-display { color: var(--bronze); }
-  .section--paper .section-head__title .italic-display { color: var(--butter); }
   .section-head__lead { margin-top: var(--space-2xs); }
 
   /* ============ INLINE QUIZ ============ */
@@ -852,7 +850,6 @@ const testimonials = [
   .qx__inner { position: relative; z-index: 2; max-width: 820px; margin: 0 auto; }
   .qx__head { display: flex; flex-direction: column; gap: 2rem; margin-bottom: 3rem; }
   .qx__title { font-size: clamp(2rem, 4.5vw, 3.4rem); line-height: 1.05; letter-spacing: -0.02em; max-width: 22ch; margin: 0; }
-  .qx__title .italic-display { color: var(--bronze); }
   .qx__meta { display: flex; align-items: center; gap: 1.2rem; flex-wrap: wrap; }
   .qx__progress { flex: 1; height: 2px; background: var(--rule-strong); overflow: hidden; min-width: 120px; }
   .qx__progress-bar { height: 100%; background: var(--bronze); width: 20%; transition: width 500ms var(--ease); }
@@ -871,7 +868,6 @@ const testimonials = [
     max-width: 20ch;
     font-variation-settings: 'opsz' 96;
   }
-  .qx__q .italic-display { color: var(--bronze-bright); }
   .qx__lede { color: rgba(43, 37, 29, 0.78); font-size: 1.1rem; line-height: 1.55; max-width: 52ch; margin: -1.5rem 0 2rem; }
 
   .qx__options { display: flex; flex-direction: column; gap: 0.6rem; }
@@ -915,7 +911,6 @@ const testimonials = [
   .qx__status.is-error { color: #e76e6e; }
 
   .qx__result-title { font-size: clamp(2.4rem, 5.5vw, 4rem); line-height: 1.0; margin: 1rem 0 2rem; letter-spacing: -0.015em; }
-  .qx__result-title .italic-display { color: var(--bronze); }
   .qx__result-card {
     background: var(--ink);
     border: 1px solid var(--rule-strong);
@@ -1017,7 +1012,6 @@ const testimonials = [
   .provider__photo::before { content: ''; position: absolute; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E"); mix-blend-mode: overlay; opacity: 0.12; pointer-events: none; z-index: 3; }
   .provider__caption { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink); line-height: 1.7; }
   .provider__title { font-size: clamp(1.8rem, 4vw, 3rem); margin-bottom: 1.5rem; max-width: 22ch; }
-  .provider__title .italic-display { color: var(--bronze-deep); }
   .provider__copy p { margin-bottom: 1.2rem; max-width: 60ch; }
   .provider__copy .btn { margin-top: 1rem; }
 
@@ -1049,7 +1043,6 @@ const testimonials = [
   .testimonials > .container { position: relative; }
   .testimonials__head { margin-bottom: var(--head-gap); max-width: 900px; }
   .testimonials__title { font-size: clamp(2rem, 5vw, 3.6rem); line-height: 1.05; letter-spacing: -0.02em; margin: 0.7rem 0 2rem; max-width: 22ch; }
-  .testimonials__title .italic-display { color: var(--bronze); }
   .testimonials__rating { display: inline-flex; align-items: center; gap: 1rem; padding: 1rem 1.4rem; border: 1px solid var(--rule-strong); background: var(--ink-2); border-radius: var(--radius-pill); transition: background 220ms var(--ease), border-color 220ms var(--ease); }
   .testimonials__rating:hover { background: var(--ink-3); border-color: var(--butter-deep); }
   .testimonials__stars { display: inline-flex; gap: 3px; }
@@ -1195,7 +1188,6 @@ const testimonials = [
     line-height: 1.05;
     color: var(--paper);
   }
-  .faq__title .italic-display { color: var(--bronze-deep); }
   .faq__head .lead { color: rgba(43, 37, 29, 0.75); }
   .faq__list {
     display: flex;
@@ -1351,7 +1343,6 @@ const testimonials = [
 /* On the paper inversion the italic accent uses the deeper bronze for
    contrast against the light surface — same rule the About founder/section
    heads follow. */
-.provider-band__title .italic-display { color: var(--bronze-deep); }
 .provider-band__voice {
   font-family: var(--font-display-italic);
   font-style: italic;
@@ -1381,7 +1372,6 @@ const testimonials = [
   /* glow and dim recipes removed in p2 */
   .cta__inner { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 1.2rem; }
   .cta__title { font-size: clamp(2.2rem, 5vw, 4rem); max-width: 20ch; margin: 0.5rem 0; }
-  .cta__title .italic-display { color: var(--bronze); }
   .cta__inner .lead { text-align: center; }
   .cta__ctas { display: flex; gap: 1rem; margin-top: 1rem; flex-wrap: wrap; justify-content: center; }
 </style>
