@@ -113,6 +113,7 @@ const testimonials = [
   {/* ============ HERO · type-only sky band (real photo arrives in p8) ============ */}
   <section class="hero">
     <div class="container hero__inner">
+      <div class="hero__copy">
       <div class="hero__eyebrows">
         <span class="eyebrow">Telehealth · TX · CO · FL · IA</span>
         <span class="eyebrow hero__eyebrow-right">100% Concierge</span>
@@ -141,6 +142,20 @@ const testimonials = [
       <div class="hero__index">
         <span class="eyebrow">Founded by Liliana Damron, APRN, FNP-BC</span>
       </div>
+      </div>
+
+      <figure class="hero__art">
+        <img
+          src="/hero-art.webp"
+          srcset="/hero-art-sm.webp 640w, /hero-art.webp 1024w"
+          sizes="(max-width: 900px) 86vw, 42vw"
+          width="1024"
+          height="1024"
+          alt="Illustration of a runner approaching the Texas State Capitol"
+          fetchpriority="high"
+        />
+        <figcaption class="caption">Illustration · Texas State Capitol · Austin</figcaption>
+      </figure>
     </div>
   </section>
 
@@ -745,9 +760,19 @@ const testimonials = [
     padding: clamp(7.5rem, 15vw, 11rem) 0 clamp(3.5rem, 7vw, 5.5rem);
   }
   .hero__inner {
-    display: flex;
-    flex-direction: column;
-    gap: 1.6rem;
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: center;
+  }
+  @media (max-width: 900px) { .hero__inner { grid-template-columns: 1fr; } }
+  .hero__copy { display: flex; flex-direction: column; gap: 1.6rem; }
+  .hero__art { margin: 0; display: flex; flex-direction: column; gap: 0.6rem; }
+  .hero__art img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius);
+    border: 1px solid var(--rule-strong);
   }
   .hero__eyebrows { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; flex-wrap: wrap; }
   .hero__eyebrow-right { color: var(--mute); }
