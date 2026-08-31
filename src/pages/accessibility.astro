@@ -107,7 +107,7 @@ const lastUpdated = 'May 13, 2026';
     content: '';
     position: absolute;
     inset: 0;
-    background: radial-gradient(800px 500px at 75% 0%, rgba(214, 134, 74, 0.14), transparent 65%);
+    background: none; /* bronze glow removed in p2 */
     pointer-events: none;
   }
   .legal-hero__inner { position: relative; max-width: 70ch; }
@@ -139,7 +139,7 @@ const lastUpdated = 'May 13, 2026';
     padding: 1.6rem 1.8rem;
     margin-bottom: 3rem;
     line-height: 1.6;
-    color: rgba(247, 244, 238, 0.9);
+    color: rgba(43, 37, 29, 0.9);
   }
   .legal-callout strong {
     display: block;
@@ -162,13 +162,13 @@ const lastUpdated = 'May 13, 2026';
   .legal-body p {
     font-size: 1.05rem;
     line-height: 1.7;
-    color: rgba(247, 244, 238, 0.85);
+    color: rgba(43, 37, 29, 0.85);
     margin-bottom: 1.1rem;
     max-width: none;
   }
   .legal-body a {
     color: var(--bronze);
-    border-bottom: 1px solid rgba(214, 134, 74, 0.4);
+    border-bottom: 1px solid var(--butter-deep);
     transition: color 200ms var(--ease), border-color 200ms var(--ease);
   }
   .legal-body a:hover {
@@ -192,7 +192,7 @@ const lastUpdated = 'May 13, 2026';
   .legal-list li {
     padding-left: 1.2rem;
     position: relative;
-    color: rgba(247, 244, 238, 0.85);
+    color: rgba(43, 37, 29, 0.85);
     font-size: 1.02rem;
     line-height: 1.6;
   }

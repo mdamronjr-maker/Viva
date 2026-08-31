@@ -41,7 +41,7 @@ const isActive = (p: string) => path === p || (p !== '/' && path.startsWith(p));
     top: 0;
     z-index: 100;
     backdrop-filter: blur(18px) saturate(140%);
-    background: rgba(12, 10, 9, 0.72);
+    background: rgba(247, 242, 233, 0.8);
     border-bottom: 1px solid var(--rule);
   }
   .site-header__inner {
@@ -63,6 +63,10 @@ const isActive = (p: string) => path === p || (p !== '/' && path.startsWith(p));
     display: block;
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
+    /* STOPGAP (remove in p6-header-footer): the shipped logo asset is the
+       cream variant, invisible on the light header. Darken via filter until
+       p6 swaps the markup to viva-logo-red.png. CSS-only per p2 rules. */
+    filter: brightness(0.3) sepia(0.4) saturate(1.4);
   }
   @media (max-width: 540px) {
     .brand__logo { height: 34px; }
@@ -77,7 +81,7 @@ const isActive = (p: string) => path === p || (p !== '/' && path.startsWith(p));
     font-size: 0.72rem;
     letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: rgba(245, 241, 234, 0.6);
+    color: rgba(43, 37, 29, 0.72);
     white-space: nowrap;
     padding: 0.4rem 0;
     position: relative;
