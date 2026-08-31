@@ -15,7 +15,7 @@ const recent = (await getCollection('blog', ({ data }) => !data.draft))
 
   <section class="notfound">
     <div class="container notfound__inner">
-      <span class="eyebrow">· 404</span>
+      <span class="eyebrow">404</span>
       <h1 class="notfound__title">
         This page<br/>
         <span class="italic-display">isn't here.</span>
@@ -49,7 +49,7 @@ const recent = (await getCollection('blog', ({ data }) => !data.draft))
 
       {recent.length > 0 && (
         <div class="nf-recent">
-          <span class="eyebrow">· Or read something useful</span>
+          <span class="eyebrow">Or read something useful</span>
           <ul class="nf-recent__list">
             {recent.map((p) => (
               <li>

@@ -39,7 +39,7 @@ const bookingHref = `https://vivawellnessco.glossgenius.com/services?${utmQuery}
 const whatToBring = [
   'Any labs from the last twelve months, even the ones that came back out of range',
   'A list of what you take right now, prescriptions and supplements, with doses',
-  'What you actually want, in your own words (energy, body comp, performance, recovery, longevity)',
+  'What you want, in your own words (energy, body comp, performance, recovery, longevity)',
   'A working webcam and a quiet forty-five minutes to yourself',
 ];
 
@@ -47,12 +47,12 @@ const visitSteps = [
   {
     num: '01',
     title: 'I ask what you have already tried',
-    body: 'We start with what you have actually done, what helped, what flopped, and what changed along the way. No rushing you through a checklist.',
+    body: 'We start with what you have done, what helped, what flopped, and what changed along the way. No rushing you through a checklist.',
   },
   {
     num: '02',
     title: 'We look at the whole picture',
-    body: 'Liliana goes through your labs, your symptoms, and your goals together, not in separate silos. If your labs are missing or out of date, she orders what we need.',
+    body: 'Liliana goes through your labs, your symptoms, and your goals in one conversation. If your labs are missing or out of date, she orders what we need.',
   },
   {
     num: '03',
@@ -62,7 +62,7 @@ const visitSteps = [
   {
     num: '04',
     title: 'Nobody talks you into anything',
-    body: 'You decide whether to enroll after the visit, not during it. The first-visit fee is a one-time charge, separate from any membership you might choose to start.',
+    body: 'You decide about enrolling after the visit, once you have had time to think. The first-visit fee is a one-time charge, separate from any membership you might choose to start.',
   },
 ];
 
@@ -86,13 +86,13 @@ const ninetyDays = [
     range: 'Days 30–60',
     label: 'Weeks 5–8',
     title: 'First dose-adjustment check-in',
-    body: 'We sit down again and tune the protocol around how your body is actually responding. Any changes come from your numbers and how you feel, not a one-size-fits-all calendar.',
+    body: 'We sit down again and tune the protocol around how your body is responding. Any changes come from your numbers and how you feel.',
   },
   {
     range: 'Days 60–90',
     label: 'Weeks 9–12',
     title: 'Labs re-pulled, results reviewed',
-    body: 'Follow-up labs tell us the protocol is doing what we hoped. Liliana walks you through every number so you understand it, not just nods along. From here it is monthly maintenance with quarterly check-ins.',
+    body: 'Follow-up labs tell us the protocol is doing what we hoped. Liliana walks you through every number until it makes sense to you. From here it is monthly maintenance with quarterly check-ins.',
   },
 ];
 ---
@@ -104,7 +104,7 @@ const ninetyDays = [
 
   <section class="start-hero">
     <div class="container start-hero__inner">
-      <span class="eyebrow">· Your first visit</span>
+      <span class="eyebrow">Your first visit</span>
       <h1 class="start-hero__title">
         Forty-five minutes <span class="italic-display">with Liliana.</span>
       </h1>
@@ -141,7 +141,7 @@ const ninetyDays = [
   <section class="start-cta">
     <div class="container start-cta__inner">
       <h2 class="start-cta__title">
-        Ready when you <span class="italic-display">are.</span>
+        Ready when you are.
       </h2>
       <p class="lead">
         Booking takes about a minute. You pick a time, fill out a short intake form,
@@ -163,9 +163,9 @@ const ninetyDays = [
   <section class="section">
     <div class="container start-grid">
       <div class="start-grid__left">
-        <span class="index" data-num="01">What happens</span>
+        <span class="eyebrow">What happens</span>
         <h2 class="start-h2">
-          The visit, <span class="italic-display">step by step.</span>
+          The visit, step by step.
         </h2>
         <ol class="start-steps">
           {visitSteps.map((s) => (
@@ -182,7 +182,7 @@ const ninetyDays = [
 
       <aside class="start-grid__right">
         <div class="start-card">
-          <span class="eyebrow">· Bring with you</span>
+          <span class="eyebrow">Bring with you</span>
           <ul class="start-bring">
             {whatToBring.map((item) => (
               <li>{item}</li>
@@ -195,7 +195,7 @@ const ninetyDays = [
         </div>
 
         <div class="start-card start-card--quiet">
-          <span class="eyebrow">· Not ready to book?</span>
+          <span class="eyebrow">Not ready to book?</span>
           <p>
             Take the protocol-match quiz first. Five questions, about ninety seconds.
             You'll land on the program tier that fits your goals and your budget, and
@@ -210,12 +210,12 @@ const ninetyDays = [
   <section class="section ninety">
     <div class="container">
       <div class="ninety__head">
-        <span class="index" data-num="02">After your first visit</span>
+        <span class="eyebrow">After your first visit</span>
         <h2 class="ninety__title">
-          What the first <span class="italic-display">ninety days</span> actually look like.
+          What the first ninety days look like.
         </h2>
         <p class="lead">
-          Here's the actual calendar, not a vague promise. This rhythm holds across
+          Here's the calendar itself. This rhythm holds across
           hormone, metabolic, peptide, and recovery protocols, and I shift the timing
           to match what your body is telling me along the way.
         </p>

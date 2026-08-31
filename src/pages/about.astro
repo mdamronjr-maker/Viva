@@ -4,7 +4,7 @@ import Layout from '../layouts/Layout.astro';
 const standards = [
   { num: '01', title: 'A real provider reads your chart', body: 'I review and approve every protocol myself. No questionnaire quietly handing out prescriptions while a clinician rubber-stamps the queue.' },
   { num: '02', title: 'FDA-regulated 503A pharmacies', body: 'Your compounded medication comes from sterile pharmacies that do third-party testing for potency and sterility. No grey-market peptides, ever.' },
-  { num: '03', title: 'You can actually reach me', body: 'Message me directly. Follow-ups are built in, scheduling is a priority, and you will never sit on hold with a call center.' },
+  { num: '03', title: 'You can reach me', body: 'Message me directly. Follow-ups are built in and scheduling is a priority.' },
   { num: '04', title: 'You know what you pay', body: 'One flat monthly membership covers it: your medication, supplies, home delivery, follow-ups. Nothing gets sprung on you later.' },
 ];
 ---
@@ -42,12 +42,12 @@ const standards = [
   <section class="about-hero">
     <img class="about-hero__bg" src="/about-hero.webp" alt="" aria-hidden="true" loading="eager" decoding="async" />
     <div class="container about-hero__inner">
-      <span class="eyebrow reveal" style="--d: 100ms;">· The provider</span>
+      <span class="eyebrow">The provider</span>
       <h1 class="about-hero__title">
-        <span class="reveal" style="--d: 200ms;">Meet your</span><br/>
-        <span class="italic-display reveal" style="--d: 360ms;">provider.</span>
+        Meet your<br/>
+        <span class="italic-display">provider.</span>
       </h1>
-      <p class="lead reveal" style="--d: 700ms;">
+      <p class="lead">
         I'm Liliana Damron, APRN, FNP-BC, and I started Viva to do the opposite
         of what I watched every day in geriatric medicine. Catch the trouble
         early. Keep people strong and able longer. Make healthspan match
@@ -69,9 +69,9 @@ const standards = [
         </div>
       </div>
       <div class="founder__copy">
-        <span class="index" data-num="01">The founder</span>
+        <span class="eyebrow">The founder</span>
         <h2 class="founder__title">
-          I watched <span class="italic-display">preventable disease</span> take people's lives apart. So I started doing the opposite.
+          I watched preventable disease take people's lives apart. So I started doing the opposite.
         </h2>
         <p class="lead">
           I spent my early career caring for people whose bodies had stopped
@@ -115,9 +115,9 @@ const standards = [
   <section class="section">
     <div class="container">
       <div class="section-head">
-        <span class="index" data-num="02">The standards</span>
+        <span class="eyebrow">The standards</span>
         <h2 class="section-head__title">
-          What concierge <span class="italic-display">actually</span> means here.
+          What concierge means here.
         </h2>
         <p class="lead section-head__lead">
           A lot of telehealth brands sell the cheapest version of medicine the
@@ -144,9 +144,9 @@ const standards = [
   <section class="section">
     <div class="container service-area">
       <div>
-        <span class="index" data-num="03">The reach</span>
+        <span class="eyebrow">The reach</span>
         <h2 class="service-area__title">
-          Licensed where you <span class="italic-display">already are.</span>
+          Licensed where you already are.
         </h2>
         <p class="lead">
           Viva is 100% telehealth. We meet by secure video, your medications and
@@ -198,11 +198,11 @@ const standards = [
   <section class="about-cta">
     <div class="container about-cta__inner">
       <h2 class="about-cta__title">
-        The protocol starts with <span class="italic-display">one visit.</span>
+        It starts with one visit.
       </h2>
       <div class="about-cta__ctas">
         <a href="/start?utm_source=vivawellnessco&utm_medium=cta&utm_content=about_cta" class="btn btn--bronze">Book your first visit</a>
-        <a href="/#quiz" class="btn">Find your protocol</a>
+        <a href="/#quiz" class="btn">Take the quiz</a>
         <a href="/services" class="btn">See programs</a>
       </div>
     </div>
