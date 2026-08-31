@@ -154,18 +154,6 @@ const orgSchema = {
   {/* Page-specific schema, passed in via props */}
   {schema && <script type="application/ld+json" set:html={JSON.stringify(schema)} />}
 
-  {/* Hero LCP preload · only the home page. Responsive via imagesrcset. */}
-  {isHome && (
-    <link
-      rel="preload"
-      as="image"
-      href="/matt-johnson-hd.jpg"
-      imagesrcset="/matt-johnson-hd-sm.jpg 800w, /matt-johnson-hd.jpg 1600w"
-      imagesizes="100vw"
-      fetchpriority="high"
-    />
-  )}
-
   {/* Preconnect to the booking destination + the Turnstile challenge host */}
   <link rel="preconnect" href="https://vivawellnessco.glossgenius.com" crossorigin />
   <link rel="dns-prefetch" href="https://vivawellnessco.glossgenius.com" />

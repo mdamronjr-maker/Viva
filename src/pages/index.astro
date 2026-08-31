@@ -65,7 +65,7 @@ const PICON = {
 const programs = [
   { tier: 'Entry', name: 'Viva Concierge', price: '$99', cadence: '/mo', icon: 'key', href: '/services#viva-concierge-access', body: 'Provider access plus member pricing on compounded peptides, GLP-1, and add-ons. Pay a la carte for the protocols you want instead of a bundled monthly fee.' },
   { tier: 'Foundational', name: 'TRT & HRT All Inclusive', price: '$199', cadence: '/mo', icon: 'pulse', href: '/services#trt-hrt-all-inclusive', body: 'Personalized hormone optimization for men and women: compounded testosterone (TRT) or estradiol and progesterone (HRT), supplies, and biannual labs.' },
-  { tier: 'Essential', name: 'Metabolic Essential', price: '$249', cadence: '/mo', icon: 'leaf', href: '/services#metabolic-essential', body: 'Compounded semaglutide, or micro-dose tirzepatide. Appetite regulation, insulin support, and steady fat loss — the GLP-1 on-ramp.' },
+  { tier: 'Essential', name: 'Metabolic Essential', price: '$249', cadence: '/mo', icon: 'leaf', href: '/services#metabolic-essential', body: 'Compounded semaglutide, or micro-dose tirzepatide. Appetite regulation, insulin support, and steady fat loss. The GLP-1 on-ramp.' },
   { tier: 'Core', name: 'Metabolic Core', price: '$349', cadence: '/mo', icon: 'flame', href: '/services#metabolic-core', body: 'Compounded tirzepatide, fully managed, for stronger appetite control and consistent fat loss.', featured: true },
 ];
 
@@ -73,32 +73,32 @@ const testimonials = [
   {
     quote: "Liliana has cared for my elderly parents since I moved them urgently from Florida. She has been amazing. She picked up on things the docs missed in the hospital and I did as well. She is very smart, capable, and super nice. As a physician, the best reference is that she cares for my family.",
     name: 'Dr. Matt Phillips',
-    role: 'Physician · Verified Google review',
+    role: 'Physician',
   },
   {
     quote: "This company and Liliana have changed my life. As a medical provider myself, I can ensure you are in trustworthy hands.",
     name: 'Kaitlin Trevino',
-    role: 'Medical provider · Verified Google review',
+    role: 'Medical provider',
   },
   {
     quote: "Lili has been an exceptional provider throughout my wellness treatment journey. From our very first consultation, she truly understood my needs. She carefully listened as I explained my symptoms.",
     name: 'Priscilla Moraes',
-    role: 'Verified Google review',
+    role: '',
   },
   {
     quote: "The telehealth setup is incredibly convenient and made everything so easy. The care was professional, personal, and I felt truly supported throughout the process.",
     name: 'Nancy Flores',
-    role: 'Verified Google review',
+    role: '',
   },
   {
     quote: "I am so very cautious when choosing medical providers to guide me through my own health journey. Liliana exceeded every expectation.",
     name: 'Tobiah Vega',
-    role: 'Verified Google review',
+    role: '',
   },
   {
     quote: "Most competent, caring provider. I get personalized care that's effective and timely. The proof is in the results and in how I feel. Just grateful everyday I found her.",
     name: 'Tiffany Plaster',
-    role: 'Verified Google review',
+    role: '',
   },
 ];
 
@@ -110,75 +110,71 @@ const testimonials = [
   schema={faqSchema}
 >
 
-  {/* ============ HERO · Matt Johnson full-bleed ============ */}
+  {/* ============ HERO · type-only sky band (real photo arrives in p8) ============ */}
   <section class="hero">
-    <div class="hero__bg" aria-hidden="true">
-      <img
-        src="/matt-johnson-hd.jpg"
-        srcset="/matt-johnson-hd-sm.jpg 800w, /matt-johnson-hd.jpg 1600w"
-        sizes="100vw"
-        alt=""
-        fetchpriority="high"
-      />
-      <div class="hero__bg-grad"></div>
-    </div>
-
     <div class="container hero__inner">
-      <div class="hero__eyebrows reveal" style="--d: 100ms;">
+      <div class="hero__eyebrows">
         <span class="eyebrow">Telehealth · TX · CO · FL · IA</span>
-        <span class="eyebrow hero__eyebrow-right">· 100% Concierge</span>
+        <span class="eyebrow hero__eyebrow-right">100% Concierge</span>
       </div>
 
       <h1 class="hero__title">
-        <span class="reveal" style="--d: 200ms;">You bring the goals.</span>
-        <span class="italic-display reveal" style="--d: 420ms;">I'll build the protocol.</span>
+        You bring the goals.<br/>
+        <span class="italic-display">I'll build the protocol.</span>
       </h1>
 
-      <div class="hero__foot reveal" style="--d: 1100ms;">
+      <div class="hero__foot">
         <p class="hero__lead">
           I'm Liliana Damron, a nurse practitioner who'd rather catch the trouble
           early than treat it late. Tell me where you want to go, and I'll run the
           labs, build the protocol, and adjust as you go. Hormones, perimenopause
-          and menopause, metabolic, peptides, recovery · one provider, by video,
+          and menopause, metabolic, peptides, recovery. One provider, by video,
           from Austin.
         </p>
         <div class="hero__ctas">
-          <a href="#quiz" class="btn btn--bronze">Find your protocol</a>
-          <a href="/start?utm_source=vivawellnessco&utm_medium=cta&utm_content=home_hero" class="btn hero__btn-quiet">Book your first visit</a>
+          <a href="#quiz" class="btn btn--bronze">Take the quiz</a>
+          <a href="/start?utm_source=vivawellnessco&utm_medium=cta&utm_content=home_hero" class="btn hero__btn-quiet">Book a visit</a>
         </div>
-        <p class="hero__proof" style="font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mute); margin: 0.4rem 0 0;">5.0 on Google reviews</p>
+        <p class="hero__proof">5.0 on Google reviews</p>
       </div>
 
-      <div class="hero__index reveal" style="--d: 1300ms;">
+      <div class="hero__index">
         <span class="index" data-num="00">Founded by Liliana Damron, APRN, FNP-BC</span>
       </div>
     </div>
   </section>
 
-  {/* ============ MARQUEE ============ */}
-  <div class="marquee" aria-hidden="true">
-    <div class="marquee-track">
-      <span>Catch dysfunction early</span>
-      <span>Healthspan, not just lifespan</span>
-      <span>Measured, not guessed</span>
-      <span>One provider, one plan</span>
-      <span>Protocols that adapt to you</span>
-      <span>Built before it breaks</span>
-      <span>Catch dysfunction early</span>
-      <span>Healthspan, not just lifespan</span>
-      <span>Measured, not guessed</span>
-      <span>One provider, one plan</span>
-      <span>Protocols that adapt to you</span>
-      <span>Built before it breaks</span>
-    </div>
-  </div>
+  {/* ============ FEATURE BAND · butter, static (replaces the marquee) ============ */}
+  <section class="features" aria-label="What concierge care includes">
+    <ul class="features__grid container" role="list">
+      <li class="feature">
+        <svg class="feature__ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={PICON.key} />
+        <span class="feature__name">Concierge care</span>
+        <p class="feature__body">Direct access to your provider and personalized support every step of the way.</p>
+      </li>
+      <li class="feature">
+        <svg class="feature__ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={PICON.pulse} />
+        <span class="feature__name">Data driven</span>
+        <p class="feature__body">We run the right labs and use real data to guide your plan.</p>
+      </li>
+      <li class="feature">
+        <svg class="feature__ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={PICON.leaf} />
+        <span class="feature__name">Personalized protocols</span>
+        <p class="feature__body">Every plan is built around your goals, your body, and your lifestyle.</p>
+      </li>
+      <li class="feature">
+        <svg class="feature__ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={PICON.flame} />
+        <span class="feature__name">Doorstep delivery</span>
+        <p class="feature__body">Medications and supplies shipped discreetly and conveniently to you.</p>
+      </li>
+    </ul>
+  </section>
 
   <aside class="trust" aria-label="Practice credentials"><ul class="trust__grid container" role="list"><li class="trust__cell"><span class="trust__num" aria-hidden="true">01</span><p class="trust__label">Board-certified nurse practitioner</p></li><li class="trust__cell"><span class="trust__num" aria-hidden="true">02</span><p class="trust__label">Licensed in TX, CO, FL, IA</p></li><li class="trust__cell"><span class="trust__num" aria-hidden="true">03</span><p class="trust__label">Meds from FDA-regulated 503A pharmacies, third-party tested</p></li><li class="trust__cell"><span class="trust__num" aria-hidden="true">04</span><p class="trust__label">Provider-led, never algorithm-dispensed</p></li></ul></aside>
 
 
   {/* ============ INLINE QUIZ · the showpiece ============ */}
   <section class="qx" id="quiz">
-    <img class="qx__bg" src="/quiz-bg.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" />
     <div class="container qx__inner">
 
       <div class="qx__head">
@@ -284,9 +280,9 @@ const testimonials = [
           <div class="qx__discuss">
             <span class="qx__discuss-label">Bring to your discovery call</span>
             <p class="qx__discuss-hint">
-              Based on your answers, worth asking Liliana about. Conversation
-              starters, not prescriptions — she confirms what fits clinically
-              on the call.
+              Based on your answers, worth asking Liliana about. These are
+              conversation starters. She confirms what fits clinically on the
+              call.
             </p>
             <ul class="qx__result-list qx__result-list--discuss" id="qx-r-discuss"></ul>
           </div>
@@ -309,8 +305,7 @@ const testimonials = [
   </section>
 
   {/* ============ PROGRAMS ============ */}
-  <section class="section section--imgbg">
-    <img class="section__bg" src="/programs-bg.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" />
+  <section class="section">
     <div class="container">
       <div class="section-head">
         <span class="index" data-num="02">The programs</span>
@@ -374,12 +369,11 @@ const testimonials = [
       <div class="provider-band__copy">
         <span class="index" data-num="03">Your provider</span>
         <h2 class="provider-band__title">
-          A real, named provider, <span class="italic-display">not a delegate.</span>
+          A real, named provider, <span class="italic-display">every single visit.</span>
         </h2>
         <p class="provider-band__voice">
-          &ldquo;Your first visit is with me, Liliana, not a delegate, not a
-          questionnaire, not a chatbot. I read your chart and approve your
-          protocol myself.&rdquo;
+          &ldquo;Your first visit is with me, Liliana, not a chatbot. I read
+          your chart and approve your protocol myself.&rdquo;
         </p>
         <a href="/about" class="btn btn--bronze provider-band__cta">Meet your provider</a>
       </div>
@@ -388,7 +382,6 @@ const testimonials = [
 
   {/* ============ TESTIMONIALS ============ */}
   <section class="testimonials">
-    <img class="testimonials__bg" src="/testimonials-bg.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" />
     <div class="container">
       <div class="testimonials__head">
         <span class="index" data-num="04">In their words</span>
@@ -421,7 +414,7 @@ const testimonials = [
               <blockquote class="t-slide__quote">"{t.quote}"</blockquote>
               <footer class="t-slide__author">
                 <strong>{t.name}</strong>
-                <span>{t.role}</span>
+                {t.role && <span>{t.role}</span>}
               </footer>
             </article>
           ))}
@@ -435,7 +428,7 @@ const testimonials = [
             ))}
           </div>
           <button class="t-rotator__nav t-rotator__nav--next" data-tnext aria-label="Next review">→</button>
-          <button class="t-rotator__nav t-rotator__playpause" data-tplaypause aria-label="Pause automatic review rotation" aria-pressed="false">⏸</button>
+          <button class="t-rotator__nav t-rotator__playpause" data-tplaypause aria-label="Play automatic review rotation" aria-pressed="true">▶</button>
         </div>
       </div>
 
@@ -481,19 +474,8 @@ const testimonials = [
     </div>
   </section>
 
-  {/* ============ VITALITY PULSE · signature motif ============ */}
-  <div class="pulse-divider" aria-hidden="true">
-    <svg viewBox="0 0 1000 60" preserveAspectRatio="xMidYMid meet">
-      <!-- steady dim base trace -->
-      <path class="pulse-base" d="M0,30 L370,30 L400,30 L422,9 L448,51 L472,15 L496,45 L518,30 L560,30 L1000,30"/>
-      <!-- bright bronze segment that travels along the trace, popping at the QRS spike -->
-      <path class="pulse-travel" d="M0,30 L370,30 L400,30 L422,9 L448,51 L472,15 L496,45 L518,30 L560,30 L1000,30"/>
-    </svg>
-  </div>
-
   {/* ============ CTA ============ */}
   <section class="cta">
-    <img class="cta__bg" src="/cta-bg.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" />
     <div class="container cta__inner">
       <span class="eyebrow">Begin</span>
       <h2 class="cta__title">
@@ -531,7 +513,7 @@ const testimonials = [
     const playPause = rotator.querySelector('[data-tplaypause]') as HTMLButtonElement | null;
     if (slides.length === 0) return;
     let i = 0;
-    let paused = false; // user-intent pause via the play/pause control
+    let paused = true; // autoplay OFF by default (Lights On motion budget)
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const INTERVAL = 6000;
     function show(idx: number) {
@@ -575,9 +557,9 @@ const testimonials = [
     tVisHandler = () => { if (document.hidden) stop(); else start(); };
     document.addEventListener('visibilitychange', tVisHandler);
     show(0);
-    // reduced motion: reflect the no-autoplay state in the control on load
-    if (reduceMotion) setPaused(true);
-    start();
+    // Autoplay stays off until the visitor explicitly starts it; the play
+    // control and the reduced-motion preference share the same paused state.
+    setPaused(true);
   }
 
   document.addEventListener('astro:page-load', initTestimonialsRotator);
@@ -756,149 +738,72 @@ const testimonials = [
 </script>
 
 <style>
-  /* ============ HERO · Matt Johnson full-bleed ============ */
+  /* ============ HERO · type-only sky band (real photo arrives in p8) ============ */
   .hero {
-    position: relative;
-    min-height: 100vh;
-    display: flex;
-    align-items: flex-end;
-    overflow: hidden;
-    isolation: isolate;
-  }
-  .hero__bg { position: absolute; inset: 0; z-index: -1; overflow: hidden; background: var(--ink); }
-  .hero__video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
-  .hero__bg img {
-    position: absolute;
-    top: 0;
-    right: 0;
-    height: 100%;
-    width: auto;
-    display: block;
-    transform-origin: 55% 40%;
-  }
-  .hero__bg-grad {
-    position: absolute; inset: 0;
-    background:
-      linear-gradient(90deg,
-        rgba(12, 10, 9, 0.96) 0%,
-        rgba(12, 10, 9, 0.92) 25%,
-        rgba(12, 10, 9, 0.55) 45%,
-        rgba(12, 10, 9, 0.18) 60%,
-        rgba(12, 10, 9, 0.05) 80%,
-        rgba(12, 10, 9, 0.25) 100%),
-      linear-gradient(180deg,
-        rgba(12, 10, 9, 0.35) 0%,
-        rgba(12, 10, 9, 0) 18%,
-        rgba(12, 10, 9, 0) 60%,
-        rgba(12, 10, 9, 0.85) 100%);
-    pointer-events: none;
-  }
-  @media (max-width: 760px) {
-    .hero__bg img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: 65% 25%;
-      right: 0;
-    }
-    .hero__bg-grad {
-      background:
-        linear-gradient(180deg,
-          rgba(12, 10, 9, 0.55) 0%,
-          rgba(12, 10, 9, 0.20) 30%,
-          rgba(12, 10, 9, 0.50) 60%,
-          rgba(12, 10, 9, 0.92) 100%);
-    }
+    background: var(--sky);
+    border-bottom: 1px solid var(--rule);
+    /* vertical rhythm on the section so .container keeps its gutter */
+    padding: clamp(7.5rem, 15vw, 11rem) 0 clamp(3.5rem, 7vw, 5.5rem);
   }
   .hero__inner {
-    position: relative;
-    display: grid;
-    grid-template-rows: auto 1fr auto auto;
-    gap: 1.5rem;
-    padding: clamp(7rem, 12vw, 9rem) 0 clamp(3rem, 6vw, 5rem);
-    min-height: 100vh;
-    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
   }
   .hero__eyebrows { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; flex-wrap: wrap; }
-  .hero__eyebrow-right { color: rgba(245, 241, 234, 0.5); }
+  .hero__eyebrow-right { color: var(--mute); }
   .hero__title {
-    font-size: clamp(2.6rem, 6.8vw, 5.4rem);
+    font-size: clamp(2.6rem, 7vw, 5.6rem);
     line-height: 1.02;
-    letter-spacing: -0.028em;
-    max-width: 14ch;
-    align-self: end;
-    margin-top: auto;
-    margin-bottom: auto;
-    font-variation-settings: 'opsz' 144;
+    letter-spacing: -0.025em;
+    max-width: 18ch;
   }
-  .hero__title span { display: block; }
-  .hero__title .italic-display { color: var(--bronze-bright); }
-  .hero__foot {
-    display: grid;
-    grid-template-columns: 1.2fr 1fr;
-    gap: 2.5rem;
-    align-items: end;
-    padding-top: 1rem;
-    border-top: 1px solid var(--rule-strong);
-  }
+  .hero__foot { display: flex; flex-direction: column; gap: 1.3rem; }
   .hero__lead {
-    font-size: clamp(1rem, 1.4vw, 1.2rem);
-    line-height: 1.5;
-    color: rgba(245, 241, 234, 0.88);
-    max-width: 52ch;
+    font-size: clamp(1.05rem, 1.5vw, 1.25rem);
+    line-height: 1.6;
+    color: rgba(43, 37, 29, 0.85);
+    max-width: 54ch;
   }
-  .hero__ctas { display: flex; gap: 0.8rem; flex-wrap: wrap; justify-self: end; }
-  .hero__btn-quiet {
-    background: transparent;
-    color: var(--paper);
-    border-color: rgba(245, 241, 234, 0.4);
-  }
-  .hero__btn-quiet:hover {
-    background: var(--paper);
-    color: var(--ink);
-    border-color: var(--paper);
-  }
-  .hero__index {
+  .hero__ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .hero__btn-quiet { color: var(--paper); border-color: rgba(43, 37, 29, 0.55); }
+  .hero__proof {
     font-family: var(--font-mono);
     font-size: 0.7rem;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: rgba(245, 241, 234, 0.6);
+    color: var(--mute);
+    margin: 0.2rem 0 0;
   }
-  .hero__credit {
-    position: absolute;
-    right: var(--gutter);
-    bottom: clamp(1.2rem, 3vw, 2rem);
-    display: flex;
-    flex-direction: column;
-    gap: 0.15rem;
-    text-align: right;
-    z-index: 2;
+  .hero__index { margin-top: 0.6rem; }
+
+  /* ============ FEATURE BAND · butter, static ============ */
+  .features {
+    background: var(--butter);
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    padding: clamp(2rem, 4vw, 3rem) 0;
   }
-  .hero__credit-name {
-    font-family: var(--font-display-italic);
-    font-style: italic;
-    font-size: 0.95rem;
-    color: rgba(245, 241, 234, 0.9);
-    letter-spacing: -0.01em;
+  .features__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: clamp(1.2rem, 3vw, 2.5rem);
   }
-  .hero__credit-role {
+  @media (max-width: 900px) { .features__grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 520px) { .features__grid { grid-template-columns: 1fr; } }
+  .feature { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.55rem; }
+  .feature__ico { width: 30px; height: 30px; color: var(--paper); opacity: 0.85; }
+  .feature__name {
     font-family: var(--font-mono);
-    font-size: 0.62rem;
-    letter-spacing: 0.18em;
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: rgba(245, 241, 234, 0.5);
+    color: var(--paper);
+    font-weight: 600;
   }
-  @media (max-width: 760px) {
-    .hero__foot { grid-template-columns: 1fr; gap: 1.5rem; }
-    .hero__ctas { justify-self: start; }
-    .hero__credit { display: none; }
-  }
+  .feature__body { font-size: 0.88rem; line-height: 1.5; color: rgba(43, 37, 29, 0.8); max-width: 26ch; margin: 0; }
 
   /* ============ SECTION HEAD ============ */
-  .section--imgbg { position: relative; overflow: hidden; }
-  .section__bg { display: none; } /* AI backdrop hidden in p2; p8 removes markup and files */
-  .section--imgbg > .container { position: relative; z-index: 1; }
   .section-head { display: grid; grid-template-columns: 1fr; gap: var(--space-sm); margin-bottom: var(--head-gap); max-width: 100%; }
   .section-head__title { font-size: clamp(2rem, 4.5vw, 3.5rem); max-width: 16ch; letter-spacing: -0.018em; }
   .section-head__title .italic-display { color: var(--bronze); }
@@ -910,13 +815,12 @@ const testimonials = [
     padding: var(--section-pad-lg) 0;
     border-top: 1px solid var(--rule);
     border-bottom: 1px solid var(--rule);
-    background: var(--ink-2);
+    background: var(--ink-3);
     position: relative;
     overflow: hidden;
     scroll-margin-top: 80px;
   }
-  .qx__bg { display: none; } /* AI backdrop hidden in p2; p8 removes markup and file */
-  /* glow and dim recipes removed in p2: the quiz sits on a flat token ground */
+    /* glow and dim recipes removed in p2: the quiz sits on a flat token ground */
   .qx__inner { position: relative; z-index: 2; max-width: 820px; margin: 0 auto; }
   .qx__head { display: flex; flex-direction: column; gap: 2rem; margin-bottom: 3rem; }
   .qx__title { font-size: clamp(2rem, 4.5vw, 3.4rem); line-height: 1.05; letter-spacing: -0.02em; max-width: 22ch; margin: 0; }
@@ -1113,8 +1017,7 @@ const testimonials = [
 
   /* ============ TESTIMONIALS ============ */
   .testimonials { padding: var(--section-pad) 0; border-top: 1px solid var(--rule); position: relative; overflow: hidden; }
-  .testimonials__bg { display: none; } /* AI backdrop hidden in p2; p8 removes markup and file */
-  /* glow and dim recipes removed in p2 */
+    /* glow and dim recipes removed in p2 */
   .testimonials > .container { position: relative; z-index: 2; }
   .testimonials > .container { position: relative; }
   .testimonials__head { margin-bottom: var(--head-gap); max-width: 900px; }
@@ -1339,95 +1242,6 @@ const testimonials = [
   .faq__foot .btn { color: var(--paper); border-color: rgba(43, 37, 29, 0.55); }
   .faq__foot .btn:hover { background: var(--paper); color: var(--ink); border-color: var(--paper); }
 
-/* ============ VITALITY PULSE divider ============ */
-/* A bright bronze "beat" travels along a steady dim trace, popping at the QRS
-   spike. Two stacked paths share the same geometry: .pulse-base is the resting
-   line; .pulse-travel is one short stroke-dasharray segment swept via
-   stroke-dashoffset. Path arc-length is ~1070; the spike cluster sits at
-   ~400-588 of that, i.e. ~37%-55% of the sweep — the timeline lingers and
-   brightens through that window. Gated behind .is-revealed; frozen under
-   reduced-motion. Zero payload, pure SVG/CSS. */
-.pulse-divider {
-  max-width: 880px;
-  margin: 0 auto;
-  padding: clamp(2rem, 5vw, 3.5rem) var(--gutter);
-}
-.pulse-divider svg {
-  width: 100%;
-  height: 46px;
-  display: block;
-  overflow: visible;
-}
-.pulse-divider path {
-  fill: none;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-/* Steady resting trace — always visible, dim. */
-.pulse-base {
-  stroke: var(--bronze-deep);
-  stroke-width: 2;
-  opacity: 0.5;
-}
-
-/* Traveling beat — one bright dash on a transparent base, drawn over the trace.
-   dasharray = [visible comet, full-length gap]; offset sweeps it L→R.
-   1070 ≈ total path length; 150 ≈ comet length (head + soft tail). */
-.pulse-travel {
-  stroke: var(--bronze-bright);
-  stroke-width: 2.75;
-  stroke-dasharray: 150 1070;
-  stroke-dashoffset: 150;            /* parked off the left edge before reveal */
-  opacity: 0;
-  filter: drop-shadow(0 0 5px rgba(214, 134, 74, 0.55));
-}
-
-/* On reveal: a one-time draw-in of the comet from the left, then it loops,
-   traveling the whole trace and flaring as it crosses the QRS spike. */
-.pulse-divider.is-revealed .pulse-travel {
-  animation:
-    pulse-travel-sweep 3.4s cubic-bezier(0.4, 0, 0.5, 1) 0.5s infinite,
-    pulse-travel-glow 3.4s ease-in-out 0.5s infinite;
-}
-
-/* Sweep the comet across the full arc-length and loop.
-   Offset 150 → -1070 moves the visible dash from left edge to past right edge.
-   Eased percentages slow the comet through the spike window (~37%-55%). */
-@keyframes pulse-travel-sweep {
-  0%   { stroke-dashoffset: 150; }    /* comet entering from the left */
-  34%  { stroke-dashoffset: -250; }   /* approaching the QRS spike, quickening */
-  44%  { stroke-dashoffset: -440; }   /* climbing the spike — dwell here */
-  56%  { stroke-dashoffset: -560; }   /* cresting the spike, slowed */
-  70%  { stroke-dashoffset: -760; }   /* leaving the spike, accelerating */
-  100% { stroke-dashoffset: -1070; }  /* off the right edge — loop */
-}
-
-/* Brightness/glow flares as the comet hits the spike, fades on the flatline. */
-@keyframes pulse-travel-glow {
-  0%   { opacity: 0; filter: drop-shadow(0 0 4px rgba(214, 134, 74, 0.30)); }
-  18%  { opacity: 0.85; filter: drop-shadow(0 0 5px rgba(214, 134, 74, 0.45)); }
-  44%  { opacity: 1; filter: drop-shadow(0 0 11px rgba(240, 168, 119, 0.85)); }   /* QRS pop */
-  56%  { opacity: 1; filter: drop-shadow(0 0 13px rgba(240, 168, 119, 0.95)); }
-  78%  { opacity: 0.9; filter: drop-shadow(0 0 5px rgba(214, 134, 74, 0.45)); }
-  100% { opacity: 0; filter: drop-shadow(0 0 4px rgba(214, 134, 74, 0.30)); }
-}
-
-/* Reduced motion: no travel, no flicker. Show the resting trace plus a single
-   static bright accent over the QRS spike so the motif still reads as a beat. */
-@media (prefers-reduced-motion: reduce) {
-  .pulse-base { opacity: 0.55; }
-  .pulse-travel,
-  .pulse-divider.is-revealed .pulse-travel {
-    animation: none;
-    opacity: 0.95;
-    /* park the bright dash centered on the QRS spike (offset ≈ -380) */
-    stroke-dashoffset: -380;
-    filter: drop-shadow(0 0 6px rgba(214, 134, 74, 0.5));
-  }
-}
-
-.trust{background:var(--ink);border-bottom:1px solid var(--rule);padding:clamp(2.25rem,5vw,3.5rem) 0}.trust__grid{display:grid;grid-template-columns:repeat(4,1fr)}.trust__cell{display:flex;flex-direction:column;gap:.55rem;padding:.25rem clamp(1rem,2.5vw,2rem);border-left:1px solid var(--rule)}.trust__cell:first-child{border-left:0;padding-left:0}.trust__num{font-family:var(--font-mono);font-size:.66rem;letter-spacing:.18em;color:var(--bronze)}.trust__label{font-family:var(--font-mono);font-size:.74rem;line-height:1.55;letter-spacing:.12em;text-transform:uppercase;color:var(--paper);font-weight:500;max-width:none;margin:0}@media(max-width:880px){.trust__grid{grid-template-columns:1fr 1fr;row-gap:clamp(1.5rem,4vw,2rem)}.trust__cell:nth-child(odd){border-left:0;padding-left:0}}@media(max-width:520px){.trust__grid{grid-template-columns:1fr}.trust__cell{border-left:0;padding:clamp(1rem,5vw,1.4rem) 0 0;border-top:1px solid var(--rule)}.trust__cell:first-child{padding-top:0;border-top:0}}
 
 /* ============ PROVIDER BAND ============ */
 /* Warm-paper inversion (same .section--paper treatment used by the About
@@ -1537,7 +1351,6 @@ const testimonials = [
 
   /* ============ CTA ============ */
   .cta { padding: clamp(5rem, 10vw, 9rem) 0; background: var(--ink); position: relative; overflow: hidden; border-top: 1px solid var(--rule); }
-  .cta__bg { display: none; } /* AI backdrop hidden in p2; p8 removes markup and file */
   /* glow and dim recipes removed in p2 */
   .cta__inner { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 1.2rem; }
   .cta__title { font-size: clamp(2.2rem, 5vw, 4rem); max-width: 20ch; margin: 0.5rem 0; }
