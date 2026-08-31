@@ -62,7 +62,7 @@ export function match(a: Answers): Match {
       body: 'Compounded GLP-1 protocol stepped to your physiology. Patient-specific tirzepatide from a 503A pharmacy (same active molecule as Mounjaro and Zepbound, prepared individually under clinical supervision, not the brand-name product).',
       bullets: [
         'Compounded tirzepatide, 503A-sourced',
-        'Dose titration calibrated to your physiology, not a fixed protocol',
+        'Dose titration calibrated to your physiology',
         'Tesamorelin option for visceral fat targeting',
         'Supplies, sharps, and home delivery included',
       ],

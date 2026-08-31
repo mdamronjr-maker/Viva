@@ -102,7 +102,7 @@ const formattedUpdate = hasUpdate
     <header class="post-hero" class:list={[{ 'post-hero--withbanner': post.data.heroImage }]}>
       <div class="container post-hero__inner">
         <a href="/blog" class="post-back">← Back to all articles</a>
-        <span class="eyebrow">· {post.data.category}</span>
+        <span class="eyebrow">{post.data.category}</span>
         <h1 class="post-title">{post.data.title}</h1>
         <p class="post-lede">{post.data.description}</p>
         <div class="post-meta">
@@ -126,7 +126,7 @@ const formattedUpdate = hasUpdate
         <div class="container post-toc__inner">
           <details open>
             <summary class="post-toc__summary">
-              <span class="eyebrow">· Contents</span>
+              <span class="eyebrow">Contents</span>
               <span class="post-toc__count">{tocItems.length} sections</span>
             </summary>
             <ol class="post-toc__list">
@@ -153,7 +153,7 @@ const formattedUpdate = hasUpdate
     {related.length > 0 && (
       <aside class="post-related">
         <div class="container post-related__inner">
-          <span class="eyebrow">· Keep reading</span>
+          <span class="eyebrow">Keep reading</span>
           <h2 class="post-related__title">Related articles</h2>
           <ul class="post-related__list">
             {related.map((r) => (
@@ -183,7 +183,7 @@ const formattedUpdate = hasUpdate
           />
         </div>
         <div class="post-author__body">
-          <span class="eyebrow">· About the author</span>
+          <span class="eyebrow">About the author</span>
           <p class="post-author__name">
             {post.data.author}
           </p>
