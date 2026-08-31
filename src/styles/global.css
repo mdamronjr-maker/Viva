@@ -156,7 +156,7 @@ h3, .h3 {
   font-family: var(--font-display-italic);
   font-style: italic;
   font-weight: 400;
-  color: var(--bronze);
+  color: inherit; /* single-color headlines by design */
   letter-spacing: -0.018em;
   text-transform: none;
   font-variation-settings: 'opsz' 144, 'SOFT' 60, 'WONK' 1;
