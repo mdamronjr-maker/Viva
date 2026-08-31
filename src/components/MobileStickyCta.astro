@@ -44,22 +44,21 @@ const primaryHref = onStart
   @media (max-width: 720px) {
     .msc { display: flex; }
     /* Reserve space at page bottom so the CTA never covers final content.
-       Must match the bar's rendered height (~75px: 0.7rem top pad + ~52px
+       Must match the bar's rendered height (~80px: 0.7rem top pad + ~55px
        button row + 0.7rem bottom pad + 1px border) or the bar overlaps the
        last sliver of footer content. The env() term mirrors the bar's own
        bottom padding so the reserve tracks the safe-area inset too. */
     /* Only reserve space when the bar is actually rendered (it's hidden on
        /privacy and /terms) — otherwise those pages get an empty bottom band. */
-    :global(body:has(.msc)) { padding-bottom: calc(76px + env(safe-area-inset-bottom)); }
+    :global(body:has(.msc)) { padding-bottom: calc(84px + env(safe-area-inset-bottom)); }
   }
   .msc__btn {
     flex: 1;
     text-align: center;
     padding: 0.85rem 0.6rem;
-    font-family: var(--font-mono);
-    font-size: 0.72rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
+    font-family: var(--font-body);
+    font-size: 0.88rem;
+    letter-spacing: 0.01em;
     font-weight: 500;
     border: 1px solid currentColor;
     transition: background 220ms var(--ease), color 220ms var(--ease);

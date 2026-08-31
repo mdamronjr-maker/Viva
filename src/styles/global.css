@@ -218,11 +218,10 @@ p { max-width: 62ch; }
   gap: 0.55rem;
   padding: 0.95rem 1.7rem;
   border-radius: var(--radius-pill);
-  font-family: var(--font-mono);
-  font-size: 0.76rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  font-weight: 600;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  letter-spacing: 0.01em;
+  font-weight: 500;
   color: var(--paper);
   background: transparent;
   border: 1px solid currentColor;
