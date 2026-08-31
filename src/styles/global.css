@@ -239,9 +239,11 @@ p { max-width: 62ch; }
 .btn--bronze {
   background: var(--butter);
   color: var(--paper);
-  border-color: var(--butter-deep);
+  /* --bronze-bright, not --butter-deep: the control boundary must hit
+     3:1 on the cream page (WCAG 1.4.11); butter-deep computes ~1.5:1. */
+  border-color: var(--bronze-bright);
 }
-.btn--bronze:hover { background: var(--butter-bright); border-color: var(--butter-deep); color: var(--paper); }
+.btn--bronze:hover { background: var(--butter-bright); border-color: var(--bronze-bright); color: var(--paper); }
 
 /* Disabled state · forms hit this during submission. */
 .btn:disabled,
@@ -389,7 +391,7 @@ main:focus { outline: none; }
   border-bottom-color: var(--bronze);
 }
 .field__input::placeholder,
-.field__textarea::placeholder { color: rgba(43, 37, 29, 0.5); }
+.field__textarea::placeholder { color: rgba(43, 37, 29, 0.65); } /* composites ~4.7:1 on cream; 0.5 fails 4.5:1 */
 .field__textarea { resize: vertical; min-height: 120px; }
 /* Subtle invalid state · only after user has typed something (not on empty fields) */
 .field__input:not(:placeholder-shown):invalid,
