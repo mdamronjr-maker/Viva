@@ -34,6 +34,13 @@ export type PartnerCategory =
 // `pending: true` renders the card without an outbound link and with a
 // "details coming soon" note. Flip it off once Liliana sends the real
 // affiliate link (Momentous, Noble Origins) or the Fullscript embed code.
+//
+// FTC NOTE: today every live href is the brand's plain public site, so the
+// page copy ("discounts I pass along") is accurate. The moment ANY href is
+// swapped for an affiliate/referral link that pays Viva, add a visible
+// disclosure line to the perks section on /partners (e.g. "Some links earn
+// Viva a referral credit") IN THE SAME commit. Endorsements with a financial
+// relationship require clear, proximate disclosure.
 export type Perk = {
   name: string;
   blurb: string;
