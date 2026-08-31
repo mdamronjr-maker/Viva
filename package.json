@@ -7,8 +7,7 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "node scripts/build-og-bg.mjs && astro build",
-    "build:og-bg": "node scripts/build-og-bg.mjs",
+    "build": "astro build",
     "preview": "astro preview",
     "astro": "astro"
   },
