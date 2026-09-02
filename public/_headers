@@ -33,6 +33,9 @@
   Cache-Control: public, max-age=2592000
 /viva-pool-sm.webp
   Cache-Control: public, max-age=2592000
+# Legacy image tombstone. Keep the retired URL out of edge caches.
+/matt-johnson-hd.jpg
+  Cache-Control: no-store, max-age=0
 /liliana-new.webp
   Cache-Control: public, max-age=2592000
 /liliana-new-sm.webp
