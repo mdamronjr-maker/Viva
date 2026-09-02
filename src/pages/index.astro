@@ -111,8 +111,20 @@ const testimonials = [
   schema={faqSchema}
 >
 
-  {/* ============ HERO · type-only sky band (real photo arrives in p8) ============ */}
+  {/* ============ HERO · owner-approved photographic concept ============ */}
   <section class="hero">
+    <picture class="hero__media" aria-hidden="true">
+      <source media="(max-width: 700px)" srcset="/viva-runner-hero-mobile.webp" />
+      <source media="(max-width: 1100px)" srcset="/viva-runner-hero-sm.webp" />
+      <img
+        src="/viva-runner-hero.webp"
+        width="1537"
+        height="1023"
+        alt=""
+        fetchpriority="high"
+      />
+    </picture>
+    <div class="hero__wash" aria-hidden="true"></div>
     <div class="container hero__inner">
       <div class="hero__copy">
       <div class="hero__eyebrows">
@@ -144,19 +156,6 @@ const testimonials = [
         <span class="eyebrow">Founded by Liliana Damron, APRN, FNP-BC</span>
       </div>
       </div>
-
-      <figure class="hero__art">
-        <img
-          src="/hero-art.webp"
-          srcset="/hero-art-sm.webp 640w, /hero-art.webp 1024w"
-          sizes="(max-width: 900px) 86vw, (max-width: 1480px) 40vw, 560px"
-          width="1024"
-          height="1024"
-          alt="Illustration of a runner approaching the Texas State Capitol"
-          fetchpriority="high"
-        />
-        <figcaption class="caption">Illustration · Texas State Capitol · Austin</figcaption>
-      </figure>
     </div>
   </section>
 
@@ -187,6 +186,39 @@ const testimonials = [
   </section>
 
   <aside class="trust" aria-label="Practice credentials"><ul class="trust__grid container" role="list"><li class="trust__cell"><p class="trust__label">Board-certified nurse practitioner</p></li><li class="trust__cell"><p class="trust__label">Licensed in TX, CO, FL, IA</p></li><li class="trust__cell"><p class="trust__label">Meds from FDA-regulated 503A pharmacies, third-party tested</p></li><li class="trust__cell"><p class="trust__label">Provider-led, never algorithm-dispensed</p></li></ul></aside>
+
+  {/* ============ WHOLE-PERSON WELLNESS · editorial image break ============ */}
+  <section class="wellness-story" aria-labelledby="wellness-story-title">
+    <div class="container wellness-story__inner">
+      <figure class="wellness-story__media">
+        <picture>
+          <source media="(max-width: 800px)" srcset="/viva-pool-sm.webp" />
+          <img
+            src="/viva-pool.webp"
+            width="1448"
+            height="1086"
+            alt="A woman resting at the edge of a rooftop pool with the Austin skyline beyond"
+            loading="lazy"
+            decoding="async"
+          />
+        </picture>
+        <figcaption class="caption">Whole-person wellness · Austin</figcaption>
+      </figure>
+
+      <div class="wellness-story__copy">
+        <span class="eyebrow">Whole-person wellness</span>
+        <h2 id="wellness-story-title" class="wellness-story__title">
+          Optimize your health.<br />Elevate your life.
+        </h2>
+        <p class="wellness-story__lead">
+          From hormones and metabolism to performance and longevity, I use the
+          right labs and ongoing follow-up to build care around your goals and
+          your life.
+        </p>
+        <a href="/services" class="btn">Explore services</a>
+      </div>
+    </div>
+  </section>
 
 
   {/* ============ INLINE QUIZ · the showpiece ============ */}
@@ -776,36 +808,57 @@ const testimonials = [
     margin: 0;
   }
 
-  /* ============ HERO · type-only sky band (real photo arrives in p8) ============ */
+  /* ============ HERO · full photographic field ============ */
   .hero {
+    position: relative;
+    display: flex;
+    min-height: clamp(47rem, 100svh, 57rem);
+    align-items: stretch;
+    overflow: hidden;
+    isolation: isolate;
     background: var(--sky);
     border-bottom: 1px solid var(--rule);
-    /* vertical rhythm on the section so .container keeps its gutter */
-    padding: clamp(7.5rem, 15vw, 11rem) 0 clamp(3.5rem, 7vw, 5.5rem);
+    padding: clamp(7.5rem, 12vw, 9rem) 0 clamp(3.5rem, 7vw, 5.5rem);
+  }
+  .hero__media,
+  .hero__media img,
+  .hero__wash {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .hero__media img {
+    object-fit: cover;
+    object-position: center center;
+  }
+  .hero__wash {
+    z-index: 1;
+    background:
+      linear-gradient(
+        90deg,
+        rgba(185, 210, 222, 0.99) 0%,
+        rgba(185, 210, 222, 0.94) 30%,
+        rgba(185, 210, 222, 0.64) 49%,
+        rgba(185, 210, 222, 0.08) 69%,
+        rgba(185, 210, 222, 0) 100%
+      ),
+      linear-gradient(180deg, rgba(43, 37, 29, 0.16), transparent 22%);
   }
   .hero__inner {
-    display: grid;
-    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
-    gap: clamp(2rem, 5vw, 4rem);
+    position: relative;
+    z-index: 2;
+    display: flex;
     align-items: center;
   }
-  @media (max-width: 900px) {
-    .hero__inner { grid-template-columns: 1fr; }
-    /* image-first on phones, height-capped so the headline and a CTA share
-       the first viewport with the art */
-    .hero__art { order: -1; }
-    .hero__art img { max-height: 52vw; object-fit: cover; }
-  }
-  .hero__copy { display: flex; flex-direction: column; gap: 1.6rem; }
-  .hero__art { margin: 0; display: flex; flex-direction: column; gap: 0.6rem; }
-  .hero__art img {
-    width: 100%;
-    height: auto;
-    border-radius: var(--radius);
-    border: 1px solid var(--rule-strong);
+  .hero__copy {
+    display: flex;
+    width: min(58%, 44rem);
+    flex-direction: column;
+    gap: 1.6rem;
   }
   .hero__eyebrows { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; flex-wrap: wrap; }
-  .hero__eyebrow-right { color: var(--mute); }
+  .hero__eyebrow-right { color: rgba(43, 37, 29, 0.7); }
   .hero__title {
     font-size: clamp(2.6rem, 7vw, 5.6rem);
     line-height: 1.02;
@@ -817,7 +870,7 @@ const testimonials = [
   .hero__lead {
     font-size: clamp(1.05rem, 1.5vw, 1.25rem);
     line-height: 1.6;
-    color: rgba(43, 37, 29, 0.85);
+    color: rgba(43, 37, 29, 0.88);
     max-width: 54ch;
   }
   .hero__ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
@@ -831,6 +884,41 @@ const testimonials = [
     margin: 0.2rem 0 0;
   }
   .hero__index { margin-top: 0.6rem; }
+
+  @media (max-width: 900px) {
+    .hero {
+      min-height: 59rem;
+      align-items: flex-end;
+      padding: 0 0 3.5rem;
+    }
+    .hero__media {
+      bottom: auto;
+      height: 59%;
+    }
+    .hero__media img { object-position: center top; }
+    .hero__wash {
+      background: linear-gradient(
+        180deg,
+        rgba(185, 210, 222, 0.05) 0%,
+        rgba(185, 210, 222, 0.08) 36%,
+        rgba(185, 210, 222, 0.82) 51%,
+        var(--sky) 62%,
+        var(--sky) 100%
+      );
+    }
+    .hero__inner {
+      min-height: 59rem;
+      align-items: flex-end;
+      padding-top: 27rem;
+    }
+    .hero__copy { width: 100%; }
+  }
+  @media (max-width: 520px) {
+    .hero__title { font-size: clamp(3rem, 14vw, 4.25rem); }
+    .hero__lead { font-size: 1rem; line-height: 1.52; }
+    .hero__ctas { display: grid; grid-template-columns: 1fr; }
+    .hero__ctas .btn { width: 100%; }
+  }
 
   /* ============ FEATURE BAND · butter, static ============ */
   .features {
@@ -857,6 +945,70 @@ const testimonials = [
     font-weight: 600;
   }
   .feature__body { font-size: 0.88rem; line-height: 1.5; color: rgba(43, 37, 29, 0.8); max-width: 26ch; margin: 0; }
+
+  /* ============ WHOLE-PERSON WELLNESS ============ */
+  .wellness-story {
+    padding: var(--section-pad) 0;
+    background: var(--ink);
+    border-bottom: 1px solid var(--rule);
+  }
+  .wellness-story__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(20rem, 0.95fr);
+    align-items: center;
+    gap: clamp(3rem, 8vw, 7rem);
+  }
+  .wellness-story__media {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin: 0;
+  }
+  .wellness-story__media picture {
+    display: block;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border: 1px solid var(--rule-strong);
+    border-radius: var(--radius) var(--radius) 6rem var(--radius);
+  }
+  .wellness-story__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .wellness-story__copy {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.4rem;
+  }
+  .wellness-story__title {
+    max-width: 13ch;
+    margin: 0;
+    font-size: clamp(2.2rem, 5vw, 4rem);
+    line-height: 1.03;
+    letter-spacing: -0.02em;
+  }
+  .wellness-story__lead {
+    max-width: 38rem;
+    margin: 0;
+    color: rgba(43, 37, 29, 0.8);
+    font-size: 1.08rem;
+    line-height: 1.65;
+  }
+  .wellness-story__copy .btn {
+    color: var(--paper);
+    border-color: rgba(43, 37, 29, 0.55);
+  }
+  @media (max-width: 900px) {
+    .wellness-story__inner { grid-template-columns: 1fr; gap: 3rem; }
+    .wellness-story__media { width: calc(100% - 1rem); }
+  }
+  @media (max-width: 520px) {
+    .wellness-story__media picture {
+      border-radius: var(--radius) var(--radius) 4rem var(--radius);
+    }
+  }
 
   /* ============ SECTION HEAD ============ */
   .section-head { display: grid; grid-template-columns: 1fr; gap: var(--space-sm); margin-bottom: var(--head-gap); max-width: 100%; }
@@ -1367,8 +1519,8 @@ const testimonials = [
   max-width: 16ch;
   margin: 0;
 }
-   contrast against the light surface — same rule the About founder/section
-   heads follow. */
+/* Keep the provider quote dark enough against the light surface, matching
+   the treatment used by the About page founder section. */
 .provider-band__voice {
   font-family: var(--font-display-italic);
   font-style: italic;

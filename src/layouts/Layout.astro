@@ -42,9 +42,9 @@ const resolvedOgImage = ogImage && ogImage !== '/og-image.jpg' ? ogImage : ogFor
 // Cache-buster: bump this when the OG image *design* changes so platforms
 // that already cached the preview for a shared URL (Slack, iMessage,
 // LinkedIn, etc.) refetch instead of serving the stale thumbnail.
-// v2 = Matt Johnson photo background + Fraunces italic title (May 2026).
-// v3 = state taglines now include Iowa (June 2026).
-const OG_CACHE_VERSION = '3';
+// v3 = state taglines include Iowa (June 2026).
+// v4 = Lights On visual refresh and photographic homepage treatment.
+const OG_CACHE_VERSION = '4';
 const ogImageURL = new URL(`${resolvedOgImage}?v=${OG_CACHE_VERSION}`, Astro.site).href;
 const siteName = 'Viva Wellness Co.';
 
@@ -154,12 +154,13 @@ const orgSchema = {
   {/* Page-specific schema, passed in via props */}
   {schema && <script type="application/ld+json" set:html={JSON.stringify(schema)} />}
 
-  {/* Hero art LCP preload · home only */}
+  {/* Responsive homepage hero preload · home only */}
 
   {isHome && (
-
-    <link rel="preload" as="image" href="/hero-art.webp" imagesrcset="/hero-art-sm.webp 640w, /hero-art.webp 1024w" imagesizes="(max-width: 900px) 86vw, (max-width: 1480px) 40vw, 560px" fetchpriority="high" />
-
+    <>
+      <link rel="preload" as="image" href="/viva-runner-hero-mobile.webp" media="(max-width: 700px)" fetchpriority="high" />
+      <link rel="preload" as="image" href="/viva-runner-hero.webp" imagesrcset="/viva-runner-hero-sm.webp 960w, /viva-runner-hero.webp 1537w" imagesizes="100vw" media="(min-width: 701px)" fetchpriority="high" />
+    </>
   )}
 
   
