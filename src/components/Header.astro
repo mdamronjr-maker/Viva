@@ -7,11 +7,11 @@ const isActive = (p: string) => path === p || (p !== '/' && path.startsWith(p));
   <div class="container site-header__inner">
     <a href="/" class="brand" aria-label="Viva Wellness Co. · home">
       <img
-        src="/viva-logo-paper.png"
+        src="/viva-logo-ink.png"
         alt="Viva Wellness Co."
         class="brand__logo"
-        width="240"
-        height="52"
+        width="1200"
+        height="258"
       />
     </a>
 
@@ -19,6 +19,7 @@ const isActive = (p: string) => path === p || (p !== '/' && path.startsWith(p));
       <a href="/" class:list={["nav__link", isActive('/') && 'is-active']}>Home</a>
       <a href="/about" class:list={["nav__link", isActive('/about') && 'is-active']}>Provider</a>
       <a href="/services" class:list={["nav__link", isActive('/services') && 'is-active']}>Services</a>
+      <a href="/menopause" class:list={["nav__link", isActive('/menopause') && 'is-active']}>Menopause</a>
       <a href="/menu" class:list={["nav__link", isActive('/menu') && 'is-active']}>Menu</a>
       <a href="/partners" class:list={["nav__link", isActive('/partners') && 'is-active']}>Partners</a>
       <a href="/blog" class:list={["nav__link", isActive('/blog') && 'is-active']}>Blog</a>
@@ -26,7 +27,7 @@ const isActive = (p: string) => path === p || (p !== '/' && path.startsWith(p));
     </nav>
 
     <a href="/start?utm_source=vivawellnessco&utm_medium=cta&utm_content=header_nav" class="btn btn--bronze nav__cta">
-      Start Your Protocol
+      Book a visit
     </a>
 
     <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="site-mobile-nav">
@@ -41,7 +42,7 @@ const isActive = (p: string) => path === p || (p !== '/' && path.startsWith(p));
     top: 0;
     z-index: 100;
     backdrop-filter: blur(18px) saturate(140%);
-    background: rgba(12, 10, 9, 0.72);
+    background: rgba(247, 242, 233, 0.8);
     border-bottom: 1px solid var(--rule);
   }
   .site-header__inner {
@@ -73,11 +74,11 @@ const isActive = (p: string) => path === p || (p !== '/' && path.startsWith(p));
     justify-content: center;
   }
   .nav__link {
-    font-family: var(--font-mono);
-    font-size: 0.72rem;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: rgba(245, 241, 234, 0.6);
+    font-family: var(--font-body);
+    font-size: 0.84rem;
+    letter-spacing: 0.02em;
+    font-weight: 500;
+    color: var(--paper);
     white-space: nowrap;
     padding: 0.4rem 0;
     position: relative;
@@ -95,7 +96,7 @@ const isActive = (p: string) => path === p || (p !== '/' && path.startsWith(p));
     transform-origin: left;
     transition: transform 280ms var(--ease);
   }
-  .nav__link:hover { color: var(--paper); }
+  .nav__link:hover { color: var(--bronze); }
   .nav__link:hover::after,
   .nav__link.is-active::after { transform: scaleX(1); }
   .nav__link.is-active { color: var(--paper); }
@@ -122,7 +123,6 @@ const isActive = (p: string) => path === p || (p !== '/' && path.startsWith(p));
     :global(body.menu-open) .nav-toggle span:last-child {
       transform: translateY(-3.25px) rotate(-45deg);
     }
-    .nav__cta { padding: 0.7rem 1rem; font-size: 0.68rem; }
   }
   @media (max-width: 560px) {
     .nav__cta { display: none; }
@@ -141,7 +141,7 @@ const isActive = (p: string) => path === p || (p !== '/' && path.startsWith(p));
   <a href="/partners">Partners</a>
   <a href="/blog">Blog</a>
   <a href="/contact">Contact</a>
-  <a href="/start?utm_source=vivawellnessco&utm_medium=cta&utm_content=header_mobile" class="mobile-cta">Start Your Protocol →</a>
+  <a href="/start?utm_source=vivawellnessco&utm_medium=cta&utm_content=header_mobile" class="mobile-cta">Book a visit</a>
 </nav>
 
 <style>

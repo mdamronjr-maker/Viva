@@ -79,7 +79,7 @@ const programs = [
     rightFor: [
       'You are starting a GLP-1 protocol and want the gentle on-ramp',
       'You respond to semaglutide or low-dose tirzepatide',
-      'You want a provider managing titration, not a refill service',
+      'You want a provider managing titration month to month',
     ],
     notRightFor: [
       'You have outgrown low-dose protocols (see Metabolic Core or Advanced)',
@@ -158,9 +158,9 @@ const includedAlways = [
 ];
 
 const pillars = [
-  { num: '01', cat: 'hormone', title: 'Hormone Optimization', body: 'TRT and HRT tuned to how you actually want to feel and perform. Not just to where the lab range happens to start.' },
+  { num: '01', cat: 'hormone', title: 'Hormone Optimization', body: 'TRT and HRT tuned to how you want to feel and perform, wherever the lab range happens to start.' },
   { num: '02', cat: 'metabolic', title: 'Metabolic Reset', body: 'Compounded GLP-1 protocols matched to your physiology. Real appetite control, without giving back the muscle you worked for.' },
-  { num: '03', cat: 'peptides', title: 'Peptide Therapy', body: 'Compounded peptide protocols for recovery, healing, and tissue repair. BPC-157, TB-500, GHK-Cu, CJC-1295 / Ipamorelin: the stack that closes the gap between how hard you train and what your body can actually bounce back from.' },
+  { num: '03', cat: 'peptides', title: 'Peptide Therapy', body: 'Compounded peptide protocols for recovery, healing, and tissue repair. BPC-157, TB-500, GHK-Cu, CJC-1295 / Ipamorelin: the stack that closes the gap between how hard you train and what your body can bounce back from.' },
   { num: '04', cat: 'performance', title: 'Performance', body: 'For athletes and people who run hot at work. Peptide and hormone protocols built to keep you on the line instead of behind it.' },
   { num: '05', cat: 'recomp', title: 'Recomp', body: 'Metabolic, hormone, and recovery support working together to change your body composition while your training stays intact.' },
   { num: '06', cat: 'longevity', title: 'Lifestyle & Longevity', body: 'The long game. Sleep, hormones, inflammation, and longevity peptides handled as one system instead of six separate problems.' },
@@ -217,14 +217,13 @@ const servicesSchema = {
 
   {/* HERO */}
   <section class="services-hero">
-    <img class="services-hero__bg" src="/services-hero-gym.webp" alt="" aria-hidden="true" loading="eager" decoding="async" />
     <div class="container services-hero__inner">
-      <span class="eyebrow reveal" style="--d: 100ms;">· Peptide therapy · TRT · HRT · GLP-1</span>
-      <h1 class="services-hero__title reveal" style="--d: 250ms;">
-        You bring the goals,<br/>
-        <span class="italic-display">I'll bring the protocol.</span>
+      <span class="eyebrow">Peptide therapy · TRT · HRT · GLP-1</span>
+      <h1 class="services-hero__title">
+        What I treat,<br/>
+        <span class="italic-display">and what it costs.</span>
       </h1>
-      <p class="lead reveal" style="--d: 500ms;">
+      <p class="lead">
         Concierge peptide therapy, hormone optimization, and metabolic protocols
         from one provider on a flat monthly fee. Compounded peptides (BPC-157,
         TB-500, GHK-Cu, CJC-1295 / Ipamorelin), GLP-1, TRT, and HRT. Medication,
@@ -239,9 +238,9 @@ const servicesSchema = {
   <section class="section pillars-section">
     <div class="container">
       <div class="section-head">
-        <span class="index" data-num="01">The work</span>
+        <span class="eyebrow">The work</span>
         <h2 class="section-head__title">
-          Seven pillars. <span class="italic-display">One body.</span>
+          The seven areas I treat.
         </h2>
         <p class="lead section-head__lead">
           I treat the body as one system. Pull on hormones, metabolism,
@@ -254,7 +253,6 @@ const servicesSchema = {
         {pillars.map((p, i) => (
           <li class:list={["pillar", i === pillars.length - 1 && 'pillar--foundation']}>
             <a class="pillar__link" href={`/menu#${p.cat}`}>
-              <span class="pillar__num">{p.num}</span>
               <h3 class="pillar__title">{p.title}</h3>
               <p class="pillar__body">{p.body}</p>
               <span class="pillar__more">On the menu →</span>
@@ -270,7 +268,7 @@ const servicesSchema = {
     <div class="container">
       <div class="included__inner">
         <div class="included__head">
-          <span class="index" data-num="·">Every membership includes</span>
+          <span class="eyebrow">Every membership includes</span>
         </div>
         <ul class="included__list">
           {includedAlways.map((item) => (
@@ -288,13 +286,13 @@ const servicesSchema = {
   <section class="quiz-banner">
     <div class="container quiz-banner__inner">
       <div class="quiz-banner__copy">
-        <span class="eyebrow">· Quick way to pick</span>
+        <span class="eyebrow">Quick way to pick</span>
         <h2 class="quiz-banner__title">
-          Five questions, <span class="italic-display">one match.</span>
+          Take the quiz first.
         </h2>
         <p>
           Tell me your goals, your training, your budget. About ninety seconds
-          later you'll land on the tier that actually fits you.
+          later you'll land on the tier that fits you.
         </p>
       </div>
       <a href="/#quiz" class="btn btn--bronze">Take the quiz</a>
@@ -308,7 +306,7 @@ const servicesSchema = {
         <img src="/liliana-new-sm.webp" alt="Liliana Damron, APRN, FNP-BC" loading="lazy" />
       </a>
       <div class="provider-strip__copy">
-        <span class="eyebrow">· Your provider for every protocol</span>
+        <span class="eyebrow">Your provider for every protocol</span>
         <p class="provider-strip__line">
           Every tier on this page is managed by me,
           <strong>Liliana Damron, APRN, FNP-BC</strong>.
@@ -323,9 +321,9 @@ const servicesSchema = {
   <section class="section programs-section">
     <div class="container">
       <div class="section-head">
-        <span class="index" data-num="02">The programs</span>
+        <span class="eyebrow">The programs</span>
         <h2 class="section-head__title">
-          Five memberships. <span class="italic-display">Pick yours.</span>
+          The memberships.
         </h2>
         <p class="lead section-head__lead">
           One flat monthly fee. Compounded medication, supplies, home delivery,
@@ -382,11 +380,20 @@ const servicesSchema = {
     </div>
   </section>
 
+  {/* PRICING NOTE + REVIEW PULLQUOTE */}
+  <div class="container services-aside">
+    <p class="sidenote services-pricing-note">Prices mirror our booking system. If these ever differ, the booking page wins.</p>
+    <figure class="services-quote">
+      <blockquote class="pullquote">Most competent, caring provider. I get personalized care that's effective and timely. The proof is in the results and in how I feel. Just grateful everyday I found her.</blockquote>
+      <figcaption class="caption">Tiffany Plaster · <a href="https://www.google.com/maps/place/Viva+Wellness+Co./@30.448506,-93.3099761,5366828m/data=!3m2!1e3!4b1!4m6!3m5!1s0x838a2a09b2fa0069:0x23603b7d6308b72a!8m2!3d30.448506!4d-93.309976!16s%2Fg%2F11x1q1jhw9" target="_blank" rel="noopener">verified Google review</a></figcaption>
+    </figure>
+  </div>
+
   {/* POLICIES */}
   <section class="section section--paper">
     <div class="container policies">
       <div>
-        <span class="index" data-num="03">The fine print</span>
+        <span class="eyebrow">The fine print</span>
         <h2 class="policies__title">Membership policies, plainly stated.</h2>
       </div>
       <ul class="policies__list">
@@ -405,12 +412,12 @@ const servicesSchema = {
   <section class="services-cta">
     <div class="container services-cta__inner">
       <h2 class="services-cta__title">
-        Not sure which tier? <span class="italic-display">Start with a visit.</span>
+        Not sure which tier? Start with a visit.
       </h2>
       <p class="lead">
         Your first telehealth consult is the diagnostic step. I go through your
         goals, your history, and your labs, then tell you the protocol I'd
-        recommend. You don't commit to a tier until you've actually talked to me.
+        recommend. You don't commit to a tier until you've talked to me.
       </p>
       <div class="services-cta__ctas">
         <a href="/start?utm_source=vivawellnessco&utm_medium=cta&utm_content=services_cta" class="btn btn--bronze">Book your first visit</a>
@@ -423,21 +430,24 @@ const servicesSchema = {
 
 <style>
   /* HERO */
+  .services-aside { padding: clamp(2rem, 4vw, 3rem) var(--gutter); display: flex; flex-direction: column; gap: 2rem; }
+  .services-pricing-note { max-width: 46ch; }
+  .services-quote { margin: 0; display: flex; flex-direction: column; gap: 0.7rem; }
   .services-hero {
+    background: var(--sky);
+    border-bottom: 1px solid var(--rule);
     padding: clamp(6rem, 12vw, 10rem) 0 clamp(4rem, 8vw, 6rem);
     position: relative;
     overflow: hidden;
   }
-  .services-hero__bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; opacity: 0.42; }
   .services-hero::before {
     content: '';
     position: absolute;
     inset: 0;
     z-index: 1;
-    background: radial-gradient(800px 500px at 80% 30%, rgba(201, 120, 58, 0.18), transparent 60%);
+    background: none; /* bronze glow removed in p2 */
     pointer-events: none;
   }
-  .services-hero::after { content: ''; position: absolute; inset: 0; z-index: 1; background: linear-gradient(180deg, rgba(20,13,9,0.5), rgba(20,13,9,0.72)); pointer-events: none; }
   .services-hero__inner {
     position: relative;
     z-index: 2;
@@ -451,17 +461,16 @@ const servicesSchema = {
     line-height: 1.02;
     letter-spacing: -0.028em;
   }
-  .services-hero__title .italic-display { color: var(--bronze); }
 
   /* PILLARS */
   .pillars-section { padding: clamp(3rem, 7vw, 5rem) 0; }
   .pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-top: 1px solid var(--rule-strong); }
-  .pillar { padding: 1.4rem 1.2rem 1.4rem 0; border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule-strong); transition: background 240ms var(--ease); }
+  .pillar { padding: 1.4rem 1.2rem; border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule-strong); transition: background 240ms var(--ease); }
+  .pillars > .pillar:nth-child(3n+1) { padding-left: 0; }
   .pillar:nth-child(3n) { border-right: 0; }
   .pillar:hover { background: rgba(214, 134, 74, 0.04); }
-  .pillar__num { font-family: var(--font-mono); font-size: 0.7rem; color: var(--bronze); letter-spacing: 0.1em; display: block; margin-bottom: 0.9rem; }
   .pillar__title { font-size: 1.2rem; margin-bottom: 0.5rem; color: var(--paper); line-height: 1.2; }
-  .pillar__body { color: rgba(245, 241, 234, 0.7); font-size: 0.9rem; line-height: 1.45; }
+  .pillar__body { color: rgba(43, 37, 29, 0.75); font-size: 0.9rem; line-height: 1.45; }
   /* 7th pillar (Labs) spans full row as foundation finale.
      Selector targets the last pillar when it would otherwise sit alone in row 3. */
   .pillar--foundation {
@@ -500,7 +509,7 @@ const servicesSchema = {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 0.5rem 2rem;
-    color: rgba(245, 241, 234, 0.85);
+    color: rgba(43, 37, 29, 0.85);
     font-size: 0.95rem;
   }
   @media (max-width: 600px) { .included__list { grid-template-columns: 1fr; } }
@@ -529,7 +538,7 @@ const servicesSchema = {
     content: '';
     position: absolute;
     inset: 0;
-    background: radial-gradient(700px 400px at 80% 50%, rgba(201, 120, 58, 0.12), transparent 60%);
+    background: none; /* bronze glow removed in p2 */
     pointer-events: none;
   }
   .quiz-banner__inner {
@@ -547,16 +556,15 @@ const servicesSchema = {
     margin: 0.7rem 0 1rem;
     max-width: 16ch;
   }
-  .quiz-banner__title .italic-display { color: var(--bronze); }
   .quiz-banner__copy p {
-    color: rgba(245, 241, 234, 0.7);
+    color: rgba(43, 37, 29, 0.75);
     max-width: 56ch;
   }
 
   /* PROVIDER STRIP · between quiz banner and programs grid */
   .provider-strip {
     padding: clamp(2.4rem, 5vw, 3.8rem) 0;
-    border-bottom: 1px solid rgba(12, 10, 9, 0.08);
+    border-bottom: 1px solid rgba(43, 37, 29, 0.08);
   }
   .provider-strip__inner {
     display: grid;
@@ -582,7 +590,7 @@ const servicesSchema = {
   }
   .provider-strip__media:hover {
     transform: scale(1.02);
-    box-shadow: 0 6px 20px rgba(12, 10, 9, 0.12);
+    box-shadow: 0 6px 20px rgba(43, 37, 29, 0.12);
   }
   .provider-strip__media img {
     width: 100%;
@@ -611,11 +619,11 @@ const servicesSchema = {
     font-size: 0.72rem;
     letter-spacing: 0.13em;
     text-transform: uppercase;
-    color: var(--bronze-deep);
+    color: var(--butter);
     text-decoration: none;
     transition: color 200ms var(--ease);
   }
-  .provider-strip__link:hover { color: var(--bronze); }
+  .provider-strip__link:hover { color: var(--butter-bright); }
 
   /* PROGRAMS · five membership cards mirrored from GlossGenius */
   .programs-section { padding: clamp(3rem, 7vw, 5rem) 0; }
@@ -628,7 +636,8 @@ const servicesSchema = {
   }
   @media (max-width: 800px) { .prog-grid { grid-template-columns: 1fr; } }
   .prog-card {
-    background: var(--ink);
+    background: var(--ink-2);
+    border: 1px solid var(--rule);
     padding: clamp(1.8rem, 3.5vw, 2.4rem);
     display: flex;
     flex-direction: column;
@@ -701,7 +710,7 @@ const servicesSchema = {
     margin: 0.2rem 0 0;
   }
   .prog-card__body {
-    color: rgba(247, 244, 238, 0.78);
+    color: rgba(43, 37, 29, 0.78);
     font-size: 0.95rem;
     line-height: 1.6;
     margin: 0;
@@ -717,7 +726,7 @@ const servicesSchema = {
   .prog-card__includes li {
     position: relative;
     padding-left: 1.4rem;
-    color: rgba(247, 244, 238, 0.85);
+    color: rgba(43, 37, 29, 0.85);
     font-size: 0.92rem;
     line-height: 1.5;
   }
@@ -746,7 +755,7 @@ const servicesSchema = {
     text-transform: uppercase;
   }
   .prog-card__fit-label--yes { color: var(--bronze); }
-  .prog-card__fit-label--no { color: rgba(247, 244, 238, 0.55); }
+  .prog-card__fit-label--no { color: rgba(43, 37, 29, 0.65); }
   .prog-card__fit-list {
     display: flex;
     flex-direction: column;
@@ -755,7 +764,7 @@ const servicesSchema = {
   .prog-card__fit-list li {
     padding-left: 1.4rem;
     position: relative;
-    color: rgba(247, 244, 238, 0.78);
+    color: rgba(43, 37, 29, 0.78);
     font-size: 0.88rem;
     line-height: 1.5;
   }
@@ -768,11 +777,11 @@ const servicesSchema = {
     font-size: 0.82rem;
   }
   .prog-card__fit-list--no li {
-    color: rgba(247, 244, 238, 0.55);
+    color: rgba(43, 37, 29, 0.65);
   }
   .prog-card__fit-list--no li::before {
     content: '×';
-    color: rgba(247, 244, 238, 0.5);
+    color: rgba(43, 37, 29, 0.65);
     font-size: 1.05rem;
     line-height: 1;
     top: -0.05rem;
@@ -802,9 +811,9 @@ const servicesSchema = {
   }
   .policies__list li {
     padding: 1rem 0 1rem 2rem;
-    border-bottom: 1px solid rgba(12, 10, 9, 0.1);
+    border-bottom: 1px solid rgba(247, 242, 233, 0.14);
     position: relative;
-    color: rgba(12, 10, 9, 0.78);
+    color: rgba(247, 242, 233, 0.82); /* the band is charcoal post-flip */
     font-size: 0.98rem;
   }
   .policies__list li::before {
@@ -815,7 +824,7 @@ const servicesSchema = {
     top: 1rem;
     font-family: var(--font-mono);
     font-size: 0.7rem;
-    color: var(--bronze-deep);
+    color: var(--butter);
     letter-spacing: 0.1em;
   }
   .policies__list { counter-reset: p; }
@@ -833,7 +842,7 @@ const servicesSchema = {
     content: '';
     position: absolute;
     inset: 0;
-    background: radial-gradient(700px 400px at 50% 0%, rgba(201, 120, 58, 0.18), transparent 60%);
+    background: none; /* bronze glow removed in p2 */
     pointer-events: none;
   }
   .services-cta__inner {
@@ -848,6 +857,5 @@ const servicesSchema = {
     font-size: clamp(2rem, 5vw, 3.6rem);
     max-width: 22ch;
   }
-  .services-cta__title .italic-display { color: var(--bronze-bright); }
   .services-cta__ctas { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; margin-top: 0.8rem; }
 </style>

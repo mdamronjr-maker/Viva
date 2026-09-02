@@ -26,6 +26,63 @@ export type PartnerCategory =
   | 'Gyms & Studios'
   | 'Nutrition & Meal Prep';
 
+// ─── Viva Perks ────────────────────────────────────────────────────────────
+// Brand discounts Liliana passes along to patients. Separate from the
+// referral directory above: the directory is local practitioners (no paid
+// listings); perks are national brands with a Viva discount code or link.
+//
+// `pending: true` renders the card without an outbound link and with a
+// "details coming soon" note. Flip it off once Liliana sends the real
+// affiliate link (Momentous, Noble Origins) or the Fullscript embed code.
+//
+// FTC NOTE: today every live href is the brand's plain public site, so the
+// page copy ("discounts I pass along") is accurate. The moment ANY href is
+// swapped for an affiliate/referral link that pays Viva, add a visible
+// disclosure line to the perks section on /partners (e.g. "Some links earn
+// Viva a referral credit") IN THE SAME commit. Endorsements with a financial
+// relationship require clear, proximate disclosure.
+export type Perk = {
+  name: string;
+  blurb: string;
+  code?: string;
+  href?: string;
+  linkLabel?: string;
+  pending?: boolean;
+  pendingNote?: string;
+};
+
+export const perks: Perk[] = [
+  {
+    name: 'BodySpec',
+    blurb: 'DEXA body-composition scans. The gold-standard way to track fat, lean mass, and bone density while you are on a protocol. Mobile trucks all over Austin.',
+    code: 'VIVA',
+    href: 'https://www.bodyspec.com',
+    linkLabel: 'bodyspec.com',
+  },
+  {
+    name: 'Momentous',
+    blurb: 'NSF-certified supplements: protein, creatine, omega-3, magnesium. The brand I reach for when a protocol needs a foundation the grocery store cannot provide.',
+    code: 'Viva',
+    href: 'https://www.livemomentous.com',
+    linkLabel: 'livemomentous.com',
+    // TODO: swap href for Liliana's partner link when she sends it.
+  },
+  {
+    name: 'Noble Origins',
+    blurb: 'Organ-based protein and whole-food supplements for patients who want their micronutrients from food-first sources.',
+    pending: true,
+    pendingNote: 'Discount link on the way',
+  },
+  {
+    name: 'Fullscript',
+    blurb: 'Practitioner-grade supplement dispensary. Professional brands, dosed and curated by Liliana, shipped to your door at a patient discount.',
+    pending: true,
+    pendingNote: 'Dispensary link coming soon',
+    // TODO: replace this card's pending state with the embedded Fullscript
+    // widget once the emailed embed code is in hand.
+  },
+];
+
 // The /partners page renders this array as a single flat grid in array order,
 // so the order here IS the on-page order. Voltex PT leads by request.
 export const partners: Partner[] = [

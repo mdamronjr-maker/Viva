@@ -21,12 +21,12 @@ const contactSchema = {
 
   <section class="contact-hero">
     <div class="container contact-hero__inner">
-      <span class="eyebrow reveal" style="--d: 100ms;">Start the conversation</span>
-      <h1 class="contact-hero__title reveal" style="--d: 250ms;">
+      <span class="eyebrow">Start the conversation</span>
+      <h1 class="contact-hero__title">
         Get the <span class="italic-display">eBook.</span><br/>
         Get a real reply.
       </h1>
-      <p class="lead reveal" style="--d: 500ms;">
+      <p class="lead">
         Leave me your details and I'll send the Precision Hormone &amp; Peptide
         Therapy guide straight to your inbox. If you've got questions,
         Liliana answers them herself. No bots, no funnels, no spam.
@@ -123,7 +123,7 @@ const contactSchema = {
         </div>
 
         <div class="contact-side__heading">
-          <span class="eyebrow">· What happens next</span>
+          <span class="eyebrow">What happens next</span>
         </div>
         <div class="contact-side__panel">
           <span class="contact-side__num">01</span>
@@ -133,7 +133,7 @@ const contactSchema = {
         <div class="contact-side__panel">
           <span class="contact-side__num">02</span>
           <h3>Liliana reads your note</h3>
-          <p>Personally. Not a chatbot, not a triage queue. If you asked something, she's the one reading it.</p>
+          <p>Personally. If you asked something, she's the one reading it.</p>
         </div>
         <div class="contact-side__panel">
           <span class="contact-side__num">03</span>
@@ -231,9 +231,7 @@ const contactSchema = {
     content: '';
     position: absolute;
     inset: 0;
-    background:
-      radial-gradient(700px 400px at 75% 10%, rgba(201, 120, 58, 0.18), transparent 60%),
-      radial-gradient(500px 350px at 5% 90%, rgba(201, 120, 58, 0.08), transparent 60%);
+    background: none; /* bronze glow removed in p2 */
     pointer-events: none;
   }
   .contact-hero__inner {
@@ -246,7 +244,6 @@ const contactSchema = {
     letter-spacing: -0.025em;
     margin: 1rem 0 1.5rem;
   }
-  .contact-hero__title .italic-display { color: var(--bronze-bright); }
 
   .contact-body {
     padding: clamp(2rem, 5vw, 4rem) 0 clamp(5rem, 10vw, 8rem);
@@ -347,7 +344,7 @@ const contactSchema = {
     color: var(--paper);
   }
   .contact-side__panel p {
-    color: rgba(245, 241, 234, 0.7);
+    color: rgba(43, 37, 29, 0.75);
     font-size: 0.93rem;
     line-height: 1.55;
     max-width: 36ch;

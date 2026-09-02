@@ -15,7 +15,7 @@ import Layout from '../layouts/Layout.astro';
 // Mirrors the "New Patient Consult" SKU in GlossGenius. Update both places
 // (here + the scheduler) if the price or deposit ever changes.
 const FIRST_VISIT_DURATION_MIN = 45;
-const FIRST_VISIT_PRICE_USD = 200;
+const FIRST_VISIT_PRICE_USD = 199;
 const FIRST_VISIT_DEPOSIT_USD = 50;
 const FIRST_VISIT_CREDIT_NOTE =
   `One-time fee, separate from any membership. $${FIRST_VISIT_DEPOSIT_USD} deposit due at booking, balance billed at the visit.`;
@@ -39,7 +39,7 @@ const bookingHref = `https://vivawellnessco.glossgenius.com/services?${utmQuery}
 const whatToBring = [
   'Any labs from the last twelve months, even the ones that came back out of range',
   'A list of what you take right now, prescriptions and supplements, with doses',
-  'What you actually want, in your own words (energy, body comp, performance, recovery, longevity)',
+  'What you want, in your own words (energy, body comp, performance, recovery, longevity)',
   'A working webcam and a quiet forty-five minutes to yourself',
 ];
 
@@ -47,12 +47,12 @@ const visitSteps = [
   {
     num: '01',
     title: 'I ask what you have already tried',
-    body: 'We start with what you have actually done, what helped, what flopped, and what changed along the way. No rushing you through a checklist.',
+    body: 'We start with what you have done, what helped, what flopped, and what changed along the way. No rushing you through a checklist.',
   },
   {
     num: '02',
     title: 'We look at the whole picture',
-    body: 'Liliana goes through your labs, your symptoms, and your goals together, not in separate silos. If your labs are missing or out of date, she orders what we need.',
+    body: 'Liliana goes through your labs, your symptoms, and your goals in one conversation. If your labs are missing or out of date, she orders what we need.',
   },
   {
     num: '03',
@@ -62,7 +62,7 @@ const visitSteps = [
   {
     num: '04',
     title: 'Nobody talks you into anything',
-    body: 'You decide whether to enroll after the visit, not during it. The first-visit fee is a one-time charge, separate from any membership you might choose to start.',
+    body: 'You decide about enrolling after the visit. The first-visit fee is a one-time charge, separate from any membership you might choose to start.',
   },
 ];
 
@@ -71,28 +71,28 @@ const visitSteps = [
 // (TRT, HRT, GLP-1, peptides); Liliana can edit the clinical cadence as needed.
 const ninetyDays = [
   {
-    range: 'Days 0–3',
+    range: 'Days 0 to 3',
     label: 'First few days',
     title: 'Intake, script, medication ships',
-    body: 'Your first telehealth visit. Liliana goes through your history, writes your starting protocol, and sends it over to the 503A pharmacy. Compounded medication usually ships in 48–72 hours, and most patients have it in hand within the first week.',
+    body: 'Your first telehealth visit. Liliana goes through your history, writes your starting protocol, and sends it over to the 503A pharmacy. Compounded medication usually ships in 48 to 72 hours, and most patients have it in hand within the first week.',
   },
   {
-    range: 'Days 3–30',
-    label: 'Weeks 1–4',
+    range: 'Days 3 to 30',
+    label: 'Weeks 1 to 4',
     title: 'Titration begins',
     body: 'We start low and build up at your pace, based on how you tolerate it. Message me directly with any side-effect questions, no phone tree. If your labs are still pending, this is the window where they get drawn.',
   },
   {
-    range: 'Days 30–60',
-    label: 'Weeks 5–8',
+    range: 'Days 30 to 60',
+    label: 'Weeks 5 to 8',
     title: 'First dose-adjustment check-in',
-    body: 'We sit down again and tune the protocol around how your body is actually responding. Any changes come from your numbers and how you feel, not a one-size-fits-all calendar.',
+    body: 'We sit down again and tune the protocol around how your body is responding. Any changes come from your numbers and how you feel.',
   },
   {
-    range: 'Days 60–90',
-    label: 'Weeks 9–12',
+    range: 'Days 60 to 90',
+    label: 'Weeks 9 to 12',
     title: 'Labs re-pulled, results reviewed',
-    body: 'Follow-up labs tell us the protocol is doing what we hoped. Liliana walks you through every number so you understand it, not just nods along. From here it is monthly maintenance with quarterly check-ins.',
+    body: 'Follow-up labs tell us the protocol is doing what we hoped. Liliana walks you through every number until it makes sense to you. From here it is monthly maintenance with quarterly check-ins.',
   },
 ];
 ---
@@ -104,7 +104,7 @@ const ninetyDays = [
 
   <section class="start-hero">
     <div class="container start-hero__inner">
-      <span class="eyebrow">· Your first visit</span>
+      <span class="eyebrow">Your first visit</span>
       <h1 class="start-hero__title">
         Forty-five minutes <span class="italic-display">with Liliana.</span>
       </h1>
@@ -141,7 +141,7 @@ const ninetyDays = [
   <section class="start-cta">
     <div class="container start-cta__inner">
       <h2 class="start-cta__title">
-        Ready when you <span class="italic-display">are.</span>
+        Ready when you are.
       </h2>
       <p class="lead">
         Booking takes about a minute. You pick a time, fill out a short intake form,
@@ -163,9 +163,9 @@ const ninetyDays = [
   <section class="section">
     <div class="container start-grid">
       <div class="start-grid__left">
-        <span class="index" data-num="01">What happens</span>
+        <span class="eyebrow">What happens</span>
         <h2 class="start-h2">
-          The visit, <span class="italic-display">step by step.</span>
+          The visit, step by step.
         </h2>
         <ol class="start-steps">
           {visitSteps.map((s) => (
@@ -182,7 +182,7 @@ const ninetyDays = [
 
       <aside class="start-grid__right">
         <div class="start-card">
-          <span class="eyebrow">· Bring with you</span>
+          <span class="eyebrow">Bring with you</span>
           <ul class="start-bring">
             {whatToBring.map((item) => (
               <li>{item}</li>
@@ -195,7 +195,7 @@ const ninetyDays = [
         </div>
 
         <div class="start-card start-card--quiet">
-          <span class="eyebrow">· Not ready to book?</span>
+          <span class="eyebrow">Not ready to book?</span>
           <p>
             Take the protocol-match quiz first. Five questions, about ninety seconds.
             You'll land on the program tier that fits your goals and your budget, and
@@ -210,12 +210,12 @@ const ninetyDays = [
   <section class="section ninety">
     <div class="container">
       <div class="ninety__head">
-        <span class="index" data-num="02">After your first visit</span>
+        <span class="eyebrow">After your first visit</span>
         <h2 class="ninety__title">
-          What the first <span class="italic-display">ninety days</span> actually look like.
+          What the first ninety days look like.
         </h2>
         <p class="lead">
-          Here's the actual calendar, not a vague promise. This rhythm holds across
+          Here's the calendar itself. This rhythm holds across
           hormone, metabolic, peptide, and recovery protocols, and I shift the timing
           to match what your body is telling me along the way.
         </p>
@@ -236,10 +236,38 @@ const ninetyDays = [
     </div>
   </section>
 
+  {/* CLOSING CTA · the page used to end after the ninety-day timeline with
+      no action left on screen */}
+  <section class="start-final">
+    <div class="container start-final__inner">
+      <p class="start-final__line">That is the whole plan. The only step left is picking a time.</p>
+      <a href={bookingHref} target="_blank" rel="noopener" class="btn btn--bronze">Schedule my first visit</a>
+    </div>
+  </section>
+
+  
+
 </Layout>
+
+<script>
+  // The build-time UTM passthrough is dead in a static build; rewrite the
+  // GlossGenius links with the visitor's live utm_* params at page load.
+  document.addEventListener('astro:page-load', () => {
+    const qs = new URLSearchParams(location.search);
+    const utm = [...qs].filter(([k]) => k.startsWith('utm_'));
+    if (!utm.length) return;
+    document.querySelectorAll('a[href*="glossgenius.com"]').forEach((a) => {
+      const u = new URL((a as HTMLAnchorElement).href);
+      utm.forEach(([k, v]) => u.searchParams.set(k, v));
+      (a as HTMLAnchorElement).href = u.toString();
+    });
+  });
+</script>
 
 <style>
   .start-hero {
+    background: var(--sky);
+    border-bottom: 1px solid var(--rule);
     padding: clamp(5rem, 11vw, 9rem) 0 clamp(2rem, 5vw, 3rem);
     position: relative;
     overflow: hidden;
@@ -248,7 +276,7 @@ const ninetyDays = [
     content: '';
     position: absolute;
     inset: 0;
-    background: radial-gradient(800px 500px at 75% 0%, rgba(214, 134, 74, 0.14), transparent 65%);
+    background: none; /* bronze glow removed in p2 */
     pointer-events: none;
   }
   .start-hero__inner { position: relative; max-width: 60ch; }
@@ -258,10 +286,10 @@ const ninetyDays = [
     letter-spacing: -0.02em;
     margin: 1rem 0 1.5rem;
   }
-  .start-hero__title .italic-display { color: var(--bronze-bright); }
 
   .start-headline {
     padding: 0 0 clamp(2rem, 5vw, 3.5rem);
+    padding-top: 1.4rem;
   }
   .start-headline__grid {
     display: grid;
@@ -288,7 +316,7 @@ const ninetyDays = [
     letter-spacing: -0.015em;
   }
   .start-headline__note {
-    color: rgba(247, 244, 238, 0.7);
+    color: rgba(43, 37, 29, 0.75);
     font-size: 0.92rem;
     line-height: 1.5;
     max-width: 32ch;
@@ -308,7 +336,6 @@ const ninetyDays = [
     max-width: 18ch;
     line-height: 1.05;
   }
-  .start-h2 .italic-display { color: var(--bronze); }
 
   .start-steps { display: flex; flex-direction: column; border-top: 1px solid var(--rule-strong); }
   .start-step {
@@ -332,7 +359,7 @@ const ninetyDays = [
     color: var(--paper);
   }
   .start-step__body {
-    color: rgba(247, 244, 238, 0.78);
+    color: rgba(43, 37, 29, 0.78);
     font-size: 0.98rem;
     line-height: 1.6;
     max-width: 56ch;
@@ -355,7 +382,7 @@ const ninetyDays = [
   .start-bring li {
     padding-left: 1.2rem;
     position: relative;
-    color: rgba(247, 244, 238, 0.85);
+    color: rgba(43, 37, 29, 0.85);
     font-size: 0.95rem;
     line-height: 1.55;
   }
@@ -367,7 +394,7 @@ const ninetyDays = [
     font-weight: 700;
   }
   .start-card__note {
-    color: rgba(247, 244, 238, 0.6);
+    color: rgba(43, 37, 29, 0.7);
     font-size: 0.85rem;
     line-height: 1.55;
     padding-top: 1rem;
@@ -375,7 +402,7 @@ const ninetyDays = [
   }
   .start-card--quiet { border-left-color: var(--rule-strong); }
   .start-card--quiet p {
-    color: rgba(247, 244, 238, 0.78);
+    color: rgba(43, 37, 29, 0.78);
     font-size: 0.95rem;
     line-height: 1.55;
     margin-bottom: 0.8rem;
@@ -402,7 +429,6 @@ const ninetyDays = [
     max-width: 22ch;
     line-height: 1.05;
   }
-  .ninety__title .italic-display { color: var(--bronze); }
   .ninety__list {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -452,13 +478,32 @@ const ninetyDays = [
     margin: 0;
   }
   .ninety__phase-body {
-    color: rgba(247, 244, 238, 0.78);
+    color: rgba(43, 37, 29, 0.78);
     font-size: 0.92rem;
     line-height: 1.55;
     margin: 0;
     max-width: none;
   }
 
+  .start-final {
+    padding: clamp(2.5rem, 5vw, 4rem) 0;
+    border-top: 1px solid var(--rule);
+    background: var(--sky);
+  }
+  .start-final__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .start-final__line {
+    font-family: var(--font-display-italic);
+    font-style: italic;
+    font-size: clamp(1.15rem, 2vw, 1.4rem);
+    margin: 0;
+    max-width: 30ch;
+  }
   .start-cta {
     padding: clamp(4rem, 8vw, 7rem) 0;
     background: var(--ink);
@@ -470,7 +515,7 @@ const ninetyDays = [
     content: '';
     position: absolute;
     inset: 0;
-    background: radial-gradient(700px 400px at 50% 0%, rgba(214, 134, 74, 0.18), transparent 60%);
+    background: none; /* bronze glow removed in p2 */
     pointer-events: none;
   }
   .start-cta__inner {
@@ -488,7 +533,6 @@ const ninetyDays = [
     margin: 0.4rem 0;
     line-height: 1.05;
   }
-  .start-cta__title .italic-display { color: var(--bronze-bright); }
   .start-cta__ctas {
     display: flex;
     gap: 1rem;

@@ -23,9 +23,15 @@
   Cache-Control: public, max-age=2592000
 /viva-logo-red.png
   Cache-Control: public, max-age=2592000
-/matt-johnson-hd.jpg
+/viva-runner-hero.webp
   Cache-Control: public, max-age=2592000
-/matt-johnson-hd-sm.jpg
+/viva-runner-hero-sm.webp
+  Cache-Control: public, max-age=2592000
+/viva-runner-hero-mobile.webp
+  Cache-Control: public, max-age=2592000
+/viva-pool.webp
+  Cache-Control: public, max-age=2592000
+/viva-pool-sm.webp
   Cache-Control: public, max-age=2592000
 /liliana-new.webp
   Cache-Control: public, max-age=2592000

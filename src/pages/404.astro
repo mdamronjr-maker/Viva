@@ -15,7 +15,7 @@ const recent = (await getCollection('blog', ({ data }) => !data.draft))
 
   <section class="notfound">
     <div class="container notfound__inner">
-      <span class="eyebrow">· 404</span>
+      <span class="eyebrow">404</span>
       <h1 class="notfound__title">
         This page<br/>
         <span class="italic-display">isn't here.</span>
@@ -49,7 +49,7 @@ const recent = (await getCollection('blog', ({ data }) => !data.draft))
 
       {recent.length > 0 && (
         <div class="nf-recent">
-          <span class="eyebrow">· Or read something useful</span>
+          <span class="eyebrow">Or read something useful</span>
           <ul class="nf-recent__list">
             {recent.map((p) => (
               <li>
@@ -79,7 +79,7 @@ const recent = (await getCollection('blog', ({ data }) => !data.draft))
     content: '';
     position: absolute;
     inset: 0;
-    background: radial-gradient(800px 500px at 75% 30%, rgba(201, 120, 58, 0.14), transparent 60%);
+    background: none; /* bronze glow removed in p2 */
     pointer-events: none;
   }
   .notfound__inner {
@@ -92,7 +92,6 @@ const recent = (await getCollection('blog', ({ data }) => !data.draft))
     letter-spacing: -0.028em;
     margin: 1rem 0 1.5rem;
   }
-  .notfound__title .italic-display { color: var(--bronze-bright); }
 
   .notfound__cards {
     display: grid;
@@ -133,7 +132,7 @@ const recent = (await getCollection('blog', ({ data }) => !data.draft))
   }
   .nf-card__desc {
     font-size: 0.9rem;
-    color: rgba(245, 241, 234, 0.6);
+    color: rgba(43, 37, 29, 0.7);
     line-height: 1.5;
   }
 

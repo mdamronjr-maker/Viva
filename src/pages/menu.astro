@@ -38,7 +38,7 @@ const menu = [
   },
   {
     id: 'peptides',
-    label: 'Peptide Therapy — Recovery & Repair',
+    label: 'Peptide Therapy: Recovery & Repair',
     blurb: 'Compounded peptides for joints, tendons, gut, and tissue repair.',
     stacks: [
       { brand: 'El Curandero', compounds: 'BPC-157', benefit: 'Supports joints, tendons, and gut health, and one of the few peptides that can be taken orally.', tier: 'Essential' },
@@ -83,7 +83,7 @@ const menu = [
     label: 'Labs & Diagnostics',
     blurb: 'The measurement layer underneath every protocol.',
     stacks: [
-      { brand: 'Targeted Lab Analysis', compounds: 'Hormone · metabolic · thyroid · inflammation panels', benefit: 'Run before and during your protocol and read by the same provider, so your dosing is guided by data, not guesswork.', tier: '' },
+      { brand: 'Targeted Lab Analysis', compounds: 'Hormone · metabolic · thyroid · inflammation panels', benefit: 'Run before and during your protocol and read by the same provider, so your dosing is guided by your own data.', tier: '' },
     ],
   },
 ];
@@ -123,7 +123,7 @@ const menuSchema = {
 >
   <section class="menu-hero">
     <div class="container menu-hero__inner">
-      <span class="eyebrow">· Stacks &amp; protocols</span>
+      <span class="eyebrow">Stacks &amp; protocols</span>
       <h1 class="menu-hero__title">
         Everything <span class="italic-display">available.</span>
       </h1>
@@ -180,7 +180,7 @@ const menuSchema = {
   <section class="menu-cta">
     <div class="container menu-cta__inner">
       <h2 class="menu-cta__title">
-        Not sure which stack? <span class="italic-display">Start with a visit.</span>
+        Not sure which stack? Start with a visit.
       </h2>
       <p class="lead">
         Tell me your goals and I'll build the protocol: the right compounds, the
@@ -198,7 +198,6 @@ const menuSchema = {
   .menu-hero { padding: clamp(6rem, 12vw, 9rem) 0 clamp(2.5rem, 6vw, 4rem); }
   .menu-hero__inner { max-width: 900px; display: flex; flex-direction: column; gap: 1.4rem; }
   .menu-hero__title { font-size: clamp(2.6rem, 7vw, 5rem); line-height: 1.02; letter-spacing: -0.028em; }
-  .menu-hero__title .italic-display { color: var(--bronze); }
   .menu-hero__lead { max-width: 62ch; }
   .menu-jump { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.6rem; }
   .menu-jump__link { display: inline-flex; align-items: center; min-height: 44px; font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--paper); border: 1px solid var(--rule-strong); border-radius: var(--radius-pill); padding: 0.5rem 0.9rem; text-decoration: none; transition: background 200ms var(--ease), border-color 200ms var(--ease), color 200ms var(--ease); }
@@ -208,18 +207,18 @@ const menuSchema = {
   .menu-cat { padding: clamp(2rem, 5vw, 3.5rem) 0; border-top: 1px solid var(--rule); scroll-margin-top: 80px; }
   .menu-cat__inner { display: grid; grid-template-columns: 1fr 2fr; gap: clamp(1.5rem, 4vw, 3rem); align-items: start; }
   .menu-cat__title { font-size: clamp(1.6rem, 3.5vw, 2.4rem); letter-spacing: -0.02em; }
-  .menu-cat__blurb { color: rgba(245, 241, 234, 0.7); font-size: 0.95rem; line-height: 1.5; margin-top: 0.6rem; max-width: 36ch; }
-  .menu-cat__cta { display: inline-block; margin-top: 1rem; font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--bronze); text-decoration: none; border-bottom: 1px solid rgba(214, 134, 74, 0.4); padding-bottom: 2px; transition: color 200ms var(--ease), border-color 200ms var(--ease); }
+  .menu-cat__blurb { color: rgba(43, 37, 29, 0.75); font-size: 0.95rem; line-height: 1.5; margin-top: 0.6rem; max-width: 36ch; }
+  .menu-cat__cta { display: inline-block; margin-top: 1rem; font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--bronze); text-decoration: none; border-bottom: 1px solid var(--butter-deep); padding-bottom: 2px; transition: color 200ms var(--ease), border-color 200ms var(--ease); }
   .menu-cat__cta:hover { color: var(--bronze-bright); border-bottom-color: var(--bronze-bright); }
 
   .menu-list { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--rule-strong); border: 1px solid var(--rule-strong); }
   .menu-list--single { grid-template-columns: 1fr; }
   .menu-list > .stack:last-child:nth-child(odd) { grid-column: 1 / -1; }
   .stack { background: var(--ink); padding: 1.2rem 1.3rem; display: flex; flex-direction: column; gap: 0.4rem; }
-  .stack__tier { align-self: flex-start; font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--bronze-bright); border: 1px solid rgba(214, 134, 74, 0.4); border-radius: var(--radius-pill); padding: 0.15rem 0.55rem; }
+  .stack__tier { align-self: flex-start; font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--bronze-bright); border: 1px solid var(--butter-deep); border-radius: var(--radius-pill); padding: 0.15rem 0.55rem; }
   .stack__brand { font-size: 1.15rem; line-height: 1.15; color: var(--paper); letter-spacing: -0.01em; }
   .stack__compounds { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--bronze); }
-  .stack__benefit { color: rgba(245, 241, 234, 0.7); font-size: 0.86rem; line-height: 1.45; }
+  .stack__benefit { color: rgba(43, 37, 29, 0.75); font-size: 0.86rem; line-height: 1.45; }
 
   .menu-note-section { padding: clamp(2.5rem, 6vw, 4rem) 0; }
   .menu-note { max-width: 76ch; color: var(--mute); font-size: 0.82rem; line-height: 1.6; }
@@ -227,7 +226,6 @@ const menuSchema = {
   .menu-cta { padding: clamp(3rem, 8vw, 6rem) 0; text-align: center; }
   .menu-cta__inner { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; gap: 1.2rem; align-items: center; }
   .menu-cta__title { font-size: clamp(2rem, 5vw, 3.4rem); letter-spacing: -0.02em; }
-  .menu-cta__title .italic-display { color: var(--bronze); }
   .menu-cta__ctas { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; margin-top: 0.4rem; }
 
   @media (max-width: 800px) {

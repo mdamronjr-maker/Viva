@@ -1,0 +1,526 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+/* ============================================================
+   /menopause · perimenopause and menopause care landing page.
+   The SEO anchor for the practice's women's-hormone vertical:
+   FAQPage schema, keyword-bearing headings, internal links to
+   the HRT tier on /services and the booking flow on /start.
+   Copy rules: Liliana's first-person voice, no em or en dashes
+   (use the site-standard interpunct), no outcome guarantees.
+   ============================================================ */
+
+const symptoms = [
+  { name: 'Hot flashes & night sweats', body: 'The classic vasomotor symptoms, and the ones HRT treats most reliably.' },
+  { name: 'Sleep that stopped working', body: 'Waking at 3 a.m., light sleep, never feeling rested no matter what you try.' },
+  { name: 'Brain fog', body: 'Losing words mid-sentence, rereading the same email, a focus that used to be automatic.' },
+  { name: 'Mood shifts', body: 'Irritability, anxiety, or a flatness that does not match your circumstances.' },
+  { name: 'Weight that stopped responding', body: 'Midsection weight gain while eating and training the same as always.' },
+  { name: 'Low libido', body: 'Desire and response change when estradiol and testosterone decline. This is hormonal, not personal.' },
+  { name: 'Irregular or heavy cycles', body: 'The hallmark of perimenopause: cycles that shorten, skip, or flood.' },
+  { name: 'Joint aches & thinning hair', body: 'Estrogen touches connective tissue, skin, and hair. Its decline shows up there too.' },
+];
+
+const steps = [
+  {
+    num: '01',
+    title: 'Labs first, always',
+    body: 'A full hormone and metabolic panel: estradiol, progesterone, FSH, testosterone, thyroid, and the metabolic markers that travel with midlife hormone shifts. Drawn at a lab near you, reviewed together on video.',
+  },
+  {
+    num: '02',
+    title: 'A protocol built for your case',
+    body: 'Compounded estradiol and progesterone in the form that fits your life: cream, troche, or injectable. DHEA, low-dose testosterone, and thyroid support when your labs and symptoms say they belong in the plan.',
+  },
+  {
+    num: '03',
+    title: 'Titration at your pace',
+    body: 'We start conservative and adjust from how you feel, with direct message access to me between visits. No phone tree, no waiting for the next annual physical.',
+  },
+  {
+    num: '04',
+    title: 'Labs twice a year, forever adjustable',
+    body: 'Biannual labs confirm the protocol is doing what we intended. Doses move when your body does.',
+  },
+];
+
+const faqs = [
+  {
+    q: 'What is the difference between perimenopause and menopause?',
+    a: 'Perimenopause is the transition, often starting in the late 30s or 40s, when estrogen and progesterone begin to swing and symptoms first appear. Menopause is the point of twelve consecutive months without a period. Symptoms can be treated in both phases; you do not have to wait until your cycles stop to get help.',
+  },
+  {
+    q: 'Can I get perimenopause or menopause treatment online?',
+    a: 'Yes. Viva Wellness Co. is a fully telehealth practice licensed in Texas, Colorado, Florida, and Iowa. Visits happen by secure video, labs are drawn at a location near you, and compounded medication ships from the pharmacy to your door.',
+  },
+  {
+    q: 'Do I need labs before starting HRT?',
+    a: 'Yes. I order a baseline hormone and metabolic panel before prescribing, and I treat the combination of your labs and your symptoms rather than a number in isolation. Follow-up labs run twice a year on every hormone membership.',
+  },
+  {
+    q: 'Is hormone replacement therapy safe?',
+    a: 'For most healthy women who start within about ten years of menopause, current evidence supports HRT as safe and effective for symptom relief, and the benefits generally outweigh the risks. It is not right for everyone; personal and family history of breast cancer, blood clots, and cardiovascular disease all factor into the decision. That is exactly what the first visit is for.',
+  },
+  {
+    q: 'What hormones do you actually prescribe?',
+    a: 'Compounded estradiol and progesterone are the core of most protocols, with DHEA, low-dose testosterone, and thyroid support added when clinically indicated. Compounded medications are patient-specific preparations from FDA-regulated 503A pharmacies. They are not FDA-approved finished products, and each is prescribed individually after my clinical evaluation.',
+  },
+  {
+    q: 'Can HRT help with midlife weight gain?',
+    a: 'Hormone decline is one driver of midlife weight change, and treating it often improves sleep, energy, and body composition. When weight is the primary goal, HRT can also pair with a provider-managed metabolic protocol. No outcome is guaranteed; we measure and adjust instead of promising.',
+  },
+  {
+    q: 'What does menopause care cost at Viva?',
+    a: 'The first visit is $199, a one-time fee. Ongoing care is a membership: TRT & HRT All Inclusive at $199 per month covers compounded medication, supplies, home delivery, and labs twice a year. If you prefer to run hormones and labs through your insurance, Viva Concierge Access at $99 per month is the insurance-routed alternative.',
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'FAQPage',
+      mainEntity: faqs.map((f) => ({
+        '@type': 'Question',
+        name: f.q,
+        acceptedAnswer: { '@type': 'Answer', text: f.a },
+      })),
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://vivawellnessco.com/' },
+        { '@type': 'ListItem', position: 2, name: 'Menopause Care', item: 'https://vivawellnessco.com/menopause' },
+      ],
+    },
+  ],
+};
+---
+
+<Layout
+  title="Perimenopause & Menopause Treatment Online · HRT Telehealth | Viva Wellness Co."
+  description="Provider-led perimenopause and menopause care by telehealth in Texas, Colorado, Florida, and Iowa. Labs-first HRT with compounded estradiol and progesterone, managed by Liliana Damron, APRN, FNP-BC. Memberships from $99/mo."
+  schema={faqSchema}
+>
+
+  {/* HERO */}
+  <section class="meno-hero">
+    <div class="container meno-hero__inner">
+      <span class="eyebrow">Telehealth · TX · CO · FL · IA</span>
+      <h1 class="meno-hero__title">
+        Your hormones changed.<br/>
+        <span class="italic-display">Your care should too.</span>
+      </h1>
+      <p class="lead">
+        Perimenopause and menopause are not something to white-knuckle through.
+        I'm Liliana Damron, a board-certified nurse practitioner, and treating
+        the women everyone else told "your labs are normal" is a core part of my
+        practice. Labs first, then a protocol built for your case, adjusted as
+        your body responds.
+      </p>
+      <div class="meno-hero__ctas">
+        <a href="/start?utm_source=vivawellnessco&utm_medium=cta&utm_content=menopause_page" class="btn btn--bronze">Book your first visit</a>
+        <a href="/#quiz" class="btn meno-hero__btn-quiet">Take the quiz</a>
+      </div>
+    </div>
+  </section>
+
+  {/* SYMPTOMS */}
+  <section class="meno-symptoms">
+    <div class="container">
+      <header class="meno-head">
+        <span class="eyebrow">Sound familiar?</span>
+        <h2 class="meno-head__title">
+          The symptoms are real, and they're hormonal.
+        </h2>
+      </header>
+      <ul class="meno-grid">
+        {symptoms.map((s) => (
+          <li class="meno-cell">
+            <h3 class="meno-cell__name">{s.name}</h3>
+            <p class="meno-cell__body">{s.body}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  {/* HOW I TREAT IT */}
+  <section class="meno-steps">
+    <div class="container">
+      <header class="meno-head">
+        <span class="eyebrow">The approach</span>
+        <h2 class="meno-head__title">
+          How I treat perimenopause and menopause.
+        </h2>
+      </header>
+      <ol class="meno-steps__list">
+        {steps.map((s) => (
+          <li class="meno-step">
+            <span class="meno-step__num">{s.num}</span>
+            <div>
+              <h3 class="meno-step__title">{s.title}</h3>
+              <p class="meno-step__body">{s.body}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  {/* REVIEW PULLQUOTE */}
+  <div class="container meno-quote-wrap">
+    <figure class="meno-quote">
+      <blockquote class="pullquote">Lili has been an exceptional provider throughout my wellness treatment journey. From our very first consultation, she truly understood my needs. She carefully listened as I explained my symptoms.</blockquote>
+      <figcaption class="caption">Priscilla Moraes · <a href="https://www.google.com/maps/place/Viva+Wellness+Co./@30.448506,-93.3099761,5366828m/data=!3m2!1e3!4b1!4m6!3m5!1s0x838a2a09b2fa0069:0x23603b7d6308b72a!8m2!3d30.448506!4d-93.309976!16s%2Fg%2F11x1q1jhw9" target="_blank" rel="noopener">verified Google review</a></figcaption>
+    </figure>
+  </div>
+
+  {/* TIERS */}
+  <section class="meno-tiers">
+    <div class="container">
+      <header class="meno-head">
+        <span class="eyebrow">Two ways in</span>
+        <h2 class="meno-head__title">
+          One flat fee, or through your insurance.
+        </h2>
+      </header>
+      <div class="meno-tiers__row">
+        <a href="/services#trt-hrt-all-inclusive" class="meno-tier">
+          <span class="meno-tier__tag">All inclusive</span>
+          <h3 class="meno-tier__name">TRT & HRT All Inclusive</h3>
+          <p class="meno-tier__price"><strong>$199</strong>/mo</p>
+          <p class="meno-tier__body">
+            Compounded estradiol and progesterone, personalized dosing, supplies,
+            home delivery, and labs twice a year. One fee, fully managed.
+          </p>
+          <span class="meno-tier__cta">See what's included →</span>
+        </a>
+        <a href="/services#viva-concierge-access" class="meno-tier">
+          <span class="meno-tier__tag">Insurance route</span>
+          <h3 class="meno-tier__name">Viva Concierge Access</h3>
+          <p class="meno-tier__price"><strong>$99</strong>/mo</p>
+          <p class="meno-tier__body">
+            Concierge provider attention while your insurance covers hormones,
+            retail prescriptions, and labs. Monthly evaluations and ongoing
+            medication management.
+          </p>
+          <span class="meno-tier__cta">See what's included →</span>
+        </a>
+      </div>
+      <p class="meno-tiers__note">
+        First visit is $199, one time, separate from any membership. You decide
+        about enrolling after the visit, on your own time.
+      </p>
+    </div>
+  </section>
+
+  {/* FAQ */}
+  <section class="meno-faq">
+    <div class="container">
+      <header class="meno-head">
+        <span class="eyebrow">Questions</span>
+        <h2 class="meno-head__title">
+          Perimenopause & menopause, asked and answered.
+        </h2>
+      </header>
+      <div class="meno-faq__list">
+        {faqs.map((f) => (
+          <details class="meno-faq__item">
+            <summary class="meno-faq__q">{f.q}</summary>
+            <p class="meno-faq__a">{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* CTA */}
+  <section class="meno-cta">
+    <div class="container meno-cta__inner">
+      <span class="eyebrow">Start here</span>
+      <h2 class="meno-cta__title">
+        You don't have to push through it.
+      </h2>
+      <p class="lead">
+        Five questions, and I'll point you at the tier that fits. Or skip the
+        quiz and book the first visit directly.
+      </p>
+      <div class="meno-cta__ctas">
+        <a href="/start?utm_source=vivawellnessco&utm_medium=cta&utm_content=menopause_cta" class="btn btn--bronze">Book your first visit</a>
+        <a href="/#quiz" class="btn meno-hero__btn-quiet">Take the quiz</a>
+      </div>
+    </div>
+  </section>
+
+</Layout>
+
+<style>
+  /* HERO */
+  .meno-hero {
+    background: var(--sky);
+    border-bottom: 1px solid var(--rule);
+    padding: clamp(4.5rem, 14vw, 10rem) 0 clamp(2.5rem, 6vw, 5rem);
+    position: relative;
+    overflow: hidden;
+  }
+  .meno-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: none; /* bronze glow removed in p2 */
+    pointer-events: none;
+  }
+  .meno-hero__inner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+    max-width: 1100px;
+  }
+  .meno-hero__title {
+    font-size: clamp(2.7rem, 9.5vw, 4.8rem);
+    line-height: 1.02;
+    letter-spacing: -0.028em;
+  }
+  .meno-hero__ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .meno-hero__btn-quiet {
+    border: 1px solid var(--rule-strong);
+    color: var(--paper);
+  }
+  .meno-hero__btn-quiet:hover { border-color: var(--bronze); }
+
+  .meno-quote-wrap { padding: clamp(2rem, 4vw, 3rem) var(--gutter); }
+  .meno-quote { margin: 0; display: flex; flex-direction: column; gap: 0.7rem; }
+
+  /* SECTION HEADS */
+  .meno-head { margin-bottom: clamp(1.6rem, 3vw, 2.4rem); max-width: 800px; }
+  .meno-head__title {
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin: 0.7rem 0 0;
+  }
+
+  /* SYMPTOMS */
+  .meno-symptoms {
+    padding: clamp(3rem, 7vw, 5rem) 0;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    background: var(--ink-2);
+  }
+  .meno-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.9rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  @media (max-width: 1000px) { .meno-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 540px) { .meno-grid { grid-template-columns: 1fr; } }
+  /* deliberately uneven grid: the most-treated cluster gets the wide cell */
+  .meno-grid li:first-child { grid-column: span 2; }
+  @media (max-width: 540px) { .meno-grid li:first-child { grid-column: auto; } }
+  .meno-cell {
+    background: var(--ink);
+    border: 1px solid var(--rule-strong);
+    border-radius: var(--radius);
+    padding: 1.3rem 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+  .meno-cell__name {
+    font-size: 1rem;
+    line-height: 1.3;
+    color: var(--paper);
+    letter-spacing: -0.01em;
+  }
+  .meno-cell__body {
+    color: rgba(43, 37, 29, 0.72);
+    font-size: 0.88rem;
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  /* STEPS */
+  .meno-steps { padding: clamp(3rem, 7vw, 5rem) 0; }
+  .meno-steps__list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-width: 860px;
+  }
+  .meno-step {
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    gap: 1.1rem;
+    padding: 1.4rem 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .meno-step:last-child { border-bottom: 0; }
+  .meno-step__num {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    color: var(--bronze);
+    padding-top: 0.25rem;
+  }
+  .meno-step__title {
+    font-size: 1.15rem;
+    line-height: 1.25;
+    color: var(--paper);
+    letter-spacing: -0.01em;
+    margin: 0 0 0.35rem;
+  }
+  .meno-step__body {
+    color: rgba(43, 37, 29, 0.75);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 0;
+    max-width: 62ch;
+  }
+
+  /* TIERS */
+  .meno-tiers {
+    padding: clamp(3rem, 7vw, 5rem) 0;
+    border-top: 1px solid var(--rule);
+    background: var(--ink-2);
+  }
+  .meno-tiers__row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.9rem;
+  }
+  @media (max-width: 760px) { .meno-tiers__row { grid-template-columns: 1fr; } }
+  .meno-tier {
+    background: var(--ink);
+    border: 1px solid var(--rule-strong);
+    border-radius: var(--radius);
+    padding: clamp(1.4rem, 2.6vw, 1.8rem);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    color: inherit;
+    text-decoration: none;
+    transition: background 240ms var(--ease), border-color 240ms var(--ease);
+  }
+  .meno-tier:hover { background: var(--ink-2); border-color: var(--butter-deep); }
+  .meno-tier__tag {
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--bronze);
+  }
+  .meno-tier__name {
+    font-family: var(--font-display-italic);
+    font-style: italic;
+    font-size: 1.35rem;
+    line-height: 1.15;
+    color: var(--paper);
+    margin: 0;
+  }
+  .meno-tier__price {
+    font-size: 1rem;
+    color: var(--paper);
+    margin: 0;
+  }
+  .meno-tier__price strong { font-size: 1.6rem; letter-spacing: -0.02em; }
+  .meno-tier__body {
+    color: rgba(43, 37, 29, 0.75);
+    font-size: 0.92rem;
+    line-height: 1.6;
+    margin: 0;
+  }
+  .meno-tier__cta {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--bronze);
+    margin-top: 0.4rem;
+  }
+  .meno-tiers__note {
+    margin: 1.2rem 0 0;
+    color: var(--mute);
+    font-size: 0.88rem;
+    max-width: 60ch;
+  }
+
+  /* FAQ */
+  .meno-faq { padding: clamp(3rem, 7vw, 5rem) 0; border-top: 1px solid var(--rule); }
+  .meno-faq__list { max-width: 860px; }
+  .meno-faq__item { border-bottom: 1px solid var(--rule); }
+  .meno-faq__q {
+    cursor: pointer;
+    padding: 1.1rem 0;
+    font-size: 1.05rem;
+    color: var(--paper);
+    letter-spacing: -0.01em;
+    list-style: none;
+    position: relative;
+    padding-right: 2rem;
+  }
+  .meno-faq__q::-webkit-details-marker { display: none; }
+  .meno-faq__q::after {
+    content: '+';
+    position: absolute;
+    right: 0.2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--bronze);
+    font-family: var(--font-mono);
+  }
+  .meno-faq__item[open] .meno-faq__q::after { content: '·'; }
+  .meno-faq__a {
+    color: rgba(43, 37, 29, 0.75);
+    font-size: 0.95rem;
+    line-height: 1.65;
+    margin: 0 0 1.2rem;
+    max-width: 68ch;
+  }
+
+  /* CTA */
+  .meno-cta {
+    background: var(--sky);
+    padding: clamp(4rem, 9vw, 8rem) 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    border-top: 1px solid var(--rule);
+  }
+  .meno-cta::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: none; /* bronze glow removed in p2 */
+    pointer-events: none;
+  }
+  .meno-cta__inner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+  .meno-cta__inner .lead { text-align: center; max-width: 56ch; }
+  .meno-cta__title {
+    font-size: clamp(1.9rem, 4.8vw, 3.4rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    max-width: 22ch;
+    margin: 0.4rem 0;
+  }
+  .meno-cta__ctas {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 0.8rem;
+  }
+</style>

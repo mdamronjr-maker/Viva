@@ -42,9 +42,9 @@ const resolvedOgImage = ogImage && ogImage !== '/og-image.jpg' ? ogImage : ogFor
 // Cache-buster: bump this when the OG image *design* changes so platforms
 // that already cached the preview for a shared URL (Slack, iMessage,
 // LinkedIn, etc.) refetch instead of serving the stale thumbnail.
-// v2 = Matt Johnson photo background + Fraunces italic title (May 2026).
-// v3 = state taglines now include Iowa (June 2026).
-const OG_CACHE_VERSION = '3';
+// v3 = state taglines include Iowa (June 2026).
+// v4 = Lights On visual refresh and photographic homepage treatment.
+const OG_CACHE_VERSION = '4';
 const ogImageURL = new URL(`${resolvedOgImage}?v=${OG_CACHE_VERSION}`, Astro.site).href;
 const siteName = 'Viva Wellness Co.';
 
@@ -118,7 +118,7 @@ const orgSchema = {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#110e0b" />
+  <meta name="theme-color" content="#f7f2e9" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
   <title>{title}</title>
@@ -154,17 +154,16 @@ const orgSchema = {
   {/* Page-specific schema, passed in via props */}
   {schema && <script type="application/ld+json" set:html={JSON.stringify(schema)} />}
 
-  {/* Hero LCP preload · only the home page. Responsive via imagesrcset. */}
+  {/* Responsive homepage hero preload · home only */}
+
   {isHome && (
-    <link
-      rel="preload"
-      as="image"
-      href="/matt-johnson-hd.jpg"
-      imagesrcset="/matt-johnson-hd-sm.jpg 800w, /matt-johnson-hd.jpg 1600w"
-      imagesizes="100vw"
-      fetchpriority="high"
-    />
+    <>
+      <link rel="preload" as="image" href="/viva-runner-hero-mobile.webp" media="(max-width: 700px)" fetchpriority="high" />
+      <link rel="preload" as="image" href="/viva-runner-hero.webp" imagesrcset="/viva-runner-hero-sm.webp 960w, /viva-runner-hero.webp 1537w" imagesizes="100vw" media="(min-width: 701px)" fetchpriority="high" />
+    </>
   )}
+
+  
 
   {/* Preconnect to the booking destination + the Turnstile challenge host */}
   <link rel="preconnect" href="https://vivawellnessco.glossgenius.com" crossorigin />
@@ -210,31 +209,9 @@ const orgSchema = {
   <MobileStickyCta />
 
   <script>
-    // Scroll-driven reveal for cards and grid items. Progressive enhancement:
-    // CSS keeps elements visible until JS opts them into the .to-reveal class,
-    // then the IntersectionObserver brings them back with .is-revealed.
-    function initScrollReveal() {
-      const selector = '.pillar, .program, .testimonial:not(.testimonial--lead), .faq__item, .post-card, .post-related__item, .nf-card, .standard, .tier, .state, .contact-side__panel, .pulse-divider, .provider-band__media, .provider-band__copy';
-      const els = document.querySelectorAll(selector);
-      if (!els.length) return;
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-      els.forEach((el) => el.classList.add('to-reveal'));
-
-      const obs = new IntersectionObserver(
-        (entries) => {
-          for (const e of entries) {
-            if (e.isIntersecting) {
-              e.target.classList.add('is-revealed');
-              obs.unobserve(e.target);
-            }
-          }
-        },
-        { threshold: 0.05, rootMargin: '0px 0px -6% 0px' }
-      );
-      els.forEach((el) => obs.observe(el));
-    }
-    document.addEventListener('astro:page-load', initScrollReveal);
+    // Scroll-reveal system removed in the Lights On redesign: content
+    // renders immediately. The motion budget goes to one or two deliberate
+    // moments instead of ambient choreography.
 
     // Booking links (GlossGenius) navigate directly — they carry
     // target="_blank" rel="noopener", so they open the scheduler in a fresh tab.

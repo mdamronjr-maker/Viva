@@ -8,17 +8,18 @@ const year = new Date().getFullYear();
       <div class="footer-col footer-col--brand">
         <a href="/" class="footer-brand" aria-label="Viva Wellness Co. · home">
           <img
-            src="/viva-logo-paper.png"
+            src="/viva-logo-ink.png"
             alt="Viva Wellness Co."
             class="footer-brand__logo"
-            width="220"
-            height="48"
+            width="1200"
+            height="258"
           />
         </a>
-        <p class="footer-tag italic-display">
-          You bring the goals.<br/>I&rsquo;ll bring the protocol.
-        </p>
-        <a href="/start?utm_source=vivawellnessco&utm_medium=cta&utm_content=footer" class="btn btn--bronze">Start Your Protocol</a>
+        <div class="footer-badge">
+          <span class="footer-badge__ring" aria-hidden="true">VW</span>
+          <p class="footer-badge__line">Health is personal.<br/>Your care should be, too.</p>
+        </div>
+        <a href="/start?utm_source=vivawellnessco&utm_medium=cta&utm_content=footer" class="btn btn--bronze">Book a visit</a>
       </div>
 
       <div class="footer-col">
@@ -27,6 +28,7 @@ const year = new Date().getFullYear();
           <li><a href="/">Home</a></li>
           <li><a href="/about">Provider</a></li>
           <li><a href="/services">Services</a></li>
+          <li><a href="/menopause">Menopause Care</a></li>
           <li><a href="/partners">Partners</a></li>
           <li><a href="/blog">Blog</a></li>
           <li><a href="/contact">Contact</a></li>
@@ -79,7 +81,7 @@ const year = new Date().getFullYear();
     <div class="footer-provider">
       <span class="footer-provider__line">
         <strong>Provider:</strong> Liliana Damron, APRN, FNP-BC
-        {/* TODO: fill in actual license numbers and NPI before launch */}
+        {/* SHIP BLOCKER: real license numbers required from Liliana before this branch reaches main. Do not invent numbers. */}
         {/* · TX RN License #XXXXXXXX · APRN #XXXXX · NPI #XXXXXXXXXX */}
       </span>
       <span class="footer-provider__line">
@@ -92,7 +94,7 @@ const year = new Date().getFullYear();
 
 <style>
   .site-footer {
-    background: var(--ink-2);
+    background: var(--sky);
     border-top: 1px solid var(--rule-strong);
     padding: clamp(3rem, 7vw, 5rem) 0 2rem;
     margin-top: 0;
@@ -122,12 +124,25 @@ const year = new Date().getFullYear();
     width: auto;
     display: block;
   }
-  .footer-tag {
-    font-size: 1.4rem;
-    line-height: 1.2;
-    margin-bottom: 1.5rem;
+  .footer-badge { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
+  .footer-badge__ring {
+    width: 64px; height: 64px; border-radius: 50%;
+    border: 1.5px solid var(--sky-deep);
+    display: grid; place-items: center;
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 1.3rem;
     color: var(--paper);
-    max-width: 22ch;
+    flex-shrink: 0;
+  }
+  .footer-badge__line {
+    font-family: var(--font-display-italic);
+    font-style: italic;
+    font-size: 1.05rem;
+    line-height: 1.35;
+    color: var(--paper);
+    margin: 0;
+    max-width: 20ch;
   }
   .footer-h {
     font-family: var(--font-mono);
@@ -140,14 +155,14 @@ const year = new Date().getFullYear();
   }
   .footer-col ul { display: flex; flex-direction: column; gap: 0.55rem; }
   .footer-col a {
-    color: rgba(245, 241, 234, 0.82);
+    color: rgba(43, 37, 29, 0.85);
     transition: color 180ms var(--ease);
     font-size: 0.95rem;
   }
   .footer-col a:hover { color: var(--paper); }
-  .footer-states { color: rgba(245, 241, 234, 0.82); font-size: 0.95rem; }
+  .footer-states { color: rgba(43, 37, 29, 0.85); font-size: 0.95rem; }
   .footer-addr {
-    color: rgba(245, 241, 234, 0.72);
+    color: rgba(43, 37, 29, 0.75);
     font-size: 0.85rem;
     line-height: 1.5;
     margin-top: 1rem;
@@ -179,12 +194,12 @@ const year = new Date().getFullYear();
     font-family: var(--font-mono);
     font-size: 0.68rem;
     letter-spacing: 0.05em;
-    color: rgba(247, 244, 238, 0.55);
+    color: rgba(43, 37, 29, 0.68);
     line-height: 1.6;
     text-transform: none;
   }
   .footer-provider__line strong {
-    color: rgba(247, 244, 238, 0.75);
+    color: rgba(43, 37, 29, 0.78);
     font-weight: 500;
     letter-spacing: 0.08em;
     text-transform: uppercase;
