@@ -18,40 +18,40 @@
      Every pairing below is computed WCAG 2.1 contrast, noted inline. */
 
   /* Grounds (were the dark inks) */
-  --ink: #f7f2e9;            /* page background, mockup cream */
-  --ink-2: #efe8da;          /* card and hover surfaces, one step deeper */
-  --ink-3: #e6dcc8;          /* tertiary wells and inset panels (quiz well) */
+  --ink: #fbfaf7;            /* clean warm-white page background */
+  --ink-2: #f4f7f8;          /* cool-white card and hover surfaces */
+  --ink-3: #eaf1f4;          /* pale blue-gray wells and inset panels */
 
   /* Type (was the paper stack) */
-  --paper: #2b251d;          /* primary type, warm charcoal. 13.6:1 on cream */
-  --paper-2: #453d33;        /* secondary type. 9.6:1 on cream */
-  --paper-3: #5d5346;        /* tertiary type. 6.8:1 on cream */
+  --paper: #2e3438;          /* primary type, neutral charcoal. 12.1:1 on white */
+  --paper-2: #465057;        /* secondary type. 7.9:1 on white */
+  --paper-3: #56636b;        /* tertiary type. 5.9:1 on white */
 
   /* Accent. RULE: butter is a FILL, never a text color on light grounds
      (butter text computes 1.16:1 on cream; fails all levels). Text that
      must read yellow on light bands uses this deep honey gold. True
      --butter as text appears ONLY on the charcoal provider band, where
      it hits 11.7:1. */
-  --bronze: #6f5410;         /* accent as text. 6.4:1 cream, 5.3:1 sky, 5.5:1 butter. AA at all sizes incl. 0.72rem mono eyebrows */
-  --bronze-bright: #8a6a1a;  /* hover accent. 4.5:1 on cream */
-  --bronze-deep: #57420c;    /* pressed accent. 9.1:1 on cream */
+  --bronze: #265c7a;         /* deep reference blue. 7:1 white, 4.5:1 sky, 6.2:1 butter */
+  --bronze-bright: #356f91;  /* hover blue. 5.3:1 on white */
+  --bronze-deep: #1d4862;    /* pressed blue */
 
-  --mute: #6e5d4e;           /* warm gray. 5.6:1 cream, 4.7:1 sky */
-  --rule: rgba(43, 37, 29, 0.12);        /* hairlines, decorative only */
-  --rule-strong: rgba(43, 37, 29, 0.22); /* card borders, decorative only */
-  --rule-form: rgba(43, 37, 29, 0.55);   /* input underlines and any stroke carrying meaning; --rule-strong fails WCAG 1.4.11 non-text contrast on cream */
+  --mute: #485860;           /* cool gray. 7.1:1 white, 4.6:1 sky */
+  --rule: rgba(46, 52, 56, 0.12);        /* hairlines, decorative only */
+  --rule-strong: rgba(46, 52, 56, 0.22); /* card borders, decorative only */
+  --rule-form: rgba(46, 52, 56, 0.55);   /* input underlines and any stroke carrying meaning; --rule-strong fails WCAG 1.4.11 non-text contrast on cream */
 
   /* Mockup band and fill colors */
-  --sky: #cfe0ec;            /* hero and footer band ground. Charcoal type on sky 11.2:1 */
-  --sky-deep: #b9d2e3;       /* borders on sky, footer VW badge ring */
-  --butter: #f4e29b;         /* feature band ground and primary button fill. Charcoal text 11.7:1 */
-  --butter-bright: #f8eab4;  /* button hover and sidenote wash. Charcoal text 12.6:1 */
-  --butter-deep: #e3c85e;    /* button border and pressed. Charcoal text 9.2:1 */
+  --sky: #b8d0de;            /* sampled powder-blue reference band */
+  --sky-deep: #91b8cf;       /* blue borders and secondary fills */
+  --butter: #fbedbb;         /* sampled pale-butter reference band and CTA fill */
+  --butter-bright: #fff4cf;  /* button hover and sidenote wash */
+  --butter-deep: #dfc46e;    /* pressed butter */
 
   /* PARKED for the photography piece: text panel over real photos.
      At 0.65 alpha, cream type over it stays at or above 5:1 even over a
      blown-out sky. Unused until real photos land; do not delete. */
-  --scrim: rgba(20, 16, 12, 0.65);
+  --scrim: rgba(29, 72, 98, 0.72);
 
   /* Typography · UNCHANGED. Fraunces + Geist pairing and its documented
      rationale survive the flip intact. */
@@ -166,7 +166,7 @@ p { max-width: 62ch; }
 .lead {
   font-size: clamp(1.1rem, 1.55vw, 1.3rem);
   line-height: 1.55;
-  color: rgba(43, 37, 29, 0.82);
+  color: rgba(46, 52, 56, 0.82);
   max-width: 56ch;
   font-weight: 400;
 }
@@ -189,12 +189,12 @@ p { max-width: 62ch; }
 .section--paper {
   background: var(--paper);
   color: var(--ink);
-  --mute: #b8aea1;
-  --rule: rgba(247, 242, 233, 0.12);
-  --rule-strong: rgba(247, 242, 233, 0.22);
+  --mute: #c3d3dc;
+  --rule: rgba(251, 250, 247, 0.12);
+  --rule-strong: rgba(251, 250, 247, 0.22);
 }
 .section--paper .eyebrow { color: var(--butter); }
-.section--paper .lead { color: rgba(247, 242, 233, 0.85); }
+.section--paper .lead { color: rgba(251, 250, 247, 0.85); }
 
 /* Numbered index labels (editorial) */
 .index {
@@ -353,7 +353,7 @@ main:focus { outline: none; }
   border-bottom-color: var(--bronze);
 }
 .field__input::placeholder,
-.field__textarea::placeholder { color: rgba(43, 37, 29, 0.65); } /* composites ~4.7:1 on cream; 0.5 fails 4.5:1 */
+.field__textarea::placeholder { color: rgba(46, 52, 56, 0.65); } /* composites ~4.7:1 on cream; 0.5 fails 4.5:1 */
 .field__textarea { resize: vertical; min-height: 120px; }
 /* Subtle invalid state · only after user has typed something (not on empty fields) */
 .field__input:not(:placeholder-shown):invalid,
@@ -368,14 +368,14 @@ main:focus { outline: none; }
 }
 
 /* Charcoal-band variants for forms (post-flip .section--paper is dark) */
-.section--paper .field__label { color: rgba(247, 242, 233, 0.65); }
+.section--paper .field__label { color: rgba(251, 250, 247, 0.65); }
 .section--paper .field__input,
 .section--paper .field__textarea {
   color: var(--ink);
-  border-bottom-color: rgba(247, 242, 233, 0.45);
+  border-bottom-color: rgba(251, 250, 247, 0.45);
 }
 .section--paper .field__input::placeholder,
-.section--paper .field__textarea::placeholder { color: rgba(247, 242, 233, 0.5); }
+.section--paper .field__textarea::placeholder { color: rgba(251, 250, 247, 0.5); }
 .section--paper .field__input:focus,
 .section--paper .field__textarea:focus { border-bottom-color: var(--butter); }
 
