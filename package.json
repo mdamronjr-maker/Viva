@@ -9,7 +9,10 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "test": "playwright test",
+    "guard": "node scripts/guard-protected.mjs",
+    "verify": "npm run guard && npm run build && npm test"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.104.1",
@@ -18,5 +21,8 @@
     "astro": "^6.2.2",
     "astro-og-canvas": "^0.11.1",
     "canvaskit-wasm": "^0.41.1"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.62.1"
   }
 }

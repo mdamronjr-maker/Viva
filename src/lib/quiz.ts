@@ -115,7 +115,7 @@ export function match(a: Answers): Match {
             'CJC-1295 / Ipamorelin · growth-hormone support that pairs well with TRT',
             'BPC-157 · joint and gut support as training volume climbs',
             'MOTS-c · metabolic and endurance support',
-            'Adjuncts · anastrozole, HCG, enclomiphene — what your labs say belongs in the plan',
+            'Adjuncts · anastrozole, HCG, enclomiphene. What your labs say belongs in the plan',
           ],
       ebookPath: DEFAULT_EBOOK, // TODO: /ebooks/viva-trt-guide.pdf
     };
