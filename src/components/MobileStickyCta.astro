@@ -37,7 +37,7 @@ const primaryHref = onStart
     z-index: 80;
     padding: 0.7rem var(--gutter) calc(0.7rem + env(safe-area-inset-bottom));
     gap: 0.6rem;
-    background: rgba(247, 242, 233, 0.92);
+    background: rgba(251, 250, 247, 0.92);
     backdrop-filter: blur(14px) saturate(140%);
     border-top: 1px solid var(--rule-strong);
   }
@@ -71,11 +71,11 @@ const primaryHref = onStart
   .msc__btn--ghost {
     background: transparent;
     color: var(--paper);
-    border-color: rgba(43, 37, 29, 0.55);
+    border-color: rgba(46, 52, 56, 0.55);
   }
   /* Tap states */
   .msc__btn--bronze:active { background: var(--butter-bright); border-color: var(--bronze-bright); }
-  .msc__btn--ghost:active { background: rgba(43, 37, 29, 0.08); }
+  .msc__btn--ghost:active { background: rgba(46, 52, 56, 0.08); }
 
   /* Hide when mobile nav is open so it doesn't fight the menu */
   :global(body.menu-open) .msc { display: none; }

@@ -29,6 +29,12 @@
   Cache-Control: public, max-age=2592000
 /viva-runner-hero-mobile.webp
   Cache-Control: public, max-age=2592000
+/viva-runner-hero-v2.webp
+  Cache-Control: public, max-age=2592000
+/viva-runner-hero-v2-sm.webp
+  Cache-Control: public, max-age=2592000
+/viva-runner-hero-v2-mobile.webp
+  Cache-Control: public, max-age=2592000
 /viva-pool.webp
   Cache-Control: public, max-age=2592000
 /viva-pool-sm.webp

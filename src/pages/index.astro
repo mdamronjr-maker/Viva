@@ -114,12 +114,12 @@ const testimonials = [
   {/* ============ HERO · owner-approved photographic concept ============ */}
   <section class="hero">
     <picture class="hero__media" aria-hidden="true">
-      <source media="(max-width: 700px)" srcset="/viva-runner-hero-mobile.webp" />
-      <source media="(max-width: 1100px)" srcset="/viva-runner-hero-sm.webp" />
+      <source media="(max-width: 700px)" srcset="/viva-runner-hero-v2-mobile.webp" />
+      <source media="(max-width: 1100px)" srcset="/viva-runner-hero-v2-sm.webp" />
       <img
-        src="/viva-runner-hero.webp"
-        width="1537"
-        height="1023"
+        src="/viva-runner-hero-v2.webp"
+        width="3840"
+        height="2556"
         alt=""
         fetchpriority="high"
       />
@@ -816,7 +816,7 @@ const testimonials = [
     align-items: stretch;
     overflow: hidden;
     isolation: isolate;
-    background: var(--sky);
+    background: #35657e;
     border-bottom: 1px solid var(--rule);
     padding: clamp(7.5rem, 12vw, 9rem) 0 clamp(3.5rem, 7vw, 5.5rem);
   }
@@ -837,13 +837,13 @@ const testimonials = [
     background:
       linear-gradient(
         90deg,
-        rgba(185, 210, 222, 0.99) 0%,
-        rgba(185, 210, 222, 0.94) 30%,
-        rgba(185, 210, 222, 0.64) 49%,
-        rgba(185, 210, 222, 0.08) 69%,
-        rgba(185, 210, 222, 0) 100%
+        rgba(29, 72, 98, 0.86) 0%,
+        rgba(29, 72, 98, 0.82) 38%,
+        rgba(38, 92, 122, 0.74) 56%,
+        rgba(53, 101, 126, 0.34) 69%,
+        rgba(53, 101, 126, 0) 84%
       ),
-      linear-gradient(180deg, rgba(43, 37, 29, 0.16), transparent 22%);
+      linear-gradient(180deg, rgba(29, 72, 98, 0.28), transparent 24%);
   }
   .hero__inner {
     position: relative;
@@ -858,32 +858,42 @@ const testimonials = [
     gap: 1.6rem;
   }
   .hero__eyebrows { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; flex-wrap: wrap; }
-  .hero__eyebrow-right { color: rgba(43, 37, 29, 0.7); }
+  .hero .eyebrow { color: var(--butter); }
+  .hero__eyebrow-right { color: rgba(255, 255, 255, 0.82); }
   .hero__title {
     font-size: clamp(2.6rem, 7vw, 5.6rem);
     line-height: 1.02;
     letter-spacing: -0.025em;
     max-width: 21ch;
     text-wrap: balance;
+    color: #fff;
+    text-shadow: 0 2px 22px rgba(29, 72, 98, 0.26);
   }
+  .hero__title .italic-display { color: var(--butter); }
   .hero__foot { display: flex; flex-direction: column; gap: 1.3rem; }
   .hero__lead {
     font-size: clamp(1.05rem, 1.5vw, 1.25rem);
     line-height: 1.6;
-    color: rgba(43, 37, 29, 0.88);
+    color: rgba(255, 255, 255, 0.92);
     max-width: 54ch;
   }
   .hero__ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
-  .hero__btn-quiet { color: var(--paper); border-color: rgba(43, 37, 29, 0.55); }
+  .hero__btn-quiet {
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.78);
+    background: rgba(255, 255, 255, 0.05);
+  }
+  .hero__btn-quiet:hover { color: var(--paper); background: #fff; border-color: #fff; }
   .hero__proof {
     font-family: var(--font-mono);
     font-size: 0.7rem;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--mute);
+    color: rgba(255, 255, 255, 0.78);
     margin: 0.2rem 0 0;
   }
-  .hero__index { margin-top: 0.6rem; }
+  .hero__index { margin-top: 0.6rem; color: rgba(255, 255, 255, 0.78); }
+  .hero__index::before { color: var(--butter); }
 
   @media (max-width: 900px) {
     .hero {
@@ -899,11 +909,11 @@ const testimonials = [
     .hero__wash {
       background: linear-gradient(
         180deg,
-        rgba(185, 210, 222, 0.05) 0%,
-        rgba(185, 210, 222, 0.08) 36%,
-        rgba(185, 210, 222, 0.82) 51%,
-        var(--sky) 62%,
-        var(--sky) 100%
+        rgba(53, 101, 126, 0.03) 0%,
+        rgba(53, 101, 126, 0.08) 34%,
+        rgba(53, 101, 126, 0.78) 50%,
+        rgba(53, 101, 126, 0.98) 61%,
+        #35657e 100%
       );
     }
     .hero__inner {
@@ -935,16 +945,16 @@ const testimonials = [
   @media (max-width: 900px) { .features__grid { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 520px) { .features__grid { grid-template-columns: 1fr; } }
   .feature { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.55rem; }
-  .feature__ico { width: 30px; height: 30px; color: var(--paper); opacity: 0.85; }
+  .feature__ico { width: 30px; height: 30px; color: var(--bronze); opacity: 0.9; }
   .feature__name {
     font-family: var(--font-mono);
     font-size: 0.72rem;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: var(--paper);
+    color: var(--bronze);
     font-weight: 600;
   }
-  .feature__body { font-size: 0.88rem; line-height: 1.5; color: rgba(43, 37, 29, 0.8); max-width: 26ch; margin: 0; }
+  .feature__body { font-size: 0.88rem; line-height: 1.5; color: rgba(46, 52, 56, 0.8); max-width: 26ch; margin: 0; }
 
   /* ============ WHOLE-PERSON WELLNESS ============ */
   .wellness-story {
@@ -992,14 +1002,16 @@ const testimonials = [
   .wellness-story__lead {
     max-width: 38rem;
     margin: 0;
-    color: rgba(43, 37, 29, 0.8);
+    color: rgba(46, 52, 56, 0.8);
     font-size: 1.08rem;
     line-height: 1.65;
   }
   .wellness-story__copy .btn {
-    color: var(--paper);
-    border-color: rgba(43, 37, 29, 0.55);
+    color: #fff;
+    background: var(--bronze-bright);
+    border-color: var(--bronze-bright);
   }
+  .wellness-story__copy .btn:hover { color: #fff; background: var(--bronze-deep); border-color: var(--bronze-deep); }
   @media (max-width: 900px) {
     .wellness-story__inner { grid-template-columns: 1fr; gap: 3rem; }
     .wellness-story__media { width: calc(100% - 1rem); }
@@ -1047,7 +1059,7 @@ const testimonials = [
     max-width: 20ch;
     font-variation-settings: 'opsz' 96;
   }
-  .qx__lede { color: rgba(43, 37, 29, 0.78); font-size: 1.1rem; line-height: 1.55; max-width: 52ch; margin: -1.5rem 0 2rem; }
+  .qx__lede { color: rgba(46, 52, 56, 0.78); font-size: 1.1rem; line-height: 1.55; max-width: 52ch; margin: -1.5rem 0 2rem; }
 
   .qx__options { display: flex; flex-direction: column; gap: 0.6rem; }
   .qx__opt {
@@ -1065,18 +1077,18 @@ const testimonials = [
     backdrop-filter: blur(8px);
   }
   .qx__opt:hover {
-    background: rgba(214, 134, 74, 0.08);
+    background: rgba(53, 111, 145, 0.08);
     border-color: var(--bronze);
     transform: translateX(6px);
   }
   .qx__opt:active {
-    background: rgba(214, 134, 74, 0.14);
+    background: rgba(53, 111, 145, 0.14);
     border-color: var(--bronze-deep);
     transform: translateX(3px);
   }
   .qx__opt:hover .qx__opt-arrow { transform: translateX(4px); color: var(--bronze-bright); }
   .qx__opt-label { font-family: var(--font-display-italic); font-size: clamp(1.1rem, 1.7vw, 1.35rem); letter-spacing: -0.01em; color: var(--paper); line-height: 1.3; }
-  .qx__opt-arrow { font-family: var(--font-body); font-size: 1.3rem; color: rgba(43, 37, 29, 0.6); transition: color 250ms var(--ease), transform 250ms var(--ease); }
+  .qx__opt-arrow { font-family: var(--font-body); font-size: 1.3rem; color: rgba(46, 52, 56, 0.6); transition: color 250ms var(--ease), transform 250ms var(--ease); }
 
   @media (max-width: 520px) {
     .qx__opt { gap: 0.9rem; padding: 1.25rem 1.15rem; }
@@ -1100,11 +1112,11 @@ const testimonials = [
   .qx__result-price { display: flex; align-items: baseline; gap: 0.3rem; margin-bottom: 1.5rem; }
   .qx__result-amt { font-family: var(--font-display); font-size: clamp(3rem, 6vw, 4.5rem); color: var(--paper); line-height: 1; letter-spacing: -0.025em; font-variation-settings: 'opsz' 144; font-feature-settings: 'tnum'; }
   .qx__result-cad { font-family: var(--font-mono); color: var(--mute); font-size: 1rem; }
-  .qx__result-body { font-size: 1.1rem; line-height: 1.55; color: rgba(43, 37, 29, 0.85); max-width: 56ch; margin-bottom: 1.5rem; }
+  .qx__result-body { font-size: 1.1rem; line-height: 1.55; color: rgba(46, 52, 56, 0.85); max-width: 56ch; margin-bottom: 1.5rem; }
   .qx__result-list { display: flex; flex-direction: column; gap: 0.7rem; margin-bottom: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--rule); }
   /* :global() — these li's are injected at runtime by the quiz script, so
      they never receive Astro's scoped data attribute. */
-  .qx__result-list :global(li) { position: relative; padding-left: 1.6rem; color: rgba(43, 37, 29, 0.85); font-size: 0.97rem; line-height: 1.5; }
+  .qx__result-list :global(li) { position: relative; padding-left: 1.6rem; color: rgba(46, 52, 56, 0.85); font-size: 0.97rem; line-height: 1.5; }
   .qx__result-list :global(li)::before { content: '✓'; position: absolute; left: 0; top: 0; color: var(--bronze); font-family: var(--font-mono); font-size: 0.85rem; }
   .qx__discuss { margin-bottom: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--rule); }
   .qx__discuss-label { display: block; font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--bronze); margin-bottom: 0.5rem; }
@@ -1166,7 +1178,7 @@ const testimonials = [
     z-index: 120;
     width: 44px;
     height: 44px;
-    background: rgba(43, 37, 29, 0.04);
+    background: rgba(46, 52, 56, 0.04);
     border: 1px solid var(--rule-strong);
     border-radius: 50%;
     color: var(--paper);
@@ -1178,7 +1190,7 @@ const testimonials = [
     transition: background 200ms var(--ease), border-color 200ms var(--ease);
   }
   :global(body.quiz-focus) .qx__exit:hover {
-    background: rgba(43, 37, 29, 0.08);
+    background: rgba(46, 52, 56, 0.08);
     border-color: var(--bronze);
   }
 
@@ -1200,14 +1212,14 @@ const testimonials = [
   @media (max-width: 600px) { .programs { grid-template-columns: 1fr; } }
   .program { background: var(--ink); border: 1px solid var(--rule-strong); padding: 2rem 1.7rem; border-radius: var(--radius); display: flex; flex-direction: column; gap: 0.7rem; transition: background 240ms var(--ease), border-color 240ms var(--ease); }
   .program:hover { background: var(--ink-2); border-color: var(--butter-deep); }
-  .program--featured { background: var(--ink-2); border-color: var(--bronze); box-shadow: 0 10px 30px -16px rgba(43, 37, 29, 0.18); }
+  .program--featured { background: var(--ink-2); border-color: var(--bronze); box-shadow: 0 10px 30px -16px rgba(46, 52, 56, 0.18); }
   .program__ico { width: 26px; height: 26px; color: var(--bronze); margin-bottom: 0.5rem; }
   .program__tier { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--bronze); }
   .program__name { font-size: 1.45rem; line-height: 1.1; }
   .program__price { display: flex; align-items: baseline; gap: 0.2rem; margin: 0.5rem 0 0.7rem; }
   .program__price-amt { font-family: var(--font-display); font-size: 2.6rem; color: var(--paper); letter-spacing: -0.022em; font-variation-settings: 'opsz' 96; font-feature-settings: 'tnum'; }
   .program__price-cad { font-family: var(--font-mono); font-size: 0.85rem; color: var(--mute); }
-  .program__body { color: rgba(43, 37, 29, 0.75); font-size: 0.92rem; flex-grow: 1; margin-bottom: 1rem; }
+  .program__body { color: rgba(46, 52, 56, 0.75); font-size: 0.92rem; flex-grow: 1; margin-bottom: 1rem; }
   .programs-terms { color: var(--mute); font-size: 0.8rem; line-height: 1.5; text-align: center; max-width: 640px; margin: 1.4rem auto 0; }
   .programs-terms a { color: var(--mute); text-decoration: underline; text-underline-offset: 2px; }
   .programs-terms a:hover { color: var(--bronze); }
@@ -1228,7 +1240,7 @@ const testimonials = [
   .star { width: 18px; height: 18px; background: var(--bronze-bright); display: inline-block; -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='black'%3E%3Cpath d='M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z'/%3E%3C/svg%3E"); mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='black'%3E%3Cpath d='M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z'/%3E%3C/svg%3E"); -webkit-mask-size: contain; mask-size: contain; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; flex-shrink: 0; }
   .testimonials__rating-meta { display: flex; align-items: baseline; gap: 0.5rem; flex-wrap: wrap; }
   .testimonials__rating-meta strong { font-family: var(--font-display); font-size: 1.5rem; color: var(--paper); line-height: 1; letter-spacing: -0.015em; font-feature-settings: 'tnum'; }
-  .testimonials__rating-meta > span:not(.testimonials__rating-link) { font-family: var(--font-mono); font-size: 0.78rem; letter-spacing: 0.06em; color: rgba(43, 37, 29, 0.75); }
+  .testimonials__rating-meta > span:not(.testimonials__rating-link) { font-family: var(--font-mono); font-size: 0.78rem; letter-spacing: 0.06em; color: rgba(46, 52, 56, 0.75); }
   .testimonials__rating-link { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--bronze); margin-left: 0.5rem; border-left: 1px solid var(--rule-strong); padding-left: 1rem; }
   @media (max-width: 640px) { .testimonials__rating-link { border-left: 0; padding-left: 0; margin-left: 0; width: 100%; } }
   /* FTC Endorsement Guides · individual-results disclaimer beneath the rating
@@ -1236,7 +1248,7 @@ const testimonials = [
   .testimonials__disclaimer {
     font-size: 0.72rem;
     line-height: 1.5;
-    color: rgba(43, 37, 29, 0.7);
+    color: rgba(46, 52, 56, 0.7);
     max-width: 56ch;
     margin: 1rem 0 0;
     letter-spacing: 0.01em;
@@ -1326,8 +1338,8 @@ const testimonials = [
     transition: background 200ms var(--ease), border-color 200ms var(--ease);
     font-size: 1.05rem;
   }
-  .t-rotator__nav:hover { background: rgba(214, 134, 74, 0.1); border-color: var(--bronze); }
-  .t-rotator__nav:active { background: rgba(214, 134, 74, 0.18); border-color: var(--bronze-deep); }
+  .t-rotator__nav:hover { background: rgba(53, 111, 145, 0.1); border-color: var(--bronze); }
+  .t-rotator__nav:active { background: rgba(53, 111, 145, 0.18); border-color: var(--bronze-deep); }
   .t-rotator__dots { display: flex; gap: 0.5rem; }
   .t-dot {
     width: 32px;
@@ -1357,7 +1369,7 @@ const testimonials = [
   .faq > .container { position: relative; }
   .faq__head { max-width: 900px; margin-bottom: var(--head-gap); }
   .faq__head .eyebrow { color: var(--bronze-deep); }
-  .faq__head .index { color: rgba(43, 37, 29, 0.7); }
+  .faq__head .index { color: rgba(46, 52, 56, 0.7); }
   .faq__head .index::before { color: var(--bronze-deep); }
   .faq__title {
     font-size: clamp(2rem, 5vw, 3.6rem);
@@ -1367,14 +1379,14 @@ const testimonials = [
     line-height: 1.05;
     color: var(--paper);
   }
-  .faq__head .lead { color: rgba(43, 37, 29, 0.75); }
+  .faq__head .lead { color: rgba(46, 52, 56, 0.75); }
   .faq__list {
     display: flex;
     flex-direction: column;
-    border-top: 1px solid rgba(43, 37, 29, 0.16);
+    border-top: 1px solid rgba(46, 52, 56, 0.16);
     max-width: 900px;
   }
-  .faq__item { border-bottom: 1px solid rgba(43, 37, 29, 0.10); }
+  .faq__item { border-bottom: 1px solid rgba(46, 52, 56, 0.10); }
   .faq__item details { padding: 0; }
   .faq__item summary {
     list-style: none;
@@ -1387,7 +1399,7 @@ const testimonials = [
     transition: background 220ms var(--ease);
   }
   .faq__item summary::-webkit-details-marker { display: none; }
-  .faq__item summary:hover { background: rgba(214, 134, 74, 0.06); }
+  .faq__item summary:hover { background: rgba(53, 111, 145, 0.06); }
   .faq__q-num {
     font-family: var(--font-mono);
     font-size: 0.78rem;
@@ -1426,7 +1438,7 @@ const testimonials = [
     grid-column: 2;
     padding: 0 0 clamp(1.4rem, 3vw, 2rem) clamp(1rem, 3vw, 2rem);
     margin-left: 0;
-    color: rgba(43, 37, 29, 0.8);
+    color: rgba(46, 52, 56, 0.8);
     line-height: 1.7;
     font-size: 1.05rem;
     max-width: 65ch;
@@ -1437,7 +1449,7 @@ const testimonials = [
   }
   .faq__foot { margin-top: 2.5rem; max-width: 900px; }
   /* "Ask a question" button on paper bg needs ink color treatment */
-  .faq__foot .btn { color: var(--paper); border-color: rgba(43, 37, 29, 0.55); }
+  .faq__foot .btn { color: var(--paper); border-color: rgba(46, 52, 56, 0.55); }
   .faq__foot .btn:hover { background: var(--paper); color: var(--ink); border-color: var(--paper); }
 
 
