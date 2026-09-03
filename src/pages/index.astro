@@ -816,7 +816,7 @@ const testimonials = [
     align-items: stretch;
     overflow: hidden;
     isolation: isolate;
-    background: #35657e;
+    background: var(--sky);
     border-bottom: 1px solid var(--rule);
     padding: clamp(7.5rem, 12vw, 9rem) 0 clamp(3.5rem, 7vw, 5.5rem);
   }
@@ -831,19 +831,20 @@ const testimonials = [
   .hero__media img {
     object-fit: cover;
     object-position: center center;
+    filter: saturate(0.84) brightness(1.04) contrast(0.94);
   }
   .hero__wash {
     z-index: 1;
     background:
       linear-gradient(
         90deg,
-        rgba(29, 72, 98, 0.86) 0%,
-        rgba(29, 72, 98, 0.82) 38%,
-        rgba(38, 92, 122, 0.74) 56%,
-        rgba(53, 101, 126, 0.34) 69%,
-        rgba(53, 101, 126, 0) 84%
+        rgba(184, 208, 222, 0.82) 0%,
+        rgba(184, 208, 222, 0.7) 34%,
+        rgba(184, 208, 222, 0.42) 54%,
+        rgba(184, 208, 222, 0.12) 72%,
+        rgba(184, 208, 222, 0) 88%
       ),
-      linear-gradient(180deg, rgba(29, 72, 98, 0.28), transparent 24%);
+      linear-gradient(180deg, rgba(184, 208, 222, 0.16), rgba(184, 208, 222, 0.04));
   }
   .hero__inner {
     position: relative;
@@ -858,7 +859,7 @@ const testimonials = [
     gap: 1.6rem;
   }
   .hero__eyebrows { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; flex-wrap: wrap; }
-  .hero .eyebrow { color: var(--butter); }
+  .hero .eyebrow { color: var(--butter); text-shadow: 0 1px 6px rgba(29, 72, 98, 0.9); }
   .hero__eyebrow-right { color: rgba(255, 255, 255, 0.82); }
   .hero__title {
     font-size: clamp(2.6rem, 7vw, 5.6rem);
@@ -867,21 +868,23 @@ const testimonials = [
     max-width: 21ch;
     text-wrap: balance;
     color: #fff;
-    text-shadow: 0 2px 22px rgba(29, 72, 98, 0.26);
+    text-shadow: 0 2px 3px rgba(29, 72, 98, 0.7), 0 4px 24px rgba(29, 72, 98, 0.34);
   }
   .hero__title .italic-display { color: var(--butter); }
   .hero__foot { display: flex; flex-direction: column; gap: 1.3rem; }
   .hero__lead {
     font-size: clamp(1.05rem, 1.5vw, 1.25rem);
     line-height: 1.6;
-    color: rgba(255, 255, 255, 0.92);
+    color: #fff;
+    text-shadow: 0 1px 2px rgba(29, 72, 98, 0.92), 0 2px 15px rgba(29, 72, 98, 0.52);
     max-width: 54ch;
   }
   .hero__ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
   .hero__btn-quiet {
     color: #fff;
-    border-color: rgba(255, 255, 255, 0.78);
-    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.9);
+    background: rgba(29, 72, 98, 0.18);
+    text-shadow: 0 1px 3px rgba(29, 72, 98, 0.7);
   }
   .hero__btn-quiet:hover { color: var(--paper); background: #fff; border-color: #fff; }
   .hero__proof {
@@ -890,9 +893,10 @@ const testimonials = [
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: rgba(255, 255, 255, 0.78);
+    text-shadow: 0 1px 6px rgba(29, 72, 98, 0.9);
     margin: 0.2rem 0 0;
   }
-  .hero__index { margin-top: 0.6rem; color: rgba(255, 255, 255, 0.78); }
+  .hero__index { margin-top: 0.6rem; color: rgba(255, 255, 255, 0.9); text-shadow: 0 1px 6px rgba(29, 72, 98, 0.9); }
   .hero__index::before { color: var(--butter); }
 
   @media (max-width: 900px) {
@@ -909,11 +913,11 @@ const testimonials = [
     .hero__wash {
       background: linear-gradient(
         180deg,
-        rgba(53, 101, 126, 0.03) 0%,
-        rgba(53, 101, 126, 0.08) 34%,
-        rgba(53, 101, 126, 0.78) 50%,
-        rgba(53, 101, 126, 0.98) 61%,
-        #35657e 100%
+        rgba(184, 208, 222, 0.02) 0%,
+        rgba(184, 208, 222, 0.08) 34%,
+        rgba(184, 208, 222, 0.82) 51%,
+        rgba(184, 208, 222, 0.98) 63%,
+        var(--sky) 100%
       );
     }
     .hero__inner {
