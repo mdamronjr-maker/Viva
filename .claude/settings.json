@@ -1,0 +1,46 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run build*)",
+      "Bash(npm run preview*)",
+      "Bash(npm test*)",
+      "Bash(npm run test*)",
+      "Bash(npm run guard*)",
+      "Bash(npm run lint:voice*)",
+      "Bash(npm run verify*)",
+      "Bash(node scripts/*)",
+      "Bash(npx playwright test*)",
+      "Bash(git status*)",
+      "Bash(git log*)",
+      "Bash(git diff*)",
+      "Bash(git show*)",
+      "Bash(git branch*)",
+      "Bash(git fetch*)",
+      "Bash(git grep*)",
+      "PowerShell(npm run build*)",
+      "PowerShell(npm test*)",
+      "PowerShell(node scripts/*)",
+      "PowerShell(git status*)",
+      "PowerShell(git log*)",
+      "PowerShell(git diff*)",
+      "PowerShell(git show*)",
+      "PowerShell(git branch*)",
+      "PowerShell(git fetch*)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash|PowerShell",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node .claude/hooks/guard-main.mjs",
+            "timeout": 15,
+            "statusMessage": "Checking main-branch guard"
+          }
+        ]
+      }
+    ]
+  }
+}
