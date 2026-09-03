@@ -50,25 +50,17 @@ const LENSES = [
   },
   {
     id: 'compliance',
-    focus: 'Protected content and funnel contracts. AGENTS.md lists content that must stay byte-identical: prices and payment terms, testimonial quotes, compliance copy (503A disclosures, NoPhiNotice, legal pages, disclaimers), JSON-LD source strings, form field names, the source values posted to /api/lead, the #quiz element id, GlossGenius URLs and UTM params, everything under functions/api/, and the brand line in the home hero. Flag any hunk that edits, moves, or rewords any of it. Also flag any invented owner content: license numbers, the GlossGenius deep link, tier rulings, menu stack names, CV facts, replacement reviews, or a fabricated hero photo.',
+    focus: 'Rule 1: legal and compliant, the only content rule. Testimonial quotes are byte-frozen (real Google reviews, FTC endorsement rules); displayed prices and payment terms must match what GlossGenius actually bills ($99 / $199 / $249 / $349 / $499 tiers, $199 first visit, $50 deposit); no invented credentials, license numbers, outcome guarantees, or clinical claims beyond what the site already asserts; no blurring compounded 503A products with FDA-approved drugs; 503A disclosures, NoPhiNotice, and the legal pages stay intact; no PHI anywhere; no personal-infrastructure details in the repo. Do NOT flag style, voice, or design; those carry no rules.',
   },
   {
-    id: 'voice',
-    focus: 'Voice and style rules. No em dashes or en dashes anywhere. Interpunct only as a separator in mono metadata. First-person Liliana voice with no fabricated stories, credentials, claims, or PHI implications. Negation budget: at most one X-not-Y construction per page, with the standing exemptions AGENTS.md names. The site-wide budget for the word actually is fully allocated, so any new use is a violation. Headlines are single color; italic display appears only on each page hero accent line, one per page; no counting-headline formula except the sanctioned Google review one. CTAs are plain sentence-case verbs, and the word protocol stays in clinical body copy.',
-  },
-  {
-    id: 'design',
-    focus: 'Design system. Tokens live in src/styles/global.css and must not be renamed; token names predate the light flip, so check roles, not names. Font weights must stay inside the declared variable ranges (Fraunces 350 to 600, Geist 300 to 900, Mono 400 to 600). Every text pairing must hold WCAG 4.5:1 and meaningful strokes 3:1. Butter is a fill, never a text color on light grounds. Imagery policy: people must be real photographs, never photoreal generated humans, never generated art presented as photography; every new image needs a caption, correct width and height attributes, webp responsive pairs, and a matching preload in Layout.astro when it is the LCP asset.',
-  },
-  {
-    id: 'seo-schema',
-    focus: 'SEO and structured data. The faqs arrays on home and /menopause feed FAQPage schema and their source strings must not change (only the render-only aHtml field is fair game). The MedicalBusiness/WebSite graph, Person, and BlogPosting JSON-LD must stay valid and consistent with the page content. Check meta tags, canonical links, og share cards under src/pages/og/, public/_redirects, and anything the diff touches in Layout.astro for schema or SEO breakage.',
+    id: 'regression',
+    focus: 'Functional regressions that break revenue or the machine-readable layer. Form field names and the source values posted to /api/lead must match what functions/api/lead.js reads; the #quiz element id survives (public/_redirects 301s /quiz there); GlossGenius links still point at vivawellnessco.glossgenius.com; JSON-LD still parses and FAQPage schema stays consistent with the visible FAQ text; only the 404 page is noindexed; OG_CACHE_VERSION bumped when card rendering changed. If the diff deliberately changes a literal pinned in scripts/protected.snapshot.json, the snapshot must be updated in the same diff with the reason stated.',
   },
 ]
 
 function finderPrompt(lens) {
   return [
-    'You are one of five independent reviewers examining a pending change in the Viva Wellness repo at ' + REPO + '.',
+    'You are one of three independent reviewers examining a pending change in the Viva Wellness repo at ' + REPO + '.',
     '',
     'Setup, in order:',
     '1. Read ' + REPO + '\\AGENTS.md in full. It is the source of truth for every rule you enforce.',
@@ -102,7 +94,7 @@ function verifierPrompt(lens, f) {
 }
 
 phase('Find')
-log('viva-review: fanning out five finder lenses over the diff vs feat/lights-on')
+log('viva-review: fanning out three finder lenses over the diff vs feat/lights-on')
 
 const perLens = await pipeline(
   LENSES,

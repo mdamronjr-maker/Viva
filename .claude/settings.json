@@ -6,7 +6,6 @@
       "Bash(npm test*)",
       "Bash(npm run test*)",
       "Bash(npm run guard*)",
-      "Bash(npm run lint:voice*)",
       "Bash(npm run verify*)",
       "Bash(node scripts/*)",
       "Bash(npx playwright test*)",

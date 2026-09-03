@@ -12,8 +12,7 @@
     "astro": "astro",
     "test": "playwright test",
     "guard": "node scripts/guard-protected.mjs",
-    "lint:voice": "node scripts/lint-voice.mjs",
-    "verify": "npm run guard && npm run lint:voice && npm run build && npm test"
+    "verify": "npm run guard && npm run build && npm test"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.104.1",

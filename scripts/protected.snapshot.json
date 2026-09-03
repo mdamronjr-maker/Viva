@@ -2,9 +2,10 @@
   "_readme": [
     "Protected-content snapshot, consumed by scripts/guard-protected.mjs (npm run guard).",
     "Each check pins one literal that must appear in the named file exactly `count` times.",
-    "Literals mirror AGENTS.md 'Protected content': prices and payment terms, the brand line,",
-    "testimonial quotes, GlossGenius booking URLs, the /api/lead funnel contract, and the",
-    "FAQ question strings that feed FAQPage JSON-LD.",
+    "Since the 2026-09-03 rules reset this pins ONLY rule 1 items (prices must match what",
+    "GlossGenius bills; testimonial quotes are legally frozen) plus functional regression",
+    "contracts that keep the funnel working (form field names and source values matching",
+    "functions/api/lead.js, the #quiz id, GlossGenius booking URLs). Nothing stylistic.",
     "UPDATE PROCEDURE: this file is edited deliberately, by hand, in the SAME PR that",
     "intentionally changes protected content, with the reason stated in that PR. Never edit",
     "it just to silence a guard failure you did not intend to cause; a failure means either",
@@ -37,9 +38,6 @@
     { "category": "prices", "file": "src/lib/quiz.ts", "literal": "price: '$99',", "count": 1 },
     { "category": "prices", "file": "src/lib/quiz.ts", "literal": "price: '$199',", "count": 1 },
     { "category": "prices", "file": "src/lib/quiz.ts", "literal": "price: '$349',", "count": 2 },
-
-    { "category": "brand-line", "file": "src/pages/index.astro", "literal": "You bring the goals.", "count": 1 },
-    { "category": "brand-line", "file": "src/pages/index.astro", "literal": "I'll build the protocol.", "count": 1 },
 
     { "category": "testimonials", "file": "src/pages/index.astro", "literal": "Liliana has cared for my elderly parents since I moved them urgently from Florida. She has been amazing. She picked up on things the docs missed in the hospital and I did as well. She is very smart, capable, and super nice. As a physician, the best reference is that she cares for my family.", "count": 1 },
     { "category": "testimonials", "file": "src/pages/index.astro", "literal": "This company and Liliana have changed my life. As a medical provider myself, I can ensure you are in trustworthy hands.", "count": 1 },
@@ -81,24 +79,6 @@
     { "category": "funnel-contract", "file": "functions/api/lead.js", "literal": "referee = null,", "count": 1 },
     { "category": "funnel-contract", "file": "functions/api/lead.js", "literal": "referrer_page = '',", "count": 1 },
     { "category": "funnel-contract", "file": "functions/api/lead.js", "literal": "source === 'quiz'", "count": 2 },
-    { "category": "funnel-contract", "file": "functions/api/lead.js", "literal": "source === 'refer'", "count": 3 },
-
-    { "category": "jsonld-faq", "file": "src/pages/index.astro", "literal": "Is Viva Wellness Co. accepting new patients?", "count": 1 },
-    { "category": "jsonld-faq", "file": "src/pages/index.astro", "literal": "Which states are you licensed in?", "count": 1 },
-    { "category": "jsonld-faq", "file": "src/pages/index.astro", "literal": "Do you accept insurance?", "count": 1 },
-    { "category": "jsonld-faq", "file": "src/pages/index.astro", "literal": "Where are your medications sourced from?", "count": 1 },
-    { "category": "jsonld-faq", "file": "src/pages/index.astro", "literal": "Is your GLP-1 the same as Wegovy or Mounjaro?", "count": 1 },
-    { "category": "jsonld-faq", "file": "src/pages/index.astro", "literal": "Do you treat perimenopause and menopause?", "count": 1 },
-    { "category": "jsonld-faq", "file": "src/pages/index.astro", "literal": "How fast will I receive the eBook after submitting a form?", "count": 1 },
-    { "category": "jsonld-faq", "file": "src/pages/index.astro", "literal": "Can I cancel my membership?", "count": 1 },
-    { "category": "jsonld-faq", "file": "src/pages/index.astro", "literal": "What does Viva Concierge at $99 actually include?", "count": 1 },
-    { "category": "jsonld-faq", "file": "src/pages/index.astro", "literal": "Is my health information private?", "count": 1 },
-    { "category": "jsonld-faq", "file": "src/pages/menopause.astro", "literal": "What is the difference between perimenopause and menopause?", "count": 1 },
-    { "category": "jsonld-faq", "file": "src/pages/menopause.astro", "literal": "Can I get perimenopause or menopause treatment online?", "count": 1 },
-    { "category": "jsonld-faq", "file": "src/pages/menopause.astro", "literal": "Do I need labs before starting HRT?", "count": 1 },
-    { "category": "jsonld-faq", "file": "src/pages/menopause.astro", "literal": "Is hormone replacement therapy safe?", "count": 1 },
-    { "category": "jsonld-faq", "file": "src/pages/menopause.astro", "literal": "What hormones do you actually prescribe?", "count": 1 },
-    { "category": "jsonld-faq", "file": "src/pages/menopause.astro", "literal": "Can HRT help with midlife weight gain?", "count": 1 },
-    { "category": "jsonld-faq", "file": "src/pages/menopause.astro", "literal": "What does menopause care cost at Viva?", "count": 1 }
+    { "category": "funnel-contract", "file": "functions/api/lead.js", "literal": "source === 'refer'", "count": 3 }
   ]
 }
