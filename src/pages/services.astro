@@ -158,13 +158,10 @@ const includedAlways = [
 ];
 
 const pillars = [
-  { num: '01', cat: 'hormone', title: 'Hormone Optimization', body: 'TRT and HRT tuned to how you want to feel and perform, wherever the lab range happens to start.' },
-  { num: '02', cat: 'metabolic', title: 'Metabolic Reset', body: 'Compounded GLP-1 protocols matched to your physiology. Real appetite control, without giving back the muscle you worked for.' },
-  { num: '03', cat: 'peptides', title: 'Peptide Therapy', body: 'Compounded peptide protocols for recovery, healing, and tissue repair. BPC-157, TB-500, GHK-Cu, CJC-1295 / Ipamorelin: the stack that closes the gap between how hard you train and what your body can bounce back from.' },
-  { num: '04', cat: 'performance', title: 'Performance', body: 'For athletes and people who run hot at work. Peptide and hormone protocols built to keep you on the line instead of behind it.' },
-  { num: '05', cat: 'recomp', title: 'Recomp', body: 'Metabolic, hormone, and recovery support working together to change your body composition while your training stays intact.' },
-  { num: '06', cat: 'longevity', title: 'Lifestyle & Longevity', body: 'The long game. Sleep, hormones, inflammation, and longevity peptides handled as one system instead of six separate problems.' },
-  { num: '07', cat: 'labs', title: 'Labs & Diagnostics', body: 'Hormone, metabolic, inflammation, and micronutrient panels. Ordered through your insurance, read by the same provider running your protocol. This is the measurement layer underneath every tier.' },
+  { cat: 'hormone', title: 'Energy, sleep, and hormones', body: 'For broken sleep, brain fog, mood or libido changes, low testosterone, perimenopause, or menopause.' },
+  { cat: 'metabolic', title: 'Weight and metabolism', body: 'For appetite or weight changes when the routines that used to work are no longer enough.' },
+  { cat: 'peptides', title: 'Recovery, strength, and performance', body: 'For training, surgery, or injury that is taking longer to recover from, plus strength and body composition goals.' },
+  { cat: 'longevity', title: 'Long-term health', body: 'For adults who want clear labs, regular follow-up, and a plan for staying strong and capable over time.' },
 ];
 
 // Schema.org · each tier emits a Service node so Google can surface a specific
@@ -218,12 +215,17 @@ const servicesSchema = {
   {/* HERO */}
   <section class="services-hero">
     <div class="container services-hero__inner">
-      <span class="eyebrow">Peptide therapy · TRT · HRT · GLP-1</span>
+      <span class="eyebrow">Energy · hormones · metabolism · recovery</span>
       <h1 class="services-hero__title">
         What I treat,<br/>
         <span class="italic-display">and what it costs.</span>
       </h1>
       <p class="lead">
+        You may be here because sleep changed, energy dropped, weight stopped
+        responding, or recovery takes longer. I start with the whole picture,
+        order the right labs, and help you choose a clear path.
+      </p>
+      <p class="services-hero__detail">
         Concierge peptide therapy, hormone optimization, and metabolic protocols
         from one provider on a flat monthly fee. Compounded peptides (BPC-157,
         TB-500, GHK-Cu, CJC-1295 / Ipamorelin), GLP-1, TRT, and HRT. Medication,
@@ -234,28 +236,28 @@ const servicesSchema = {
     </div>
   </section>
 
-  {/* PILLARS · the work, framed conceptually before the categorized tiers */}
+  {/* PILLARS · recognizable problems before clinical categories */}
   <section class="section pillars-section">
     <div class="container">
       <div class="section-head">
-        <span class="eyebrow">The work</span>
+        <span class="eyebrow">Start with what changed</span>
         <h2 class="section-head__title">
-          The seven areas I treat.
+          Start with what feels different.
         </h2>
         <p class="lead section-head__lead">
-          I treat the body as one system. Pull on hormones, metabolism,
-          peptide therapy, or performance and the rest move with it. Every
-          membership is whole-body, and it's me managing all of it.
+          Bring me what has changed, what you have tried, and what you need your
+          health to support. I will connect the symptoms, the labs, and the care
+          options with you.
         </p>
       </div>
 
       <ul class="pillars">
-        {pillars.map((p, i) => (
-          <li class:list={["pillar", i === pillars.length - 1 && 'pillar--foundation']}>
+        {pillars.map((p) => (
+          <li class="pillar">
             <a class="pillar__link" href={`/menu#${p.cat}`}>
               <h3 class="pillar__title">{p.title}</h3>
               <p class="pillar__body">{p.body}</p>
-              <span class="pillar__more">On the menu →</span>
+              <span class="pillar__more">See care options →</span>
             </a>
           </li>
         ))}
@@ -286,16 +288,16 @@ const servicesSchema = {
   <section class="quiz-banner">
     <div class="container quiz-banner__inner">
       <div class="quiz-banner__copy">
-        <span class="eyebrow">Quick way to pick</span>
+        <span class="eyebrow">Five quick questions</span>
         <h2 class="quiz-banner__title">
-          Take the quiz first.
+          Find your starting point.
         </h2>
         <p>
-          Tell me your goals, your training, your budget. About ninety seconds
-          later you'll land on the tier that fits you.
+          Tell me your goal, age, activity, and monthly comfort. About ninety
+          seconds later you will have a practical place to begin.
         </p>
       </div>
-      <a href="/#quiz" class="btn btn--bronze">Take the quiz</a>
+      <a href="/#quiz" class="btn btn--bronze">Find your starting point</a>
     </div>
   </section>
 
@@ -323,7 +325,7 @@ const servicesSchema = {
       <div class="section-head">
         <span class="eyebrow">The programs</span>
         <h2 class="section-head__title">
-          The memberships.
+          Start with one visit. I will help you choose.
         </h2>
         <p class="lead section-head__lead">
           One flat monthly fee. Compounded medication, supplies, home delivery,
@@ -372,7 +374,7 @@ const servicesSchema = {
               </div>
             )}
             <a href={`/start?utm_source=vivawellnessco&utm_medium=cta&utm_content=services_tier_${slugify(p.name)}`} class="btn btn--bronze prog-card__cta">
-              Start with {p.name}
+              Book your first visit
             </a>
           </li>
         ))}
@@ -461,30 +463,27 @@ const servicesSchema = {
     line-height: 1.02;
     letter-spacing: -0.028em;
   }
+  .services-hero__detail {
+    max-width: 70ch;
+    margin: 0;
+    color: rgba(46, 52, 56, 0.72);
+    font-size: 1rem;
+    line-height: 1.65;
+  }
 
   /* PILLARS */
   .pillars-section { padding: clamp(3rem, 7vw, 5rem) 0; }
-  .pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-top: 1px solid var(--rule-strong); }
+  .pillars { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0; border-top: 1px solid var(--rule-strong); }
   .pillar { padding: 1.4rem 1.2rem; border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule-strong); transition: background 240ms var(--ease); }
-  .pillars > .pillar:nth-child(3n+1) { padding-left: 0; }
-  .pillar:nth-child(3n) { border-right: 0; }
+  .pillars > .pillar:nth-child(2n+1) { padding-left: 0; }
+  .pillar:nth-child(2n) { border-right: 0; }
   .pillar:hover { background: rgba(53, 111, 145, 0.04); }
   .pillar__title { font-size: 1.2rem; margin-bottom: 0.5rem; color: var(--paper); line-height: 1.2; }
   .pillar__body { color: rgba(46, 52, 56, 0.75); font-size: 0.9rem; line-height: 1.45; }
-  /* 7th pillar (Labs) spans full row as foundation finale.
-     Selector targets the last pillar when it would otherwise sit alone in row 3. */
-  .pillar--foundation {
-    grid-column: 1 / -1;
-    border-right: 0;
-    padding-right: 0;
-    border-bottom: 1px solid var(--rule-strong);
-  }
-  .pillar--foundation .pillar__body { max-width: 70ch; }
-  @media (max-width: 960px) { .pillars { grid-template-columns: repeat(2, 1fr); } .pillar { border-right: 1px solid var(--rule); padding: 1.4rem 1.2rem; } .pillar:nth-child(2n) { border-right: 0; } .pillar:nth-child(2n+1) { padding-left: 0; } .pillar--foundation { padding-left: 0; } }
   @media (max-width: 600px) { .pillars { grid-template-columns: 1fr; } .pillar { border-right: 0 !important; padding-left: 0; } }
   .pillar__link { display: flex; flex-direction: column; height: 100%; color: inherit; text-decoration: none; }
   .pillar__link:focus-visible { outline: 2px solid var(--bronze); outline-offset: 4px; }
-  .pillar__more { font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.1em; color: var(--bronze); margin-top: auto; padding-top: 0.9rem; opacity: 0; transform: translateX(-4px); transition: opacity 220ms var(--ease), transform 220ms var(--ease); }
+  .pillar__more { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.1em; color: var(--bronze); margin-top: auto; padding-top: 0.9rem; opacity: 0; transform: translateX(-4px); transition: opacity 220ms var(--ease), transform 220ms var(--ease); }
   .pillar:hover .pillar__more, .pillar:focus-within .pillar__more { opacity: 1; transform: none; }
   @media (max-width: 600px) { .pillar__more { opacity: 1; transform: none; } }
 
