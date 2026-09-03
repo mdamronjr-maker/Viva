@@ -62,6 +62,10 @@ const PICON = {
   pulse: '<path d="M22 12h-4l-3 9L9 3l-3 9H2"/>',
   flame: '<path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>',
   leaf: '<path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>',
+  person: '<path d="M20 21a8 8 0 0 0-16 0"/><circle cx="12" cy="7" r="4"/>',
+  video: '<path d="m16 13 5 3V8l-5 3"/><rect width="13" height="14" x="3" y="5" rx="2"/>',
+  flask: '<path d="M9 3h6"/><path d="M10 9V3h4v6l5 9a2 2 0 0 1-1.74 3H6.74A2 2 0 0 1 5 18z"/><path d="M7 15h10"/>',
+  package: '<path d="m16.5 9.4-9-5.19"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.3 7 12 12l8.7-5"/><path d="M12 22V12"/>',
 };
 const programs = [
   { tier: 'Entry', name: 'Viva Concierge', price: '$99', cadence: '/mo', icon: 'key', href: '/services#viva-concierge-access', body: 'Provider access plus member pricing on compounded peptides, GLP-1, and add-ons. Pay a la carte for the protocols you want instead of a bundled monthly fee.' },
@@ -71,6 +75,11 @@ const programs = [
 ];
 
 const testimonials = [
+  {
+    quote: "The telehealth setup is incredibly convenient and made everything so easy. The care was professional, personal, and I felt truly supported throughout the process.",
+    name: 'Nancy Flores',
+    role: '',
+  },
   {
     quote: "Liliana has cared for my elderly parents since I moved them urgently from Florida. She has been amazing. She picked up on things the docs missed in the hospital and I did as well. She is very smart, capable, and super nice. As a physician, the best reference is that she cares for my family.",
     name: 'Dr. Matt Phillips',
@@ -84,11 +93,6 @@ const testimonials = [
   {
     quote: "Lili has been an exceptional provider throughout my wellness treatment journey. From our very first consultation, she truly understood my needs. She carefully listened as I explained my symptoms.",
     name: 'Priscilla Moraes',
-    role: '',
-  },
-  {
-    quote: "The telehealth setup is incredibly convenient and made everything so easy. The care was professional, personal, and I felt truly supported throughout the process.",
-    name: 'Nancy Flores',
     role: '',
   },
   {
@@ -107,7 +111,7 @@ const testimonials = [
 
 <Layout
   title="Concierge Peptide Therapy, GLP-1 & TRT in Austin | Viva Wellness Co."
-  description="Provider-led concierge telehealth in Austin, TX. GLP-1 weight loss, TRT, hormone optimization, recovery, and recomposition protocols. Texas, Colorado, Florida, Iowa. Founded by Liliana Damron, APRN, FNP-BC."
+  description="Provider-led concierge telehealth for changes in energy, sleep, weight, hormones, and recovery. GLP-1, TRT, HRT, peptides, and menopause care in Texas, Colorado, Florida, and Iowa."
   schema={faqSchema}
 >
 
@@ -128,8 +132,8 @@ const testimonials = [
     <div class="container hero__inner">
       <div class="hero__copy">
       <div class="hero__eyebrows">
-        <span class="eyebrow">Telehealth · TX · CO · FL · IA</span>
-        <span class="eyebrow hero__eyebrow-right">100% Concierge</span>
+        <span class="eyebrow">Concierge care, built around your schedule</span>
+        <span class="eyebrow hero__eyebrow-right">TX · CO · FL · IA</span>
       </div>
 
       <h1 class="hero__title">
@@ -139,17 +143,22 @@ const testimonials = [
 
       <div class="hero__foot">
         <p class="hero__lead">
-          I'm Liliana Damron, a nurse practitioner who'd rather catch the trouble
-          early than treat it late. Tell me where you want to go, and I'll run the
-          labs, build the protocol, and adjust as you go. Hormones, perimenopause
-          and menopause, metabolic, peptides, recovery. One provider, by video,
-          from Austin.
+          I'm Liliana Damron, a board-certified nurse practitioner. When sleep,
+          energy, weight, or hormones start getting in the way, I look at the
+          whole picture, run the right labs, and build care around work, family,
+          and everything in between. We meet by secure video, from Austin.
         </p>
         <div class="hero__ctas">
-          <a href="#quiz" class="btn btn--bronze">Take the quiz</a>
-          <a href="/start?utm_source=vivawellnessco&utm_medium=cta&utm_content=home_hero" class="btn hero__btn-quiet">Book a visit</a>
+          <a href="/start?utm_source=vivawellnessco&utm_medium=cta&utm_content=home_hero" class="btn btn--bronze">Book a visit</a>
+          <a href="#quiz" class="btn hero__btn-quiet">Find your starting point</a>
         </div>
-        <p class="hero__proof">5.0 on Google reviews</p>
+        <ul class="hero__utility" role="list" aria-label="How Viva fits your schedule">
+          <li>45-minute first visit</li>
+          <li>Labs near you</li>
+          <li>Home delivery available</li>
+          <li>Direct access to Liliana</li>
+        </ul>
+        <p class="hero__proof">5.0 on Google · 86 verified reviews</p>
       </div>
 
       <div class="hero__index">
@@ -163,29 +172,75 @@ const testimonials = [
   <section class="features" aria-label="What concierge care includes">
     <ul class="features__grid container" role="list">
       <li class="feature">
-        <svg class="feature__ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={PICON.key} />
-        <span class="feature__name">Concierge care</span>
-        <p class="feature__body">Direct access to your provider and personalized support every step of the way.</p>
+        <svg class="feature__ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={PICON.person} />
+        <span class="feature__name">Liliana, every visit</span>
+        <p class="feature__body">Liliana leads every visit, reads your chart, and approves your care herself.</p>
       </li>
       <li class="feature">
-        <svg class="feature__ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={PICON.pulse} />
-        <span class="feature__name">Data driven</span>
-        <p class="feature__body">We run the right labs and use real data to guide your plan.</p>
+        <svg class="feature__ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={PICON.video} />
+        <span class="feature__name">Care by video</span>
+        <p class="feature__body">Meet securely from home or work, with no commute or waiting room.</p>
       </li>
       <li class="feature">
-        <svg class="feature__ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={PICON.leaf} />
-        <span class="feature__name">Personalized protocols</span>
-        <p class="feature__body">Every plan is built around your goals, your body, and your lifestyle.</p>
+        <svg class="feature__ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={PICON.flask} />
+        <span class="feature__name">Labs near you</span>
+        <p class="feature__body">Run the right labs locally, then review them with the provider managing your care.</p>
       </li>
       <li class="feature">
-        <svg class="feature__ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={PICON.flame} />
-        <span class="feature__name">Doorstep delivery</span>
-        <p class="feature__body">Medications and supplies shipped discreetly and conveniently to you.</p>
+        <svg class="feature__ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={PICON.package} />
+        <span class="feature__name">Home delivery</span>
+        <p class="feature__body">Eligible medications and supplies ship discreetly to your door.</p>
       </li>
     </ul>
   </section>
 
   <aside class="trust" aria-label="Practice credentials"><ul class="trust__grid container" role="list"><li class="trust__cell"><p class="trust__label">Board-certified nurse practitioner</p></li><li class="trust__cell"><p class="trust__label">Licensed in TX, CO, FL, IA</p></li><li class="trust__cell"><p class="trust__label">Meds from FDA-regulated 503A pharmacies, third-party tested</p></li><li class="trust__cell"><p class="trust__label">Provider-led, never algorithm-dispensed</p></li></ul></aside>
+
+  {/* ============ AUDIENCE RECOGNITION · start with the life, not the treatment ============ */}
+  <section class="audience" aria-labelledby="audience-title">
+    <div class="container audience__inner">
+      <div class="audience__head">
+        <span class="eyebrow">Care for the season you are in</span>
+        <h2 id="audience-title" class="audience__title">
+          Your life is full.<br />Your care can still fit.
+        </h2>
+        <p class="lead audience__lead">
+          Work, family, sleep, and recovery all pull on the same body. Bring me
+          what changed, what you have tried, and what you need your health to
+          support. I will sort out which clinical path fits.
+        </p>
+      </div>
+
+      <ul class="audience__grid" role="list">
+        <li class="audience-card">
+          <h3>Energy, sleep, and hormones</h3>
+          <p>For broken sleep, brain fog, mood or libido changes, low testosterone, perimenopause, or menopause.</p>
+          <a href="/menu#hormone">Explore hormone care →</a>
+        </li>
+        <li class="audience-card">
+          <h3>Weight and metabolism</h3>
+          <p>For appetite or weight changes when the routines that used to work are no longer enough.</p>
+          <a href="/menu#metabolic">Explore metabolic care →</a>
+        </li>
+        <li class="audience-card">
+          <h3>Recovery and strength</h3>
+          <p>For training, surgery, or injury that is taking longer to recover from, and for protecting the muscle you have built.</p>
+          <a href="/menu#peptides">Explore recovery care →</a>
+        </li>
+        <li class="audience-card">
+          <h3>Long-term health</h3>
+          <p>For clear labs, regular follow-up, and a plan for staying strong and capable over time.</p>
+          <a href="/menu#longevity">Explore longevity care →</a>
+        </li>
+      </ul>
+
+      <a class="audience__article" href="/blog/the-parent-tax">
+        <span>For parents and caregivers</span>
+        <strong>The Parent Tax: what running on empty does to your body</strong>
+        <span aria-hidden="true">Read Liliana's perspective →</span>
+      </a>
+    </div>
+  </section>
 
   {/* ============ WHOLE-PERSON WELLNESS · editorial image break ============ */}
   <section class="wellness-story" aria-labelledby="wellness-story-title">
@@ -206,16 +261,51 @@ const testimonials = [
       </figure>
 
       <div class="wellness-story__copy">
-        <span class="eyebrow">Whole-person wellness</span>
+        <span class="eyebrow">Built around real life</span>
         <h2 id="wellness-story-title" class="wellness-story__title">
-          Optimize your health.<br />Elevate your life.
+          One plan.<br />Fewer pieces to manage.
         </h2>
         <p class="wellness-story__lead">
-          From hormones and metabolism to performance and longevity, I use the
-          right labs and ongoing follow-up to build care around your goals and
-          your life.
+          Visits happen by secure video. Labs are drawn near you. Eligible
+          medication and supplies arrive at your door. You can message me
+          between visits, so care keeps moving without another half-day away
+          from work or family.
         </p>
-        <a href="/services" class="btn">Explore services</a>
+        <a href="/start" class="btn">See how the first visit works</a>
+      </div>
+    </div>
+  </section>
+
+  {/* ============ PROVIDER BAND · trust before the visitor chooses a path ============ */}
+  <section class="provider-band section--paper">
+    <div class="container provider-band__inner">
+      <figure class="provider-band__media">
+        <div class="provider-band__frame" transition:name="provider-photo">
+          <img
+            src="/liliana-new.webp"
+            alt="Liliana Damron, APRN, FNP-BC"
+            width="640"
+            height="800"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+        <figcaption class="provider-band__caption">
+          <span class="provider-band__name">Liliana Damron</span>
+          <span class="provider-band__creds">APRN, FNP-BC · Founder</span>
+        </figcaption>
+      </figure>
+
+      <div class="provider-band__copy">
+        <span class="eyebrow">Your provider</span>
+        <h2 class="provider-band__title">
+          A real, named provider, every single visit.
+        </h2>
+        <p class="provider-band__voice">
+          &ldquo;Your first visit is with me, Liliana, not a chatbot. I read
+          your chart and approve your protocol myself.&rdquo;
+        </p>
+        <a href="/about" class="btn btn--bronze provider-band__cta">Meet your provider</a>
       </div>
     </div>
   </section>
@@ -226,9 +316,9 @@ const testimonials = [
     <div class="container qx__inner">
 
       <div class="qx__head">
-        <span class="eyebrow">The match</span>
+        <span class="eyebrow">Five quick questions</span>
         <h2 class="qx__title">
-          The match quiz.
+          Find your starting point.
         </h2>
         <div class="qx__meta">
           <span class="eyebrow" id="qx-step-label" role="status" aria-live="polite" aria-atomic="true">Question 1 of 5</span>
@@ -240,13 +330,13 @@ const testimonials = [
 
       {/* Step 1 */}
       <div class="qx__step is-active" data-step="1">
-        <p class="qx__q" id="qx-q1" role="heading" aria-level="3" tabindex="-1">What is your primary goal right now?</p>
+        <p class="qx__q" id="qx-q1" role="heading" aria-level="3" tabindex="-1">What feels most different right now?</p>
         <div class="qx__options" role="group" aria-labelledby="qx-q1">
-          <button class="qx__opt" data-q="goal" data-v="weight"><span class="qx__opt-label">Lose weight or reset metabolism</span><span class="qx__opt-arrow">→</span></button>
-          <button class="qx__opt" data-q="goal" data-v="hormones"><span class="qx__opt-label">Optimize hormones: energy, libido, mood</span><span class="qx__opt-arrow">→</span></button>
-          <button class="qx__opt" data-q="goal" data-v="recovery"><span class="qx__opt-label">Recover from training, surgery, or injury</span><span class="qx__opt-arrow">→</span></button>
-          <button class="qx__opt" data-q="goal" data-v="longevity"><span class="qx__opt-label">Longevity, anti-aging, sustained vitality</span><span class="qx__opt-arrow">→</span></button>
-          <button class="qx__opt" data-q="goal" data-v="performance"><span class="qx__opt-label">Performance and body recomposition</span><span class="qx__opt-arrow">→</span></button>
+          <button class="qx__opt" data-q="goal" data-v="weight"><span class="qx__opt-label">Weight or appetite feels harder to manage</span><span class="qx__opt-arrow">→</span></button>
+          <button class="qx__opt" data-q="goal" data-v="hormones"><span class="qx__opt-label">My energy, mood, or libido feels off</span><span class="qx__opt-arrow">→</span></button>
+          <button class="qx__opt" data-q="goal" data-v="recovery"><span class="qx__opt-label">Recovery from training, surgery, or injury takes longer</span><span class="qx__opt-arrow">→</span></button>
+          <button class="qx__opt" data-q="goal" data-v="longevity"><span class="qx__opt-label">I want to protect my health for the long term</span><span class="qx__opt-arrow">→</span></button>
+          <button class="qx__opt" data-q="goal" data-v="performance"><span class="qx__opt-label">I want better strength, performance, or body composition</span><span class="qx__opt-arrow">→</span></button>
         </div>
       </div>
 
@@ -272,18 +362,18 @@ const testimonials = [
 
       {/* Step 4 */}
       <div class="qx__step" data-step="4">
-        <p class="qx__q" id="qx-q4" role="heading" aria-level="3" tabindex="-1">How active are you?</p>
+        <p class="qx__q" id="qx-q4" role="heading" aria-level="3" tabindex="-1">What does movement look like in your week?</p>
         <div class="qx__options" role="group" aria-labelledby="qx-q4">
-          <button class="qx__opt" data-q="activity" data-v="sedentary"><span class="qx__opt-label">Mostly sedentary right now</span><span class="qx__opt-arrow">→</span></button>
-          <button class="qx__opt" data-q="activity" data-v="moderate"><span class="qx__opt-label">2 to 4 workouts a week</span><span class="qx__opt-arrow">→</span></button>
-          <button class="qx__opt" data-q="activity" data-v="athlete"><span class="qx__opt-label">5+ sessions, training with intent</span><span class="qx__opt-arrow">→</span></button>
-          <button class="qx__opt" data-q="activity" data-v="competitive"><span class="qx__opt-label">Competitive athlete or high performer</span><span class="qx__opt-arrow">→</span></button>
+          <button class="qx__opt" data-q="activity" data-v="sedentary"><span class="qx__opt-label">I am not exercising consistently right now</span><span class="qx__opt-arrow">→</span></button>
+          <button class="qx__opt" data-q="activity" data-v="moderate"><span class="qx__opt-label">I fit in 2 to 4 workouts most weeks</span><span class="qx__opt-arrow">→</span></button>
+          <button class="qx__opt" data-q="activity" data-v="athlete"><span class="qx__opt-label">I train 5 or more times a week</span><span class="qx__opt-arrow">→</span></button>
+          <button class="qx__opt" data-q="activity" data-v="competitive"><span class="qx__opt-label">I train or compete at a high level</span><span class="qx__opt-arrow">→</span></button>
         </div>
       </div>
 
       {/* Step 5 */}
       <div class="qx__step" data-step="5">
-        <p class="qx__q" id="qx-q5" role="heading" aria-level="3" tabindex="-1">Where is your monthly comfort?</p>
+        <p class="qx__q" id="qx-q5" role="heading" aria-level="3" tabindex="-1">Which monthly level feels realistic for you?</p>
         <div class="qx__options" role="group" aria-labelledby="qx-q5">
           <button class="qx__opt" data-q="budget" data-v="b99"><span class="qx__opt-label">Up to $99 a month</span><span class="qx__opt-arrow">→</span></button>
           <button class="qx__opt" data-q="budget" data-v="b199"><span class="qx__opt-label">Up to $199 a month</span><span class="qx__opt-arrow">→</span></button>
@@ -294,9 +384,9 @@ const testimonials = [
 
       {/* Step 6 · gate */}
       <div class="qx__step" data-step="6">
-        <p class="qx__q" role="heading" aria-level="3" tabindex="-1">Almost done. Three details to see your match.</p>
+        <p class="qx__q" role="heading" aria-level="3" tabindex="-1">Almost done. Three details to see your starting point.</p>
         <p class="qx__lede">
-          I'll email your matched protocol plus the Precision Hormone &amp;
+          I'll email your recommended starting point plus the Precision Hormone &amp;
           Peptide Therapy eBook. I follow up personally only if you want me to.
         </p>
         <NoPhiNotice />
@@ -306,16 +396,16 @@ const testimonials = [
           <div class="field"><label for="qx-phone" class="field__label">Phone</label><input id="qx-phone" name="phone" type="tel" class="field__input" autocomplete="tel" placeholder="(512) 555-0123" /><span class="field__hint">Optional. Only used if you ask me to call or text.</span></div>
           <div class="hp" aria-hidden="true"><label>Leave empty<input name="company" type="text" tabindex="-1" autocomplete="off" /></label></div>
           <div class="cf-turnstile" data-sitekey={TURNSTILE_SITEKEY} data-theme="light"></div>
-          <button type="submit" class="btn btn--bronze" id="qx-submit">See my match</button>
+          <button type="submit" class="btn btn--bronze" id="qx-submit">See my starting point</button>
           <div class="qx__status" id="qx-status" role="status" aria-live="polite"></div>
         </form>
       </div>
 
       {/* Step 7 · result */}
       <div class="qx__step" data-step="7" tabindex="-1">
-        <span class="eyebrow">Your match</span>
+        <span class="eyebrow">Your starting point</span>
         <h2 class="qx__result-title">
-          Recommended:<br/>
+          A place to begin:<br/>
           <span id="qx-r-name">Viva Concierge</span>
         </h2>
         <div class="qx__result-card">
@@ -323,14 +413,13 @@ const testimonials = [
             <span class="qx__result-amt" id="qx-r-price">$99</span>
             <span class="qx__result-cad">/mo</span>
           </div>
-          <p class="qx__result-body" id="qx-r-body">A starting protocol calibrated to your answers.</p>
+          <p class="qx__result-body" id="qx-r-body">A starting point based on your answers.</p>
           <ul class="qx__result-list" id="qx-r-list"></ul>
           <div class="qx__discuss">
-            <span class="qx__discuss-label">Bring to your discovery call</span>
+            <span class="qx__discuss-label">Bring to your first visit</span>
             <p class="qx__discuss-hint">
-              Based on your answers, worth asking Liliana about. These are
-              conversation starters. She confirms what fits clinically on the
-              call.
+              These are conversation starters based on your answers. Liliana
+              confirms what fits clinically during your visit.
             </p>
             <ul class="qx__result-list qx__result-list--discuss" id="qx-r-discuss"></ul>
           </div>
@@ -339,7 +428,7 @@ const testimonials = [
             <a href="/services" class="btn">See all programs</a>
           </div>
           <p class="qx__result-note">
-            The eBook is on its way to your inbox. This match is a starting point;
+            The eBook is on its way to your inbox. This recommendation is a starting point;
             your final protocol is tailored during your consult. Compounded
             medications, when included, are dispensed by FDA-regulated 503A
             pharmacies only after clinical evaluation and provider approval.
@@ -390,40 +479,6 @@ const testimonials = [
 
       <div class="programs-foot">
         <a href="/services" class="btn">See all programs</a>
-      </div>
-    </div>
-  </section>
-
-  {/* ============ PROVIDER BAND · a real, named provider ============ */}
-  <section class="provider-band section--paper">
-    <div class="container provider-band__inner">
-      <figure class="provider-band__media">
-        <div class="provider-band__frame" transition:name="provider-photo">
-          <img
-            src="/liliana-new.webp"
-            alt="Liliana Damron, APRN, FNP-BC"
-            width="640"
-            height="800"
-            loading="lazy"
-            decoding="async"
-          />
-        </div>
-        <figcaption class="provider-band__caption">
-          <span class="provider-band__name">Liliana Damron</span>
-          <span class="provider-band__creds">APRN, FNP-BC · Founder</span>
-        </figcaption>
-      </figure>
-
-      <div class="provider-band__copy">
-        <span class="eyebrow">Your provider</span>
-        <h2 class="provider-band__title">
-          A real, named provider, every single visit.
-        </h2>
-        <p class="provider-band__voice">
-          &ldquo;Your first visit is with me, Liliana, not a chatbot. I read
-          your chart and approve your protocol myself.&rdquo;
-        </p>
-        <a href="/about" class="btn btn--bronze provider-band__cta">Meet your provider</a>
       </div>
     </div>
   </section>
@@ -535,8 +590,8 @@ const testimonials = [
         in. One plan. Nothing left to piece together.
       </p>
       <div class="cta__ctas">
-        <a href="/start?utm_source=vivawellnessco&utm_medium=cta&utm_content=home_cta" class="btn btn--bronze">Book Your First Visit</a>
-        <a href="/contact" class="btn">Ask a Question</a>
+        <a href="/start?utm_source=vivawellnessco&utm_medium=cta&utm_content=home_cta" class="btn btn--bronze">Book your first visit</a>
+        <a href="/contact" class="btn">Ask a question</a>
       </div>
     </div>
   </section>
@@ -648,7 +703,7 @@ const testimonials = [
     if (meta) {
       if (state.step <= TOTAL) meta.textContent = `Question ${state.step} of ${TOTAL}`;
       else if (state.step === TOTAL + 1) meta.textContent = 'Almost there';
-      else meta.textContent = 'Your match';
+      else meta.textContent = 'Your starting point';
     }
     if (back) back.hidden = state.step <= 1 || state.step > TOTAL + 1;
     // In focus mode the body is locked with overflow:hidden, so scrollIntoView
@@ -775,7 +830,7 @@ const testimonials = [
       } finally {
         submit.disabled = false;
         submit.removeAttribute('aria-busy');
-        submit.textContent = 'See my match';
+        submit.textContent = 'See my starting point';
       }
     });
   }
@@ -800,7 +855,7 @@ const testimonials = [
   @media (max-width: 520px) { .trust__grid { grid-template-columns: 1fr; gap: 0.7rem; } }
   .trust__label {
     font-family: var(--font-mono);
-    font-size: 0.72rem;
+    font-size: 0.75rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--mute);
@@ -887,9 +942,38 @@ const testimonials = [
     text-shadow: 0 1px 3px rgba(29, 72, 98, 0.7);
   }
   .hero__btn-quiet:hover { color: var(--paper); background: #fff; border-color: #fff; }
+  .hero__utility {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem 1.1rem;
+    margin: 0;
+    padding: 0;
+  }
+  .hero__utility li {
+    position: relative;
+    padding-left: 0.9rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 0 1px 6px rgba(29, 72, 98, 0.9);
+  }
+  .hero__utility li::before {
+    content: '';
+    position: absolute;
+    top: 0.52em;
+    left: 0;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--butter);
+    box-shadow: 0 1px 5px rgba(29, 72, 98, 0.7);
+  }
   .hero__proof {
     font-family: var(--font-mono);
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: rgba(255, 255, 255, 0.78);
@@ -932,6 +1016,8 @@ const testimonials = [
     .hero__lead { font-size: 1rem; line-height: 1.52; }
     .hero__ctas { display: grid; grid-template-columns: 1fr; }
     .hero__ctas .btn { width: 100%; }
+    .hero__utility { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.6rem 0.8rem; }
+    .hero__utility li { font-size: 0.75rem; line-height: 1.45; }
   }
 
   /* ============ FEATURE BAND · butter, static ============ */
@@ -952,13 +1038,119 @@ const testimonials = [
   .feature__ico { width: 30px; height: 30px; color: var(--bronze); opacity: 0.9; }
   .feature__name {
     font-family: var(--font-mono);
-    font-size: 0.72rem;
+    font-size: 0.78rem;
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--bronze);
     font-weight: 600;
   }
-  .feature__body { font-size: 0.88rem; line-height: 1.5; color: rgba(46, 52, 56, 0.8); max-width: 26ch; margin: 0; }
+  .feature__body { font-size: 0.95rem; line-height: 1.5; color: rgba(46, 52, 56, 0.8); max-width: 28ch; margin: 0; }
+
+  /* ============ AUDIENCE RECOGNITION ============ */
+  .audience {
+    padding: var(--section-pad) 0;
+    background: var(--ink-2);
+    border-bottom: 1px solid var(--rule);
+  }
+  .audience__inner {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(2.5rem, 5vw, 4rem);
+  }
+  .audience__head {
+    display: grid;
+    grid-template-columns: minmax(0, 0.85fr) minmax(20rem, 1.15fr);
+    gap: 1rem clamp(2.5rem, 7vw, 6rem);
+    align-items: end;
+  }
+  .audience__head .eyebrow { grid-column: 1 / -1; }
+  .audience__title {
+    margin: 0;
+    max-width: 14ch;
+    font-size: clamp(2.2rem, 5vw, 4rem);
+    line-height: 1.04;
+    letter-spacing: -0.02em;
+  }
+  .audience__lead { margin: 0; max-width: 52ch; }
+  .audience__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+  .audience-card {
+    display: flex;
+    min-height: 15rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: clamp(1.6rem, 3vw, 2.25rem);
+    background: var(--ink);
+    border: 1px solid var(--rule-strong);
+    border-radius: var(--radius);
+    transition: transform 220ms var(--ease), border-color 220ms var(--ease), background 220ms var(--ease);
+  }
+  .audience-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--butter-deep);
+    background: rgba(255, 255, 255, 0.72);
+  }
+  .audience-card h3 {
+    max-width: 19ch;
+    font-size: clamp(1.45rem, 2.5vw, 2rem);
+    line-height: 1.12;
+    letter-spacing: -0.018em;
+  }
+  .audience-card p {
+    max-width: 50ch;
+    margin: 0;
+    color: rgba(46, 52, 56, 0.78);
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+  .audience-card a {
+    margin-top: auto;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--bronze-deep);
+  }
+  .audience-card a:hover { color: var(--paper); }
+  .audience__article {
+    display: grid;
+    grid-template-columns: minmax(10rem, 0.55fr) minmax(18rem, 1.2fr) auto;
+    gap: 1rem 2rem;
+    align-items: center;
+    padding: clamp(1.4rem, 3vw, 2rem);
+    background: var(--sky);
+    border: 1px solid rgba(29, 72, 98, 0.18);
+    border-radius: var(--radius);
+    color: var(--paper);
+    transition: background 220ms var(--ease), transform 220ms var(--ease);
+  }
+  .audience__article:hover { background: var(--sky-deep); transform: translateY(-2px); }
+  .audience__article > span:first-child,
+  .audience__article > span:last-child {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .audience__article strong {
+    font-family: var(--font-display);
+    font-size: clamp(1.25rem, 2.2vw, 1.65rem);
+    font-weight: 460;
+    line-height: 1.25;
+    letter-spacing: -0.015em;
+  }
+  @media (max-width: 820px) {
+    .audience__head { grid-template-columns: 1fr; align-items: start; }
+    .audience__grid { grid-template-columns: 1fr; }
+    .audience-card { min-height: 0; }
+    .audience__article { grid-template-columns: 1fr; gap: 0.65rem; }
+  }
 
   /* ============ WHOLE-PERSON WELLNESS ============ */
   .wellness-story {
@@ -1091,7 +1283,7 @@ const testimonials = [
     transform: translateX(3px);
   }
   .qx__opt:hover .qx__opt-arrow { transform: translateX(4px); color: var(--bronze-bright); }
-  .qx__opt-label { font-family: var(--font-display-italic); font-size: clamp(1.1rem, 1.7vw, 1.35rem); letter-spacing: -0.01em; color: var(--paper); line-height: 1.3; }
+  .qx__opt-label { font-family: var(--font-body); font-size: clamp(1rem, 1.5vw, 1.15rem); font-weight: 500; letter-spacing: -0.01em; color: var(--paper); line-height: 1.4; }
   .qx__opt-arrow { font-family: var(--font-body); font-size: 1.3rem; color: rgba(46, 52, 56, 0.6); transition: color 250ms var(--ease), transform 250ms var(--ease); }
 
   @media (max-width: 520px) {
