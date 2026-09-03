@@ -39,7 +39,7 @@ const faqs = [
   },
   {
     q: 'What does Viva Concierge at $99 actually include?',
-    a: 'Two things. First, provider access: direct messaging with your provider, a monthly evaluation visit plus one acute/sick visit credit each month, lab orders routed through your insurance, and ongoing guidance across hormones, peptides, metabolic, and recovery. Second, member pricing: when you do want to add provider-selected compounded peptides, compounded GLP-1, or TRT add-ons, you get them at member rates instead of paying retail. It is the right tier when you want a provider thinking about you and the flexibility to pay a la carte for protocols, rather than committing to one of the all-inclusive bundles (TRT, Metabolic Essential, Metabolic Core).',
+    a: 'Two things. First, provider access: direct messaging with your provider, a monthly evaluation visit plus one acute/sick visit credit each month, lab orders routed through your insurance, and ongoing guidance across hormones, peptides, metabolic, and recovery. Second, member pricing: when you do want to add provider-selected compounded peptides, compounded GLP-1, or TRT or HRT medication add-ons, you get them at member rates instead of paying retail. Compounded estradiol and progesterone are not included in the $99 membership fee. It is the right tier when you want a provider thinking about you and the flexibility to pay a la carte for protocols, rather than committing to one of the all-inclusive bundles (TRT, Metabolic Essential, Metabolic Core).',
   },
   {
     q: 'Is my health information private?',
@@ -68,8 +68,8 @@ const PICON = {
   package: '<path d="m16.5 9.4-9-5.19"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.3 7 12 12l8.7-5"/><path d="M12 22V12"/>',
 };
 const programs = [
-  { tier: 'Entry', name: 'Viva Concierge', price: '$99', cadence: '/mo', icon: 'key', href: '/services#viva-concierge-access', body: 'Provider access plus member pricing on compounded peptides, GLP-1, and add-ons. Pay a la carte for the protocols you want instead of a bundled monthly fee.' },
-  { tier: 'Foundational', name: 'TRT & HRT All Inclusive', price: '$199', cadence: '/mo', icon: 'pulse', href: '/services#trt-hrt-all-inclusive', body: 'Personalized hormone optimization for men and women: compounded testosterone (TRT) or estradiol and progesterone (HRT), supplies, and biannual labs.' },
+  { tier: 'Entry', name: 'Viva Concierge', price: '$99', cadence: '/mo', icon: 'key', href: '/services#viva-concierge-access', body: 'Provider access plus member pricing on compounded peptides, GLP-1, and medication add-ons, including HRT. Pay a la carte for the protocols you want instead of a bundled monthly fee.' },
+  { tier: 'Foundational', name: 'TRT All Inclusive', price: '$199', cadence: '/mo', icon: 'pulse', href: '/services#trt-all-inclusive', body: 'Personalized testosterone optimization with compounded testosterone, supplies, home delivery, and biannual labs included.' },
   { tier: 'Essential', name: 'Metabolic Essential', price: '$249', cadence: '/mo', icon: 'leaf', href: '/services#metabolic-essential', body: 'Compounded semaglutide, or micro-dose tirzepatide. Appetite regulation, insulin support, and steady fat loss. The GLP-1 on-ramp.' },
   { tier: 'Core', name: 'Metabolic Core', price: '$349', cadence: '/mo', icon: 'flame', href: '/services#metabolic-core', body: 'Compounded tirzepatide, fully managed, for stronger appetite control and consistent fat loss.', featured: true },
 ];
@@ -452,8 +452,8 @@ const testimonials = [
         </h2>
         <p class="lead section-head__lead">
           From a $99 concierge entry point to a $349 fully-managed metabolic
-          plan. Every tier includes provider access, home delivery, and protocol
-          adjustments built in.
+          plan. Every tier includes provider access and protocol adjustments.
+          Medication, supplies, and home delivery are bundled only where listed.
         </p>
       </div>
 

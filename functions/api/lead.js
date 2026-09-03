@@ -838,9 +838,8 @@ function nurtureWrap({ eyebrow, title, bodyHtml, canSpamAddress, unsubscribeUrl 
 </html>`.trim();
 }
 
-// Day 3 · match-tailored. Body switches on match.key (and sex for TRT/HRT
-// to pick the male vs. female framing). Raw contact leads with no match
-// fall through to the generic three-point opener.
+// Day 3 · match-tailored. Body switches on match.key. Raw contact leads with
+// no match fall through to the generic three-point opener.
 function buildNurtureDay3({ name, match, unsubscribeUrl, canSpamAddress }) {
   const first = (name || '').split(/\s+/)[0] || 'there';
   const key = match && match.key;
@@ -859,7 +858,7 @@ function buildNurtureDay3({ name, match, unsubscribeUrl, canSpamAddress }) {
     ];
   } else if (key === 'trt') {
     subject = 'Three things I wish more people knew about hormone therapy';
-    intro = `You looked at the TRT & HRT tier. A few things I wish more people heard before they start, whether the question is testosterone, estradiol, or both.`;
+    intro = `You looked at hormone care. A few things I wish more people heard before they start, whether the question is testosterone, estradiol, or both.`;
     items = [
       ['Chasing a number instead of how you feel.', `Lab ranges are population averages. A man feeling great at 700 ng/dL beats one at 1200 with sleep apnea and acne. A woman with controlled symptoms on a modest estradiol dose beats one chasing a higher serum number. I tune to symptoms first.`],
       ['Hormone therapy is more than one molecule.', `Most people picture TRT as testosterone alone, or HRT as estradiol alone. In practice there is a small toolkit · anastrozole, enclomiphene, progesterone, estradiol, HCG · that I add selectively based on labs and symptoms, not routinely. HCG sits in its own category · it shows up in aggressive fertility protocols and comes from a standard pharmacy rather than a compounder. The rest can be compounded through the pharmacies I work with. The right plan is the smallest protocol that gets you where you want to be, not the longest.`],

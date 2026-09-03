@@ -31,11 +31,10 @@
     { "category": "prices", "file": "src/pages/index.astro", "literal": "price: '$249',", "count": 1 },
     { "category": "prices", "file": "src/pages/index.astro", "literal": "price: '$349',", "count": 1 },
     { "category": "prices", "file": "src/pages/index.astro", "literal": "From a $99 concierge entry point to a $349 fully-managed metabolic", "count": 1 },
-    { "category": "prices", "file": "src/pages/menopause.astro", "literal": "<strong>$199</strong>/mo", "count": 1 },
     { "category": "prices", "file": "src/pages/menopause.astro", "literal": "<strong>$99</strong>/mo", "count": 1 },
     { "category": "prices", "file": "src/pages/menopause.astro", "literal": "First visit is $199, one time", "count": 1 },
-    { "category": "prices", "file": "src/pages/menopause.astro", "literal": "The first visit is $199, a one-time fee. Ongoing care is a membership: TRT & HRT All Inclusive at $199 per month covers compounded medication, supplies, home delivery, and labs twice a year. If you prefer to run hormones and labs through your insurance, Viva Concierge Access at $99 per month is the insurance-routed alternative.", "count": 1 },
-    { "category": "prices", "file": "src/lib/quiz.ts", "literal": "price: '$99',", "count": 1 },
+    { "category": "prices", "file": "src/pages/menopause.astro", "literal": "The first visit is $199, a one-time fee. Ongoing HRT management starts with Viva Concierge Access at $99 per month. Compounded estradiol and progesterone are available as clinician-selected add-ons and are not included in the membership fee. Eligible retail prescriptions and labs can be routed through insurance.", "count": 1 },
+    { "category": "prices", "file": "src/lib/quiz.ts", "literal": "price: '$99',", "count": 2 },
     { "category": "prices", "file": "src/lib/quiz.ts", "literal": "price: '$199',", "count": 1 },
     { "category": "prices", "file": "src/lib/quiz.ts", "literal": "price: '$349',", "count": 2 },
 
