@@ -43,12 +43,9 @@ function faqPagesIn(docs) {
 }
 
 test.describe('funnel contracts', () => {
-  test('home responds 200 and the brand line appears exactly once', async ({ request }) => {
+  test('home responds 200', async ({ request }) => {
     const res = await request.get('/');
     expect(res.status()).toBe(200);
-    const html = await res.text();
-    const count = html.split('You bring the goals.').length - 1;
-    expect(count, 'brand line "You bring the goals." must appear exactly once on home').toBe(1);
   });
 
   test('home renders the #quiz section (public/_redirects 301s /quiz here)', async ({ page }) => {

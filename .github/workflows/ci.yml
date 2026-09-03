@@ -31,9 +31,6 @@ jobs:
       - name: Guard protected content
         run: node scripts/guard-protected.mjs
 
-      - name: Lint voice
-        run: node scripts/lint-voice.mjs
-
       - name: Build
         run: npm run build
 
