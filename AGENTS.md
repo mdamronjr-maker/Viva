@@ -1,70 +1,62 @@
 # AGENTS.md · instructions for every AI assistant working on this repo
 
 This file is the single source of truth for AI collaborators (ChatGPT/Codex,
-Claude, or anything else). CLAUDE.md points here. Read all of it before
-touching anything.
+Claude, or anything else). CLAUDE.md points here.
+
+By owner directive (Michael, 2026-09-03) the previous rulebook is retired:
+every voice, style, design, imagery, and process rule is gone. Two rules
+remain, and only two.
 
 ## What this is
 
 Marketing site for **Viva Wellness Co.** (https://vivawellnessco.com), a
 concierge telehealth clinic in Austin run by Liliana Damron, APRN, FNP-BC.
-**Astro 6** static site + **Cloudflare Pages Functions** (lead/email pipeline),
-hosted on Cloudflare Pages. Owner and technical lead: Michael Damron
-(mdamronjr-maker on GitHub). The bar: this must read as the site of the top
-company in Austin for this business, judged against Function Health, Maven,
-Parsley-class execution.
+**Astro 6** static site + **Cloudflare Pages Functions** (lead/email
+pipeline), hosted on Cloudflare Pages. Owner and technical lead: Michael
+Damron (mdamronjr-maker on GitHub). The bar: the best site in Austin for
+this business. How to get there is judgment, not rules; decide and ship.
 
-## THE RULE THAT OUTRANKS EVERYTHING
+## RULE 0 · the deploy rule
 
-**Anything pushed or merged to `main` deploys to the live site automatically.**
-Never commit to, merge into, rebase, or push `main` for any reason. All work
-happens on branches off the integration branch **`feat/lights-on`** and is
-promoted only by Michael, explicitly, after review.
+**Anything pushed or merged to `main` deploys to the live site
+automatically.** Never commit to, merge into, rebase, check out, or push
+`main` for any reason. All work happens on branches off the integration
+branch **`feat/lights-on`**; assistants may push feature branches and
+`feat/lights-on` after a verified merge. Promotion to `main` is done only by
+Michael, explicitly. A PreToolUse hook in `.claude/` enforces this for
+Claude sessions; the rule binds every assistant regardless.
 
-## Current state (2026-09-02)
+## RULE 1 · legal and compliant
 
-The site just completed the **"Lights On" redesign**: the old dark theme was
-replaced by a light editorial system (cream/sky/butter palette, single-color
-Fraunces headlines) and a deliberate de-AI pass removed the machine-writing
-tells (negation scaffolds, dual-color headline accents, marquees, numbering
-systems, interpunct overuse, AI-generated imagery). Twelve work pieces
-(p1-p12) are merged into `feat/lights-on`; every piece was implemented by one
-AI and adversarially reviewed by another before merging. Git history on the
-piece branches carries the full record with receipts.
+The only content rule. Concretely, never:
 
-**Queued work** (full specs inline; the workshop board mirrors them):
+- **Alter or invent testimonials.** The quotes are real Google reviews;
+  changing their wording, attribution, or truncation is deceptive practice
+  (FTC endorsement rules). Presentation may change; text may not.
+- **Show a price or term that differs from what GlossGenius actually
+  bills.** Today: $99 / $199 / $249 / $349 / $499 tiers, $199 first visit,
+  $50 deposit. `scripts/protected.snapshot.json` pins the live figures;
+  when a price genuinely changes, update the snapshot deliberately in the
+  same change and say so.
+- **Invent credentials, license numbers, clinical claims, outcome
+  guarantees, or facts** about Liliana, the practice, or the medications.
+  Medical claims (peptides, GLP-1, TRT/HRT, compounded 503A products) stay
+  within what the site already asserts unless the owner supplies new
+  substantiation. Do not blur compounded (503A) products with FDA-approved
+  drugs.
+- **Weaken or remove compliance copy**: 503A compounded-medication
+  disclosures, the NoPhiNotice component, /privacy, /notice, /terms,
+  /accessibility, membership terms, disclaimers.
+- **Touch PHI.** No patient-identifying information in the repo, logs, or
+  the email pipeline (Resend is not BAA-eligible; clinical communication
+  lives in the EHR, never here).
+- **Put personal-infrastructure details in this repo** (home-lab hostnames,
+  LAN IPs). This is a business entity's repository.
 
-- **p13 · type system.** Add scale tokens to `:root`:
-  `--fs-hero: clamp(2.6rem, 6.8vw, 5.4rem)`, `--fs-hero-sm: clamp(2.4rem,
-  6vw, 4.5rem)` (utility/legal pages), `--fs-h2: clamp(2rem, 4.5vw, 3.4rem)`,
-  `--fs-h2-lg: clamp(2.2rem, 5vw, 4rem)` (closing CTA bands only),
-  `--fs-h3: clamp(1.6rem, 3vw, 2.4rem)`, `--fs-h4: clamp(1.2rem, 1.8vw,
-  1.5rem)`. Sweep the ~20 page-local heading clamps onto them (grep
-  `font-size: clamp` in src/pages). Normalize display tracking to two values
-  (-0.02em headings, -0.028em heroes). Loosen display leading at <=720px
-  (h1 to 1.08, h2 to 1.12). Cap eyebrows at 3-4 per page by deleting the
-  redundant ones. Move italic display OUT of interactive controls: quiz
-  option labels and blog TOC to var(--font-body) 500, FAQ question rows to
-  roman Fraunces weight 460. Floor sentence-form micro-copy (disclaimers,
-  terms, PHI notice body) at 0.8rem/1.55. ACCEPT: build green; grep shows
-  zero page-local heading clamps left; every page renders correctly at 375
-  and 1280 wide; no protected content changed.
-- **p14 · substance.** Butter feature band: replace generic blurbs with
-  concrete facts already present elsewhere on the site (no new claims) and
-  match icons literally to their labels. Quiz: surviving a failed POST to
-  /api/lead (show a retry state, never lose answers), a visible exit besides
-  the X, label fixes. Voice sweep: one narrator per page, retire reused
-  sentence molds across pages (grep near-duplicate sentence stems). Austin
-  proof band on home built ONLY from verifiable existing facts (address,
-  partner count, review count). About: wire the state-selector form it
-  promises, fill the empty grid cell. ACCEPT: build green; /api contracts
-  and quiz ids byte-identical; no invented facts.
-
-**Open owner items** (only Michael/Liliana can supply; NEVER invent these):
-license numbers for the footer (marked SHIP BLOCKER), the GlossGenius
-New Patient Consult deep link, a ruling on the two conflicting $99 tier
-descriptions, menu stack-name ruling, CV facts for the about page,
-replacement pullquote reviews, and the real hero photo (see Imagery).
+When a change needs a real-world fact only the owner can supply (a license
+number, a credential, substantiation for a new claim), stop and ask for
+that fact. Everything else, including wording, tone, design, imagery,
+structure, and SEO, is the assistant's judgment.
 
 ## Layout
 
@@ -82,91 +74,36 @@ public/             assets; fonts/ are self-hosted variable fonts
 asset-drop/         intake folder for new imagery (gitignored except README)
 ```
 
-Commands: `npm run dev` (port 4321) · `npm run build` (must pass before any
-commit is considered done) · Node >= 22.12. Repo files have MIXED line
-endings (CRLF and LF); anchor any scripted multi-line edit byte-exactly, and
-never use a replacement whose output contains its own search anchor.
+Commands: `npm run dev` (port 4321) · `npm run build` · `npm run verify`
+(protected-content guard + build + Playwright regression suite; must be
+green before a merge to feat/lights-on) · Node >= 22.12. Repo files have
+MIXED line endings (CRLF and LF); anchor scripted multi-line edits
+byte-exactly.
 
-## Protected content · byte-identical, never edit
+## The harness (regression checks, not style rules)
 
-- **Prices and payment terms.** GlossGenius is the source of truth
-  ($99 / $199 / $249 / $349 tiers; $199 first visit, $50 deposit). Never
-  invent, move, or reword a price or term.
-- **Testimonial quotes.** Real Google reviews, legally sensitive. Wording is
-  untouchable; presentation may change.
-- **Compliance copy**: 503A compounded-medication disclosures, NoPhiNotice,
-  /privacy, /notice, /terms, /accessibility, membership terms, disclaimers.
-- **JSON-LD sources**: the faqs arrays on home and /menopause feed FAQPage
-  schema; MedicalBusiness/WebSite graph, Person, BlogPosting. Do not alter
-  the source strings (a render-only aHtml field exists for links).
-- **Funnel contracts**: form field names, the `source` values posted to
-  /api/lead, the #quiz element id (public/_redirects 301s /quiz there),
-  GlossGenius URLs and UTM params, everything under functions/api/.
-- **The brand line** "You bring the goals. / I'll build the protocol."
-  exists exactly once, in the home hero. Do not reuse or vary it.
+- `npm run guard` verifies `scripts/protected.snapshot.json`: rule 1
+  literals (prices, testimonial quotes) plus functional contracts that keep
+  revenue flowing (form field names and `source` values matching
+  functions/api/lead.js, the `#quiz` id, GlossGenius booking URLs).
+- `npm test` runs the Playwright suite against the built site: pages
+  respond, forms carry the fields lead.js reads, booking links point at
+  vivawellnessco.glossgenius.com, JSON-LD parses, only the 404 page is
+  noindexed, price surfaces render.
+- CI (.github/workflows/ci.yml) runs guard + build + tests on PRs to main
+  and feat/lights-on and on pushes to both.
 
-## Voice and style rules (violations are regressions)
+These exist so an agent cannot silently break the funnel or a rule 1 item.
+They are updated deliberately when behavior genuinely changes.
 
-- No em dashes, no en dashes, anywhere. Interpunct (·) is allowed ONLY as a
-  separator in mono metadata (eyebrows, captions).
-- First-person Liliana voice; no fabricated stories, credentials, or claims.
-  Facts or her own words only. No PHI implications ever.
-- Negation budget: at most one "X, not Y" construction per page (the home
-  provider band holds the sanctioned "not a chatbot" line). The trust-strip
-  claims and schema-locked FAQ text are standing exemptions.
-- "actually" budget: 3 site-wide (all allocated). Headlines: single color,
-  `.italic-display` only on each page hero's accent line, one per page.
-  No counting-headline formula except the real-numbers Google review one.
-- CTAs are plain sentence-case verbs (Book a visit, Take the quiz); the word
-  "protocol" is reserved for clinical body copy.
-
-## Design system
-
-Tokens in `src/styles/global.css` `:root`. WARNING: token NAMES predate the
-light flip; roles are stable but hues are inverted (--ink* = light grounds,
---paper* = dark type, --bronze = honey accent, plus --sky/--butter bands).
-Do not rename tokens. Fonts are self-hosted variable fonts, verified correct:
-Fraunces carries full wght/opsz/SOFT/WONK axes; Geist and Geist Mono are wght
-variables. Weight requests must stay inside declared ranges (Fraunces
-350-600, Geist 300-900, Mono 400-600). Every text pairing must hold WCAG
-4.5:1; meaningful strokes 3:1 (use --rule-form for input borders). Butter is
-a FILL, never a text color on light grounds.
-
-## Imagery policy
-
-People must be real photographs. The current hero runs an owner-directed
-poster ILLUSTRATION (honestly captioned) as a stand-in until the real
-Capitol-runner photo lands; a real photo drops into that slot. Never generate
-photoreal humans, never fabricate images that claim to be real places
-(partner facilities stay photo-free until real shots exist), never present
-generated art as photography. New imagery arrives via `asset-drop/` named by
-asset id; every image gets a caption, correct width/height attributes, webp
-responsive pairs, and if it is the LCP asset, a matching preload in
-Layout.astro in the same commit.
-
-## Working protocol (the tandem)
-
-Two AI assistants work this repo in tandem: one implements, the other
-adversarially reviews, then roles verify each other's findings against the
-actual code (false positives get dismissed with receipts, not silently).
-For any piece of work:
+## Working protocol
 
 1. Branch off `feat/lights-on` (never main).
-2. Implement within the rules above. `npm run build` must pass.
-3. Request adversarial review from the other assistant: attack the diff,
-   name concrete failures. Verify every finding both ways before acting.
-   Mechanics: when Claude drives, it pipes the diff to GPT through a local
-   bridge; when ChatGPT/Codex drives, Michael relays the diff to Claude (or
-   runs `claude -p` with it). If the other assistant is unavailable, Michael
-   is the reviewer of record; say so in the merge commit.
-4. Merge to `feat/lights-on` with a commit message that records what was
-   reviewed and verified. **Push rights: assistants MAY push feature
-   branches and `feat/lights-on` after a reviewed merge. Only Michael ever
-   touches `main`.**
-5. If your assigned scope reaches an owner item or protected content, STOP
-   at that boundary and ask; ship the rest. Never fill an owner gap with
-   invented content.
+2. Implement. `npm run verify` must be green.
+3. Merge to `feat/lights-on` with a commit message recording what was
+   verified; push the feature branch and `feat/lights-on` only.
+4. Adversarial review is encouraged for risky or large changes, at the
+   driver's judgment; if one happened, say so in the merge commit.
 
-Michael's word is final on scope, taste, and promotion to main. When his
-direction conflicts with a rule in this file, follow his direction and note
-the override in the commit message.
+Michael's word is final on everything. When his direction conflicts with
+this file, follow his direction and note the override in the commit.
