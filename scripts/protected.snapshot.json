@@ -22,7 +22,7 @@
     { "category": "prices", "file": "src/pages/services.astro", "literal": "priceLabel: '$499',", "count": 1 },
     { "category": "prices", "file": "src/pages/services.astro", "literal": "Memberships from $99 to $499 per month", "count": 1 },
     { "category": "prices", "file": "src/pages/menopause.astro", "literal": "Memberships from $99/mo", "count": 1 },
-    { "category": "prices", "file": "src/pages/og/[...route].png.ts", "literal": "Concierge Memberships · From $99 / month · TX · CO · FL · IA", "count": 1 },
+    { "category": "prices", "file": "src/pages/og/[...route].png.ts", "literal": "Concierge Memberships · $99–$499 / month · TX · CO · FL · IA", "count": 1 },
     { "category": "prices", "file": "src/pages/start.astro", "literal": "const FIRST_VISIT_PRICE_USD = 199;", "count": 1 },
     { "category": "prices", "file": "src/pages/start.astro", "literal": "const FIRST_VISIT_DEPOSIT_USD = 50;", "count": 1 },
     { "category": "prices", "file": "src/pages/start.astro", "literal": "deposit due at booking, balance billed at the visit.", "count": 1 },

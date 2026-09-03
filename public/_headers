@@ -23,12 +23,6 @@
   Cache-Control: public, max-age=2592000
 /viva-logo-red.png
   Cache-Control: public, max-age=2592000
-/viva-runner-hero.webp
-  Cache-Control: public, max-age=2592000
-/viva-runner-hero-sm.webp
-  Cache-Control: public, max-age=2592000
-/viva-runner-hero-mobile.webp
-  Cache-Control: public, max-age=2592000
 /viva-runner-hero-v2.webp
   Cache-Control: public, max-age=2592000
 /viva-runner-hero-v2-sm.webp
@@ -41,6 +35,14 @@
   Cache-Control: public, max-age=2592000
 # Legacy image tombstone. Keep the retired URL out of edge caches.
 /matt-johnson-hd.jpg
+  Cache-Control: no-store, max-age=0
+# Retired v1 runner-hero set (live 2026-09-02 to 2026-09-03 at max-age=2592000).
+# Superseded by the -v2 files; keep the retired URLs out of edge caches.
+/viva-runner-hero.webp
+  Cache-Control: no-store, max-age=0
+/viva-runner-hero-sm.webp
+  Cache-Control: no-store, max-age=0
+/viva-runner-hero-mobile.webp
   Cache-Control: no-store, max-age=0
 /liliana-new.webp
   Cache-Control: public, max-age=2592000

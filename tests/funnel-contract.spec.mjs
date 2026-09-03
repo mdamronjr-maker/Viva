@@ -189,3 +189,64 @@ test.describe('content integrity', () => {
     }
   });
 });
+
+test.describe('quiz submit resilience', () => {
+  test('failed POST keeps the lead, shows retry UI; retry resends and succeeds', async ({ page }) => {
+    await blockExternal(page);
+
+    // Mock /api/lead deterministically: first POST fails with a 500, later
+    // POSTs succeed. (Registered after blockExternal so it matches first;
+    // /api/lead is same-origin anyway.)
+    let failNext = true;
+    let posts = 0;
+    await page.route('**/api/lead', async (route) => {
+      posts += 1;
+      await route.fulfill({
+        status: failNext ? 500 : 200,
+        contentType: 'application/json',
+        body: JSON.stringify(failNext ? { ok: false } : { ok: true }),
+      });
+    });
+
+    await page.goto('/');
+
+    // Walk the five questions with realistic answers. Each click advances a
+    // step; the selectors are unique per step so auto-waiting handles pacing.
+    const answers = [
+      ['goal', 'weight'],
+      ['age', '45to54'],
+      ['sex', 'f'],
+      ['activity', 'moderate'],
+      ['budget', 'b199'],
+    ];
+    for (const [q, v] of answers) {
+      await page.click(`.qx__opt[data-q="${q}"][data-v="${v}"]`);
+    }
+
+    // Gate step: fill the lead form. The Turnstile script is blocked by
+    // blockExternal, so the token is empty — the route is mocked anyway.
+    await page.fill('#qx-name', 'Test Lead');
+    await page.fill('#qx-email', 'lead@example.com');
+    await page.click('#qx-submit');
+
+    // Failure: inline error + retry button appear, the entered email is
+    // still in the form, and the submit control is re-enabled (no spinner
+    // dead-end, no lost answers).
+    const retry = page.locator('#qx-retry');
+    await expect(retry).toBeVisible();
+    await expect(page.locator('#qx-status')).toContainText('nothing was lost');
+    await expect(page.locator('#qx-email')).toHaveValue('lead@example.com');
+    await expect(page.locator('#qx-name')).toHaveValue('Test Lead');
+    await expect(page.locator('#qx-submit')).toBeEnabled();
+    expect(posts, 'exactly one POST so far (no double-post)').toBe(1);
+
+    // Server healthy again: the retry button resends the same payload and
+    // the result step renders.
+    failNext = false;
+    await retry.click();
+    await expect(page.locator('.qx__step[data-step="7"]')).toHaveClass(/is-active/);
+    await expect(page.locator('#qx-r-name')).toBeVisible();
+    await expect(retry).toBeHidden();
+    expect(posts, 'retry sent exactly one more POST').toBe(2);
+  });
+});

@@ -17,16 +17,16 @@ const blogPosts = await getCollection('blog', ({ data }) => !data.draft);
 // they render at 88px and need to breathe.
 const pages: Record<string, { title: string; tagline: string }> = {
   home: {
-    title: 'Peptide therapy, engineered for the body you train.',
-    tagline: 'Concierge Telehealth · Austin · TX · CO · FL · IA',
+    title: "You bring the goals. I'll build the protocol.",
+    tagline: 'Peptides · GLP-1 · TRT/HRT · Menopause · TX · CO · FL · IA',
   },
   about: {
-    title: 'I treat health like training.',
-    tagline: 'The Story · Liliana Damron, APRN, FNP-BC',
+    title: 'Meet your provider.',
+    tagline: 'The Founder · Liliana Damron, APRN, FNP-BC',
   },
   services: {
-    title: 'Peptide therapy. TRT. GLP-1. Hormone optimization.',
-    tagline: 'Concierge Memberships · From $99 / month · TX · CO · FL · IA',
+    title: 'What I treat, and what it costs.',
+    tagline: 'Concierge Memberships · $99–$499 / month · TX · CO · FL · IA',
   },
   partners: {
     title: 'The Austin partners I trust with my patients.',
