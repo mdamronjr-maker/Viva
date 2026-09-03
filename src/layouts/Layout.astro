@@ -44,7 +44,9 @@ const resolvedOgImage = ogImage && ogImage !== '/og-image.jpg' ? ogImage : ogFor
 // LinkedIn, etc.) refetch instead of serving the stale thumbnail.
 // v3 = state taglines include Iowa (June 2026).
 // v4 = Lights On visual refresh and photographic homepage treatment.
-const OG_CACHE_VERSION = '4';
+// v5 = OG copy refresh to current positioning (peptides, GLP-1, TRT/HRT,
+//      perimenopause/menopause care).
+const OG_CACHE_VERSION = '5';
 const ogImageURL = new URL(`${resolvedOgImage}?v=${OG_CACHE_VERSION}`, Astro.site).href;
 const siteName = 'Viva Wellness Co.';
 

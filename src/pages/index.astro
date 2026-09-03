@@ -308,6 +308,7 @@ const testimonials = [
           <div class="cf-turnstile" data-sitekey={TURNSTILE_SITEKEY} data-theme="light"></div>
           <button type="submit" class="btn btn--bronze" id="qx-submit">See my match</button>
           <div class="qx__status" id="qx-status" role="status" aria-live="polite"></div>
+          <button type="button" class="btn qx__retry" id="qx-retry" hidden>Try again</button>
         </form>
       </div>
 
@@ -712,6 +713,7 @@ const testimonials = [
   const form = document.getElementById('qx-form') as HTMLFormElement | null;
   const status = document.getElementById('qx-status') as HTMLDivElement | null;
   const submit = document.getElementById('qx-submit') as HTMLButtonElement | null;
+  const retry = document.getElementById('qx-retry') as HTMLButtonElement | null;
 
   if (form && status && submit) {
     const tsEl = form.querySelector('.cf-turnstile') as HTMLElement | null;
@@ -719,6 +721,64 @@ const testimonials = [
     if (tsEl && ts() && !tsEl.querySelector('iframe')) {
       try { ts().render(tsEl, { sitekey: tsEl.getAttribute('data-sitekey') }); } catch (e) {}
     }
+
+    // A failed POST parks the exact payload (and its computed match) here so
+    // "Try again" resends the same lead. Nothing is rebuilt, nothing is lost:
+    // state.answers stays in memory and the form keeps its values.
+    let pending: { payload: Record<string, unknown>; m: ReturnType<typeof match> } | null = null;
+
+    function setSending(sending: boolean) {
+      submit!.disabled = sending;
+      if (retry) retry.disabled = sending;
+      if (sending) {
+        submit!.setAttribute('aria-busy', 'true');
+        submit!.textContent = 'Sending';
+      } else {
+        submit!.removeAttribute('aria-busy');
+        submit!.textContent = 'See my match';
+      }
+    }
+
+    async function deliver(payload: Record<string, unknown>, m: ReturnType<typeof match>) {
+      status!.textContent = '';
+      status!.className = 'qx__status';
+      if (retry) retry.hidden = true;
+      setSending(true);
+      const res = await fetch('/api/lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      }).catch(() => null); // network error → same failure path as non-2xx
+      const json = res ? await res.json().catch(() => ({})) : {};
+      if (res && res.ok && json.ok) {
+        pending = null;
+        setSending(false);
+        document.getElementById('qx-r-name')!.textContent = m.name;
+        document.getElementById('qx-r-price')!.textContent = m.price;
+        document.getElementById('qx-r-body')!.textContent = m.body;
+        document.getElementById('qx-r-list')!.innerHTML = m.bullets.map((b) => `<li>${b}</li>`).join('');
+        document.getElementById('qx-r-discuss')!.innerHTML = m.discuss.map((b) => `<li>${b}</li>`).join('');
+        state.step = TOTAL + 2;
+        render();
+        return;
+      }
+      // Failure path: keep everything in memory and restore the controls so
+      // nothing dead-ends. A server message (rate limit, verification) leads
+      // when it exists; otherwise the generic reassurance.
+      pending = { payload, m };
+      const detail = typeof json.error === 'string' && json.error ? json.error + ' ' : '';
+      // A pure network failure is the one case where retrying may never work,
+      // so that branch also offers the email escape hatch.
+      const fallback = res ? '' : " If it keeps failing, email info@vivawellnessco.com.";
+      status!.textContent = `${detail}Your answers are safe, nothing was lost. Try again when you're ready.${fallback}`;
+      status!.classList.add('is-error');
+      if (retry) retry.hidden = false;
+      // Reset the widget per its existing wiring so it can mint a fresh
+      // token before the retry (the old one may be expired or consumed).
+      try { if (tsEl && ts()) ts().reset(tsEl); } catch (e) {}
+      setSending(false);
+    }
+
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       status.textContent = '';
@@ -740,43 +800,32 @@ const testimonials = [
         const v = params.get(k);
         if (v) utm[k] = v;
       }
-      submit.disabled = true;
-      submit.setAttribute('aria-busy', 'true');
-      submit.textContent = 'Sending';
-      try {
-        const res = await fetch('/api/lead', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            source: 'quiz',
-            name, email, phone, company,
-            turnstileToken: String(data.get('cf-turnstile-response') || ''),
-            quiz: state.answers,
-            match: { key: m.key, name: m.name, price: m.price, ebookPath: m.ebookPath, discuss: m.discuss },
-            utm,
-            referrer: document.referrer || '',
-          }),
-        });
-        const json = await res.json().catch(() => ({}));
-        if (!res.ok || !json.ok) {
-          throw new Error(json.error || 'Send failed. Try again or email info@vivawellnessco.com.');
-        }
-        document.getElementById('qx-r-name')!.textContent = m.name;
-        document.getElementById('qx-r-price')!.textContent = m.price;
-        document.getElementById('qx-r-body')!.textContent = m.body;
-        document.getElementById('qx-r-list')!.innerHTML = m.bullets.map((b) => `<li>${b}</li>`).join('');
-        document.getElementById('qx-r-discuss')!.innerHTML = m.discuss.map((b) => `<li>${b}</li>`).join('');
-        state.step = TOTAL + 2;
-        render();
-      } catch (err) {
-        status.textContent = err instanceof Error ? err.message : 'Send failed. Try again.';
-        status.classList.add('is-error');
-        try { if (tsEl && ts()) ts().reset(tsEl); } catch (e) {}
-      } finally {
-        submit.disabled = false;
-        submit.removeAttribute('aria-busy');
-        submit.textContent = 'See my match';
+      await deliver({
+        source: 'quiz',
+        name, email, phone, company,
+        turnstileToken: String(data.get('cf-turnstile-response') || ''),
+        quiz: state.answers,
+        match: { key: m.key, name: m.name, price: m.price, ebookPath: m.ebookPath, discuss: m.discuss },
+        utm,
+        referrer: document.referrer || '',
+      }, m);
+    });
+
+    retry?.addEventListener('click', async () => {
+      if (!pending || submit.disabled) return;
+      // Refresh the editable contact fields from the live form so a corrected
+      // typo actually reaches the server (a frozen payload would loop a 400
+      // validation failure forever). Quiz answers and the computed match stay
+      // parked exactly as delivered the first time.
+      const fd = new FormData(form);
+      for (const k of ['name', 'email', 'phone', 'company'] as const) {
+        pending.payload[k] = String(fd.get(k) || '').trim();
       }
+      // If Turnstile re-ran after the failure reset, carry its fresh token;
+      // otherwise resend with the one we had.
+      const freshToken = String(fd.get('cf-turnstile-response') || '');
+      if (freshToken) pending.payload.turnstileToken = freshToken;
+      await deliver(pending.payload, pending.m);
     });
   }
   } // end initQuiz
@@ -1100,6 +1149,10 @@ const testimonials = [
 
   .qx__form { display: flex; flex-direction: column; gap: 1.4rem; max-width: 520px; }
   .qx__form .btn { align-self: flex-start; margin-top: 0.4rem; }
+  /* .btn's display:inline-flex (author style) would beat the UA [hidden]
+     rule, so the retry button needs the override spelled out. */
+  .qx__form .qx__retry[hidden] { display: none; }
+  .qx__form .qx__retry { margin-top: 0; }
   .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
   .qx__status { font-family: var(--font-mono); font-size: 0.85rem; letter-spacing: 0.04em; min-height: 1.2em; padding: 0.3rem 0; }
   .qx__status.is-success { color: var(--bronze-bright); }
