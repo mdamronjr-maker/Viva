@@ -5,18 +5,18 @@
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
-  "background_color": "#fbfaf7",
+  "background_color": "#eaf4f8",
   "theme_color": "#b8d0de",
   "icons": [
     {
-      "src": "/favicon.svg",
+      "src": "/favicon-powder-v2.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any"
     },
     {
-      "src": "/viva-logo-ink.png",
-      "sizes": "1200x258",
+      "src": "/viva-icon-powder-v2.png",
+      "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
     }

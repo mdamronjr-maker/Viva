@@ -7,20 +7,20 @@
    ============================================ */
 
 :root {
-  /* LIGHTS ON light theme (2026-08 redesign).
+  /* LIGHTS ON powder-blue theme (2026-09 refinement).
      Token ROLES keep their existing semantics: --ink* paints grounds,
      --paper* paints type, --bronze* is the accent. All ~100 existing
-     call sites flip without edits, and .section--paper automatically
-     becomes the site's one dark charcoal band.
+     call sites update without edits, and .section--paper becomes the
+     stronger powder-blue brand band.
      WARNING: after this flip the names no longer describe the hues
      (--ink is light, --paper is dark). Do not rename tokens during the
      redesign; rename in a dedicated cleanup branch once things settle.
      Every pairing below is computed WCAG 2.1 contrast, noted inline. */
 
   /* Grounds (were the dark inks) */
-  --ink: #fbfaf7;            /* clean warm-white page background */
-  --ink-2: #f4f7f8;          /* cool-white card and hover surfaces */
-  --ink-3: #eaf1f4;          /* pale blue-gray wells and inset panels */
+  --ink: #eaf4f8;            /* pale powder-blue page background */
+  --ink-2: #f7fbfd;          /* airy near-white card and hover surfaces */
+  --ink-3: #d8e9f0;          /* powder-blue wells and inset panels */
 
   /* Type (was the paper stack) */
   --paper: #2e3438;          /* primary type, neutral charcoal. 12.1:1 on white */
@@ -44,6 +44,7 @@
   /* Mockup band and fill colors */
   --sky: #b8d0de;            /* sampled powder-blue reference band */
   --sky-deep: #91b8cf;       /* blue borders and secondary fills */
+  --brand-blue: #4f8fac;     /* powder-blue logo mark; darker only for definition */
   --butter: #fbedbb;         /* sampled pale-butter reference band and CTA fill */
   --butter-bright: #fff4cf;  /* button hover and sidenote wash */
   --butter-deep: #dfc46e;    /* pressed butter */
@@ -183,18 +184,18 @@ p { max-width: 62ch; }
   border-top: 1px solid var(--rule);
 }
 
-/* Dark inversion band. Post-flip this is the site's ONE charcoal
-   section (provider band): background var(--paper) is warm charcoal,
-   color var(--ink) is cream. Local remaps keep its internals readable. */
+/* Strong powder-blue brand band. Charcoal type keeps long-form copy calm
+   and readable while removing the dark breaks that fought the new palette. */
 .section--paper {
-  background: var(--paper);
-  color: var(--ink);
-  --mute: #c3d3dc;
-  --rule: rgba(251, 250, 247, 0.12);
-  --rule-strong: rgba(251, 250, 247, 0.22);
+  background: var(--sky);
+  color: var(--paper);
+  --mute: #435a65;
+  --rule: rgba(46, 52, 56, 0.14);
+  --rule-strong: rgba(46, 52, 56, 0.24);
+  --rule-form: rgba(46, 52, 56, 0.55);
 }
-.section--paper .eyebrow { color: var(--butter); }
-.section--paper .lead { color: rgba(251, 250, 247, 0.85); }
+.section--paper .eyebrow { color: var(--bronze); }
+.section--paper .lead { color: rgba(46, 52, 56, 0.82); }
 
 /* Numbered index labels (editorial) */
 .index {
@@ -230,8 +231,8 @@ p { max-width: 62ch; }
 }
 .btn:hover { background: var(--paper); color: var(--ink); }
 
-.section--paper .btn { color: var(--ink); }
-.section--paper .btn:hover { background: var(--ink); color: var(--paper); }
+.section--paper .btn { color: var(--paper); }
+.section--paper .btn:hover { background: var(--paper); color: var(--ink); }
 
 /* Primary CTA · the mockup butter pill. Class name kept so all call
    sites flip for free. Charcoal text on butter computes 11.7:1. */
@@ -367,17 +368,17 @@ main:focus { outline: none; }
   color: var(--mute);
 }
 
-/* Charcoal-band variants for forms (post-flip .section--paper is dark) */
-.section--paper .field__label { color: rgba(251, 250, 247, 0.65); }
+/* Powder-blue band variants for forms */
+.section--paper .field__label { color: var(--mute); }
 .section--paper .field__input,
 .section--paper .field__textarea {
-  color: var(--ink);
-  border-bottom-color: rgba(251, 250, 247, 0.45);
+  color: var(--paper);
+  border-bottom-color: var(--rule-form);
 }
 .section--paper .field__input::placeholder,
-.section--paper .field__textarea::placeholder { color: rgba(251, 250, 247, 0.5); }
+.section--paper .field__textarea::placeholder { color: rgba(46, 52, 56, 0.65); }
 .section--paper .field__input:focus,
-.section--paper .field__textarea:focus { border-bottom-color: var(--butter); }
+.section--paper .field__textarea:focus { border-bottom-color: var(--bronze); }
 
 /* ============================================
    EDITORIAL UTILITIES (Lights On additions)

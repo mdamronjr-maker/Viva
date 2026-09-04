@@ -7,7 +7,7 @@ const isActive = (p: string) => path === p || (p !== '/' && path.startsWith(p));
   <div class="container site-header__inner">
     <a href="/" class="brand" aria-label="Viva Wellness Co. · home">
       <img
-        src="/viva-logo-ink.png"
+        src="/viva-logo-powder-v2.png"
         alt="Viva Wellness Co."
         class="brand__logo"
         width="1200"
@@ -42,7 +42,7 @@ const isActive = (p: string) => path === p || (p !== '/' && path.startsWith(p));
     top: 0;
     z-index: 100;
     backdrop-filter: blur(18px) saturate(140%);
-    background: rgba(251, 250, 247, 0.86);
+    background: rgba(234, 244, 248, 0.9);
     border-bottom: 1px solid var(--rule);
   }
   .site-header--home {
@@ -54,7 +54,7 @@ const isActive = (p: string) => path === p || (p !== '/' && path.startsWith(p));
     border-bottom-color: rgba(255, 255, 255, 0.42);
   }
   .site-header--home .brand__logo {
-    filter: brightness(0) invert(1);
+    filter: drop-shadow(0 1px 0 rgba(255, 255, 255, 0.95)) drop-shadow(0 2px 8px rgba(29, 72, 98, 0.2));
   }
   .site-header--home .nav__link {
     color: #fff;
