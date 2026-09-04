@@ -914,6 +914,8 @@ const testimonials = [
 
   /* ============ HERO · full photographic field ============ */
   .hero {
+    --hero-display-shadow: 0 1px 1px rgba(29, 72, 98, 0.28), 0 4px 18px rgba(29, 72, 98, 0.12);
+    --hero-copy-shadow: 0 1px 2px rgba(29, 72, 98, 0.34);
     position: relative;
     display: flex;
     min-height: clamp(47rem, 100svh, 57rem);
@@ -942,9 +944,9 @@ const testimonials = [
     background:
       linear-gradient(
         90deg,
-        rgba(184, 208, 222, 0.82) 0%,
-        rgba(184, 208, 222, 0.7) 34%,
-        rgba(184, 208, 222, 0.42) 54%,
+        rgba(184, 208, 222, 0.9) 0%,
+        rgba(184, 208, 222, 0.78) 34%,
+        rgba(184, 208, 222, 0.48) 54%,
         rgba(184, 208, 222, 0.12) 72%,
         rgba(184, 208, 222, 0) 88%
       ),
@@ -963,24 +965,25 @@ const testimonials = [
     gap: 1.6rem;
   }
   .hero__eyebrows { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; flex-wrap: wrap; }
-  .hero .eyebrow { color: var(--butter); text-shadow: 0 1px 6px rgba(29, 72, 98, 0.9); }
+  .hero .eyebrow { color: var(--butter); text-shadow: var(--hero-copy-shadow); }
   .hero__eyebrow-right { color: rgba(255, 255, 255, 0.82); }
   .hero__title {
     font-size: clamp(2.6rem, 7vw, 5.6rem);
+    font-weight: 470;
     line-height: 1.02;
     letter-spacing: -0.025em;
     max-width: 21ch;
     text-wrap: balance;
     color: #fff;
-    text-shadow: 0 2px 3px rgba(29, 72, 98, 0.7), 0 4px 24px rgba(29, 72, 98, 0.34);
+    text-shadow: var(--hero-display-shadow);
   }
-  .hero__title .italic-display { color: var(--butter); }
+  .hero__title .italic-display { color: var(--butter); font-weight: 430; }
   .hero__foot { display: flex; flex-direction: column; gap: 1.3rem; }
   .hero__lead {
     font-size: clamp(1.05rem, 1.5vw, 1.25rem);
     line-height: 1.6;
     color: #fff;
-    text-shadow: 0 1px 2px rgba(29, 72, 98, 0.92), 0 2px 15px rgba(29, 72, 98, 0.52);
+    text-shadow: var(--hero-copy-shadow);
     max-width: 54ch;
   }
   .hero__ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
@@ -988,7 +991,7 @@ const testimonials = [
     color: #fff;
     border-color: rgba(255, 255, 255, 0.9);
     background: rgba(29, 72, 98, 0.18);
-    text-shadow: 0 1px 3px rgba(29, 72, 98, 0.7);
+    text-shadow: var(--hero-copy-shadow);
   }
   .hero__btn-quiet:hover { color: var(--paper); background: #fff; border-color: #fff; }
   .hero__utility {
@@ -1007,7 +1010,7 @@ const testimonials = [
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: rgba(255, 255, 255, 0.9);
-    text-shadow: 0 1px 6px rgba(29, 72, 98, 0.9);
+    text-shadow: var(--hero-copy-shadow);
   }
   .hero__utility li::before {
     content: '';
@@ -1026,10 +1029,10 @@ const testimonials = [
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: rgba(255, 255, 255, 0.78);
-    text-shadow: 0 1px 6px rgba(29, 72, 98, 0.9);
+    text-shadow: var(--hero-copy-shadow);
     margin: 0.2rem 0 0;
   }
-  .hero__index { margin-top: 0.6rem; color: rgba(255, 255, 255, 0.9); text-shadow: 0 1px 6px rgba(29, 72, 98, 0.9); }
+  .hero__index { margin-top: 0.6rem; color: rgba(255, 255, 255, 0.9); text-shadow: var(--hero-copy-shadow); }
   .hero__index::before { color: var(--butter); }
 
   @media (max-width: 900px) {
