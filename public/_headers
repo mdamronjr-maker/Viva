@@ -25,6 +25,10 @@
   Cache-Control: public, max-age=2592000
 /viva-logo-powder-v2.png
   Cache-Control: public, max-age=2592000
+/viva-logo-duotone-dark-v3.png
+  Cache-Control: public, max-age=31536000, immutable
+/viva-logo-duotone-light-v3.png
+  Cache-Control: public, max-age=31536000, immutable
 /favicon-powder-v2.svg
   Cache-Control: public, max-age=2592000
 /viva-icon-powder-v2.png
