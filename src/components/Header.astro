@@ -2,8 +2,8 @@
 const path = Astro.url.pathname;
 const isActive = (p: string) => path === p || (p !== '/' && path.startsWith(p));
 const logoSrc = path === '/'
-  ? '/viva-logo-duotone-light-v3.png'
-  : '/viva-logo-duotone-dark-v3.png';
+  ? '/viva-logo-white-needle-light-v4.png'
+  : '/viva-logo-white-needle-dark-v4.png';
 ---
 
 <header class:list={["site-header", path === '/' && 'site-header--home']}>
