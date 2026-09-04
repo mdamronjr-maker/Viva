@@ -1,0 +1,190 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { TURNSTILE_SITEKEY } from '../lib/turnstile';
+---
+
+<Layout
+  title="Email preferences · Viva Wellness Co."
+  description="Stop marketing follow-up emails from Viva Wellness Co."
+>
+  <section class="unsub-hero">
+    <div class="container unsub-hero__inner">
+      <span class="eyebrow">Email preferences</span>
+      <h1>Less inbox.<br/><span class="italic-display">No hard feelings.</span></h1>
+      <p class="lead">
+        Enter the email address that receives Viva marketing follow-ups. We’ll
+        remove it and cancel any follow-up messages that are still scheduled.
+      </p>
+    </div>
+  </section>
+
+  <section class="unsub-body">
+    <div class="container unsub-body__inner">
+      <form class="unsub-form" id="unsubscribe-form" novalidate>
+        <div class="field">
+          <label for="u-email" class="field__label">Email address</label>
+          <input
+            id="u-email"
+            name="email"
+            type="email"
+            class="field__input"
+            autocomplete="email"
+            required
+            placeholder="you@example.com"
+          />
+        </div>
+
+        <div class="hp" aria-hidden="true">
+          <label>Leave this empty
+            <input name="company" type="text" tabindex="-1" autocomplete="off" />
+          </label>
+        </div>
+
+        <div class="cf-turnstile" data-sitekey={TURNSTILE_SITEKEY} data-theme="light"></div>
+
+        <button type="submit" class="btn btn--bronze" id="unsubscribe-submit">
+          Unsubscribe this email
+        </button>
+        <div class="unsub-form__status" id="unsubscribe-status" role="status" aria-live="polite"></div>
+      </form>
+
+      <aside class="unsub-note">
+        <h2>What this changes</h2>
+        <p>
+          This stops marketing follow-ups from this website. It does not affect
+          appointment, billing, or patient-portal messages connected to care
+          you requested.
+        </p>
+        <p>
+          You can also reply “stop” to a Viva marketing email or contact
+          <a href="mailto:info&#64;vivawellnessco.com">info&#64;vivawellnessco.com</a>.
+        </p>
+      </aside>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  function initUnsubscribeForm() {
+    const form = document.getElementById('unsubscribe-form') as HTMLFormElement | null;
+    const status = document.getElementById('unsubscribe-status') as HTMLDivElement | null;
+    const submit = document.getElementById('unsubscribe-submit') as HTMLButtonElement | null;
+    if (!form || !status || !submit) return;
+
+    const tsEl = form.querySelector('.cf-turnstile') as HTMLElement | null;
+    const ts = () => (window as any).turnstile;
+    if (tsEl && ts() && !tsEl.querySelector('iframe')) {
+      try { ts().render(tsEl, { sitekey: tsEl.getAttribute('data-sitekey') }); } catch (e) {}
+    }
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      status.textContent = '';
+      status.className = 'unsub-form__status';
+
+      const data = new FormData(form);
+      const email = String(data.get('email') || '').trim();
+      if (!email) {
+        status.textContent = 'Enter the email address you want removed.';
+        status.classList.add('is-error');
+        return;
+      }
+
+      submit.disabled = true;
+      submit.setAttribute('aria-busy', 'true');
+      submit.textContent = 'Updating';
+
+      try {
+        const response = await fetch('/api/unsubscribe', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email,
+            company: String(data.get('company') || '').trim(),
+            turnstileToken: String(data.get('cf-turnstile-response') || ''),
+          }),
+        });
+        const result = await response.json().catch(() => ({}));
+        if (!response.ok || !result.ok) {
+          throw new Error(result.error || 'We could not update your preferences. Please try again.');
+        }
+        status.textContent = 'Done. That address will not receive more Viva marketing follow-ups.';
+        status.classList.add('is-success');
+        form.reset();
+      } catch (error) {
+        status.textContent = error instanceof Error
+          ? error.message
+          : 'We could not update your preferences. Please try again.';
+        status.classList.add('is-error');
+      } finally {
+        try { if (tsEl && ts()) ts().reset(tsEl); } catch (e) {}
+        submit.disabled = false;
+        submit.removeAttribute('aria-busy');
+        submit.textContent = 'Unsubscribe this email';
+      }
+    });
+  }
+
+  document.addEventListener('astro:page-load', initUnsubscribeForm);
+</script>
+
+<style>
+  .unsub-hero {
+    padding: clamp(5rem, 12vw, 9rem) 0 clamp(3rem, 7vw, 5rem);
+    background: var(--sky);
+    border-bottom: 1px solid var(--rule);
+  }
+  .unsub-hero__inner {
+    display: flex;
+    max-width: 850px;
+    flex-direction: column;
+    gap: 1.3rem;
+  }
+  .unsub-hero h1 {
+    max-width: 15ch;
+    font-size: clamp(2.8rem, 8vw, 5rem);
+  }
+  .unsub-hero .eyebrow { color: var(--paper); }
+  .unsub-hero .lead { margin: 0; }
+  .unsub-body {
+    padding: var(--section-pad) 0;
+    background: var(--ink-2);
+  }
+  .unsub-body__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.75fr);
+    gap: clamp(2.5rem, 7vw, 6rem);
+    align-items: start;
+    max-width: 980px;
+  }
+  .unsub-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: clamp(1.6rem, 4vw, 2.5rem);
+    background: var(--ink);
+    border-radius: var(--radius);
+  }
+  .unsub-form .btn { align-self: flex-start; }
+  .unsub-form__status {
+    min-height: 1.5em;
+    font-size: 0.95rem;
+    color: var(--paper-2);
+  }
+  .unsub-form__status.is-success { color: var(--paper); }
+  .unsub-form__status.is-error { color: #8c3434; }
+  .unsub-note {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding-top: 0.5rem;
+  }
+  .unsub-note h2 { font-size: clamp(1.8rem, 4vw, 2.6rem); }
+  .unsub-note p { color: var(--paper-2); }
+  .unsub-note a { text-decoration: underline; text-underline-offset: 3px; }
+  .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  @media (max-width: 760px) {
+    .unsub-body__inner { grid-template-columns: 1fr; }
+    .unsub-form .btn { width: 100%; justify-content: center; }
+  }
+</style>

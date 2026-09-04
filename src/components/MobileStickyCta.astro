@@ -3,7 +3,7 @@
 // duplicate the page's primary action.
 // Strip trailing slash for matching (Astro emits both /contact and /contact/)
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
-const hideOn = ['/privacy', '/terms'];
+const hideOn = ['/privacy', '/terms', '/unsubscribe'];
 const hide = hideOn.includes(path);
 // On /start the bar used to link back to /start (a loop). Send the primary
 // action straight to the scheduler there instead.
@@ -66,15 +66,15 @@ const primaryHref = onStart
   .msc__btn--bronze {
     background: var(--butter);
     color: var(--paper);
-    border-color: var(--bronze-bright);
+    border-color: transparent;
   }
   .msc__btn--ghost {
     background: transparent;
     color: var(--paper);
-    border-color: rgba(46, 52, 56, 0.55);
+    border-color: #fff;
   }
   /* Tap states */
-  .msc__btn--bronze:active { background: var(--butter-bright); border-color: var(--bronze-bright); }
+  .msc__btn--bronze:active { background: var(--butter-bright); border-color: transparent; }
   .msc__btn--ghost:active { background: rgba(46, 52, 56, 0.08); }
 
   /* Hide when mobile nav is open so it doesn't fight the menu */
