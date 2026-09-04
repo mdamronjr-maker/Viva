@@ -80,6 +80,36 @@ test.describe('funnel contracts', () => {
     expect(styles.powderDeep).toBe('#b8d0de');
   });
 
+  test('home hero headline stays on its two intended lines at wide and compact viewports', async ({ page }) => {
+    await blockExternal(page);
+
+    for (const viewport of [
+      { width: 2048, height: 573 },
+      { width: 1024, height: 768 },
+      { width: 390, height: 844 },
+    ]) {
+      await page.setViewportSize(viewport);
+      await page.goto('/');
+      const geometry = await page.locator('.hero__title').evaluate((title) => {
+        const copy = title.closest('.hero__copy');
+        const lines = Array.from(title.querySelectorAll('.hero__title-line'));
+        return {
+          copyWidth: copy?.getBoundingClientRect().width || 0,
+          titleScrollWidth: title.scrollWidth,
+          lineCount: lines.length,
+          lineHeights: lines.map((line) => line.getBoundingClientRect().height),
+          expectedLineHeight: Number.parseFloat(getComputedStyle(title).lineHeight),
+        };
+      });
+
+      expect(geometry.lineCount).toBe(2);
+      expect(geometry.titleScrollWidth).toBeLessThanOrEqual(geometry.copyWidth + 1);
+      for (const height of geometry.lineHeights) {
+        expect(height).toBeLessThanOrEqual(geometry.expectedLineHeight + 1);
+      }
+    }
+  });
+
   test('contact form carries the exact field names /api/lead reads', async ({ page }) => {
     await blockExternal(page);
     await page.goto('/contact/');
