@@ -59,7 +59,7 @@ export async function recordScheduled(env, email, ids) {
  * non-2xx from Resend and are simply skipped. Returns the count cancelled.
  */
 export async function cancelScheduled(env, apiKey, email) {
-  if (!env || !env.LEADS_KV) return 0;
+  if (!env || !env.LEADS_KV || !apiKey) return 0;
   const key = `sched:${emailKey(email)}`;
   let ids = [];
   try {
@@ -87,12 +87,38 @@ export async function cancelScheduled(env, apiKey, email) {
 }
 
 /**
+ * Mirror the local suppression into Resend's global contact record so future
+ * Broadcasts also honor the opt-out. A missing contact is harmless: the KV
+ * record still prevents Viva's direct nurture sequence from being scheduled.
+ */
+export async function unsubscribeResendContact(apiKey, email) {
+  if (!apiKey || !email) return false;
+  try {
+    const res = await fetch(`${RESEND_API}/contacts/${encodeURIComponent(emailKey(email))}`, {
+      method: 'PATCH',
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ unsubscribed: true }),
+    });
+    return res.ok || res.status === 404;
+  } catch {
+    return false;
+  }
+}
+
+/**
  * Suppress + cancel in one call. Used by both the unsubscribe endpoint and
  * the Resend complaint/bounce webhook.
  */
 export async function suppressAndCancel(env, apiKey, email, reason) {
   await suppress(env, email, reason);
-  return cancelScheduled(env, apiKey, email);
+  const [cancelled] = await Promise.all([
+    cancelScheduled(env, apiKey, email),
+    unsubscribeResendContact(apiKey, email),
+  ]);
+  return cancelled;
 }
 
 // --- signed unsubscribe tokens (HMAC-SHA256 over the lowercased email) ---

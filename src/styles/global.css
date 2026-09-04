@@ -19,7 +19,7 @@
 
   /* Grounds (were the dark inks) */
   --ink: #eaf4f8;            /* pale powder-blue page background */
-  --ink-2: #f7fbfd;          /* airy near-white card and hover surfaces */
+  --ink-2: #fff8df;          /* soft butter wash for cards and alternating sections */
   --ink-3: #d8e9f0;          /* powder-blue wells and inset panels */
 
   /* Type (was the paper stack) */
@@ -27,14 +27,12 @@
   --paper-2: #465057;        /* secondary type. 7.9:1 on white */
   --paper-3: #56636b;        /* tertiary type. 5.9:1 on white */
 
-  /* Accent. RULE: butter is a FILL, never a text color on light grounds
-     (butter text computes 1.16:1 on cream; fails all levels). Text that
-     must read yellow on light bands uses this deep honey gold. True
-     --butter as text appears ONLY on the charcoal provider band, where
-     it hits 11.7:1. */
-  --bronze: #265c7a;         /* deep reference blue. 7:1 white, 4.5:1 sky, 6.2:1 butter */
-  --bronze-bright: #356f91;  /* hover blue. 5.3:1 on white */
-  --bronze-deep: #1d4862;    /* pressed blue */
+  /* Accent. Powder blue is the single blue accent across the site. Butter
+     is primarily a fill; the hero is the intentional exception because its
+     photograph provides the darker ground needed for readable yellow type. */
+  --bronze: #b8d0de;         /* legacy token name; now the single powder-blue accent */
+  --bronze-bright: #b8d0de;  /* keep every blue accent in the same family */
+  --bronze-deep: #b8d0de;
 
   --mute: #485860;           /* cool gray. 7.1:1 white, 4.6:1 sky */
   --rule: rgba(46, 52, 56, 0.12);        /* hairlines, decorative only */
@@ -43,16 +41,11 @@
 
   /* Mockup band and fill colors */
   --sky: #b8d0de;            /* sampled powder-blue reference band */
-  --sky-deep: #91b8cf;       /* blue borders and secondary fills */
-  --brand-blue: #4f8fac;     /* powder-blue logo mark; darker only for definition */
+  --sky-deep: #b8d0de;       /* one consistent powder blue, no darker blue outline */
+  --brand-blue: #b8d0de;
   --butter: #fbedbb;         /* sampled pale-butter reference band and CTA fill */
   --butter-bright: #fff4cf;  /* button hover and sidenote wash */
   --butter-deep: #dfc46e;    /* pressed butter */
-
-  /* PARKED for the photography piece: text panel over real photos.
-     At 0.65 alpha, cream type over it stays at or above 5:1 even over a
-     blown-out sky. Unused until real photos land; do not delete. */
-  --scrim: rgba(29, 72, 98, 0.72);
 
   /* Typography · UNCHANGED. Fraunces + Geist pairing and its documented
      rationale survive the flip intact. */
@@ -194,7 +187,8 @@ p { max-width: 62ch; }
   --rule-strong: rgba(46, 52, 56, 0.24);
   --rule-form: rgba(46, 52, 56, 0.55);
 }
-.section--paper .eyebrow { color: var(--bronze); }
+.section--paper .eyebrow { color: var(--paper); }
+.section--paper .index::before { color: var(--paper); }
 .section--paper .lead { color: rgba(46, 52, 56, 0.82); }
 
 /* Numbered index labels (editorial) */
@@ -212,7 +206,8 @@ p { max-width: 62ch; }
   color: var(--bronze);
 }
 
-/* Buttons · designed for dark base. Paper-section variant flips automatically. */
+/* Buttons · filled controls have no visible outline. Transparent controls on
+   blue/photo surfaces receive the white keyline used in the approved mockup. */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -224,26 +219,32 @@ p { max-width: 62ch; }
   letter-spacing: 0.01em;
   font-weight: 500;
   color: var(--paper);
-  background: transparent;
-  border: 1px solid currentColor;
+  background: var(--sky);
+  border: 1px solid transparent;
   transition: background 220ms var(--ease), color 220ms var(--ease), transform 240ms var(--ease), box-shadow 240ms var(--ease);
   position: relative;
 }
-.btn:hover { background: var(--paper); color: var(--ink); }
+.btn:hover { background: var(--butter); color: var(--paper); }
 
-.section--paper .btn { color: var(--paper); }
-.section--paper .btn:hover { background: var(--paper); color: var(--ink); }
+.section--paper .btn:not(.btn--bronze):not(.btn--ink) {
+  color: #fff;
+  background: transparent;
+  border-color: #fff;
+}
+.section--paper .btn:not(.btn--bronze):not(.btn--ink):hover {
+  background: #fff;
+  color: var(--paper);
+  border-color: #fff;
+}
 
 /* Primary CTA · the mockup butter pill. Class name kept so all call
    sites flip for free. Charcoal text on butter computes 11.7:1. */
 .btn--bronze {
   background: var(--butter);
   color: var(--paper);
-  /* --bronze-bright, not --butter-deep: the control boundary must hit
-     3:1 on the cream page (WCAG 1.4.11); butter-deep computes ~1.5:1. */
-  border-color: var(--bronze-bright);
+  border-color: transparent;
 }
-.btn--bronze:hover { background: var(--butter-bright); border-color: var(--bronze-bright); color: var(--paper); }
+.btn--bronze:hover { background: var(--butter-bright); border-color: transparent; color: var(--paper); }
 
 /* Disabled state · forms hit this during submission. */
 .btn:disabled,
@@ -267,11 +268,11 @@ p { max-width: 62ch; }
 @keyframes btn-spin { to { transform: rotate(360deg); } }
 
 .btn--ink {
-  background: var(--ink);
+  background: var(--sky);
   color: var(--paper);
-  border-color: var(--ink);
+  border-color: transparent;
 }
-.btn--ink:hover { background: var(--bronze); border-color: var(--bronze); color: var(--paper); }
+.btn--ink:hover { background: var(--butter); border-color: transparent; color: var(--paper); }
 
 /* Hairline rules used as section dividers / decoration */
 .rule { height: 1px; background: var(--rule-strong); border: 0; }
@@ -281,9 +282,9 @@ p { max-width: 62ch; }
    the marquee slot on the home page. */
 
 /* Accessibility */
-:focus-visible { outline: 2px solid var(--bronze); outline-offset: 3px; }
-::selection { background: var(--bronze); color: var(--ink); }
-::-moz-selection { background: var(--bronze); color: var(--ink); }
+:focus-visible { outline: 2px solid var(--paper); outline-offset: 3px; }
+::selection { background: var(--bronze); color: var(--paper); }
+::-moz-selection { background: var(--bronze); color: var(--paper); }
 .sr-only {
   position: absolute;
   width: 1px; height: 1px;
@@ -298,7 +299,7 @@ p { max-width: 62ch; }
   z-index: 9999;
   padding: 0.8rem 1.2rem;
   background: var(--bronze);
-  color: var(--ink);
+  color: var(--paper);
   font-family: var(--font-mono);
   font-size: 0.78rem;
   letter-spacing: 0.12em;

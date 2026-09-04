@@ -54,6 +54,62 @@ test.describe('funnel contracts', () => {
     await expect(page.locator('#quiz')).toHaveCount(1);
   });
 
+  test('home hero uses the approved copy and clean button treatments', async ({ page }) => {
+    await blockExternal(page);
+    await page.goto('/');
+    await expect(page.locator('.hero__eyebrows')).toHaveText('Concierge telehealth · TX · CO · FL · IA');
+    await expect(page.locator('.hero__title')).toContainText('You bring the goals.');
+    await expect(page.locator('.hero__title .italic-display')).toHaveText("We'll bring the Protocol.");
+
+    const styles = await page.evaluate(() => {
+      const title = getComputedStyle(document.querySelector('.hero__title'));
+      const primary = getComputedStyle(document.querySelector('.hero__ctas .btn--bronze'));
+      const quiet = getComputedStyle(document.querySelector('.hero__btn-quiet'));
+      return {
+        titleShadow: title.textShadow,
+        primaryBorder: primary.borderTopColor,
+        quietBorder: quiet.borderTopColor,
+        powderAccent: getComputedStyle(document.documentElement).getPropertyValue('--bronze').trim(),
+        powderDeep: getComputedStyle(document.documentElement).getPropertyValue('--sky-deep').trim(),
+      };
+    });
+    expect(styles.titleShadow).toBe('none');
+    expect(styles.primaryBorder).toBe('rgba(0, 0, 0, 0)');
+    expect(styles.quietBorder).toBe('rgba(255, 255, 255, 0.9)');
+    expect(styles.powderAccent).toBe('#b8d0de');
+    expect(styles.powderDeep).toBe('#b8d0de');
+  });
+
+  test('home hero headline stays on its two intended lines at wide and compact viewports', async ({ page }) => {
+    await blockExternal(page);
+
+    for (const viewport of [
+      { width: 2048, height: 573 },
+      { width: 1024, height: 768 },
+      { width: 390, height: 844 },
+    ]) {
+      await page.setViewportSize(viewport);
+      await page.goto('/');
+      const geometry = await page.locator('.hero__title').evaluate((title) => {
+        const copy = title.closest('.hero__copy');
+        const lines = Array.from(title.querySelectorAll('.hero__title-line'));
+        return {
+          copyWidth: copy?.getBoundingClientRect().width || 0,
+          titleScrollWidth: title.scrollWidth,
+          lineCount: lines.length,
+          lineHeights: lines.map((line) => line.getBoundingClientRect().height),
+          expectedLineHeight: Number.parseFloat(getComputedStyle(title).lineHeight),
+        };
+      });
+
+      expect(geometry.lineCount).toBe(2);
+      expect(geometry.titleScrollWidth).toBeLessThanOrEqual(geometry.copyWidth + 1);
+      for (const height of geometry.lineHeights) {
+        expect(height).toBeLessThanOrEqual(geometry.expectedLineHeight + 1);
+      }
+    }
+  });
+
   test('contact form carries the exact field names /api/lead reads', async ({ page }) => {
     await blockExternal(page);
     await page.goto('/contact/');
@@ -64,6 +120,18 @@ test.describe('funnel contracts', () => {
     await expect(form.locator('input[name="phone"]')).toHaveCount(1);
     await expect(form.locator('textarea[name="message"]')).toHaveCount(1);
     await expect(form.locator('input[name="company"]')).toHaveCount(1); // honeypot
+  });
+
+  test('customers can reach the email-preferences form from the footer', async ({ page }) => {
+    await blockExternal(page);
+    await page.goto('/unsubscribe/');
+    const form = page.locator('form#unsubscribe-form');
+    await expect(form).toHaveCount(1);
+    await expect(form.locator('input[name="email"]')).toHaveCount(1);
+    await expect(form.locator('input[name="company"]')).toHaveCount(1);
+    await expect(form.locator('.cf-turnstile')).toHaveCount(1);
+    await page.goto('/');
+    await expect(page.locator('.site-footer a[href="/unsubscribe"]')).toHaveText('Email Preferences');
   });
 
   test('quiz gate form carries the exact field names /api/lead reads', async ({ page }) => {

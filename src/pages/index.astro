@@ -132,13 +132,12 @@ const testimonials = [
     <div class="container hero__inner">
       <div class="hero__copy">
       <div class="hero__eyebrows">
-        <span class="eyebrow">Concierge care, built around your schedule</span>
-        <span class="eyebrow hero__eyebrow-right">TX · CO · FL · IA</span>
+        <span class="eyebrow">Concierge telehealth · TX · CO · FL · IA</span>
       </div>
 
       <h1 class="hero__title">
-        You bring the goals.<br/>
-        <span class="italic-display">I'll build the protocol.</span>
+        <span class="hero__title-line">You bring the goals.</span>
+        <span class="hero__title-line italic-display">We'll bring the Protocol.</span>
       </h1>
 
       <div class="hero__foot">
@@ -914,11 +913,9 @@ const testimonials = [
 
   /* ============ HERO · full photographic field ============ */
   .hero {
-    --hero-display-shadow: 0 1px 1px rgba(29, 72, 98, 0.28), 0 4px 18px rgba(29, 72, 98, 0.12);
-    --hero-copy-shadow: 0 1px 2px rgba(29, 72, 98, 0.34);
     position: relative;
     display: flex;
-    min-height: clamp(47rem, 100svh, 57rem);
+    min-height: min(47rem, 100svh);
     align-items: stretch;
     overflow: hidden;
     isolation: isolate;
@@ -960,38 +957,34 @@ const testimonials = [
   }
   .hero__copy {
     display: flex;
-    width: min(58%, 44rem);
+    width: min(68%, 54rem);
     flex-direction: column;
     gap: 1.6rem;
   }
   .hero__eyebrows { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; flex-wrap: wrap; }
-  .hero .eyebrow { color: var(--butter); text-shadow: var(--hero-copy-shadow); }
-  .hero__eyebrow-right { color: rgba(255, 255, 255, 0.82); }
+  .hero .eyebrow { color: var(--butter); }
   .hero__title {
-    font-size: clamp(2.6rem, 7vw, 5.6rem);
+    font-size: clamp(3rem, 4vw, 4.1rem);
     font-weight: 470;
     line-height: 1.02;
     letter-spacing: -0.025em;
-    max-width: 21ch;
-    text-wrap: balance;
+    max-width: none;
     color: #fff;
-    text-shadow: var(--hero-display-shadow);
   }
+  .hero__title-line { display: block; white-space: nowrap; }
   .hero__title .italic-display { color: var(--butter); font-weight: 430; }
   .hero__foot { display: flex; flex-direction: column; gap: 1.3rem; }
   .hero__lead {
     font-size: clamp(1.05rem, 1.5vw, 1.25rem);
     line-height: 1.6;
     color: #fff;
-    text-shadow: var(--hero-copy-shadow);
     max-width: 54ch;
   }
   .hero__ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
   .hero__btn-quiet {
     color: #fff;
     border-color: rgba(255, 255, 255, 0.9);
-    background: rgba(29, 72, 98, 0.18);
-    text-shadow: var(--hero-copy-shadow);
+    background: transparent;
   }
   .hero__btn-quiet:hover { color: var(--paper); background: #fff; border-color: #fff; }
   .hero__utility {
@@ -1010,7 +1003,6 @@ const testimonials = [
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: rgba(255, 255, 255, 0.9);
-    text-shadow: var(--hero-copy-shadow);
   }
   .hero__utility li::before {
     content: '';
@@ -1021,7 +1013,6 @@ const testimonials = [
     height: 4px;
     border-radius: 50%;
     background: var(--butter);
-    box-shadow: 0 1px 5px rgba(29, 72, 98, 0.7);
   }
   .hero__proof {
     font-family: var(--font-mono);
@@ -1029,10 +1020,9 @@ const testimonials = [
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: rgba(255, 255, 255, 0.78);
-    text-shadow: var(--hero-copy-shadow);
     margin: 0.2rem 0 0;
   }
-  .hero__index { margin-top: 0.6rem; color: rgba(255, 255, 255, 0.9); text-shadow: var(--hero-copy-shadow); }
+  .hero__index { margin-top: 0.6rem; color: rgba(255, 255, 255, 0.9); }
   .hero__index::before { color: var(--butter); }
 
   @media (max-width: 900px) {
@@ -1062,14 +1052,27 @@ const testimonials = [
       padding-top: 27rem;
     }
     .hero__copy { width: 100%; }
+    .hero__title { font-size: clamp(2.75rem, 7vw, 3.75rem); }
   }
   @media (max-width: 520px) {
-    .hero__title { font-size: clamp(3rem, 14vw, 4.25rem); }
+    .hero__title { font-size: clamp(1.65rem, 8.3vw, 2.75rem); }
     .hero__lead { font-size: 1rem; line-height: 1.52; }
     .hero__ctas { display: grid; grid-template-columns: 1fr; }
     .hero__ctas .btn { width: 100%; }
     .hero__utility { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.6rem 0.8rem; }
     .hero__utility li { font-size: 0.75rem; line-height: 1.45; }
+  }
+  @media (min-width: 901px) and (max-height: 700px) {
+    .hero {
+      min-height: 100svh;
+      padding-top: 5.75rem;
+      padding-bottom: 2rem;
+    }
+    .hero__copy { gap: 1rem; }
+    .hero__title { font-size: clamp(3rem, 3.4vw, 3.65rem); }
+    .hero__foot { gap: 0.8rem; }
+    .hero__lead { font-size: 1rem; line-height: 1.48; max-width: 60ch; }
+    .hero__index { margin-top: 0; }
   }
 
   /* ============ FEATURE BAND · butter, static ============ */
@@ -1176,7 +1179,7 @@ const testimonials = [
     align-items: center;
     padding: clamp(1.4rem, 3vw, 2rem);
     background: var(--sky);
-    border: 1px solid rgba(29, 72, 98, 0.18);
+    border: 1px solid rgba(184, 208, 222, 0.8);
     border-radius: var(--radius);
     color: var(--paper);
     transition: background 220ms var(--ease), transform 220ms var(--ease);
@@ -1255,11 +1258,11 @@ const testimonials = [
     line-height: 1.65;
   }
   .wellness-story__copy .btn {
-    color: #fff;
-    background: var(--bronze-bright);
-    border-color: var(--bronze-bright);
+    color: var(--paper);
+    background: var(--sky);
+    border-color: transparent;
   }
-  .wellness-story__copy .btn:hover { color: #fff; background: var(--bronze-deep); border-color: var(--bronze-deep); }
+  .wellness-story__copy .btn:hover { color: var(--paper); background: var(--butter); border-color: transparent; }
   @media (max-width: 900px) {
     .wellness-story__inner { grid-template-columns: 1fr; gap: 3rem; }
     .wellness-story__media { width: calc(100% - 1rem); }
@@ -1325,12 +1328,12 @@ const testimonials = [
     backdrop-filter: blur(8px);
   }
   .qx__opt:hover {
-    background: rgba(53, 111, 145, 0.08);
+    background: rgba(184, 208, 222, 0.28);
     border-color: var(--bronze);
     transform: translateX(6px);
   }
   .qx__opt:active {
-    background: rgba(53, 111, 145, 0.14);
+    background: rgba(184, 208, 222, 0.42);
     border-color: var(--bronze-deep);
     transform: translateX(3px);
   }
@@ -1590,8 +1593,8 @@ const testimonials = [
     transition: background 200ms var(--ease), border-color 200ms var(--ease);
     font-size: 1.05rem;
   }
-  .t-rotator__nav:hover { background: rgba(53, 111, 145, 0.1); border-color: var(--bronze); }
-  .t-rotator__nav:active { background: rgba(53, 111, 145, 0.18); border-color: var(--bronze-deep); }
+  .t-rotator__nav:hover { background: rgba(184, 208, 222, 0.34); border-color: var(--sky); }
+  .t-rotator__nav:active { background: rgba(184, 208, 222, 0.5); border-color: var(--sky); }
   .t-rotator__dots { display: flex; gap: 0.5rem; }
   .t-dot {
     width: 32px;
@@ -1651,7 +1654,7 @@ const testimonials = [
     transition: background 220ms var(--ease);
   }
   .faq__item summary::-webkit-details-marker { display: none; }
-  .faq__item summary:hover { background: rgba(53, 111, 145, 0.06); }
+  .faq__item summary:hover { background: rgba(184, 208, 222, 0.24); }
   .faq__q-num {
     font-family: var(--font-mono);
     font-size: 0.78rem;
@@ -1700,9 +1703,6 @@ const testimonials = [
     .faq__a { margin-left: 0; padding-left: 0.8rem; padding-right: 0; }
   }
   .faq__foot { margin-top: 2.5rem; max-width: 900px; }
-  /* "Ask a question" button on paper bg needs ink color treatment */
-  .faq__foot .btn { color: var(--paper); border-color: rgba(46, 52, 56, 0.55); }
-  .faq__foot .btn:hover { background: var(--paper); color: var(--ink); border-color: var(--paper); }
 
 
 /* ============ PROVIDER BAND ============ */
