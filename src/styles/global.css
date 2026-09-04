@@ -1,51 +1,48 @@
 /* ============================================
    VIVA WELLNESS CO. · DESIGN SYSTEM
-   Lights On · light theme (2026-08 redesign)
+   Founder Garden demo · forest, cream, and sunlit yellow (2026-09)
 
    Fonts are loaded via <link> in Layout.astro (not @import) so they
    don't block CSS parsing.
    ============================================ */
 
 :root {
-  /* LIGHTS ON powder-blue theme (2026-09 refinement).
-     Token ROLES keep their existing semantics: --ink* paints grounds,
-     --paper* paints type, --bronze* is the accent. All ~100 existing
-     call sites update without edits, and .section--paper becomes the
-     stronger powder-blue brand band.
-     WARNING: after this flip the names no longer describe the hues
-     (--ink is light, --paper is dark). Do not rename tokens during the
-     redesign; rename in a dedicated cleanup branch once things settle.
-     Every pairing below is computed WCAG 2.1 contrast, noted inline. */
+  /* A disciplined three-color system sampled from Liliana's portrait:
+     scrub green, clean cream, and warm sunlight. */
+  --ink: #f8f6f0;
+  --ink-2: #fffdf8;
+  --ink-3: #e8eee7;
 
-  /* Grounds (were the dark inks) */
-  --ink: #eaf4f8;            /* pale powder-blue page background */
-  --ink-2: #fff8df;          /* soft butter wash for cards and alternating sections */
-  --ink-3: #d8e9f0;          /* powder-blue wells and inset panels */
+  --paper: #14251b;
+  --paper-2: #30473a;
+  --paper-3: #5c6d63;
 
-  /* Type (was the paper stack) */
-  --paper: #2e3438;          /* primary type, neutral charcoal. 12.1:1 on white */
-  --paper-2: #465057;        /* secondary type. 7.9:1 on white */
-  --paper-3: #56636b;        /* tertiary type. 5.9:1 on white */
+  /* Legacy token names remain for compatibility; every accent now belongs
+     to the same forest-green family instead of introducing rusty orange. */
+  --bronze: #1d5137;
+  --bronze-bright: #2c6848;
+  --bronze-deep: #103b28;
 
-  /* Accent. Powder blue is the single blue accent across the site. Butter
-     is primarily a fill; the hero is the intentional exception because its
-     photograph provides the darker ground needed for readable yellow type. */
-  --bronze: #b8d0de;         /* legacy token name; now the single powder-blue accent */
-  --bronze-bright: #b8d0de;  /* keep every blue accent in the same family */
-  --bronze-deep: #b8d0de;
+  --mute: #526158;
+  --rule: rgba(20, 37, 27, 0.13);
+  --rule-strong: rgba(20, 37, 27, 0.24);
+  --rule-form: rgba(20, 37, 27, 0.58);
 
-  --mute: #485860;           /* cool gray. 7.1:1 white, 4.6:1 sky */
-  --rule: rgba(46, 52, 56, 0.12);        /* hairlines, decorative only */
-  --rule-strong: rgba(46, 52, 56, 0.22); /* card borders, decorative only */
-  --rule-form: rgba(46, 52, 56, 0.55);   /* input underlines and any stroke carrying meaning; --rule-strong fails WCAG 1.4.11 non-text contrast on cream */
+  --sky: #e8eee7;
+  --sky-deep: #d6e0d4;
+  --brand-blue: #174b33;
+  --butter: #f3d990;
+  --butter-bright: #ffe9ad;
+  --butter-deep: #d4b867;
 
-  /* Mockup band and fill colors */
-  --sky: #b8d0de;            /* sampled powder-blue reference band */
-  --sky-deep: #b8d0de;       /* one consistent powder blue, no darker blue outline */
-  --brand-blue: #b8d0de;
-  --butter: #fbedbb;         /* sampled pale-butter reference band and CTA fill */
-  --butter-bright: #fff4cf;  /* button hover and sidenote wash */
-  --butter-deep: #dfc46e;    /* pressed butter */
+  --evergreen: #174b33;
+  --evergreen-deep: #0c3323;
+  --cream: #f8f6f0;
+  --cream-bright: #fffdf8;
+  --sage: #e8eee7;
+  --terracotta: #1d5137;
+  --ochre: #f3d990;
+  --olive: #687654;
 
   /* Typography · UNCHANGED. Fraunces + Geist pairing and its documented
      rationale survive the flip intact. */
@@ -57,7 +54,7 @@
 
   /* Layout · unchanged except standard sections breathe wider for the
      mockup's airy feel. Quiz keeps its showpiece pad. */
-  --max: 1400px;
+  --max: 1480px;
   --gutter: clamp(1.25rem, 4vw, 2.5rem);
   --section-pad: clamp(3.5rem, 8vw, 6.5rem);
   --section-pad-lg: clamp(5rem, 10vw, 8rem);
@@ -95,7 +92,7 @@ html, body {
   font-family: var(--font-body);
   font-size: 17px;
   line-height: 1.6;
-  font-weight: 400;
+  font-weight: 420;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -118,16 +115,16 @@ html, body {
    read editorial-modern (Function Health, The Cut, Substack-y). */
 h1, .h1 {
   font-family: var(--font-display);
-  font-weight: 430;
+  font-weight: 490;
   font-size: clamp(2.6rem, 7vw, 6rem);
   line-height: 0.98;
   letter-spacing: -0.025em;
-  font-variation-settings: 'opsz' 144, 'SOFT' 30;
+  font-variation-settings: 'opsz' 144, 'SOFT' 45, 'WONK' 1;
 }
 
 h2, .h2 {
   font-family: var(--font-display);
-  font-weight: 450;
+  font-weight: 480;
   font-size: clamp(2rem, 4.5vw, 3.4rem);
   line-height: 1.05;
   letter-spacing: -0.02em;
@@ -160,7 +157,7 @@ p { max-width: 62ch; }
 .lead {
   font-size: clamp(1.1rem, 1.55vw, 1.3rem);
   line-height: 1.55;
-  color: rgba(46, 52, 56, 0.82);
+  color: rgba(28, 35, 27, 0.8);
   max-width: 56ch;
   font-weight: 400;
 }
@@ -177,19 +174,19 @@ p { max-width: 62ch; }
   border-top: 1px solid var(--rule);
 }
 
-/* Strong powder-blue brand band. Charcoal type keeps long-form copy calm
-   and readable while removing the dark breaks that fought the new palette. */
+/* Pale sage carries the garden palette through long-form pages without
+   sacrificing the contrast needed for clinical copy and forms. */
 .section--paper {
   background: var(--sky);
   color: var(--paper);
-  --mute: #435a65;
-  --rule: rgba(46, 52, 56, 0.14);
-  --rule-strong: rgba(46, 52, 56, 0.24);
-  --rule-form: rgba(46, 52, 56, 0.55);
+  --mute: #42564c;
+  --rule: rgba(28, 35, 27, 0.14);
+  --rule-strong: rgba(28, 35, 27, 0.26);
+  --rule-form: rgba(28, 35, 27, 0.58);
 }
 .section--paper .eyebrow { color: var(--paper); }
 .section--paper .index::before { color: var(--paper); }
-.section--paper .lead { color: rgba(46, 52, 56, 0.82); }
+.section--paper .lead { color: rgba(28, 35, 27, 0.8); }
 
 /* Numbered index labels (editorial) */
 .index {
@@ -206,8 +203,8 @@ p { max-width: 62ch; }
   color: var(--bronze);
 }
 
-/* Buttons · filled controls have no visible outline. Transparent controls on
-   blue/photo surfaces receive the white keyline used in the approved mockup. */
+/* Buttons · warm yellow is the primary conversion signal; quiet actions
+   use a simple keyline instead of a competing fill. */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -219,32 +216,31 @@ p { max-width: 62ch; }
   letter-spacing: 0.01em;
   font-weight: 500;
   color: var(--paper);
-  background: var(--sky);
-  border: 1px solid transparent;
+  background: transparent;
+  border: 1px solid var(--paper);
   transition: background 220ms var(--ease), color 220ms var(--ease), transform 240ms var(--ease), box-shadow 240ms var(--ease);
   position: relative;
 }
-.btn:hover { background: var(--butter); color: var(--paper); }
+.btn:hover { background: var(--paper); color: var(--cream); }
 
 .section--paper .btn:not(.btn--bronze):not(.btn--ink) {
-  color: #fff;
+  color: var(--paper);
   background: transparent;
-  border-color: #fff;
+  border-color: var(--paper);
 }
 .section--paper .btn:not(.btn--bronze):not(.btn--ink):hover {
-  background: #fff;
-  color: var(--paper);
-  border-color: #fff;
+  background: var(--paper);
+  color: var(--cream);
+  border-color: var(--paper);
 }
 
-/* Primary CTA · the mockup butter pill. Class name kept so all call
-   sites flip for free. Charcoal text on butter computes 11.7:1. */
+/* Primary CTA · class name stays for compatibility across existing pages. */
 .btn--bronze {
-  background: var(--butter);
-  color: var(--paper);
+  background: var(--ochre);
+  color: var(--evergreen-deep);
   border-color: transparent;
 }
-.btn--bronze:hover { background: var(--butter-bright); border-color: transparent; color: var(--paper); }
+.btn--bronze:hover { background: var(--butter-bright); border-color: transparent; color: var(--evergreen-deep); }
 
 /* Disabled state · forms hit this during submission. */
 .btn:disabled,
@@ -268,11 +264,11 @@ p { max-width: 62ch; }
 @keyframes btn-spin { to { transform: rotate(360deg); } }
 
 .btn--ink {
-  background: var(--sky);
-  color: var(--paper);
+  background: var(--evergreen);
+  color: var(--cream-bright);
   border-color: transparent;
 }
-.btn--ink:hover { background: var(--butter); border-color: transparent; color: var(--paper); }
+.btn--ink:hover { background: var(--evergreen-deep); border-color: transparent; color: var(--cream-bright); }
 
 /* Hairline rules used as section dividers / decoration */
 .rule { height: 1px; background: var(--rule-strong); border: 0; }
@@ -283,8 +279,8 @@ p { max-width: 62ch; }
 
 /* Accessibility */
 :focus-visible { outline: 2px solid var(--paper); outline-offset: 3px; }
-::selection { background: var(--bronze); color: var(--paper); }
-::-moz-selection { background: var(--bronze); color: var(--paper); }
+::selection { background: var(--terracotta); color: var(--cream-bright); }
+::-moz-selection { background: var(--terracotta); color: var(--cream-bright); }
 .sr-only {
   position: absolute;
   width: 1px; height: 1px;
@@ -298,8 +294,8 @@ p { max-width: 62ch; }
   top: 0;
   z-index: 9999;
   padding: 0.8rem 1.2rem;
-  background: var(--bronze);
-  color: var(--paper);
+  background: var(--evergreen);
+  color: var(--cream-bright);
   font-family: var(--font-mono);
   font-size: 0.78rem;
   letter-spacing: 0.12em;
@@ -355,7 +351,7 @@ main:focus { outline: none; }
   border-bottom-color: var(--bronze);
 }
 .field__input::placeholder,
-.field__textarea::placeholder { color: rgba(46, 52, 56, 0.65); } /* composites ~4.7:1 on cream; 0.5 fails 4.5:1 */
+.field__textarea::placeholder { color: rgba(28, 35, 27, 0.65); }
 .field__textarea { resize: vertical; min-height: 120px; }
 /* Subtle invalid state · only after user has typed something (not on empty fields) */
 .field__input:not(:placeholder-shown):invalid,
@@ -377,7 +373,7 @@ main:focus { outline: none; }
   border-bottom-color: var(--rule-form);
 }
 .section--paper .field__input::placeholder,
-.section--paper .field__textarea::placeholder { color: rgba(46, 52, 56, 0.65); }
+.section--paper .field__textarea::placeholder { color: rgba(28, 35, 27, 0.65); }
 .section--paper .field__input:focus,
 .section--paper .field__textarea:focus { border-bottom-color: var(--bronze); }
 
@@ -416,4 +412,69 @@ main:focus { outline: none; }
   color: var(--paper);
   padding: 0.8rem 1rem;
   border-radius: var(--radius-sm);
+}
+
+/* Interior-page mastheads share the same deep scrub green used in Liliana's
+   portrait. This turns the redesign into a site system instead of a homepage
+   skin while leaving every page's content structure intact. */
+:is(
+  .about-hero,
+  .services-hero,
+  .meno-hero,
+  .menu-hero,
+  .partners-hero,
+  .contact-hero,
+  .start-hero,
+  .blog-hero,
+  .legal-hero,
+  .unsub-hero,
+  .refer-hero
+) {
+  --paper: #fffdf8;
+  --paper-2: #f5f0e5;
+  --paper-3: #dfd8ca;
+  --bronze: #f3d990;
+  --bronze-bright: #ffe9ad;
+  --bronze-deep: #d4b867;
+  --sky: #174b33;
+  --sky-deep: #0c3323;
+  --mute: rgba(255, 253, 248, 0.7);
+  --rule: rgba(255, 253, 248, 0.14);
+  --rule-strong: rgba(255, 253, 248, 0.26);
+  --rule-form: rgba(255, 253, 248, 0.58);
+  background: var(--evergreen);
+  color: var(--cream-bright);
+  border-bottom: 6px solid var(--ochre);
+}
+
+:is(
+  .about-hero,
+  .services-hero,
+  .meno-hero,
+  .menu-hero,
+  .partners-hero,
+  .contact-hero,
+  .start-hero,
+  .blog-hero,
+  .legal-hero,
+  .unsub-hero,
+  .refer-hero
+) :is(p, .lead) {
+  color: rgba(255, 250, 241, 0.78) !important;
+}
+
+:is(
+  .about-hero,
+  .services-hero,
+  .meno-hero,
+  .menu-hero,
+  .partners-hero,
+  .contact-hero,
+  .start-hero,
+  .blog-hero,
+  .legal-hero,
+  .unsub-hero,
+  .refer-hero
+) .eyebrow {
+  color: var(--ochre);
 }
