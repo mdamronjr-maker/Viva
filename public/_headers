@@ -23,6 +23,12 @@
   Cache-Control: public, max-age=2592000
 /viva-logo-red.png
   Cache-Control: public, max-age=2592000
+/viva-logo-powder-v2.png
+  Cache-Control: public, max-age=2592000
+/favicon-powder-v2.svg
+  Cache-Control: public, max-age=2592000
+/viva-icon-powder-v2.png
+  Cache-Control: public, max-age=2592000
 /viva-runner-hero-v2.webp
   Cache-Control: public, max-age=2592000
 /viva-runner-hero-v2-sm.webp
