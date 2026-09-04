@@ -5,7 +5,7 @@ import Layout from '../layouts/Layout.astro';
    /menopause · perimenopause and menopause care landing page.
    The SEO anchor for the practice's women's-hormone vertical:
    FAQPage schema, keyword-bearing headings, internal links to
-   the HRT tier on /services and the booking flow on /start.
+   HRT management on /services and the booking flow on /start.
    Copy rules: Liliana's first-person voice, no em or en dashes
    (use the site-standard interpunct), no outcome guarantees.
    ============================================================ */
@@ -71,7 +71,7 @@ const faqs = [
   },
   {
     q: 'What does menopause care cost at Viva?',
-    a: 'The first visit is $199, a one-time fee. Ongoing care is a membership: TRT & HRT All Inclusive at $199 per month covers compounded medication, supplies, home delivery, and labs twice a year. If you prefer to run hormones and labs through your insurance, Viva Concierge Access at $99 per month is the insurance-routed alternative.',
+    a: 'The first visit is $199, a one-time fee. Ongoing HRT management starts with Viva Concierge Access at $99 per month. Compounded estradiol and progesterone are available as clinician-selected add-ons and are not included in the membership fee. Eligible retail prescriptions and labs can be routed through insurance.',
   },
 ];
 
@@ -180,32 +180,31 @@ const faqSchema = {
   <section class="meno-tiers">
     <div class="container">
       <header class="meno-head">
-        <span class="eyebrow">Two ways in</span>
+        <span class="eyebrow">How ongoing care works</span>
         <h2 class="meno-head__title">
-          One flat fee, or through your insurance.
+          Management first. Medication added when appropriate.
         </h2>
       </header>
       <div class="meno-tiers__row">
-        <a href="/services#trt-hrt-all-inclusive" class="meno-tier">
-          <span class="meno-tier__tag">All inclusive</span>
-          <h3 class="meno-tier__name">TRT & HRT All Inclusive</h3>
-          <p class="meno-tier__price"><strong>$199</strong>/mo</p>
-          <p class="meno-tier__body">
-            Compounded estradiol and progesterone, personalized dosing, supplies,
-            home delivery, and labs twice a year. One fee, fully managed.
-          </p>
-          <span class="meno-tier__cta">See what's included →</span>
-        </a>
         <a href="/services#viva-concierge-access" class="meno-tier">
-          <span class="meno-tier__tag">Insurance route</span>
+          <span class="meno-tier__tag">Management membership</span>
           <h3 class="meno-tier__name">Viva Concierge Access</h3>
           <p class="meno-tier__price"><strong>$99</strong>/mo</p>
           <p class="meno-tier__body">
-            Concierge provider attention while your insurance covers hormones,
-            retail prescriptions, and labs. Monthly evaluations and ongoing
-            medication management.
+            Provider-led HRT management, a monthly evaluation, dosing guidance,
+            and direct provider access. Medication is handled separately.
           </p>
           <span class="meno-tier__cta">See what's included →</span>
+        </a>
+        <a href="/menu#hormone" class="meno-tier">
+          <span class="meno-tier__tag">Medication add-ons</span>
+          <h3 class="meno-tier__name">Compounded HRT medication</h3>
+          <p class="meno-tier__price"><strong>Added separately</strong></p>
+          <p class="meno-tier__body">
+            Compounded estradiol and progesterone are selected individually when
+            clinically appropriate. They are not included in the $99 membership fee.
+          </p>
+          <span class="meno-tier__cta">See HRT options →</span>
         </a>
       </div>
       <p class="meno-tiers__note">

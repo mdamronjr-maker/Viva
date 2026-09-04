@@ -213,7 +213,7 @@ test.describe('quiz submit resilience', () => {
     // Walk the five questions with realistic answers. Each click advances a
     // step; the selectors are unique per step so auto-waiting handles pacing.
     const answers = [
-      ['goal', 'weight'],
+      ['goal', 'hormones'],
       ['age', '45to54'],
       ['sex', 'f'],
       ['activity', 'moderate'],
@@ -246,6 +246,9 @@ test.describe('quiz submit resilience', () => {
     await retry.click();
     await expect(page.locator('.qx__step[data-step="7"]')).toHaveClass(/is-active/);
     await expect(page.locator('#qx-r-name')).toBeVisible();
+    await expect(page.locator('#qx-r-name')).toHaveText('Viva Concierge Access');
+    await expect(page.locator('#qx-r-price')).toHaveText('$99');
+    await expect(page.locator('#qx-r-body')).toContainText('not included in the $99 membership fee');
     await expect(retry).toBeHidden();
     expect(posts, 'retry sent exactly one more POST').toBe(2);
   });

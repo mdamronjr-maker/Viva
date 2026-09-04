@@ -39,7 +39,7 @@ const faqs = [
   },
   {
     q: 'What does Viva Concierge at $99 actually include?',
-    a: 'Two things. First, provider access: direct messaging with your provider, a monthly evaluation visit plus one acute/sick visit credit each month, lab orders routed through your insurance, and ongoing guidance across hormones, peptides, metabolic, and recovery. Second, member pricing: when you do want to add provider-selected compounded peptides, compounded GLP-1, or TRT add-ons, you get them at member rates instead of paying retail. It is the right tier when you want a provider thinking about you and the flexibility to pay a la carte for protocols, rather than committing to one of the all-inclusive bundles (TRT, Metabolic Essential, Metabolic Core).',
+    a: 'Two things. First, provider access: direct messaging with your provider, a monthly evaluation visit plus one acute/sick visit credit each month, lab orders routed through your insurance, and ongoing guidance across hormones, peptides, metabolic, and recovery. Second, member pricing: when you do want to add provider-selected compounded peptides, compounded GLP-1, or TRT or HRT medication add-ons, you get them at member rates instead of paying retail. Compounded estradiol and progesterone are not included in the $99 membership fee. It is the right tier when you want a provider thinking about you and the flexibility to pay a la carte for protocols, rather than committing to one of the all-inclusive bundles (TRT, Metabolic Essential, Metabolic Core).',
   },
   {
     q: 'Is my health information private?',
@@ -68,8 +68,8 @@ const PICON = {
   package: '<path d="m16.5 9.4-9-5.19"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.3 7 12 12l8.7-5"/><path d="M12 22V12"/>',
 };
 const programs = [
-  { tier: 'Entry', name: 'Viva Concierge', price: '$99', cadence: '/mo', icon: 'key', href: '/services#viva-concierge-access', body: 'Provider access plus member pricing on compounded peptides, GLP-1, and add-ons. Pay a la carte for the protocols you want instead of a bundled monthly fee.' },
-  { tier: 'Foundational', name: 'TRT & HRT All Inclusive', price: '$199', cadence: '/mo', icon: 'pulse', href: '/services#trt-hrt-all-inclusive', body: 'Personalized hormone optimization for men and women: compounded testosterone (TRT) or estradiol and progesterone (HRT), supplies, and biannual labs.' },
+  { tier: 'Entry', name: 'Viva Concierge', price: '$99', cadence: '/mo', icon: 'key', href: '/services#viva-concierge-access', body: 'Provider access plus member pricing on compounded peptides, GLP-1, and medication add-ons, including HRT. Pay a la carte for the protocols you want instead of a bundled monthly fee.' },
+  { tier: 'Foundational', name: 'TRT All Inclusive', price: '$199', cadence: '/mo', icon: 'pulse', href: '/services#trt-all-inclusive', body: 'Personalized testosterone optimization with compounded testosterone, supplies, home delivery, and biannual labs included.' },
   { tier: 'Essential', name: 'Metabolic Essential', price: '$249', cadence: '/mo', icon: 'leaf', href: '/services#metabolic-essential', body: 'Compounded semaglutide, or micro-dose tirzepatide. Appetite regulation, insulin support, and steady fat loss. The GLP-1 on-ramp.' },
   { tier: 'Core', name: 'Metabolic Core', price: '$349', cadence: '/mo', icon: 'flame', href: '/services#metabolic-core', body: 'Compounded tirzepatide, fully managed, for stronger appetite control and consistent fat loss.', featured: true },
 ];
@@ -452,8 +452,8 @@ const testimonials = [
         </h2>
         <p class="lead section-head__lead">
           From a $99 concierge entry point to a $349 fully-managed metabolic
-          plan. Every tier includes provider access, home delivery, and protocol
-          adjustments built in.
+          plan. Every tier includes provider access and protocol adjustments.
+          Medication, supplies, and home delivery are bundled only where listed.
         </p>
       </div>
 
@@ -914,6 +914,8 @@ const testimonials = [
 
   /* ============ HERO · full photographic field ============ */
   .hero {
+    --hero-display-shadow: 0 1px 1px rgba(29, 72, 98, 0.28), 0 4px 18px rgba(29, 72, 98, 0.12);
+    --hero-copy-shadow: 0 1px 2px rgba(29, 72, 98, 0.34);
     position: relative;
     display: flex;
     min-height: clamp(47rem, 100svh, 57rem);
@@ -942,9 +944,9 @@ const testimonials = [
     background:
       linear-gradient(
         90deg,
-        rgba(184, 208, 222, 0.82) 0%,
-        rgba(184, 208, 222, 0.7) 34%,
-        rgba(184, 208, 222, 0.42) 54%,
+        rgba(184, 208, 222, 0.9) 0%,
+        rgba(184, 208, 222, 0.78) 34%,
+        rgba(184, 208, 222, 0.48) 54%,
         rgba(184, 208, 222, 0.12) 72%,
         rgba(184, 208, 222, 0) 88%
       ),
@@ -963,24 +965,25 @@ const testimonials = [
     gap: 1.6rem;
   }
   .hero__eyebrows { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; flex-wrap: wrap; }
-  .hero .eyebrow { color: var(--butter); text-shadow: 0 1px 6px rgba(29, 72, 98, 0.9); }
+  .hero .eyebrow { color: var(--butter); text-shadow: var(--hero-copy-shadow); }
   .hero__eyebrow-right { color: rgba(255, 255, 255, 0.82); }
   .hero__title {
     font-size: clamp(2.6rem, 7vw, 5.6rem);
+    font-weight: 470;
     line-height: 1.02;
     letter-spacing: -0.025em;
     max-width: 21ch;
     text-wrap: balance;
     color: #fff;
-    text-shadow: 0 2px 3px rgba(29, 72, 98, 0.7), 0 4px 24px rgba(29, 72, 98, 0.34);
+    text-shadow: var(--hero-display-shadow);
   }
-  .hero__title .italic-display { color: var(--butter); }
+  .hero__title .italic-display { color: var(--butter); font-weight: 430; }
   .hero__foot { display: flex; flex-direction: column; gap: 1.3rem; }
   .hero__lead {
     font-size: clamp(1.05rem, 1.5vw, 1.25rem);
     line-height: 1.6;
     color: #fff;
-    text-shadow: 0 1px 2px rgba(29, 72, 98, 0.92), 0 2px 15px rgba(29, 72, 98, 0.52);
+    text-shadow: var(--hero-copy-shadow);
     max-width: 54ch;
   }
   .hero__ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
@@ -988,7 +991,7 @@ const testimonials = [
     color: #fff;
     border-color: rgba(255, 255, 255, 0.9);
     background: rgba(29, 72, 98, 0.18);
-    text-shadow: 0 1px 3px rgba(29, 72, 98, 0.7);
+    text-shadow: var(--hero-copy-shadow);
   }
   .hero__btn-quiet:hover { color: var(--paper); background: #fff; border-color: #fff; }
   .hero__utility {
@@ -1007,7 +1010,7 @@ const testimonials = [
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: rgba(255, 255, 255, 0.9);
-    text-shadow: 0 1px 6px rgba(29, 72, 98, 0.9);
+    text-shadow: var(--hero-copy-shadow);
   }
   .hero__utility li::before {
     content: '';
@@ -1026,10 +1029,10 @@ const testimonials = [
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: rgba(255, 255, 255, 0.78);
-    text-shadow: 0 1px 6px rgba(29, 72, 98, 0.9);
+    text-shadow: var(--hero-copy-shadow);
     margin: 0.2rem 0 0;
   }
-  .hero__index { margin-top: 0.6rem; color: rgba(255, 255, 255, 0.9); text-shadow: 0 1px 6px rgba(29, 72, 98, 0.9); }
+  .hero__index { margin-top: 0.6rem; color: rgba(255, 255, 255, 0.9); text-shadow: var(--hero-copy-shadow); }
   .hero__index::before { color: var(--butter); }
 
   @media (max-width: 900px) {
@@ -1703,9 +1706,9 @@ const testimonials = [
 
 
 /* ============ PROVIDER BAND ============ */
-/* Warm-paper inversion (same .section--paper treatment used by the About
+/* Powder-blue brand band (same .section--paper treatment used by the About
    founder section) so the named-provider moment reads as a calm, editorial
-   breath between the dark Programs grid and the dark Testimonials rotator. */
+   breath between the Programs grid and Testimonials rotator. */
 .provider-band {
   padding: var(--section-pad) 0;
 }
@@ -1756,7 +1759,7 @@ const testimonials = [
 .provider-band__name {
   font-family: var(--font-display);
   font-size: 1.05rem;
-  color: var(--ink);
+  color: var(--paper);
   line-height: 1.3;
 }
 .provider-band__creds {
@@ -1764,7 +1767,7 @@ const testimonials = [
   font-size: 0.7rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--butter); /* bronze-deep was unreadable on the charcoal band */
+  color: var(--bronze);
 }
 
 .provider-band__copy {
@@ -1780,8 +1783,7 @@ const testimonials = [
   max-width: 16ch;
   margin: 0;
 }
-/* Keep the provider quote dark enough against the light surface, matching
-   the treatment used by the About page founder section. */
+/* Keep the provider quote dark enough against the powder-blue surface. */
 .provider-band__voice {
   font-family: var(--font-display-italic);
   font-style: italic;
@@ -1789,7 +1791,7 @@ const testimonials = [
   font-size: clamp(1.25rem, 2.4vw, 1.85rem);
   line-height: 1.4;
   letter-spacing: -0.01em;
-  color: var(--ink);
+  color: var(--paper);
   max-width: 30ch;
   font-variation-settings: 'opsz' 96, 'SOFT' 60, 'WONK' 1;
   margin: 0;

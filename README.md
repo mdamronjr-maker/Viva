@@ -141,11 +141,12 @@ CF Pages auto-builds. Test the new endpoints on the staging URL first:
 Five questions → one of three programs. Rules in priority order:
 
 1. `goal=weight` → **Metabolic Core ($349)**
-2. `goal=hormones` + `sex=male` + budget ≠ $99 → **TRT All Inclusive ($199)**
-3. `goal=recovery` + budget ≥ $349/mo → **Metabolic Core ($349)** with recovery-emphasis copy
-4. default → **Viva Concierge ($99)** (includes performance-goal leads)
+2. `goal=hormones` + `sex=female` → **Viva Concierge Access ($99)** with HRT medication add-ons handled separately
+3. `goal=hormones` + `sex=male` + budget ≠ $99 → **TRT All Inclusive ($199)**
+4. `goal=recovery` + budget ≥ $349/mo → **Metabolic Core ($349)** with recovery-emphasis copy
+5. default → **Viva Concierge ($99)** (includes performance-goal leads)
 
-Adjust in `src/pages/quiz.astro` → `match()` function. Each branch has its own bullets array, easy to retune.
+Adjust in `src/lib/quiz.ts` → `match()` function. Each branch has its own bullets array, easy to retune.
 
 ## What you might want next
 

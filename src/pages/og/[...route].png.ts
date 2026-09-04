@@ -82,7 +82,7 @@ export const { getStaticPaths, GET } = await OGImageRoute({
     // canvaskit has no text-transform, so we uppercase here.
     description: page.tagline.toUpperCase(),
     logo: {
-      path: './public/viva-logo-ink.png',
+      path: './public/viva-logo-powder-v2.png',
       size: [280, 60],
     },
     // Background: the light gouache Capitol art (public/og-bg.png), pre-washed
@@ -102,13 +102,12 @@ export const { getStaticPaths, GET } = await OGImageRoute({
       side: 'inline-start',
     },
     padding: 80,
-    // Brand display fonts loaded from Fontsource at build time. Fraunces
-    // italic carries the editorial voice; Geist Mono handles the tagline.
-    // Only loading italic Fraunces faces so the family always renders italic.
+    // Use the same self-hosted brand fonts as the site. Keeping OG generation
+    // local makes Cloudflare builds deterministic and avoids a third-party
+    // font download during every deployment.
     fonts: [
-      'https://api.fontsource.org/v1/fonts/fraunces/latin-600-italic.ttf',
-      'https://api.fontsource.org/v1/fonts/fraunces/latin-500-italic.ttf',
-      'https://api.fontsource.org/v1/fonts/geist-mono/latin-500-normal.ttf',
+      './public/fonts/fraunces-italic-latin.woff2',
+      './public/fonts/geistmono-normal-latin.woff2',
     ],
     font: {
       title: {

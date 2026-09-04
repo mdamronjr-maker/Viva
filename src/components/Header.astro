@@ -1,13 +1,16 @@
 ---
 const path = Astro.url.pathname;
 const isActive = (p: string) => path === p || (p !== '/' && path.startsWith(p));
+const logoSrc = path === '/'
+  ? '/viva-logo-white-keyline-light-v5.png'
+  : '/viva-logo-white-needle-dark-v4.png';
 ---
 
 <header class:list={["site-header", path === '/' && 'site-header--home']}>
   <div class="container site-header__inner">
     <a href="/" class="brand" aria-label="Viva Wellness Co. · home">
       <img
-        src="/viva-logo-ink.png"
+        src={logoSrc}
         alt="Viva Wellness Co."
         class="brand__logo"
         width="1200"
@@ -42,7 +45,7 @@ const isActive = (p: string) => path === p || (p !== '/' && path.startsWith(p));
     top: 0;
     z-index: 100;
     backdrop-filter: blur(18px) saturate(140%);
-    background: rgba(251, 250, 247, 0.86);
+    background: rgba(234, 244, 248, 0.9);
     border-bottom: 1px solid var(--rule);
   }
   .site-header--home {
@@ -52,9 +55,6 @@ const isActive = (p: string) => path === p || (p !== '/' && path.startsWith(p));
     color: #fff;
     background: rgba(184, 208, 222, 0.82);
     border-bottom-color: rgba(255, 255, 255, 0.42);
-  }
-  .site-header--home .brand__logo {
-    filter: brightness(0) invert(1);
   }
   .site-header--home .nav__link {
     color: #fff;
