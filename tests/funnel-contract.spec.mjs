@@ -48,6 +48,13 @@ test.describe('funnel contracts', () => {
     expect(res.status()).toBe(200);
   });
 
+  test('site uses the clean needle-free Viva favicon', async ({ page }) => {
+    await blockExternal(page);
+    await page.goto('/');
+    await expect(page.locator('link[rel="icon"]')).toHaveAttribute('href', '/favicon-viva-v3.svg');
+    await expect(page.locator('link[rel="apple-touch-icon"]')).toHaveAttribute('href', '/viva-icon-v3.png');
+  });
+
   test('home renders the #quiz section (public/_redirects 301s /quiz here)', async ({ page }) => {
     await blockExternal(page);
     await page.goto('/');

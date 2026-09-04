@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Viva Wellness Co.">
+  <rect x="1" y="1" width="62" height="62" rx="15" fill="#b8d0de"/>
+  <rect x="2" y="2" width="60" height="60" rx="14" fill="none" stroke="#2b251d" stroke-opacity=".16" stroke-width="2"/>
+  <path d="M11 11h10.5L32 49.5 42.5 11H53L39 55H25L11 11Z" fill="#2b251d"/>
+  <circle cx="50" cy="51" r="4.25" fill="#2b251d"/>
+</svg>
