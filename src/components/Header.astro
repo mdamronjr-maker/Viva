@@ -2,7 +2,7 @@
 const path = Astro.url.pathname;
 const isActive = (p: string) => path === p || (p !== '/' && path.startsWith(p));
 const logoSrc = path === '/'
-  ? '/viva-logo-white-needle-light-v4.png'
+  ? '/viva-logo-white-keyline-light-v5.png'
   : '/viva-logo-white-needle-dark-v4.png';
 ---
 
@@ -55,9 +55,6 @@ const logoSrc = path === '/'
     color: #fff;
     background: rgba(184, 208, 222, 0.82);
     border-bottom-color: rgba(255, 255, 255, 0.42);
-  }
-  .site-header--home .brand__logo {
-    filter: drop-shadow(0 2px 8px rgba(29, 72, 98, 0.22));
   }
   .site-header--home .nav__link {
     color: #fff;
