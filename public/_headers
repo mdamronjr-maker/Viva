@@ -21,6 +21,8 @@
 # Logos and hero images cached aggressively. Bust by renaming when updating.
 /viva-logo-paper.png
   Cache-Control: public, max-age=2592000
+/viva-logo-ink.png
+  Cache-Control: public, max-age=2592000
 /viva-logo-red.png
   Cache-Control: public, max-age=2592000
 /viva-logo-powder-v2.png
