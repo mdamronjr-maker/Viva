@@ -192,4 +192,9 @@ const done = Astro.url.searchParams.get('done') === '1';
     .unsub-body__inner { grid-template-columns: 1fr; }
     .unsub-form .btn { width: 100%; justify-content: center; }
   }
+  @media (max-width: 720px) {
+    .unsub-hero { padding: 3.75rem 0 2.75rem; }
+    .unsub-hero h1 { font-size: clamp(2.25rem, 10.5vw, 2.8rem); }
+    .unsub-form { padding: 1.35rem 1.25rem; }
+  }
 </style>

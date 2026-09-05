@@ -14,7 +14,7 @@ const primaryHref = onStart
 ---
 
 {!hide && (
-  <div class="msc" aria-label="Quick actions">
+  <div class="msc" aria-label="Quick actions" aria-hidden="true" inert>
     <a
       href={primaryHref}
       target={onStart ? '_blank' : undefined}
@@ -35,29 +35,38 @@ const primaryHref = onStart
     left: 0;
     right: 0;
     z-index: 80;
-    padding: 0.7rem var(--gutter) calc(0.7rem + env(safe-area-inset-bottom));
-    gap: 0.6rem;
-    background: rgba(246, 240, 228, 0.95);
+    padding: 0.45rem var(--gutter) calc(0.45rem + env(safe-area-inset-bottom));
+    gap: 0.5rem;
+    background: rgba(248, 246, 240, 0.96);
     backdrop-filter: blur(14px) saturate(140%);
     border-top: 1px solid var(--rule-strong);
+    box-shadow: 0 -10px 32px rgba(12, 51, 35, 0.09);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(calc(100% + env(safe-area-inset-bottom)));
+    transition:
+      opacity 220ms var(--ease),
+      transform 280ms var(--ease),
+      visibility 0s linear 280ms;
   }
   @media (max-width: 720px) {
     .msc { display: flex; }
-    /* Reserve space at page bottom so the CTA never covers final content.
-       Must match the bar's rendered height (~80px: 0.7rem top pad + ~55px
-       button row + 0.7rem bottom pad + 1px border) or the bar overlaps the
-       last sliver of footer content. The env() term mirrors the bar's own
-       bottom padding so the reserve tracks the safe-area inset too. */
-    /* Only reserve space when the bar is actually rendered (it's hidden on
-       /privacy and /terms) — otherwise those pages get an empty bottom band. */
-    :global(body:has(.msc)) { padding-bottom: calc(84px + env(safe-area-inset-bottom)); }
+    .msc.is-visible {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      transform: translateY(0);
+      transition-delay: 0s;
+    }
   }
   .msc__btn {
     flex: 1;
     text-align: center;
-    padding: 0.85rem 0.6rem;
+    min-height: 48px;
+    padding: 0.68rem 0.5rem;
     font-family: var(--font-body);
-    font-size: 0.88rem;
+    font-size: 0.86rem;
     letter-spacing: 0.01em;
     font-weight: 500;
     border: 1px solid currentColor;
@@ -77,6 +86,77 @@ const primaryHref = onStart
   .msc__btn--bronze:active { background: var(--bronze-deep); border-color: transparent; }
   .msc__btn--ghost:active { background: rgba(23, 75, 51, 0.08); }
 
-  /* Hide when mobile nav is open so it doesn't fight the menu */
-  :global(body.menu-open) .msc { display: none; }
+  /* Menu state is also enforced in JS so the hidden links leave the focus
+     order. This selector prevents a one-frame flash during menu animation. */
+  :global(body.menu-open) .msc {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(calc(100% + env(safe-area-inset-bottom)));
+  }
 </style>
+
+<script>
+  // The mobile bar is a continuation action, not part of the opening hero.
+  // It appears only after meaningful scroll, leaves the focus tree while
+  // hidden, and clears the footer and full-screen navigation.
+  function initMobileStickyCta() {
+    const previousCleanup = (window as any).__vivaStickyCtaCleanup;
+    if (typeof previousCleanup === 'function') previousCleanup();
+
+    const bar = document.querySelector('.msc') as HTMLElement | null;
+    if (!bar) return;
+
+    const media = window.matchMedia('(max-width: 720px)');
+    const footer = document.querySelector('.site-footer');
+    let footerNear = false;
+    let frame = 0;
+
+    const setVisible = (visible: boolean) => {
+      bar.classList.toggle('is-visible', visible);
+      bar.setAttribute('aria-hidden', visible ? 'false' : 'true');
+      if (visible) bar.removeAttribute('inert');
+      else bar.setAttribute('inert', '');
+    };
+
+    const update = () => {
+      frame = 0;
+      const threshold = Math.min(540, window.innerHeight * 0.65);
+      const visible = media.matches
+        && window.scrollY >= threshold
+        && !footerNear
+        && !document.body.classList.contains('menu-open');
+      setVisible(visible);
+    };
+
+    const scheduleUpdate = () => {
+      if (!frame) frame = window.requestAnimationFrame(update);
+    };
+
+    const footerObserver = footer
+      ? new IntersectionObserver(([entry]) => {
+          footerNear = entry.isIntersecting;
+          scheduleUpdate();
+        }, { rootMargin: '0px 0px 72px 0px' })
+      : null;
+    if (footer && footerObserver) footerObserver.observe(footer);
+
+    const bodyObserver = new MutationObserver(scheduleUpdate);
+    bodyObserver.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+    window.addEventListener('scroll', scheduleUpdate, { passive: true });
+    window.addEventListener('resize', scheduleUpdate, { passive: true });
+    media.addEventListener('change', scheduleUpdate);
+    update();
+
+    (window as any).__vivaStickyCtaCleanup = () => {
+      if (frame) window.cancelAnimationFrame(frame);
+      footerObserver?.disconnect();
+      bodyObserver.disconnect();
+      window.removeEventListener('scroll', scheduleUpdate);
+      window.removeEventListener('resize', scheduleUpdate);
+      media.removeEventListener('change', scheduleUpdate);
+    };
+  }
+
+  document.addEventListener('astro:page-load', initMobileStickyCta);
+</script>

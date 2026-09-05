@@ -205,6 +205,8 @@ const blogSchema = {
   .post-card__link:hover .post-card__arrow { transform: translateX(8px); }
 
   @media (max-width: 600px) {
+    .blog-hero { padding: 3.75rem 0 2.75rem; }
+    .blog-hero__title { margin: 0.75rem 0 1.15rem; font-size: clamp(2.25rem, 10.5vw, 2.8rem); }
     .post-card__link { grid-template-columns: 1fr; gap: 0.5rem; }
     .post-card__num { padding-top: 0; }
     .post-card__thumb { display: none; }

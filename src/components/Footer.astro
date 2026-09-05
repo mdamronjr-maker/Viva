@@ -118,6 +118,10 @@ const bookingHref = onStart
   @media (max-width: 700px) {
     .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
   }
+  @media (max-width: 380px) {
+    .footer-grid { grid-template-columns: 1fr; gap: 1.75rem; }
+    .footer-col--brand { grid-column: auto; }
+  }
   .footer-brand {
     display: inline-flex;
     align-items: center;
