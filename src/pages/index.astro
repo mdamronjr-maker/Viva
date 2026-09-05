@@ -860,9 +860,9 @@ const testimonials = [
   @media (max-width: 700px) {
     .hero__inner {
       grid-template-columns: 1fr;
-      gap: 2rem;
-      padding-top: 6.25rem;
-      padding-bottom: 3rem;
+      gap: 1.6rem;
+      padding-top: 5.4rem;
+      padding-bottom: 2.5rem;
     }
     .hero__media { width: min(100%, 31rem); justify-self: center; border-radius: 1rem 1rem 4.5rem 1rem; }
     .hero__copy { width: 100%; gap: 1.15rem; }
@@ -918,7 +918,7 @@ const testimonials = [
     .feature:nth-child(n + 3) { border-top: 1px solid rgba(255, 253, 248, 0.72); padding-top: 2rem; margin-top: 2rem; }
   }
   @media (max-width: 520px) {
-    .feature { min-height: 0; padding: 1.5rem 0; }
+    .feature { min-height: 0; padding: 1.2rem 0; }
     .feature + .feature,
     .feature:nth-child(n + 3) { border-left: 0; border-top: 1px solid rgba(255, 253, 248, 0.72); margin-top: 0; }
   }
@@ -1449,6 +1449,24 @@ const testimonials = [
   }
   .t-dot:hover { background-color: var(--mute); }
   .t-dot.is-active { background-color: var(--bronze); width: 56px; }
+  @media (max-width: 600px) {
+    .t-rotator__controls {
+      display: grid;
+      grid-template-columns: 48px 1fr 48px;
+      grid-template-areas:
+        "dots dots dots"
+        "prev play next";
+      gap: 0.75rem;
+    }
+    .t-rotator__nav--prev { grid-area: prev; }
+    .t-rotator__dots { grid-area: dots; justify-content: center; gap: 0.35rem; }
+    .t-rotator__nav--next { grid-area: next; justify-self: end; }
+    .t-rotator__playpause { grid-area: play; justify-self: center; }
+    .t-dot {
+      height: 44px;
+      padding: 20px 0;
+    }
+  }
   .testimonials__foot { margin-top: 2.5rem; text-align: center; }
 
   /* ============ FAQ ============

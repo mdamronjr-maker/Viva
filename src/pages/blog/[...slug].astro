@@ -650,4 +650,18 @@ const formattedUpdate = hasUpdate
   }
   .post-foot .btn:not(.btn--bronze) { color: var(--cream-bright); border-color: var(--cream-bright); }
   .post-foot .btn:not(.btn--bronze):hover { color: var(--evergreen-deep); background: var(--cream-bright); }
+  @media (max-width: 720px) {
+    .post-banner { border-radius: 0; aspect-ratio: 16 / 8.5; }
+    .post-hero { padding: 2.5rem 0 2.25rem; }
+    .post-hero--withbanner { padding-top: 1.75rem; }
+    .post-back { margin-bottom: 1.25rem; }
+    .post-title { font-size: clamp(2.1rem, 10vw, 2.65rem); margin: 0.75rem 0 1.15rem; }
+    .post-lede { font-size: 1.08rem; margin-bottom: 1.5rem; }
+    .post-body h2 { margin-top: 2.4rem; }
+    .post-related,
+    .post-author { padding: 2.5rem 0; }
+    .post-foot { padding: 3.75rem 0; }
+    .post-foot__ctas { display: grid; grid-template-columns: 1fr; }
+    .post-foot__ctas .btn { width: 100%; justify-content: center; }
+  }
 </style>

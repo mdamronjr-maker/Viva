@@ -410,4 +410,14 @@ const standards = [
   .about-cta__ctas { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
   .about-cta .btn:not(.btn--bronze) { color: var(--cream-bright); border-color: var(--cream-bright); }
   .about-cta .btn:not(.btn--bronze):hover { background: var(--cream-bright); color: var(--evergreen-deep); }
+  @media (max-width: 720px) {
+    .about-hero { padding: 3.75rem 0 3rem; }
+    .about-hero__inner { gap: 1.4rem; }
+    .about-hero__title { font-size: clamp(2.25rem, 10.5vw, 2.8rem); }
+    .standard { padding: 1.5rem 0; }
+    .state { padding: 1.5rem 1.2rem; }
+    .about-cta { padding: 4rem 0; }
+    .about-cta__ctas { display: grid; grid-template-columns: 1fr; }
+    .about-cta__ctas .btn { width: 100%; justify-content: center; }
+  }
 </style>

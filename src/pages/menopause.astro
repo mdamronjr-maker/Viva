@@ -550,4 +550,22 @@ const faqSchema = {
     justify-content: center;
     margin-top: 0.8rem;
   }
+  @media (max-width: 720px) {
+    .meno-hero { padding: 3.75rem 0 2.75rem; }
+    .meno-hero__inner { gap: 1.25rem; }
+    .meno-hero__title { font-size: clamp(2.25rem, 10.5vw, 2.8rem); }
+    .meno-hero__ctas,
+    .meno-cta__ctas { display: grid; grid-template-columns: 1fr; width: 100%; }
+    .meno-hero__ctas .btn,
+    .meno-cta__ctas .btn { width: 100%; justify-content: center; }
+    .meno-symptoms,
+    .meno-steps,
+    .meno-tiers,
+    .meno-sources,
+    .meno-faq { padding: 2.75rem 0; }
+    .meno-cell { padding: 1.1rem; }
+    .meno-step { grid-template-columns: 44px 1fr; gap: 0.8rem; padding: 1.15rem 0; }
+    .meno-tier { padding: 1.25rem; }
+    .meno-cta { padding: 4rem 0; }
+  }
 </style>

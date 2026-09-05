@@ -560,4 +560,18 @@ const ninetyDays = [
     line-height: 1.55;
     margin-top: 1.5rem;
   }
+  @media (max-width: 720px) {
+    .start-hero { padding: 3.75rem 0 2.25rem; }
+    .start-hero__title { font-size: clamp(2.25rem, 10.5vw, 2.8rem); margin: 0.75rem 0 1.15rem; }
+    .start-hero__ctas,
+    .start-cta__ctas { display: grid; grid-template-columns: 1fr; width: 100%; }
+    .start-hero__ctas .btn,
+    .start-cta__ctas .btn { width: 100%; justify-content: center; }
+    .start-headline__grid li { padding: 1.25rem; }
+    .start-step { grid-template-columns: 44px 1fr; gap: 0.8rem; padding: 1.2rem 0; }
+    .start-card { padding: 1.35rem 1.25rem; }
+    .ninety { padding: 2.75rem 0; }
+    .ninety__phase { padding: 1.25rem; }
+    .start-cta { padding: 3.75rem 0; }
+  }
 </style>

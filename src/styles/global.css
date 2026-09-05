@@ -314,7 +314,16 @@ main:focus { outline: none; }
 
 /* Responsive */
 @media (max-width: 720px) {
+  :root {
+    /* Mobile rhythm is intentionally denser than desktop: long care pages
+       stay scannable without sacrificing a comfortable reading measure. */
+    --gutter: clamp(1.125rem, 5vw, 1.25rem);
+    --section-pad: clamp(3rem, 12vw, 3.75rem);
+    --section-pad-lg: clamp(3.75rem, 15vw, 4.5rem);
+    --head-gap: clamp(2rem, 8vw, 2.5rem);
+  }
   body { font-size: 16px; }
+  .lead { line-height: 1.58; }
 }
 
 /* ============================================
