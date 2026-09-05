@@ -45,6 +45,14 @@
   Cache-Control: public, max-age=31536000, immutable
 /viva-icon-v3.png
   Cache-Control: public, max-age=31536000, immutable
+/favicon-viva-garden-v1.svg
+  Cache-Control: public, max-age=31536000, immutable
+/viva-icon-garden-v1.png
+  Cache-Control: public, max-age=31536000, immutable
+/liliana-founder-portrait.webp
+  Cache-Control: public, max-age=31536000, immutable
+/liliana-founder-portrait-sm.webp
+  Cache-Control: public, max-age=31536000, immutable
 /viva-runner-hero-v2.webp
   Cache-Control: public, max-age=2592000
 /viva-runner-hero-v2-sm.webp

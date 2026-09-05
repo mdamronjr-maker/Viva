@@ -65,6 +65,7 @@ const PICON = {
   person: '<path d="M20 21a8 8 0 0 0-16 0"/><circle cx="12" cy="7" r="4"/>',
   video: '<path d="m16 13 5 3V8l-5 3"/><rect width="13" height="14" x="3" y="5" rx="2"/>',
   flask: '<path d="M9 3h6"/><path d="M10 9V3h4v6l5 9a2 2 0 0 1-1.74 3H6.74A2 2 0 0 1 5 18z"/><path d="M7 15h10"/>',
+  clipboard: '<rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4.5V3h6v1.5"/><path d="m8.5 10 1.3 1.3 2.2-2.5"/><path d="M13.5 10h2.5"/><path d="m8.5 15 1.3 1.3 2.2-2.5"/><path d="M13.5 15h2.5"/>',
   package: '<path d="m16.5 9.4-9-5.19"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.3 7 12 12l8.7-5"/><path d="M12 22V12"/>',
 };
 const programs = [
@@ -115,54 +116,44 @@ const testimonials = [
   schema={faqSchema}
 >
 
-  {/* ============ HERO · owner-approved photographic concept ============ */}
+  {/* ============ HERO · full-bleed founder portrait ============ */}
   <section class="hero">
     <picture class="hero__media" aria-hidden="true">
-      <source media="(max-width: 700px)" srcset="/viva-runner-hero-v2-mobile.webp" />
-      <source media="(max-width: 1100px)" srcset="/viva-runner-hero-v2-sm.webp" />
+      <source media="(max-width: 700px)" srcset="/liliana-founder-portrait-sm.webp" />
       <img
-        src="/viva-runner-hero-v2.webp"
-        width="3840"
-        height="2556"
+        src="/liliana-founder-hero-v2.webp"
+        srcset="/liliana-founder-hero-v2-sm.webp 960w, /liliana-founder-hero-v2.webp 1672w"
+        sizes="100vw"
+        width="1672"
+        height="941"
         alt=""
         fetchpriority="high"
       />
     </picture>
-    <div class="hero__wash" aria-hidden="true"></div>
+
     <div class="container hero__inner">
       <div class="hero__copy">
-      <div class="hero__eyebrows">
-        <span class="eyebrow">Concierge telehealth · TX · CO · FL · IA</span>
-      </div>
-
-      <h1 class="hero__title">
-        <span class="hero__title-line">You bring the goals.</span>
-        <span class="hero__title-line italic-display">We'll bring the Protocol.</span>
-      </h1>
-
-      <div class="hero__foot">
-        <p class="hero__lead">
-          I'm Liliana Damron, a board-certified nurse practitioner. When sleep,
-          energy, weight, or hormones start getting in the way, I look at the
-          whole picture, run the right labs, and build care around work, family,
-          and everything in between. We meet by secure video, from Austin.
-        </p>
-        <div class="hero__ctas">
-          <a href="/start?utm_source=vivawellnessco&utm_medium=cta&utm_content=home_hero" class="btn btn--bronze">Book a visit</a>
-          <a href="#quiz" class="btn hero__btn-quiet">Find your starting point</a>
+        <div class="hero__eyebrows">
+          <span class="eyebrow">Concierge telehealth · TX · CO · FL · IA</span>
+          <span class="hero__eyebrow-secondary">100% concierge care</span>
         </div>
-        <ul class="hero__utility" role="list" aria-label="How Viva fits your schedule">
-          <li>45-minute first visit</li>
-          <li>Labs near you</li>
-          <li>Home delivery available</li>
-          <li>Direct access to Liliana</li>
-        </ul>
-        <p class="hero__proof">5.0 on Google · 86 verified reviews</p>
-      </div>
 
-      <div class="hero__index">
-        <span class="eyebrow">Founded by Liliana Damron, APRN, FNP-BC</span>
-      </div>
+        <h1 class="hero__title">
+          <span class="hero__title-line">You bring the goals.</span>
+          <span class="hero__title-line italic-display">I'll build the protocol.</span>
+        </h1>
+
+        <div class="hero__foot">
+          <p class="hero__lead">
+            I'm Liliana Damron, a nurse practitioner who would rather catch the
+            trouble early than treat it late. Tell me where you want to go, and
+            I'll run the labs, build the protocol, and adjust as you go.
+          </p>
+          <div class="hero__ctas">
+            <a href="/start?utm_source=vivawellnessco&utm_medium=cta&utm_content=home_hero" class="btn btn--bronze">Book a visit</a>
+            <a href="#quiz" class="btn hero__btn-quiet">Find your protocol</a>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -172,28 +163,59 @@ const testimonials = [
     <ul class="features__grid container" role="list">
       <li class="feature">
         <svg class="feature__ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={PICON.person} />
-        <span class="feature__name">Liliana, every visit</span>
-        <p class="feature__body">Liliana leads every visit, reads your chart, and approves your care herself.</p>
-      </li>
-      <li class="feature">
-        <svg class="feature__ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={PICON.video} />
-        <span class="feature__name">Care by video</span>
-        <p class="feature__body">Meet securely from home or work, with no commute or waiting room.</p>
+        <span class="feature__name">Concierge care</span>
+        <p class="feature__body">Direct access to your provider and personalized support every step of the way.</p>
       </li>
       <li class="feature">
         <svg class="feature__ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={PICON.flask} />
-        <span class="feature__name">Labs near you</span>
-        <p class="feature__body">Run the right labs locally, then review them with the provider managing your care.</p>
+        <span class="feature__name">Data driven</span>
+        <p class="feature__body">We run the right labs and use real data to guide your plan.</p>
+      </li>
+      <li class="feature">
+        <svg class="feature__ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={PICON.clipboard} />
+        <span class="feature__name">Personalized protocols</span>
+        <p class="feature__body">Every plan is built around your goals, your body, and your lifestyle.</p>
       </li>
       <li class="feature">
         <svg class="feature__ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={PICON.package} />
-        <span class="feature__name">Home delivery</span>
-        <p class="feature__body">Eligible medications and supplies ship discreetly to your door.</p>
+        <span class="feature__name">Doorstep delivery</span>
+        <p class="feature__body">Eligible medications and supplies ship discreetly and conveniently to you.</p>
       </li>
     </ul>
   </section>
 
-  <aside class="trust" aria-label="Practice credentials"><ul class="trust__grid container" role="list"><li class="trust__cell"><p class="trust__label">Board-certified nurse practitioner</p></li><li class="trust__cell"><p class="trust__label">Licensed in TX, CO, FL, IA</p></li><li class="trust__cell"><p class="trust__label">Meds from FDA-regulated 503A pharmacies, third-party tested</p></li><li class="trust__cell"><p class="trust__label">Provider-led, never algorithm-dispensed</p></li></ul></aside>
+  {/* ============ WHOLE-PERSON WELLNESS · editorial image break ============ */}
+  <section class="wellness-story" aria-labelledby="wellness-story-title">
+    <div class="container wellness-story__inner">
+      <figure class="wellness-story__media">
+        <picture>
+          <source media="(max-width: 800px)" srcset="/viva-pool-sm.webp" />
+          <img
+            src="/viva-pool.webp"
+            width="1448"
+            height="1086"
+            alt="A woman resting at the edge of a rooftop pool with the Austin skyline beyond"
+            loading="lazy"
+            decoding="async"
+          />
+        </picture>
+        <figcaption class="caption">Whole-person wellness · Austin</figcaption>
+      </figure>
+
+      <div class="wellness-story__copy">
+        <span class="eyebrow">Whole-person wellness</span>
+        <h2 id="wellness-story-title" class="wellness-story__title">
+          Optimize your health.<br />Elevate your life.
+        </h2>
+        <p class="wellness-story__lead">
+          From hormones and metabolism to performance and longevity, your plan
+          is built to help you look, feel, and perform at your best—without
+          making your life harder to manage.
+        </p>
+        <a href="/services" class="btn">Explore services</a>
+      </div>
+    </div>
+  </section>
 
   {/* ============ AUDIENCE RECOGNITION · start with the life, not the treatment ============ */}
   <section class="audience" aria-labelledby="audience-title">
@@ -241,39 +263,7 @@ const testimonials = [
     </div>
   </section>
 
-  {/* ============ WHOLE-PERSON WELLNESS · editorial image break ============ */}
-  <section class="wellness-story" aria-labelledby="wellness-story-title">
-    <div class="container wellness-story__inner">
-      <figure class="wellness-story__media">
-        <picture>
-          <source media="(max-width: 800px)" srcset="/viva-pool-sm.webp" />
-          <img
-            src="/viva-pool.webp"
-            width="1448"
-            height="1086"
-            alt="A woman resting at the edge of a rooftop pool with the Austin skyline beyond"
-            loading="lazy"
-            decoding="async"
-          />
-        </picture>
-        <figcaption class="caption">Whole-person wellness · Austin</figcaption>
-      </figure>
-
-      <div class="wellness-story__copy">
-        <span class="eyebrow">Built around real life</span>
-        <h2 id="wellness-story-title" class="wellness-story__title">
-          One plan.<br />Fewer pieces to manage.
-        </h2>
-        <p class="wellness-story__lead">
-          Visits happen by secure video. Labs are drawn near you. Eligible
-          medication and supplies arrive at your door. You can message me
-          between visits, so care keeps moving without another half-day away
-          from work or family.
-        </p>
-        <a href="/start" class="btn">See how the first visit works</a>
-      </div>
-    </div>
-  </section>
+  <aside class="trust" aria-label="Practice credentials"><ul class="trust__grid container" role="list"><li class="trust__cell"><p class="trust__label">Board-certified nurse practitioner</p></li><li class="trust__cell"><p class="trust__label">Licensed in TX, CO, FL, IA</p></li><li class="trust__cell"><p class="trust__label">Meds from FDA-regulated 503A pharmacies, third-party tested</p></li><li class="trust__cell"><p class="trust__label">Provider-led, never algorithm-dispensed</p></li></ul></aside>
 
   {/* ============ PROVIDER BAND · trust before the visitor chooses a path ============ */}
   <section class="provider-band section--paper">
@@ -579,19 +569,17 @@ const testimonials = [
   {/* ============ CTA ============ */}
   <section class="cta">
     <div class="container cta__inner">
-      <span class="eyebrow">Begin</span>
-      <h2 class="cta__title">
-        Your first telehealth visit<br/>
-        is the only step you have to plan.
-      </h2>
-      <p class="lead">
-        I'll handle labs, the protocol, the medication, the shipping, and the
-        follow-ups. Direct provider access by message. Routine check-ins built
-        in. One plan. Nothing left to piece together.
-      </p>
+      <div class="cta__seal" aria-hidden="true">
+        <span>Viva Wellness Co.</span>
+        <strong>VW</strong>
+        <small>Austin, Texas</small>
+      </div>
+      <div class="cta__copy">
+        <h2 class="cta__title">Health is personal.<br />Your care should be, too.</h2>
+        <p class="lead">One named provider, one clear plan, and follow-up that fits real life.</p>
+      </div>
       <div class="cta__ctas">
-        <a href="/start?utm_source=vivawellnessco&utm_medium=cta&utm_content=home_cta" class="btn btn--bronze">Book your first visit</a>
-        <a href="/contact" class="btn">Ask a question</a>
+        <a href="/start?utm_source=vivawellnessco&utm_medium=cta&utm_content=home_cta" class="btn btn--bronze">Book a consult</a>
       </div>
     </div>
   </section>
@@ -891,8 +879,8 @@ const testimonials = [
   /* ============ TRUST STRIP · styles were lost in the p3 hero-style rework; restored ============ */
   .trust {
     padding: 1.2rem 0;
-    border-bottom: 1px solid var(--rule);
-    background: var(--ink);
+    border-bottom: 1px solid rgba(255, 250, 241, 0.16);
+    background: var(--evergreen-deep);
   }
   .trust__grid {
     display: grid;
@@ -906,205 +894,214 @@ const testimonials = [
     font-size: 0.75rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--mute);
+    color: rgba(255, 250, 241, 0.72);
     line-height: 1.5;
     margin: 0;
   }
 
-  /* ============ HERO · full photographic field ============ */
+  /* ============ HERO · full-bleed founder portrait ============ */
   .hero {
     position: relative;
-    display: flex;
-    min-height: min(47rem, 100svh);
-    align-items: stretch;
+    min-height: clamp(43rem, 72vw, 50rem);
     overflow: hidden;
     isolation: isolate;
-    background: var(--sky);
-    border-bottom: 1px solid var(--rule);
-    padding: clamp(7.5rem, 12vw, 9rem) 0 clamp(3.5rem, 7vw, 5.5rem);
+    background: var(--evergreen-deep);
+    color: var(--cream-bright);
   }
-  .hero__media,
-  .hero__media img,
-  .hero__wash {
+  .hero::after {
+    content: '';
     position: absolute;
     inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      linear-gradient(90deg, rgba(8, 39, 25, 0.94) 0%, rgba(8, 39, 25, 0.84) 34%, rgba(8, 39, 25, 0.38) 61%, rgba(8, 39, 25, 0.06) 84%),
+      linear-gradient(180deg, rgba(8, 39, 25, 0.2) 0%, transparent 24%, rgba(8, 39, 25, 0.18) 100%);
+  }
+  .hero__media {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+  }
+  .hero__media,
+  .hero__media img {
     width: 100%;
     height: 100%;
   }
   .hero__media img {
     object-fit: cover;
     object-position: center center;
-    filter: saturate(0.84) brightness(1.04) contrast(0.94);
-  }
-  .hero__wash {
-    z-index: 1;
-    background:
-      linear-gradient(
-        90deg,
-        rgba(184, 208, 222, 0.9) 0%,
-        rgba(184, 208, 222, 0.78) 34%,
-        rgba(184, 208, 222, 0.48) 54%,
-        rgba(184, 208, 222, 0.12) 72%,
-        rgba(184, 208, 222, 0) 88%
-      ),
-      linear-gradient(180deg, rgba(184, 208, 222, 0.16), rgba(184, 208, 222, 0.04));
   }
   .hero__inner {
-    position: relative;
-    z-index: 2;
     display: flex;
     align-items: center;
+    min-height: inherit;
+    padding-top: clamp(6.8rem, 11vw, 8.5rem);
+    padding-bottom: clamp(3rem, 6vw, 5.25rem);
   }
   .hero__copy {
     display: flex;
-    width: min(68%, 54rem);
     flex-direction: column;
-    gap: 1.6rem;
+    gap: clamp(1.45rem, 2.5vw, 2rem);
+    width: min(54%, 46rem);
   }
-  .hero__eyebrows { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; flex-wrap: wrap; }
-  .hero .eyebrow { color: var(--butter); }
+  .hero__eyebrows {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.05rem;
+  }
+  .hero .eyebrow,
+  .hero__eyebrow-secondary {
+    font-family: var(--font-mono);
+    font-size: clamp(0.72rem, 1vw, 0.82rem);
+    font-weight: 600;
+    line-height: 1.35;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  .hero .eyebrow { color: var(--ochre); }
+  .hero__eyebrow-secondary { color: var(--cream-bright); }
   .hero__title {
-    font-size: clamp(3rem, 4vw, 4.1rem);
-    font-weight: 470;
-    line-height: 1.02;
-    letter-spacing: -0.025em;
     max-width: none;
-    color: #fff;
+    margin: 0;
+    color: var(--cream-bright);
+    font-size: clamp(3.25rem, 5.35vw, 5.25rem);
+    font-weight: 470;
+    line-height: 0.98;
+    letter-spacing: -0.04em;
+    text-shadow: none;
   }
   .hero__title-line { display: block; white-space: nowrap; }
-  .hero__title .italic-display { color: var(--butter); font-weight: 430; }
-  .hero__foot { display: flex; flex-direction: column; gap: 1.3rem; }
-  .hero__lead {
-    font-size: clamp(1.05rem, 1.5vw, 1.25rem);
-    line-height: 1.6;
-    color: #fff;
-    max-width: 54ch;
+  .hero__title .italic-display {
+    margin-top: 0.14em;
+    color: var(--ochre);
+    font-weight: 410;
   }
-  .hero__ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .hero__foot {
+    display: flex;
+    flex-direction: column;
+    gap: 1.55rem;
+  }
+  .hero__lead {
+    max-width: 41ch;
+    margin: 0;
+    color: rgba(255, 253, 248, 0.94);
+    font-size: clamp(1rem, 1.35vw, 1.16rem);
+    line-height: 1.58;
+  }
+  .hero__ctas { display: flex; gap: 0.9rem; flex-wrap: wrap; }
+  .hero__ctas .btn {
+    min-width: 11.8rem;
+    justify-content: center;
+    padding: 0.86rem 1.65rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+  }
   .hero__btn-quiet {
-    color: #fff;
-    border-color: rgba(255, 255, 255, 0.9);
+    color: var(--cream-bright);
+    border-color: var(--cream-bright);
     background: transparent;
   }
-  .hero__btn-quiet:hover { color: var(--paper); background: #fff; border-color: #fff; }
-  .hero__utility {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.55rem 1.1rem;
-    margin: 0;
-    padding: 0;
+  .hero__btn-quiet:hover {
+    color: var(--evergreen-deep);
+    background: var(--cream-bright);
+    border-color: var(--cream-bright);
   }
-  .hero__utility li {
-    position: relative;
-    padding-left: 0.9rem;
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.9);
-  }
-  .hero__utility li::before {
-    content: '';
-    position: absolute;
-    top: 0.52em;
-    left: 0;
-    width: 4px;
-    height: 4px;
-    border-radius: 50%;
-    background: var(--butter);
-  }
-  .hero__proof {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.78);
-    margin: 0.2rem 0 0;
-  }
-  .hero__index { margin-top: 0.6rem; color: rgba(255, 255, 255, 0.9); }
-  .hero__index::before { color: var(--butter); }
 
-  @media (max-width: 900px) {
+  @media (max-width: 980px) {
+    .hero::after {
+      background:
+        linear-gradient(90deg, rgba(8, 39, 25, 0.92) 0%, rgba(8, 39, 25, 0.75) 48%, rgba(8, 39, 25, 0.22) 100%),
+        linear-gradient(180deg, rgba(8, 39, 25, 0.18), rgba(8, 39, 25, 0.38));
+    }
+    .hero__copy { width: min(62%, 38rem); }
+    .hero__title { font-size: clamp(2.8rem, 6.6vw, 4.1rem); }
+  }
+  @media (max-width: 700px) {
     .hero {
-      min-height: 59rem;
-      align-items: flex-end;
-      padding: 0 0 3.5rem;
+      min-height: 52rem;
+      background: var(--evergreen-deep);
     }
-    .hero__media {
-      bottom: auto;
-      height: 59%;
+    .hero::after {
+      background:
+        linear-gradient(180deg, rgba(8, 39, 25, 0.08) 0%, rgba(8, 39, 25, 0.18) 34%, rgba(8, 39, 25, 0.96) 61%, var(--evergreen-deep) 100%),
+        linear-gradient(90deg, rgba(8, 39, 25, 0.3), rgba(8, 39, 25, 0.04));
     }
-    .hero__media img { object-position: center top; }
-    .hero__wash {
-      background: linear-gradient(
-        180deg,
-        rgba(184, 208, 222, 0.02) 0%,
-        rgba(184, 208, 222, 0.08) 34%,
-        rgba(184, 208, 222, 0.82) 51%,
-        rgba(184, 208, 222, 0.98) 63%,
-        var(--sky) 100%
-      );
-    }
+    .hero__media { height: 65%; }
+    .hero__media img { object-position: center 38%; }
     .hero__inner {
-      min-height: 59rem;
       align-items: flex-end;
-      padding-top: 27rem;
+      padding-top: 22rem;
+      padding-bottom: 2.5rem;
     }
-    .hero__copy { width: 100%; }
-    .hero__title { font-size: clamp(2.75rem, 7vw, 3.75rem); }
+    .hero__copy { width: 100%; gap: 1.15rem; }
+    .hero__eyebrows { gap: 0.7rem; }
+    .hero .eyebrow,
+    .hero__eyebrow-secondary { font-size: 0.66rem; letter-spacing: 0.13em; }
+    .hero__title { font-size: clamp(2.05rem, 8.65vw, 2.55rem); }
+    .hero__lead { max-width: 37ch; font-size: 0.98rem; line-height: 1.5; }
+    .hero__ctas { display: grid; grid-template-columns: 1fr 1fr; }
+    .hero__ctas .btn { min-width: 0; padding-inline: 0.8rem; }
   }
-  @media (max-width: 520px) {
-    .hero__title { font-size: clamp(1.65rem, 8.3vw, 2.75rem); }
-    .hero__lead { font-size: 1rem; line-height: 1.52; }
-    .hero__ctas { display: grid; grid-template-columns: 1fr; }
-    .hero__ctas .btn { width: 100%; }
-    .hero__utility { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.6rem 0.8rem; }
-    .hero__utility li { font-size: 0.75rem; line-height: 1.45; }
-  }
-  @media (min-width: 901px) and (max-height: 700px) {
-    .hero {
-      min-height: 100svh;
-      padding-top: 5.75rem;
-      padding-bottom: 2rem;
-    }
-    .hero__copy { gap: 1rem; }
-    .hero__title { font-size: clamp(3rem, 3.4vw, 3.65rem); }
-    .hero__foot { gap: 0.8rem; }
-    .hero__lead { font-size: 1rem; line-height: 1.48; max-width: 60ch; }
-    .hero__index { margin-top: 0; }
+  @media (max-width: 430px) {
+    .hero { min-height: 50rem; }
+    .hero__inner { padding-top: 20rem; }
+    .hero__title { font-size: clamp(1.95rem, 8.3vw, 2.25rem); }
+    .hero__ctas { grid-template-columns: 1fr; }
   }
 
   /* ============ FEATURE BAND · butter, static ============ */
   .features {
-    background: var(--butter);
-    border-top: 1px solid var(--rule);
-    border-bottom: 1px solid var(--rule);
-    padding: clamp(2rem, 4vw, 3rem) 0;
+    background: var(--ochre);
+    border: 0;
+    padding: clamp(2.35rem, 4vw, 3.25rem) 0;
   }
   .features__grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: clamp(1.2rem, 3vw, 2.5rem);
+    gap: 0;
   }
   @media (max-width: 900px) { .features__grid { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 520px) { .features__grid { grid-template-columns: 1fr; } }
-  .feature { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.55rem; }
-  .feature__ico { width: 30px; height: 30px; color: var(--bronze); opacity: 0.9; }
+  .feature {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 10.5rem;
+    padding: 0 clamp(1.15rem, 3vw, 2.5rem);
+    text-align: center;
+    gap: 0.55rem;
+  }
+  .feature + .feature { border-left: 1px solid rgba(255, 253, 248, 0.72); }
+  .feature__ico { width: 44px; height: 44px; color: var(--evergreen-deep); opacity: 1; }
   .feature__name {
     font-family: var(--font-mono);
     font-size: 0.78rem;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: var(--bronze);
+    color: var(--evergreen-deep);
     font-weight: 600;
   }
-  .feature__body { font-size: 0.95rem; line-height: 1.5; color: rgba(46, 52, 56, 0.8); max-width: 28ch; margin: 0; }
+  .feature__body { font-size: 0.93rem; line-height: 1.5; color: rgba(20, 37, 27, 0.86); max-width: 27ch; margin: 0; }
+
+  @media (max-width: 900px) {
+    .feature:nth-child(3) { border-left: 0; }
+    .feature:nth-child(n + 3) { border-top: 1px solid rgba(255, 253, 248, 0.72); padding-top: 2rem; margin-top: 2rem; }
+  }
+  @media (max-width: 520px) {
+    .feature { min-height: 0; padding: 1.5rem 0; }
+    .feature + .feature,
+    .feature:nth-child(n + 3) { border-left: 0; border-top: 1px solid rgba(255, 253, 248, 0.72); margin-top: 0; }
+  }
 
   /* ============ AUDIENCE RECOGNITION ============ */
   .audience {
     padding: var(--section-pad) 0;
-    background: var(--ink-2);
+    background: var(--cream-bright);
     border-bottom: 1px solid var(--rule);
   }
   .audience__inner {
@@ -1139,15 +1136,21 @@ const testimonials = [
     align-items: flex-start;
     gap: 1rem;
     padding: clamp(1.6rem, 3vw, 2.25rem);
-    background: var(--ink);
+    background: var(--cream);
     border: 1px solid var(--rule-strong);
-    border-radius: var(--radius);
+    border-top: 5px solid var(--terracotta);
+    border-radius: 1.2rem;
     transition: transform 220ms var(--ease), border-color 220ms var(--ease), background 220ms var(--ease);
   }
   .audience-card:hover {
     transform: translateY(-3px);
-    border-color: var(--butter-deep);
-    background: rgba(255, 255, 255, 0.72);
+    border-color: var(--terracotta);
+    background: var(--cream-bright);
+  }
+  .audience-card:nth-child(2),
+  .audience-card:nth-child(3) {
+    background: var(--sage);
+    border-top-color: var(--evergreen);
   }
   .audience-card h3 {
     max-width: 19ch;
@@ -1158,7 +1161,7 @@ const testimonials = [
   .audience-card p {
     max-width: 50ch;
     margin: 0;
-    color: rgba(46, 52, 56, 0.78);
+    color: rgba(28, 35, 27, 0.78);
     font-size: 1rem;
     line-height: 1.6;
   }
@@ -1178,13 +1181,13 @@ const testimonials = [
     gap: 1rem 2rem;
     align-items: center;
     padding: clamp(1.4rem, 3vw, 2rem);
-    background: var(--sky);
-    border: 1px solid rgba(184, 208, 222, 0.8);
-    border-radius: var(--radius);
-    color: var(--paper);
+    background: var(--terracotta);
+    border: 1px solid var(--bronze-deep);
+    border-radius: 1.2rem;
+    color: var(--cream-bright);
     transition: background 220ms var(--ease), transform 220ms var(--ease);
   }
-  .audience__article:hover { background: var(--sky-deep); transform: translateY(-2px); }
+  .audience__article:hover { background: var(--bronze-deep); transform: translateY(-2px); }
   .audience__article > span:first-child,
   .audience__article > span:last-child {
     font-family: var(--font-mono);
@@ -1209,8 +1212,8 @@ const testimonials = [
 
   /* ============ WHOLE-PERSON WELLNESS ============ */
   .wellness-story {
-    padding: var(--section-pad) 0;
-    background: var(--ink);
+    padding: clamp(3.75rem, 7.5vw, 6.25rem) 0;
+    background: var(--ink-2);
     border-bottom: 1px solid var(--rule);
   }
   .wellness-story__inner {
@@ -1229,13 +1232,14 @@ const testimonials = [
     display: block;
     aspect-ratio: 4 / 3;
     overflow: hidden;
-    border: 1px solid var(--rule-strong);
-    border-radius: var(--radius) var(--radius) 6rem var(--radius);
+    border: 0;
+    border-radius: 0.85rem;
   }
   .wellness-story__media img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    filter: saturate(0.82) contrast(0.98);
   }
   .wellness-story__copy {
     display: flex;
@@ -1253,23 +1257,28 @@ const testimonials = [
   .wellness-story__lead {
     max-width: 38rem;
     margin: 0;
-    color: rgba(46, 52, 56, 0.8);
+    color: rgba(28, 35, 27, 0.8);
     font-size: 1.08rem;
     line-height: 1.65;
   }
   .wellness-story__copy .btn {
-    color: var(--paper);
-    background: var(--sky);
+    color: var(--cream-bright);
+    background: var(--evergreen);
     border-color: transparent;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
   }
-  .wellness-story__copy .btn:hover { color: var(--paper); background: var(--butter); border-color: transparent; }
+  .wellness-story__copy .btn:hover { color: var(--cream-bright); background: var(--evergreen-deep); border-color: transparent; }
   @media (max-width: 900px) {
     .wellness-story__inner { grid-template-columns: 1fr; gap: 3rem; }
     .wellness-story__media { width: calc(100% - 1rem); }
   }
   @media (max-width: 520px) {
     .wellness-story__media picture {
-      border-radius: var(--radius) var(--radius) 4rem var(--radius);
+      border-radius: var(--radius-sm);
     }
   }
 
@@ -1310,7 +1319,7 @@ const testimonials = [
     max-width: 20ch;
     font-variation-settings: 'opsz' 96;
   }
-  .qx__lede { color: rgba(46, 52, 56, 0.78); font-size: 1.1rem; line-height: 1.55; max-width: 52ch; margin: -1.5rem 0 2rem; }
+  .qx__lede { color: rgba(28, 35, 27, 0.78); font-size: 1.1rem; line-height: 1.55; max-width: 52ch; margin: -1.5rem 0 2rem; }
 
   .qx__options { display: flex; flex-direction: column; gap: 0.6rem; }
   .qx__opt {
@@ -1328,18 +1337,18 @@ const testimonials = [
     backdrop-filter: blur(8px);
   }
   .qx__opt:hover {
-    background: rgba(184, 208, 222, 0.28);
-    border-color: var(--bronze);
+    background: rgba(23, 75, 51, 0.1);
+    border-color: var(--evergreen);
     transform: translateX(6px);
   }
   .qx__opt:active {
-    background: rgba(184, 208, 222, 0.42);
-    border-color: var(--bronze-deep);
+    background: rgba(23, 75, 51, 0.16);
+    border-color: var(--evergreen-deep);
     transform: translateX(3px);
   }
   .qx__opt:hover .qx__opt-arrow { transform: translateX(4px); color: var(--bronze-bright); }
   .qx__opt-label { font-family: var(--font-body); font-size: clamp(1rem, 1.5vw, 1.15rem); font-weight: 500; letter-spacing: -0.01em; color: var(--paper); line-height: 1.4; }
-  .qx__opt-arrow { font-family: var(--font-body); font-size: 1.3rem; color: rgba(46, 52, 56, 0.6); transition: color 250ms var(--ease), transform 250ms var(--ease); }
+  .qx__opt-arrow { font-family: var(--font-body); font-size: 1.3rem; color: rgba(28, 35, 27, 0.6); transition: color 250ms var(--ease), transform 250ms var(--ease); }
 
   @media (max-width: 520px) {
     .qx__opt { gap: 0.9rem; padding: 1.25rem 1.15rem; }
@@ -1363,15 +1372,16 @@ const testimonials = [
     box-shadow: inset 0 2px 0 0 var(--bronze);
     padding: clamp(2rem, 4vw, 3rem);
     backdrop-filter: blur(8px);
+    border-radius: 1.25rem;
   }
   .qx__result-price { display: flex; align-items: baseline; gap: 0.3rem; margin-bottom: 1.5rem; }
   .qx__result-amt { font-family: var(--font-display); font-size: clamp(3rem, 6vw, 4.5rem); color: var(--paper); line-height: 1; letter-spacing: -0.025em; font-variation-settings: 'opsz' 144; font-feature-settings: 'tnum'; }
   .qx__result-cad { font-family: var(--font-mono); color: var(--mute); font-size: 1rem; }
-  .qx__result-body { font-size: 1.1rem; line-height: 1.55; color: rgba(46, 52, 56, 0.85); max-width: 56ch; margin-bottom: 1.5rem; }
+  .qx__result-body { font-size: 1.1rem; line-height: 1.55; color: rgba(28, 35, 27, 0.85); max-width: 56ch; margin-bottom: 1.5rem; }
   .qx__result-list { display: flex; flex-direction: column; gap: 0.7rem; margin-bottom: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--rule); }
   /* :global() — these li's are injected at runtime by the quiz script, so
      they never receive Astro's scoped data attribute. */
-  .qx__result-list :global(li) { position: relative; padding-left: 1.6rem; color: rgba(46, 52, 56, 0.85); font-size: 0.97rem; line-height: 1.5; }
+  .qx__result-list :global(li) { position: relative; padding-left: 1.6rem; color: rgba(28, 35, 27, 0.85); font-size: 0.97rem; line-height: 1.5; }
   .qx__result-list :global(li)::before { content: '✓'; position: absolute; left: 0; top: 0; color: var(--bronze); font-family: var(--font-mono); font-size: 0.85rem; }
   .qx__discuss { margin-bottom: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--rule); }
   .qx__discuss-label { display: block; font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--bronze); margin-bottom: 0.5rem; }
@@ -1433,7 +1443,7 @@ const testimonials = [
     z-index: 120;
     width: 44px;
     height: 44px;
-    background: rgba(46, 52, 56, 0.04);
+    background: rgba(28, 35, 27, 0.04);
     border: 1px solid var(--rule-strong);
     border-radius: 50%;
     color: var(--paper);
@@ -1445,7 +1455,7 @@ const testimonials = [
     transition: background 200ms var(--ease), border-color 200ms var(--ease);
   }
   :global(body.quiz-focus) .qx__exit:hover {
-    background: rgba(46, 52, 56, 0.08);
+    background: rgba(28, 35, 27, 0.08);
     border-color: var(--bronze);
   }
 
@@ -1465,16 +1475,16 @@ const testimonials = [
   .programs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.9rem; }
   @media (max-width: 1000px) { .programs { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 600px) { .programs { grid-template-columns: 1fr; } }
-  .program { background: var(--ink); border: 1px solid var(--rule-strong); padding: 2rem 1.7rem; border-radius: var(--radius); display: flex; flex-direction: column; gap: 0.7rem; transition: background 240ms var(--ease), border-color 240ms var(--ease); }
-  .program:hover { background: var(--ink-2); border-color: var(--butter-deep); }
-  .program--featured { background: var(--ink-2); border-color: var(--bronze); box-shadow: 0 10px 30px -16px rgba(46, 52, 56, 0.18); }
+  .program { background: var(--cream-bright); border: 1px solid var(--rule-strong); padding: 2rem 1.7rem; border-radius: 1.15rem; display: flex; flex-direction: column; gap: 0.7rem; transition: background 240ms var(--ease), border-color 240ms var(--ease), transform 240ms var(--ease); }
+  .program:hover { background: var(--sage); border-color: var(--evergreen); transform: translateY(-3px); }
+  .program--featured { background: var(--sage); border-color: var(--terracotta); box-shadow: inset 0 5px 0 var(--terracotta); }
   .program__ico { width: 26px; height: 26px; color: var(--bronze); margin-bottom: 0.5rem; }
   .program__tier { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--bronze); }
   .program__name { font-size: 1.45rem; line-height: 1.1; }
   .program__price { display: flex; align-items: baseline; gap: 0.2rem; margin: 0.5rem 0 0.7rem; }
   .program__price-amt { font-family: var(--font-display); font-size: 2.6rem; color: var(--paper); letter-spacing: -0.022em; font-variation-settings: 'opsz' 96; font-feature-settings: 'tnum'; }
   .program__price-cad { font-family: var(--font-mono); font-size: 0.85rem; color: var(--mute); }
-  .program__body { color: rgba(46, 52, 56, 0.75); font-size: 0.92rem; flex-grow: 1; margin-bottom: 1rem; }
+  .program__body { color: rgba(28, 35, 27, 0.75); font-size: 0.92rem; flex-grow: 1; margin-bottom: 1rem; }
   .programs-terms { color: var(--mute); font-size: 0.8rem; line-height: 1.5; text-align: center; max-width: 640px; margin: 1.4rem auto 0; }
   .programs-terms a { color: var(--mute); text-decoration: underline; text-underline-offset: 2px; }
   .programs-terms a:hover { color: var(--bronze); }
@@ -1483,7 +1493,7 @@ const testimonials = [
   .programs-foot { margin-top: 3rem; text-align: center; }
 
   /* ============ TESTIMONIALS ============ */
-  .testimonials { padding: var(--section-pad) 0; border-top: 1px solid var(--rule); position: relative; overflow: hidden; }
+  .testimonials { padding: var(--section-pad) 0; border-top: 1px solid var(--rule); position: relative; overflow: hidden; background: var(--sage); }
     /* glow and dim recipes removed in p2 */
   .testimonials > .container { position: relative; z-index: 2; }
   .testimonials > .container { position: relative; }
@@ -1492,10 +1502,10 @@ const testimonials = [
   .testimonials__rating { display: inline-flex; align-items: center; gap: 1rem; padding: 1rem 1.4rem; border: 1px solid var(--rule-strong); background: var(--ink-2); border-radius: var(--radius-pill); transition: background 220ms var(--ease), border-color 220ms var(--ease); }
   .testimonials__rating:hover { background: var(--ink-3); border-color: var(--butter-deep); }
   .testimonials__stars { display: inline-flex; gap: 3px; }
-  .star { width: 18px; height: 18px; background: var(--bronze-bright); display: inline-block; -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='black'%3E%3Cpath d='M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z'/%3E%3C/svg%3E"); mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='black'%3E%3Cpath d='M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z'/%3E%3C/svg%3E"); -webkit-mask-size: contain; mask-size: contain; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; flex-shrink: 0; }
+  .star { width: 18px; height: 18px; background: var(--ochre); display: inline-block; -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='black'%3E%3Cpath d='M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z'/%3E%3C/svg%3E"); mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='black'%3E%3Cpath d='M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z'/%3E%3C/svg%3E"); -webkit-mask-size: contain; mask-size: contain; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; flex-shrink: 0; }
   .testimonials__rating-meta { display: flex; align-items: baseline; gap: 0.5rem; flex-wrap: wrap; }
   .testimonials__rating-meta strong { font-family: var(--font-display); font-size: 1.5rem; color: var(--paper); line-height: 1; letter-spacing: -0.015em; font-feature-settings: 'tnum'; }
-  .testimonials__rating-meta > span:not(.testimonials__rating-link) { font-family: var(--font-mono); font-size: 0.78rem; letter-spacing: 0.06em; color: rgba(46, 52, 56, 0.75); }
+  .testimonials__rating-meta > span:not(.testimonials__rating-link) { font-family: var(--font-mono); font-size: 0.78rem; letter-spacing: 0.06em; color: rgba(28, 35, 27, 0.75); }
   .testimonials__rating-link { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--bronze); margin-left: 0.5rem; border-left: 1px solid var(--rule-strong); padding-left: 1rem; }
   @media (max-width: 640px) { .testimonials__rating-link { border-left: 0; padding-left: 0; margin-left: 0; width: 100%; } }
   /* FTC Endorsement Guides · individual-results disclaimer beneath the rating
@@ -1503,7 +1513,7 @@ const testimonials = [
   .testimonials__disclaimer {
     font-size: 0.72rem;
     line-height: 1.5;
-    color: rgba(46, 52, 56, 0.7);
+    color: rgba(28, 35, 27, 0.7);
     max-width: 56ch;
     margin: 1rem 0 0;
     letter-spacing: 0.01em;
@@ -1514,7 +1524,8 @@ const testimonials = [
     position: relative;
     background: var(--ink-2);
     border: 1px solid var(--rule-strong);
-    border-radius: var(--radius);
+    border-radius: 1.25rem;
+    border-top: 5px solid var(--terracotta);
     min-height: 320px;
     overflow: hidden;
   }
@@ -1539,7 +1550,7 @@ const testimonials = [
     position: relative;
   }
   .t-slide__stars { display: inline-flex; gap: 4px; }
-  .t-slide__stars .star { width: 18px; height: 18px; background: var(--bronze-bright); }
+  .t-slide__stars .star { width: 18px; height: 18px; background: var(--ochre); }
   .t-slide__quote {
     font-family: var(--font-display-italic);
     font-size: clamp(1.15rem, 2.2vw, 1.6rem);
@@ -1593,8 +1604,8 @@ const testimonials = [
     transition: background 200ms var(--ease), border-color 200ms var(--ease);
     font-size: 1.05rem;
   }
-  .t-rotator__nav:hover { background: rgba(184, 208, 222, 0.34); border-color: var(--sky); }
-  .t-rotator__nav:active { background: rgba(184, 208, 222, 0.5); border-color: var(--sky); }
+  .t-rotator__nav:hover { background: rgba(23, 75, 51, 0.1); border-color: var(--evergreen); }
+  .t-rotator__nav:active { background: rgba(23, 75, 51, 0.18); border-color: var(--evergreen); }
   .t-rotator__dots { display: flex; gap: 0.5rem; }
   .t-dot {
     width: 32px;
@@ -1624,7 +1635,7 @@ const testimonials = [
   .faq > .container { position: relative; }
   .faq__head { max-width: 900px; margin-bottom: var(--head-gap); }
   .faq__head .eyebrow { color: var(--bronze-deep); }
-  .faq__head .index { color: rgba(46, 52, 56, 0.7); }
+  .faq__head .index { color: rgba(28, 35, 27, 0.7); }
   .faq__head .index::before { color: var(--bronze-deep); }
   .faq__title {
     font-size: clamp(2rem, 5vw, 3.6rem);
@@ -1634,14 +1645,14 @@ const testimonials = [
     line-height: 1.05;
     color: var(--paper);
   }
-  .faq__head .lead { color: rgba(46, 52, 56, 0.75); }
+  .faq__head .lead { color: rgba(28, 35, 27, 0.75); }
   .faq__list {
     display: flex;
     flex-direction: column;
-    border-top: 1px solid rgba(46, 52, 56, 0.16);
+    border-top: 1px solid rgba(28, 35, 27, 0.16);
     max-width: 900px;
   }
-  .faq__item { border-bottom: 1px solid rgba(46, 52, 56, 0.10); }
+  .faq__item { border-bottom: 1px solid rgba(28, 35, 27, 0.10); }
   .faq__item details { padding: 0; }
   .faq__item summary {
     list-style: none;
@@ -1654,7 +1665,7 @@ const testimonials = [
     transition: background 220ms var(--ease);
   }
   .faq__item summary::-webkit-details-marker { display: none; }
-  .faq__item summary:hover { background: rgba(184, 208, 222, 0.24); }
+  .faq__item summary:hover { background: rgba(23, 75, 51, 0.07); }
   .faq__q-num {
     font-family: var(--font-mono);
     font-size: 0.78rem;
@@ -1693,7 +1704,7 @@ const testimonials = [
     grid-column: 2;
     padding: 0 0 clamp(1.4rem, 3vw, 2rem) clamp(1rem, 3vw, 2rem);
     margin-left: 0;
-    color: rgba(46, 52, 56, 0.8);
+    color: rgba(28, 35, 27, 0.8);
     line-height: 1.7;
     font-size: 1.05rem;
     max-width: 65ch;
@@ -1733,7 +1744,7 @@ const testimonials = [
   aspect-ratio: 4 / 5;
   background: linear-gradient(135deg, var(--bronze-deep) 0%, var(--ink-3) 100%);
   overflow: hidden;
-  border-radius: 2px;
+  border-radius: 1.25rem 1.25rem 5rem 1.25rem;
   position: relative;
 }
 .provider-band__frame img {
@@ -1809,10 +1820,56 @@ const testimonials = [
 }
 
   /* ============ CTA ============ */
-  .cta { padding: clamp(5rem, 10vw, 9rem) 0; background: var(--ink); position: relative; overflow: hidden; border-top: 1px solid var(--rule); }
-  /* glow and dim recipes removed in p2 */
-  .cta__inner { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 1.2rem; }
-  .cta__title { font-size: clamp(2.2rem, 5vw, 4rem); max-width: 20ch; margin: 0.5rem 0; }
-  .cta__inner .lead { text-align: center; }
-  .cta__ctas { display: flex; gap: 1rem; margin-top: 1rem; flex-wrap: wrap; justify-content: center; }
+  .cta { padding: clamp(2.75rem, 6vw, 5rem) 0; background: var(--evergreen); color: var(--cream-bright); position: relative; overflow: hidden; border-top: 0; }
+  .cta__inner {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: clamp(2rem, 6vw, 6rem);
+  }
+  .cta__seal {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: clamp(6rem, 9vw, 7.75rem);
+    aspect-ratio: 1;
+    padding: 0.75rem;
+    border-radius: 50%;
+    background: var(--ochre);
+    color: var(--evergreen-deep);
+    text-align: center;
+  }
+  .cta__seal span,
+  .cta__seal small {
+    font-family: var(--font-mono);
+    font-size: 0.48rem;
+    font-weight: 650;
+    line-height: 1.15;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .cta__seal strong { font-family: var(--font-display); font-size: 1.65rem; font-weight: 470; line-height: 1; }
+  .cta__copy { display: flex; flex-direction: column; gap: 0.65rem; }
+  .cta__title { font-size: clamp(2.15rem, 4.4vw, 4rem); max-width: 18ch; margin: 0; }
+  .cta__inner .lead { margin: 0; color: rgba(255, 253, 248, 0.78); }
+  .cta__ctas { display: flex; flex-wrap: wrap; justify-content: flex-end; }
+  .cta__ctas .btn {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+  }
+  .cta .btn:not(.btn--bronze) { color: var(--cream-bright); border-color: var(--cream-bright); }
+  .cta .btn:not(.btn--bronze):hover { background: var(--cream-bright); color: var(--evergreen-deep); }
+  @media (max-width: 800px) {
+    .cta__inner { grid-template-columns: auto 1fr; }
+    .cta__ctas { grid-column: 2; justify-content: flex-start; }
+  }
+  @media (max-width: 520px) {
+    .cta__inner { grid-template-columns: 1fr; justify-items: start; }
+    .cta__ctas { grid-column: auto; }
+  }
 </style>

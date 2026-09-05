@@ -48,11 +48,11 @@ test.describe('funnel contracts', () => {
     expect(res.status()).toBe(200);
   });
 
-  test('site uses the clean needle-free Viva favicon', async ({ page }) => {
+  test('site uses the Founder Garden Viva favicon', async ({ page }) => {
     await blockExternal(page);
     await page.goto('/');
-    await expect(page.locator('link[rel="icon"]')).toHaveAttribute('href', '/favicon-viva-v3.svg');
-    await expect(page.locator('link[rel="apple-touch-icon"]')).toHaveAttribute('href', '/viva-icon-v3.png');
+    await expect(page.locator('link[rel="icon"]')).toHaveAttribute('href', '/favicon-viva-garden-v1.svg');
+    await expect(page.locator('link[rel="apple-touch-icon"]')).toHaveAttribute('href', '/viva-icon-garden-v1.png');
   });
 
   test('home renders the #quiz section (public/_redirects 301s /quiz here)', async ({ page }) => {
@@ -64,27 +64,50 @@ test.describe('funnel contracts', () => {
   test('home hero uses the approved copy and clean button treatments', async ({ page }) => {
     await blockExternal(page);
     await page.goto('/');
-    await expect(page.locator('.hero__eyebrows')).toHaveText('Concierge telehealth · TX · CO · FL · IA');
+    await expect(page.locator('.hero__eyebrows')).toContainText('Concierge telehealth · TX · CO · FL · IA');
+    await expect(page.locator('.hero__eyebrow-secondary')).toHaveText('100% concierge care');
     await expect(page.locator('.hero__title')).toContainText('You bring the goals.');
-    await expect(page.locator('.hero__title .italic-display')).toHaveText("We'll bring the Protocol.");
+    await expect(page.locator('.hero__title .italic-display')).toHaveText("I'll build the protocol.");
+    await expect(page.locator('.hero__media img')).toHaveAttribute('src', '/liliana-founder-hero-v2.webp');
+    await expect(page.locator('.hero__portrait')).toHaveCount(0);
 
     const styles = await page.evaluate(() => {
       const title = getComputedStyle(document.querySelector('.hero__title'));
       const primary = getComputedStyle(document.querySelector('.hero__ctas .btn--bronze'));
       const quiet = getComputedStyle(document.querySelector('.hero__btn-quiet'));
+      const header = getComputedStyle(document.querySelector('.site-header--home'));
       return {
         titleShadow: title.textShadow,
         primaryBorder: primary.borderTopColor,
         quietBorder: quiet.borderTopColor,
-        powderAccent: getComputedStyle(document.documentElement).getPropertyValue('--bronze').trim(),
-        powderDeep: getComputedStyle(document.documentElement).getPropertyValue('--sky-deep').trim(),
+        headerPosition: header.position,
+        forestAccent: getComputedStyle(document.documentElement).getPropertyValue('--bronze').trim(),
+        gardenGreen: getComputedStyle(document.documentElement).getPropertyValue('--evergreen').trim(),
       };
     });
     expect(styles.titleShadow).toBe('none');
     expect(styles.primaryBorder).toBe('rgba(0, 0, 0, 0)');
-    expect(styles.quietBorder).toBe('rgba(255, 255, 255, 0.9)');
-    expect(styles.powderAccent).toBe('#b8d0de');
-    expect(styles.powderDeep).toBe('#b8d0de');
+    expect(styles.quietBorder).toBe('rgb(255, 253, 248)');
+    expect(styles.headerPosition).toBe('absolute');
+    expect(styles.forestAccent).toBe('#1d5137');
+    expect(styles.gardenGreen).toBe('#174b33');
+  });
+
+  test('interior page mastheads carry the Founder Garden green', async ({ page }) => {
+    await blockExternal(page);
+    for (const [route, selector] of [
+      ['/about/', '.about-hero'],
+      ['/services/', '.services-hero'],
+      ['/menopause/', '.meno-hero'],
+      ['/menu/', '.menu-hero'],
+      ['/partners/', '.partners-hero'],
+      ['/contact/', '.contact-hero'],
+      ['/start/', '.start-hero'],
+      ['/blog/', '.blog-hero'],
+    ]) {
+      await page.goto(route);
+      await expect(page.locator(selector)).toHaveCSS('background-color', 'rgb(23, 75, 51)');
+    }
   });
 
   test('home hero headline stays on its two intended lines at wide and compact viewports', async ({ page }) => {
