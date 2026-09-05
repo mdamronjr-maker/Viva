@@ -56,7 +56,7 @@ async function scrollToReadingRegion(page, route = '/') {
     return { target, first, last, footerTop, height, headerHeight, links };
   });
   expect(selection.target, `${route}: no uncontested reading viewport: ${JSON.stringify(selection)}`).not.toBeNull();
-  await expect.poll(() => page.evaluate(() => window.scrollY), { message: `${route}: selected reading position` }).toBeCloseTo(selection.target, 0);
+  await expect.poll(async () => Math.abs(await page.evaluate(() => window.scrollY) - selection.target), { message: `${route}: selected reading position (≤1 CSS pixel rounding)` }).toBeLessThanOrEqual(1);
   await expect(region).toBeVisible();
   return `${route}: ${JSON.stringify(selection)}`;
 }

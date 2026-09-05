@@ -21,7 +21,7 @@ async function expectClosedMenu(page) {
 }
 
 test.describe('navigation lifecycle and single booking action', () => {
-  test('mobile toggle aligns to the content edge and Escape restores focus, name and scroll', async ({ page }) => {
+  test('mobile toggle aligns to the content edge and keyboard Escape restores focus, name and scroll', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await openLocal(page, '/services/');
     const geometry = await page.locator('.site-header__inner').evaluate((element) => {
@@ -32,7 +32,12 @@ test.describe('navigation lifecycle and single booking action', () => {
     expect(Math.abs(geometry.rightGap - geometry.padding)).toBeLessThanOrEqual(1);
     await page.evaluate(() => window.scrollTo({ top: 450, behavior: 'instant' }));
     await expect.poll(() => page.evaluate(() => window.scrollY), { message: 'Reading position settles before menu interaction' }).toBe(450);
-    await page.locator('.nav-toggle').click();
+    // Locator.click scrolls its target before dispatching input. Exercise
+    // keyboard activation without moving this already-visible sticky control.
+    await page.locator('.nav-toggle').evaluate((element) => element.focus({ preventScroll: true }));
+    await expect(page.locator('.nav-toggle')).toBeFocused();
+    await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(450);
+    await page.keyboard.press('Space');
     const lockedPosition = await page.locator('body').evaluate((element) => -parseFloat(element.style.top));
     expect(lockedPosition, 'Menu locks the actual requested reading position').toBe(450);
     await expect(page.locator('main')).toHaveAttribute('inert', '');
@@ -40,6 +45,32 @@ test.describe('navigation lifecycle and single booking action', () => {
     await page.keyboard.press('Escape');
     await expectClosedMenu(page);
     await expect(page.locator('.nav-toggle')).toBeFocused();
+    await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(450);
+  });
+
+  test('pointer activation preserves the reading position when the visible menu is tapped', async ({ page }, testInfo) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await openLocal(page, '/services/');
+    await page.evaluate(() => window.scrollTo({ top: 450, behavior: 'instant' }));
+    await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(450);
+    const toggle = page.locator('.nav-toggle');
+    await toggle.evaluate((element) => element.addEventListener('pointerdown', () => {
+      element.dataset.pointerScroll = String(window.scrollY);
+    }, { once: true }));
+    const box = await toggle.boundingBox();
+    expect(box).not.toBeNull();
+    const point = { x: box.x + box.width / 2, y: box.y + box.height / 2 };
+    expect(await page.evaluate(({ x, y }) => Boolean(document.elementFromPoint(x, y)?.closest('.nav-toggle')), point), 'The visible menu control receives the pointer at its center').toBe(true);
+    // Use the visible hit target directly: Playwright locator.click's own
+    // scroll-into-view step can move a sticky target before pointerdown.
+    if (testInfo.project.use.hasTouch) await page.touchscreen.tap(point.x, point.y);
+    else await page.mouse.click(point.x, point.y);
+    await expect(toggle).toHaveAttribute('data-pointer-scroll', '450');
+    await expect(toggle).toHaveAttribute('aria-expanded', 'true');
+    const lockedPosition = await page.locator('body').evaluate((element) => -parseFloat(element.style.top));
+    expect(lockedPosition, 'Pointer activation locks the position visible at pointerdown').toBe(450);
+    await page.keyboard.press('Escape');
+    await expectClosedMenu(page);
     await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(450);
   });
 
@@ -126,6 +157,7 @@ test('quiz focus mode traps visible controls and restores focus on exit', async 
 test('essential mobile pages reflow at doubled text size', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await openLocal(page);
+  const overflows = [];
   for (const route of ['/', '/services/', '/start/', '/weight-management/', '/contact/']) {
     await page.goto(route);
     await page.addStyleTag({ content: 'html { font-size: 200% !important; }' });
@@ -133,10 +165,11 @@ test('essential mobile pages reflow at doubled text size', async ({ page }) => {
       client: document.documentElement.clientWidth, scroll: document.documentElement.scrollWidth,
       overflow: [...document.querySelectorAll('body *')].filter((el) => { const r = el.getBoundingClientRect(); const s = getComputedStyle(el); return r.width > 0 && s.visibility !== 'hidden' && r.right > document.documentElement.clientWidth + 1; }).map((el) => ({ tag: el.tagName, class: el.className, right: el.getBoundingClientRect().right, width: el.getBoundingClientRect().width, text: el.textContent.slice(0,70) })).slice(0,15),
     }));
-    expect(size.scroll, `${route}: ${JSON.stringify(size.overflow)}`).toBeLessThanOrEqual(size.client + 1);
+    if (size.scroll > size.client + 1) overflows.push({ route, ...size });
     await page.locator('.nav-toggle').click();
     await expect(page.locator('#site-mobile-nav')).toHaveAttribute('aria-hidden', 'false');
     await page.keyboard.press('Escape');
     await expectClosedMenu(page);
   }
+  expect(overflows).toEqual([]);
 });
