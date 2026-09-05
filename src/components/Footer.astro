@@ -1,4 +1,6 @@
 ---
+import VivaMonogram from './VivaMonogram.astro';
+
 const year = new Date().getFullYear();
 ---
 
@@ -16,7 +18,7 @@ const year = new Date().getFullYear();
           />
         </a>
         <div class="footer-badge">
-          <span class="footer-badge__ring" aria-hidden="true">VW</span>
+          <span class="footer-badge__mark" aria-hidden="true"><VivaMonogram variant="outline" /></span>
           <p class="footer-badge__line">Health is personal.<br/>Your care should be, too.</p>
         </div>
         <a href="/start?utm_source=vivawellnessco&utm_medium=cta&utm_content=footer" class="btn btn--bronze">Book a visit</a>
@@ -127,14 +129,9 @@ const year = new Date().getFullYear();
     display: block;
   }
   .footer-badge { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
-  .footer-badge__ring {
-    width: 64px; height: 64px; border-radius: 50%;
-    border: 1.5px solid var(--ochre);
-    display: grid; place-items: center;
-    font-family: var(--font-display);
-    font-weight: 500;
-    font-size: 1.3rem;
-    color: var(--cream-bright);
+  .footer-badge__mark {
+    display: block;
+    width: 72px;
     flex-shrink: 0;
   }
   .footer-badge__line {

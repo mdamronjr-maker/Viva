@@ -55,6 +55,15 @@ test.describe('funnel contracts', () => {
     await expect(page.locator('link[rel="apple-touch-icon"]')).toHaveAttribute('href', '/viva-icon-garden-v2.png');
   });
 
+  test('home closing CTA and footer share the crisp Viva monogram', async ({ page }) => {
+    await blockExternal(page);
+    await page.goto('/');
+    await expect(page.locator('.cta__seal [data-viva-monogram="solid"]')).toHaveCount(1);
+    await expect(page.locator('.footer-badge [data-viva-monogram="outline"]')).toHaveCount(1);
+    await expect(page.locator('.cta__seal')).not.toContainText('VW');
+    await expect(page.locator('.footer-badge')).not.toContainText('VW');
+  });
+
   test('home renders the #quiz section (public/_redirects 301s /quiz here)', async ({ page }) => {
     await blockExternal(page);
     await page.goto('/');
