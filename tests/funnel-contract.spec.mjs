@@ -361,7 +361,7 @@ test.describe('SEO, content, and accessibility contracts', () => {
     // A category-level destination must not silently become a compound menu
     // or imply that any requested product is automatically available.
     expect(html).not.toMatch(/BPC-157|TB-500|CJC-1295|ipamorelin|GHK-Cu|MOTS-c/i);
-    expect(html).toMatch(/no automatic prescription/i);
+    expect(html).toContain('A prescription is never automatic');
 
     for (const route of ['/', '/services/']) {
       await page.goto(route);
