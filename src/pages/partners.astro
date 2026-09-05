@@ -135,9 +135,9 @@ const partnersSchema = {
           Optional products and discounts.
         </h2>
         <p class="perks-lead">
-          These links and codes are optional and are not a condition of care.
-          Discount terms can change. Some referral links or codes may provide a
-          benefit to Viva; confirm current terms with the vendor before purchasing.
+          These independent products, services, links, and codes are optional
+          and are not a condition of care. Any potential benefit to Viva is
+          disclosed on the relevant card. Vendor availability and terms can change.
         </p>
       </header>
 
@@ -155,29 +155,47 @@ const partnersSchema = {
                 <p class="part-card__body">{p.blurb}</p>
               </div>
             ) : (
-              <a
-                href={p.href}
-                target="_blank"
-                rel="noopener"
-                class="part-card__link"
-                aria-label={p.name}
-              >
+              <div class="part-card__link perk-card__content">
                 <div class="part-card__top perk-card__top">
                   <div class="part-card__head">
                     <h3 class="part-card__name">{p.name}</h3>
-                    {p.linkLabel && <span class="part-card__operator">{p.linkLabel}</span>}
+                    {p.reviewed && <span class="part-card__operator">{p.reviewed}</span>}
                   </div>
-                  <span class="part-card__arrow" aria-hidden="true">↗</span>
                 </div>
                 <p class="part-card__body">{p.blurb}</p>
+                {p.offer && <p class="perk-offer">{p.offer}</p>}
                 {p.code && (
                   <span class="perk-code">Code · <strong>{p.code}</strong></span>
                 )}
-              </a>
+                {p.links && p.links.length > 0 && (
+                  <ul class="perk-card__actions" aria-label={`${p.name} links`}>
+                    {p.links.map((link, index) => (
+                      <li>
+                        <a
+                          href={link.href}
+                          target="_blank"
+                          rel={link.sponsored ? 'sponsored noopener' : 'noopener'}
+                          class:list={['perk-link', { 'perk-link--primary': index === 0 }]}
+                        >
+                          {link.label}<span aria-hidden="true"> ↗</span>
+                          <span class="sr-only"> (opens in a new tab)</span>
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                {p.relationshipDisclosure && (
+                  <p class="perk-disclosure">{p.relationshipDisclosure}</p>
+                )}
+              </div>
             )}
           </li>
         ))}
       </ul>
+      <p class="perks-note">
+        Supplements are not a substitute for medical care. Review labels,
+        allergens, possible interactions, and current vendor terms before purchasing.
+      </p>
     </div>
   </section>
 
@@ -419,7 +437,17 @@ const partnersSchema = {
     margin: 0.9rem 0 0;
   }
   .perk-card__top { grid-template-columns: 1fr auto; }
+  .perk-card__content { height: 100%; }
   .perk-card__static { cursor: default; }
+  .perk-offer {
+    margin: 0;
+    padding: 0.8rem 0.9rem;
+    border-left: 3px solid var(--terracotta);
+    background: var(--sky);
+    color: var(--paper);
+    font-size: 0.88rem;
+    line-height: 1.5;
+  }
   .perk-code {
     align-self: flex-start;
     font-family: var(--font-mono);
@@ -432,6 +460,54 @@ const partnersSchema = {
     padding: 0.35rem 0.7rem;
   }
   .perk-code strong { letter-spacing: 0.16em; }
+  .perk-card__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    margin-top: auto;
+  }
+  .perk-card__actions li { display: flex; }
+  .perk-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    padding: 0.7rem 1rem;
+    border: 1px solid var(--paper);
+    border-radius: var(--radius-pill);
+    color: var(--paper);
+    font-size: 0.86rem;
+    font-weight: 560;
+    line-height: 1.25;
+    transition: background 180ms var(--ease), color 180ms var(--ease), border-color 180ms var(--ease);
+  }
+  .perk-link:hover {
+    background: var(--paper);
+    color: var(--cream-bright);
+  }
+  .perk-link--primary {
+    background: var(--evergreen);
+    border-color: var(--evergreen);
+    color: var(--cream-bright);
+  }
+  .perk-link--primary:hover {
+    background: var(--evergreen-deep);
+    border-color: var(--evergreen-deep);
+  }
+  .perk-disclosure {
+    margin: 0;
+    color: var(--mute);
+    font-size: 0.78rem;
+    line-height: 1.45;
+    max-width: 62ch;
+  }
+  .perks-note {
+    margin: 1.1rem 0 0;
+    color: var(--mute);
+    font-size: 0.8rem;
+    line-height: 1.5;
+    max-width: 72ch;
+  }
 
   /* CTA */
   .part-cta {
@@ -481,6 +557,9 @@ const partnersSchema = {
     .how-strip__col { padding: 1.1rem 0; }
     .part-section { padding: 2.75rem 0; }
     .part-card__link { gap: 0.8rem; padding: 1.25rem; }
+    .perk-card__actions { display: grid; grid-template-columns: 1fr; }
+    .perk-card__actions li,
+    .perk-link { width: 100%; }
     .part-cta { padding: 4rem 0; }
   }
 </style>

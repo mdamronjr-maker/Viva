@@ -119,5 +119,11 @@ test.describe('mobile experience contracts', () => {
     await page.goto('/contact/');
     const consentBox = await page.locator('.contact-consent').boundingBox();
     expect(consentBox?.height, 'marketing consent label height').toBeGreaterThanOrEqual(44);
+
+    await page.goto('/partners/');
+    for (const link of await page.locator('#viva-perks .perk-link').all()) {
+      const box = await link.boundingBox();
+      expect(box?.height, 'partner perk link height').toBeGreaterThanOrEqual(48);
+    }
   });
 });

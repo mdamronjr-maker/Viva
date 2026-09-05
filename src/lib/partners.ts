@@ -31,22 +31,23 @@ export type PartnerCategory =
 // referral directory above: the directory is local practitioners (no paid
 // listings); perks are national brands with a Viva discount code or link.
 //
-// `pending: true` renders the card without an outbound link and with a
-// "details coming soon" note. Flip it off once Liliana sends the real
-// affiliate link (Momentous, Noble Origins) or the Fullscript embed code.
-//
-// FTC NOTE: today every live href is the brand's plain public site, so the
-// page copy ("discounts I pass along") is accurate. The moment ANY href is
-// swapped for an affiliate/referral link that pays Viva, add a visible
-// disclosure line to the perks section on /partners (e.g. "Some links earn
-// Viva a referral credit") IN THE SAME commit. Endorsements with a financial
-// relationship require clear, proximate disclosure.
+// Each relationship disclosure stays on the same card as its outbound action.
+// That proximity is deliberate: a sitewide or footer-only affiliate notice is
+// too easy to miss. Links marked sponsored render rel="sponsored noopener".
+export type PerkLink = {
+  href: string;
+  label: string;
+  sponsored?: boolean;
+};
+
 export type Perk = {
   name: string;
   blurb: string;
   code?: string;
-  href?: string;
-  linkLabel?: string;
+  offer?: string;
+  links?: PerkLink[];
+  relationshipDisclosure?: string;
+  reviewed?: string;
   pending?: boolean;
   pendingNote?: string;
 };
@@ -54,32 +55,43 @@ export type Perk = {
 export const perks: Perk[] = [
   {
     name: 'BodySpec',
-    blurb: 'DEXA body-composition scans with Austin-area mobile appointments. Ask your clinician whether this measurement would add useful information for your goals.',
+    blurb: 'Whole-body DEXA scans that report body-fat percentage, lean mass, visceral fat, and bone density. Results are measurements, not a diagnosis; ask your clinician how they fit your goals.',
     code: 'VIVA',
-    href: 'https://www.bodyspec.com',
-    linkLabel: 'bodyspec.com',
+    offer: 'Code VIVA: $10 off a one-time scan (advertised regular price $59.95) or $5 off membership options. Confirm current terms at booking.',
+    links: [
+      { href: 'https://www.bodyspec.com/booking', label: 'Book a BodySpec scan', sponsored: true },
+      { href: 'https://www.bodyspec.com/sample-report', label: 'View a sample report' },
+    ],
+    relationshipDisclosure: 'Viva may receive a referral benefit when you use this code.',
+    reviewed: 'Links checked September 5, 2026',
   },
   {
     name: 'Momentous',
-    blurb: 'A supplement brand with product-specific third-party certification information. Certification and ingredient details vary, so review the individual product before purchasing.',
-    code: 'Viva',
-    href: 'https://www.livemomentous.com',
-    linkLabel: 'livemomentous.com',
-    // TODO: swap href for Liliana's partner link when she sends it.
+    blurb: 'Performance-nutrition products with third-party testing and certification details. Review the certification, ingredients, and directions for the individual product before purchasing.',
+    code: 'VIVA',
+    links: [
+      { href: 'https://crrnt.app/MOME/QMg8PBab', label: 'Shop Momentous', sponsored: true },
+    ],
+    relationshipDisclosure: 'Viva may receive a commission when you shop through this link or use this code.',
+    reviewed: 'Link checked September 5, 2026',
   },
   {
     name: 'Noble Origins',
-    blurb: 'Organ-based protein and food-derived supplement products. Discuss supplement use with your clinician, especially if you take medication or have a health condition.',
-    pending: true,
-    pendingNote: 'Discount link on the way',
+    blurb: 'Grass-fed beef protein made with collagen, colostrum, and other food-derived ingredients. Review the label and discuss supplements with your clinician if you take medication or have a health condition.',
+    links: [
+      { href: 'https://www.nobleorigins.com/VIVAWELLNESS', label: 'Shop Noble Origins', sponsored: true },
+    ],
+    relationshipDisclosure: 'Viva may receive a commission when you shop through this link.',
+    reviewed: 'Link checked September 5, 2026',
   },
   {
     name: 'Fullscript',
-    blurb: 'An online supplement dispensary used by some healthcare practices. Product selection and dosing should be individualized rather than inferred from this directory.',
-    pending: true,
-    pendingNote: 'Dispensary link coming soon',
-    // TODO: replace this card's pending state with the embedded Fullscript
-    // widget once the emailed embed code is in hand.
+    blurb: 'Viva’s online supplement dispensary. Products in the shop are optional and should not be treated as an individualized recommendation unless Liliana has discussed them with you.',
+    links: [
+      { href: 'https://us.fullscript.com/s/vivawellnessco/shop', label: 'Open Viva’s Fullscript shop', sponsored: true },
+    ],
+    relationshipDisclosure: 'Viva may receive a financial benefit from purchases made through this dispensary.',
+    reviewed: 'Link checked September 5, 2026',
   },
 ];
 
