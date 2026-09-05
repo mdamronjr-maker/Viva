@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { attachScreenshot } from './helpers/visual-evidence.mjs';
 
 async function openLocal(page, path = '/') {
   await page.route(/^(?!http:\/\/(?:localhost|127\.0\.0\.1):4173)/, (route) => route.abort());
@@ -74,14 +75,16 @@ test.describe('navigation lifecycle and single booking action', () => {
     await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(450);
   });
 
-  test('an open menu cannot leave the desktop or restored page inert', async ({ page }) => {
+  test('an open menu cannot leave the desktop or restored page inert', async ({ page }, testInfo) => {
     await page.setViewportSize({ width: 1120, height: 800 });
     await openLocal(page);
     await page.locator('.nav-toggle').click();
+    await attachScreenshot(page, testInfo, 'menu-open-1120x800');
     await page.setViewportSize({ width: 1121, height: 800 });
     await expectClosedMenu(page);
     await expect(page.locator('body')).not.toHaveCSS('position', 'fixed');
     await expect(page.locator('.care-nav summary')).toBeFocused();
+    await attachScreenshot(page, testInfo, 'menu-restored-1121x800');
     await page.setViewportSize({ width: 390, height: 844 });
     await page.locator('.nav-toggle').click();
     await page.locator('#site-mobile-nav a[href="/about/"]').click();
@@ -154,7 +157,7 @@ test('quiz focus mode traps visible controls and restores focus on exit', async 
   await expect(page.locator('#qx-q2')).toBeFocused();
 });
 
-test('essential mobile pages reflow at doubled text size', async ({ page }) => {
+test('essential mobile pages reflow at doubled text size', async ({ page }, testInfo) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await openLocal(page);
   const overflows = [];
@@ -166,6 +169,8 @@ test('essential mobile pages reflow at doubled text size', async ({ page }) => {
       overflow: [...document.querySelectorAll('body *')].filter((el) => { const r = el.getBoundingClientRect(); const s = getComputedStyle(el); return r.width > 0 && s.visibility !== 'hidden' && r.right > document.documentElement.clientWidth + 1; }).map((el) => ({ tag: el.tagName, class: el.className, right: el.getBoundingClientRect().right, width: el.getBoundingClientRect().width, text: el.textContent.slice(0,70) })).slice(0,15),
     }));
     if (size.scroll > size.client + 1) overflows.push({ route, ...size });
+    const label = route === '/' ? 'home' : route.replace(/^\/|\/$/g, '').replaceAll('/', '-');
+    await attachScreenshot(page, testInfo, `${label}-390x844-text-200-percent`);
     await page.locator('.nav-toggle').click();
     await expect(page.locator('#site-mobile-nav')).toHaveAttribute('aria-hidden', 'false');
     await page.keyboard.press('Escape');

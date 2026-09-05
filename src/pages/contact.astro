@@ -300,25 +300,30 @@ const contactSchema = {
   }
   .contact-body__grid {
     display: grid;
-    grid-template-columns: 1.4fr 1fr;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
     gap: clamp(2rem, 5vw, 5rem);
     align-items: start;
   }
+  /* Native controls contribute an intrinsic minimum width. Let the grid
+     follow the available viewport instead, including at doubled text size. */
+  .contact-body__grid > * { min-width: 0; }
   @media (max-width: 900px) {
-    .contact-body__grid { grid-template-columns: 1fr; }
+    .contact-body__grid { grid-template-columns: minmax(0, 1fr); }
   }
 
   .contact-form {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
+    width: 100%;
+    min-width: 0;
     max-width: 540px;
   }
   .contact-form .btn { align-self: flex-start; margin-top: 0.5rem; }
   .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
   .contact-consent {
     display: grid;
-    grid-template-columns: 1.2rem 1fr;
+    grid-template-columns: 1.2rem minmax(0, 1fr);
     gap: 0.75rem;
     align-items: center;
     min-height: 44px;
@@ -378,6 +383,8 @@ const contactSchema = {
     border-bottom: 1px solid transparent;
     transition: border-color 200ms var(--ease), color 200ms var(--ease);
     align-self: flex-start;
+    max-width: 100%;
+    overflow-wrap: anywhere;
   }
   .contact-side__v:hover {
     color: var(--text-primary);

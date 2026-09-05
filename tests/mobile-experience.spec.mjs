@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { attachScreenshot } from './helpers/visual-evidence.mjs';
 
 const PUBLIC_PAGES = [
   '/', '/about/', '/services/', '/weight-management/', '/testosterone/',
@@ -75,7 +76,7 @@ async function stickyDiagnostics(page) {
 }
 
 test.describe('mobile experience contracts', () => {
-  test('every public page fits the narrowest supported phone', async ({ page }) => {
+  test('every public page fits the narrowest supported phone', async ({ page }, testInfo) => {
     test.setTimeout(180_000);
     await blockExternal(page);
 
@@ -99,6 +100,13 @@ test.describe('mobile experience contracts', () => {
         }));
         expect(geometry.scrollWidth, `${route} at ${viewport.width}px; ${geometry.overflow.join(', ')}`).toBeLessThanOrEqual(geometry.clientWidth + 1);
         expect(geometry.h1Right, `${route} h1 at ${viewport.width}px`).toBeLessThanOrEqual(geometry.clientWidth + 1);
+        if (['/', '/services/', '/weight-management/', '/start/', '/blog/the-parent-tax/'].includes(route)) {
+          const label = route === '/' ? 'home' : route.replace(/^\/|\/$/g, '').replaceAll('/', '-');
+          await attachScreenshot(page, testInfo, `${label}-${viewport.width}x${viewport.height}-full`, { fullPage: true });
+          await page.locator('.site-footer').evaluate((element) => element.scrollIntoView({ block: 'start', behavior: 'instant' }));
+          if (await page.locator('.msc').count()) await expect(page.locator('.msc')).toHaveAttribute('aria-hidden', 'true');
+          await attachScreenshot(page, testInfo, `${label}-${viewport.width}x${viewport.height}-footer`);
+        }
       }
     }
   });
@@ -188,13 +196,14 @@ test.describe('mobile experience contracts', () => {
     }
   });
 
-  test('homepage hero stays compact and the collapsed header never leaks its desktop CTA', async ({ page }) => {
+  test('homepage hero stays compact and the collapsed header never leaks its desktop CTA', async ({ page }, testInfo) => {
     await blockExternal(page);
 
     for (const viewport of [
       { width: 390, height: 844 },
       { width: 600, height: 900 },
       { width: 900, height: 700 },
+      { width: 844, height: 390 },
       { width: 1120, height: 800 },
     ]) {
       await page.setViewportSize(viewport);
@@ -204,6 +213,11 @@ test.describe('mobile experience contracts', () => {
       const desktopCtaDisplay = await page.locator('.nav__cta').evaluate((el) => getComputedStyle(el).display);
       expect(toggleDisplay, `${viewport.width}px menu toggle`).not.toBe('none');
       expect(desktopCtaDisplay, `${viewport.width}px desktop header CTA`).toBe('none');
+      if (viewport.width === 844 || viewport.width === 1120) {
+        const width = await page.evaluate(() => ({ client: document.documentElement.clientWidth, scroll: document.documentElement.scrollWidth }));
+        expect(width.scroll, `${viewport.width}x${viewport.height} page width`).toBeLessThanOrEqual(width.client + 1);
+        await attachScreenshot(page, testInfo, `home-${viewport.width}x${viewport.height}-header`);
+      }
 
       // The compact hero contract applies to phone layouts. Wider collapsed
       // headers are included above solely to enforce the CTA/hamburger

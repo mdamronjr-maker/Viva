@@ -2,6 +2,7 @@
 // Runs against the built static site through `astro preview` and blocks all
 // third-party requests. It never submits a live form or opens the scheduler.
 import { test, expect } from '@playwright/test';
+import { attachScreenshot } from './helpers/visual-evidence.mjs';
 import { onRequestPost as handleLead } from '../functions/api/lead.js';
 import { onRequestPost as handleUnsubscribe } from '../functions/api/unsubscribe.js';
 
@@ -101,7 +102,7 @@ test.describe('brand and experience contracts', () => {
     await expect(rotation).toHaveAttribute('aria-pressed', 'true');
   });
 
-  test('key viewports have no horizontal overflow', async ({ page }) => {
+  test('key viewports have no horizontal overflow', async ({ page }, testInfo) => {
     test.setTimeout(180_000);
     await blockExternal(page);
     for (const viewport of [
@@ -122,6 +123,7 @@ test.describe('brand and experience contracts', () => {
           scroll: document.documentElement.scrollWidth,
         }));
         expect(geometry.scroll, `${route} at ${viewport.width}px`).toBeLessThanOrEqual(geometry.client + 1);
+        if (route === '/') await attachScreenshot(page, testInfo, `home-${viewport.width}x${viewport.height}-full`, { fullPage: true });
       }
     }
   });
