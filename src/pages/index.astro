@@ -1,7 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import NoPhiNotice from '../components/NoPhiNotice.astro';
-import VivaMonogram from '../components/VivaMonogram.astro';
 import { TURNSTILE_SITEKEY } from '../lib/turnstile';
 
 const faqs = [
@@ -566,8 +565,8 @@ const testimonials = [
   {/* ============ CTA ============ */}
   <section class="cta">
     <div class="container cta__inner">
-      <div class="cta__seal" aria-hidden="true">
-        <VivaMonogram variant="solid" />
+      <div class="cta__brand" aria-hidden="true" data-viva-wordmark="viva">
+        <img src="/viva-logo-paper.png" alt="" width="1200" height="258" />
       </div>
       <div class="cta__copy">
         <h2 class="cta__title">Health is personal.<br />Your care should be, too.</h2>
@@ -1793,10 +1792,17 @@ const testimonials = [
     align-items: center;
     gap: clamp(2rem, 6vw, 6rem);
   }
-  .cta__seal {
+  .cta__brand {
     flex: none;
-    width: clamp(6.5rem, 10vw, 8.5rem);
-    filter: drop-shadow(0 1rem 1.5rem rgba(5, 29, 19, 0.22));
+    width: clamp(7.75rem, 12vw, 10rem);
+    aspect-ratio: 360 / 258;
+    overflow: hidden;
+  }
+  .cta__brand img {
+    display: block;
+    width: auto;
+    max-width: none;
+    height: 100%;
   }
   .cta__copy { display: flex; flex-direction: column; gap: 0.65rem; }
   .cta__title { font-size: clamp(2.15rem, 4.4vw, 4rem); max-width: 18ch; margin: 0; }

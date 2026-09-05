@@ -1,6 +1,4 @@
 ---
-import VivaMonogram from './VivaMonogram.astro';
-
 const year = new Date().getFullYear();
 ---
 
@@ -8,7 +6,7 @@ const year = new Date().getFullYear();
   <div class="container">
     <div class="footer-grid">
       <div class="footer-col footer-col--brand">
-        <a href="/" class="footer-brand" aria-label="Viva Wellness Co. · home">
+        <a href="/" class="footer-brand" aria-label="Viva Wellness Co. · home" data-viva-wordmark="full">
           <img
             src="/viva-logo-paper.png"
             alt="Viva Wellness Co."
@@ -17,10 +15,7 @@ const year = new Date().getFullYear();
             height="258"
           />
         </a>
-        <div class="footer-badge">
-          <span class="footer-badge__mark" aria-hidden="true"><VivaMonogram variant="outline" /></span>
-          <p class="footer-badge__line">Health is personal.<br/>Your care should be, too.</p>
-        </div>
+        <p class="footer-brand__line">Health is personal.<br/>Your care should be, too.</p>
         <a href="/start?utm_source=vivawellnessco&utm_medium=cta&utm_content=footer" class="btn btn--bronze">Book a visit</a>
       </div>
 
@@ -120,27 +115,22 @@ const year = new Date().getFullYear();
   .footer-brand {
     display: inline-flex;
     align-items: center;
-    margin-bottom: 1.4rem;
+    margin-bottom: 1rem;
     line-height: 0;
   }
   .footer-brand__logo {
-    height: 32px;
+    height: clamp(2.25rem, 3vw, 2.75rem);
+    max-width: 100%;
     width: auto;
     display: block;
   }
-  .footer-badge { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
-  .footer-badge__mark {
-    display: block;
-    width: 72px;
-    flex-shrink: 0;
-  }
-  .footer-badge__line {
+  .footer-brand__line {
     font-family: var(--font-display-italic);
     font-style: italic;
     font-size: 1.05rem;
     line-height: 1.35;
     color: var(--cream-bright);
-    margin: 0;
+    margin: 0 0 1.5rem;
     max-width: 20ch;
   }
   .footer-h {
