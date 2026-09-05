@@ -1,14 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 
-/* ============================================================
-   /menopause · perimenopause and menopause care landing page.
-   The SEO anchor for the practice's women's-hormone vertical:
-   FAQPage schema, keyword-bearing headings, internal links to
-   HRT management on /services and the booking flow on /start.
-   Copy rules: Liliana's first-person voice, no em or en dashes
-   (use the site-standard interpunct), no outcome guarantees.
-   ============================================================ */
+// Existing clinical text is retained. New medical claims require actual review.
 
 const symptoms = [
   { name: 'Hot flashes & night sweats', body: 'Common vasomotor symptoms that can disrupt work, sleep, and daily life.' },
@@ -79,6 +72,14 @@ const faqSchema = {
   '@context': 'https://schema.org',
   '@graph': [
     {
+      '@type': 'Service',
+      '@id': 'https://vivawellnessco.com/menopause/#service',
+      name: 'Perimenopause and menopause care',
+      url: 'https://vivawellnessco.com/menopause/',
+      provider: { '@id': 'https://vivawellnessco.com/#organization' },
+      areaServed: ['Texas', 'Colorado', 'Florida', 'Iowa'].map((name) => ({ '@type': 'State', name })),
+    },
+    {
       '@type': 'FAQPage',
       mainEntity: faqs.map((f) => ({
         '@type': 'Question',
@@ -88,9 +89,11 @@ const faqSchema = {
     },
     {
       '@type': 'BreadcrumbList',
+      '@id': 'https://vivawellnessco.com/menopause/#breadcrumb',
       itemListElement: [
         { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://vivawellnessco.com/' },
-        { '@type': 'ListItem', position: 2, name: 'Menopause Care', item: 'https://vivawellnessco.com/menopause/' },
+        { '@type': 'ListItem', position: 2, name: 'Care and pricing', item: 'https://vivawellnessco.com/services/' },
+        { '@type': 'ListItem', position: 3, name: 'Menopause care', item: 'https://vivawellnessco.com/menopause/' },
       ],
     },
   ],
@@ -106,10 +109,12 @@ const faqSchema = {
   {/* HERO */}
   <section class="meno-hero">
     <div class="container meno-hero__inner">
+      <nav class="breadcrumbs" aria-label="Breadcrumb">
+        <a href="/">Home</a><span aria-hidden="true">/</span><a href="/services/">Care and pricing</a><span aria-hidden="true">/</span><span aria-current="page">Menopause care</span>
+      </nav>
       <span class="eyebrow">Telehealth · TX · CO · FL · IA</span>
       <h1 class="meno-hero__title">
-        Your hormones changed.<br/>
-        <span class="italic-display">Your care should too.</span>
+        Perimenopause and menopause care
       </h1>
       <p class="lead">
         Perimenopause and menopause symptoms can collide with work, parenting,
@@ -117,9 +122,10 @@ const faqSchema = {
         board-certified nurse practitioner. I start with your history and goals,
         explain reasonable options, and stay involved when ongoing care is appropriate.
       </p>
+      <p class="meno-hero__cost">First visit $199 · $50 deposit due at booking · Membership separate</p>
       <div class="meno-hero__ctas">
-        <a href="/start/?utm_source=vivawellnessco&utm_medium=cta&utm_content=menopause_page" class="btn btn--bronze">Book your first visit</a>
-        <a href="/#quiz" class="btn meno-hero__btn-quiet">Use the care-path guide</a>
+        <a href="/start/?utm_source=vivawellnessco&utm_medium=cta&utm_content=menopause_page" class="btn btn--bronze">Book a visit</a>
+        <a href="/services/#viva-concierge-access" class="btn">See care and pricing</a>
       </div>
     </div>
   </section>
@@ -250,19 +256,27 @@ const faqSchema = {
   </section>
 
   {/* CTA */}
-  <section class="meno-cta">
+  <section class="meno-reading section">
+    <div class="container">
+      <h2>Explore your questions.</h2>
+      <ul role="list">
+        <li><a href="/blog/perimenopause-starts-earlier/">Read the perimenopause guide →</a></li>
+        <li><a href="/weight-management/">Explore medical weight management →</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="meno-cta" data-final-cta>
     <div class="container meno-cta__inner">
       <span class="eyebrow">Start here</span>
       <h2 class="meno-cta__title">
         You don't have to push through it.
       </h2>
       <p class="lead">
-        Three anonymous questions can help you compare Viva's published care
-        paths. They do not assess eligibility. You can also book the first visit directly.
+        Bring your questions and goals to an individual visit with Liliana.
       </p>
       <div class="meno-cta__ctas">
-        <a href="/start/?utm_source=vivawellnessco&utm_medium=cta&utm_content=menopause_cta" class="btn btn--bronze">Book your first visit</a>
-        <a href="/#quiz" class="btn meno-hero__btn-quiet">Use the care-path guide</a>
+        <a href="/start/?utm_source=vivawellnessco&utm_medium=cta&utm_content=menopause_cta" class="btn btn--bronze">Book a visit</a>
       </div>
     </div>
   </section>
@@ -270,302 +284,63 @@ const faqSchema = {
 </Layout>
 
 <style>
-  /* HERO */
-  .meno-hero {
-    background: var(--sky);
-    border-bottom: 1px solid var(--rule);
-    padding: clamp(4.5rem, 14vw, 10rem) 0 clamp(2.5rem, 6vw, 5rem);
-    position: relative;
-    overflow: hidden;
-  }
-  .meno-hero::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: none; /* bronze glow removed in p2 */
-    pointer-events: none;
-  }
-  .meno-hero__inner {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 1.6rem;
-    max-width: 1100px;
-  }
-  .meno-hero__title {
-    font-size: clamp(2.7rem, 9.5vw, 4.8rem);
-    line-height: 1.02;
-    letter-spacing: -0.028em;
-  }
-  .meno-hero__ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
-  .meno-hero__btn-quiet {
-    background: transparent;
-    border: 1px solid #fff;
-    color: #fff;
-  }
-  .meno-hero__btn-quiet:hover { background: #fff; border-color: #fff; color: var(--paper); }
-
-  .meno-quote-wrap { padding: clamp(2rem, 4vw, 3rem) var(--gutter); }
-  .meno-quote { margin: 0; display: flex; flex-direction: column; gap: 0.7rem; }
-
-  /* SECTION HEADS */
-  .meno-head { margin-bottom: clamp(1.6rem, 3vw, 2.4rem); max-width: 800px; }
-  .meno-head__title {
-    font-size: clamp(1.8rem, 4vw, 2.8rem);
-    line-height: 1.05;
-    letter-spacing: -0.02em;
-    margin: 0.7rem 0 0;
-  }
-
-  /* SYMPTOMS */
-  .meno-symptoms {
-    padding: clamp(3rem, 7vw, 5rem) 0;
-    border-top: 1px solid var(--rule);
-    border-bottom: 1px solid var(--rule);
-    background: var(--ink-2);
-  }
-  .meno-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0.9rem;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-  @media (max-width: 1000px) { .meno-grid { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 540px) { .meno-grid { grid-template-columns: 1fr; } }
-  /* deliberately uneven grid: the most-treated cluster gets the wide cell */
-  .meno-grid li:first-child { grid-column: span 2; }
-  @media (max-width: 540px) { .meno-grid li:first-child { grid-column: auto; } }
-  .meno-cell {
-    background: var(--ink);
-    border: 1px solid var(--rule-strong);
-    border-radius: var(--radius);
-    padding: 1.3rem 1.2rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.45rem;
-  }
-  .meno-cell__name {
-    font-size: 1rem;
-    line-height: 1.3;
-    color: var(--paper);
-    letter-spacing: -0.01em;
-  }
-  .meno-cell__body {
-    color: rgba(28, 35, 27, 0.72);
-    font-size: 0.88rem;
-    line-height: 1.55;
-    margin: 0;
-  }
-
-  /* STEPS */
-  .meno-steps { padding: clamp(3rem, 7vw, 5rem) 0; }
-  .meno-steps__list {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    max-width: 860px;
-  }
-  .meno-step {
-    display: grid;
-    grid-template-columns: 64px 1fr;
-    gap: 1.1rem;
-    padding: 1.4rem 0;
-    border-bottom: 1px solid var(--rule);
-  }
-  .meno-step:last-child { border-bottom: 0; }
-  .meno-step__num {
-    font-family: var(--font-mono);
-    font-size: 0.8rem;
-    letter-spacing: 0.15em;
-    color: var(--bronze);
-    padding-top: 0.25rem;
-  }
-  .meno-step__title {
-    font-size: 1.15rem;
-    line-height: 1.25;
-    color: var(--paper);
-    letter-spacing: -0.01em;
-    margin: 0 0 0.35rem;
-  }
-  .meno-step__body {
-    color: rgba(28, 35, 27, 0.75);
-    font-size: 0.95rem;
-    line-height: 1.6;
-    margin: 0;
-    max-width: 62ch;
-  }
-
-  /* TIERS */
-  .meno-tiers {
-    padding: clamp(3rem, 7vw, 5rem) 0;
-    border-top: 1px solid var(--rule);
-    background: var(--ink-2);
-  }
-  .meno-tiers__row {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.9rem;
-  }
-  @media (max-width: 760px) { .meno-tiers__row { grid-template-columns: 1fr; } }
-  .meno-tier {
-    background: var(--ink);
-    border: 1px solid var(--rule-strong);
-    border-radius: var(--radius);
-    padding: clamp(1.4rem, 2.6vw, 1.8rem);
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    color: inherit;
-    text-decoration: none;
-    transition: background 240ms var(--ease), border-color 240ms var(--ease);
-  }
-  .meno-tier:hover { background: var(--ink-2); border-color: var(--butter-deep); }
-  .meno-tier__tag {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--bronze);
-  }
-  .meno-tier__name {
-    font-family: var(--font-display-italic);
-    font-style: italic;
-    font-size: 1.35rem;
-    line-height: 1.15;
-    color: var(--paper);
-    margin: 0;
-  }
-  .meno-tier__price {
-    font-size: 1rem;
-    color: var(--paper);
-    margin: 0;
-  }
-  .meno-tier__price strong { font-size: 1.6rem; letter-spacing: -0.02em; }
-  .meno-tier__body {
-    color: rgba(28, 35, 27, 0.75);
-    font-size: 0.92rem;
-    line-height: 1.6;
-    margin: 0;
-  }
-  .meno-tier__cta {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--bronze);
-    margin-top: 0.4rem;
-  }
-  .meno-tiers__note {
-    margin: 1.2rem 0 0;
-    color: var(--mute);
-    font-size: 0.88rem;
-    max-width: 60ch;
-  }
-
-  .meno-sources {
-    padding: clamp(3rem, 7vw, 5rem) 0;
-    border-top: 1px solid var(--rule);
-    background: var(--sky);
-  }
-  .meno-sources__inner { display: grid; gap: 1.2rem; max-width: 900px; }
-  .meno-sources__inner ul { display: grid; gap: 0.7rem; padding-left: 1.2rem; }
-  .meno-sources__inner a { color: var(--paper); text-decoration: underline; text-underline-offset: 0.22em; }
-  .meno-sources__inner p { color: var(--paper-2); max-width: 68ch; }
-
-  /* FAQ */
-  .meno-faq { padding: clamp(3rem, 7vw, 5rem) 0; border-top: 1px solid var(--rule); }
-  .meno-faq__list { max-width: 860px; }
-  .meno-faq__item { border-bottom: 1px solid var(--rule); }
-  .meno-faq__q {
-    cursor: pointer;
-    padding: 1.1rem 0;
-    font-size: 1.05rem;
-    color: var(--paper);
-    letter-spacing: -0.01em;
-    list-style: none;
-    position: relative;
-    padding-right: 2rem;
-  }
+  .meno-hero { background: var(--surface-page); border-bottom: 1px solid var(--border-subtle); padding: clamp(2.5rem, 5vw, 4.5rem) 0; }
+  .meno-hero__inner { display: flex; flex-direction: column; align-items: flex-start; gap: 1rem; }
+  .breadcrumbs { display: flex; flex-wrap: wrap; gap: .5rem; color: var(--text-secondary); font-size: .9375rem; margin-bottom: .5rem; }
+  .breadcrumbs a { text-decoration: underline; text-underline-offset: .2em; }
+  .meno-hero__title { font-size: var(--text-h1); line-height: 1.1; max-width: 24ch; }
+  .meno-hero .lead { max-width: 66ch; color: var(--text-secondary); }
+  .meno-hero__cost { font-size: .9375rem; font-weight: 600; margin-top: .5rem; }
+  .meno-hero__ctas, .meno-cta__ctas { display: flex; gap: .75rem; flex-wrap: wrap; }
+  .meno-head { margin-bottom: 2rem; max-width: 800px; }
+  .meno-head__title { font-size: var(--text-h2); line-height: 1.2; margin-top: .5rem; }
+  .meno-symptoms, .meno-steps, .meno-tiers, .meno-sources, .meno-faq { padding: var(--section-pad) 0; }
+  .meno-symptoms, .meno-tiers { background: var(--surface-subtle); }
+  .meno-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+  .meno-cell { background: var(--surface-card); border: 1px solid var(--border-subtle); border-radius: var(--radius); padding: 1.5rem; }
+  .meno-cell__name { font-size: 1.25rem; line-height: 1.3; margin-bottom: .5rem; }
+  .meno-cell__body, .meno-step__body, .meno-tier__body, .meno-faq__a { color: var(--text-secondary); line-height: 1.6; }
+  .meno-steps__list { max-width: 900px; }
+  .meno-step { display: grid; grid-template-columns: 2rem minmax(0, 1fr); gap: 1rem; padding: 1.5rem 0; border-bottom: 1px solid var(--border-subtle); }
+  .meno-step__num { font-size: .9375rem; font-weight: 600; color: var(--text-secondary); padding-top: .25rem; }
+  .meno-step__title { font-size: 1.25rem; margin-bottom: .5rem; }
+  .meno-step__body { max-width: 66ch; }
+  .meno-quote-wrap { padding: var(--section-pad) var(--gutter); }
+  .meno-quote { display: flex; flex-direction: column; gap: 1rem; max-width: 880px; }
+  .meno-quote .pullquote { font-size: clamp(1.25rem, 2.2vw, 1.75rem); line-height: 1.5; }
+  .meno-tiers__row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+  .meno-tier { background: var(--surface-card); border: 1px solid var(--border-subtle); border-radius: var(--radius); padding: 1.5rem; display: flex; flex-direction: column; gap: .75rem; color: inherit; text-decoration: none; }
+  .meno-tier:hover { border-color: var(--border-control); }
+  .meno-tier__tag { color: var(--text-secondary); font-size: .9375rem; }
+  .meno-tier__name { font-size: var(--text-h3); line-height: 1.3; }
+  .meno-tier__price strong { font-size: 1.75rem; font-weight: 600; }
+  .meno-tier__cta { margin-top: auto; padding-top: .5rem; text-decoration: underline; text-underline-offset: .2em; font-weight: 600; font-size: 1rem; }
+  .meno-tiers__note { margin-top: 1.5rem; color: var(--text-secondary); font-size: .9375rem; max-width: 68ch; }
+  .meno-sources { border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle); }
+  .meno-sources__inner { display: grid; gap: 1rem; }
+  .meno-sources__inner ul { display: grid; gap: .75rem; }
+  .meno-sources__inner a, .meno-reading a { text-decoration: underline; text-underline-offset: .2em; }
+  .meno-sources__inner p { color: var(--text-secondary); max-width: 68ch; }
+  .meno-faq__list { max-width: 900px; }
+  .meno-faq__item { border-bottom: 1px solid var(--border-subtle); }
+  .meno-faq__q { cursor: pointer; padding: 1.25rem 2rem 1.25rem 0; font-size: 1.125rem; font-weight: 600; line-height: 1.4; list-style: none; position: relative; }
   .meno-faq__q::-webkit-details-marker { display: none; }
-  .meno-faq__q::after {
-    content: '+';
-    position: absolute;
-    right: 0.2rem;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--bronze);
-    font-family: var(--font-mono);
-  }
-  .meno-faq__item[open] .meno-faq__q::after { content: '·'; }
-  .meno-faq__a {
-    color: rgba(28, 35, 27, 0.75);
-    font-size: 0.95rem;
-    line-height: 1.65;
-    margin: 0 0 1.2rem;
-    max-width: 68ch;
-  }
-
-  /* CTA */
-  .meno-cta {
-    background: var(--evergreen);
-    color: var(--cream-bright);
-    padding: clamp(4rem, 9vw, 8rem) 0;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-    border-top: 6px solid var(--terracotta);
-  }
-  .meno-cta::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: none; /* bronze glow removed in p2 */
-    pointer-events: none;
-  }
-  .meno-cta__inner {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-  }
-  .meno-cta__inner .lead { text-align: center; max-width: 56ch; color: rgba(255, 253, 248, 0.82); }
-  .meno-cta .eyebrow { color: var(--ochre); }
-  .meno-cta__title {
-    font-size: clamp(1.9rem, 4.8vw, 3.4rem);
-    line-height: 1.05;
-    letter-spacing: -0.02em;
-    max-width: 22ch;
-    margin: 0.4rem 0;
-  }
-  .meno-cta__ctas {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-top: 0.8rem;
-  }
-  @media (max-width: 720px) {
-    .meno-hero { padding: 3.75rem 0 2.75rem; }
-    .meno-hero__inner { gap: 1.25rem; }
-    .meno-hero__title { font-size: clamp(2.25rem, 10.5vw, 2.8rem); }
-    .meno-hero__ctas,
-    .meno-cta__ctas { display: grid; grid-template-columns: 1fr; width: 100%; }
-    .meno-hero__ctas .btn,
-    .meno-cta__ctas .btn { width: 100%; justify-content: center; }
-    .meno-symptoms,
-    .meno-steps,
-    .meno-tiers,
-    .meno-sources,
-    .meno-faq { padding: 2.75rem 0; }
-    .meno-cell { padding: 1.1rem; }
-    .meno-step { grid-template-columns: 44px 1fr; gap: 0.8rem; padding: 1.15rem 0; }
-    .meno-tier { padding: 1.25rem; }
-    .meno-cta { padding: 4rem 0; }
+  .meno-faq__q::after { content: '+'; position: absolute; right: .25rem; top: 1.25rem; }
+  .meno-faq__item[open] .meno-faq__q::after { content: '−'; }
+  .meno-faq__a { margin: 0 0 1.25rem; max-width: 68ch; }
+  .meno-reading { border-top: 1px solid var(--border-subtle); }
+  .meno-reading ul { margin-top: 1.5rem; display: flex; flex-wrap: wrap; gap: 1rem 2rem; }
+  .meno-cta { background: var(--surface-inverse); color: var(--text-inverse); padding: var(--section-pad) 0; --focus-ring: var(--action-primary); }
+  .meno-cta__inner { display: flex; flex-direction: column; align-items: flex-start; gap: 1rem; }
+  .meno-cta .eyebrow { color: var(--action-primary); }
+  .meno-cta__title { font-size: var(--text-h2); line-height: 1.2; max-width: 24ch; }
+  .meno-cta .lead { color: var(--text-inverse); max-width: 60ch; }
+  @media (max-width: 960px) { .meno-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 600px) {
+    .meno-hero { padding: 2rem 0 2.5rem; }
+    .meno-grid, .meno-tiers__row { grid-template-columns: 1fr; }
+    .meno-cell, .meno-tier { padding: 1.25rem; }
+    .meno-hero__ctas, .meno-cta__ctas { display: grid; grid-template-columns: 1fr; width: 100%; }
+    .meno-hero__ctas .btn, .meno-cta__ctas .btn { width: 100%; justify-content: center; }
   }
 </style>

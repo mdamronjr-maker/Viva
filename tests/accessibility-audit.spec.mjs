@@ -7,7 +7,7 @@ const routes = [
   '/blog/concierge-telehealth-explained/', '/blog/glp-1-weight-loss-austin/',
   '/blog/perimenopause-starts-earlier/', '/blog/the-parent-tax/',
   '/blog/tirzepatide-vs-semaglutide/', '/contact/', '/start/', '/privacy/',
-  '/terms/', '/notice/', '/accessibility/', '/unsubscribe/',
+  '/terms/', '/notice/', '/accessibility/', '/unsubscribe/', '/contact/received/',
 ];
 
 test('every public page passes automated WCAG 2.2 AA checks', async ({ page }) => {

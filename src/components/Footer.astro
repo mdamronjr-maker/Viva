@@ -1,10 +1,5 @@
 ---
 const year = new Date().getFullYear();
-const pathKey = Astro.url.pathname === '/' ? '/' : Astro.url.pathname.replace(/\/+$/, '');
-const onStart = pathKey === '/start';
-const bookingHref = onStart
-  ? 'https://vivawellnessco.glossgenius.com/services?utm_source=vivawellnessco&utm_medium=cta&utm_content=footer_start'
-  : '/start/?utm_source=vivawellnessco&utm_medium=cta&utm_content=footer';
 ---
 
 <footer class="site-footer">
@@ -20,8 +15,6 @@ const bookingHref = onStart
             height="212"
           />
         </a>
-        <p class="footer-brand__line">Health is personal.<br/>Your care should be, too.</p>
-        <a href={bookingHref} target={onStart ? '_blank' : undefined} rel={onStart ? 'noopener' : undefined} class="btn btn--bronze">Book your first visit</a>
       </div>
 
       <div class="footer-col">
@@ -101,115 +94,52 @@ const bookingHref = onStart
 
 <style>
   .site-footer {
-    background: var(--evergreen-deep);
-    color: var(--cream-bright);
-    border-top: 6px solid var(--terracotta);
-    padding: clamp(3rem, 7vw, 5rem) 0 2rem;
-    margin-top: 0;
-    --focus-ring: var(--ochre);
+    background: var(--surface-inverse); color: var(--text-inverse);
+    border-top: 1px solid rgb(247 247 242 / 20%);
+    padding: clamp(2rem, 4vw, 3.5rem) 0 1.5rem; margin-top: 0;
+    --focus-ring: var(--action-primary);
   }
   .footer-grid {
-    display: grid;
-    grid-template-columns: 1.4fr 1fr 1fr 1fr 1fr;
-    gap: 2.5rem;
-    padding-bottom: 3rem;
-    border-bottom: 1px solid rgba(255, 250, 241, 0.16);
+    display: grid; grid-template-columns: 1.1fr 1.1fr 1.15fr 1.25fr 1fr;
+    gap: clamp(1.25rem, 2.5vw, 2.5rem); padding-bottom: 2rem;
+    border-bottom: 1px solid rgb(247 247 242 / 20%);
   }
-  @media (max-width: 1000px) {
-    .footer-grid { grid-template-columns: 1fr 1fr 1fr; gap: 2.5rem; }
+  .footer-col { min-width: 0; }
+  .footer-brand { display: inline-flex; align-items: center; line-height: 0; max-width: 100%; }
+  .footer-brand__logo { width: 160px; height: auto; max-width: 100%; display: block; }
+  .footer-h {
+    font-family: var(--font-body); font-size: 0.9375rem; line-height: 1.5;
+    letter-spacing: 0; text-transform: none; color: var(--text-inverse);
+    margin-bottom: 0.65rem; font-weight: 600;
+  }
+  .footer-col ul { display: flex; flex-direction: column; gap: 0.15rem; }
+  .footer-col a {
+    display: inline-flex; align-items: center; min-height: 32px;
+    color: var(--text-inverse); font-size: 0.9375rem; line-height: 1.5;
+    overflow-wrap: anywhere;
+  }
+  .footer-col a:hover { color: var(--action-primary); text-decoration: underline; text-underline-offset: 0.2em; }
+  .footer-states { color: var(--text-inverse); font-size: 0.9375rem; line-height: 1.6; }
+  .footer-addr { color: var(--text-inverse); font-size: 0.875rem; line-height: 1.6; margin-top: 1rem; }
+  .footer-bottom {
+    display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap;
+    padding-top: 1.5rem; gap: 1rem; font-family: var(--font-body);
+    font-size: 0.8125rem; line-height: 1.65; letter-spacing: 0; text-transform: none;
+    color: var(--text-inverse);
+  }
+  .footer-disclaimer { max-width: 65ch; text-align: left; }
+  .footer-provider {
+    margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid rgb(247 247 242 / 20%);
+    display: flex; flex-direction: column; gap: 0.4rem; font-family: var(--font-body);
+    font-size: 0.8125rem; letter-spacing: 0; color: var(--text-inverse); line-height: 1.65;
+  }
+  .footer-provider__line strong { color: var(--text-inverse); font-weight: 600; margin-right: 0.25rem; }
+  @media (max-width: 1120px) {
+    .footer-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
     .footer-col--brand { grid-column: 1 / -1; }
   }
   @media (max-width: 700px) {
-    .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
-  }
-  @media (max-width: 380px) {
-    .footer-grid { grid-template-columns: 1fr; gap: 1.75rem; }
-    .footer-col--brand { grid-column: auto; }
-  }
-  .footer-brand {
-    display: inline-flex;
-    align-items: center;
-    margin-bottom: 1rem;
-    line-height: 0;
-  }
-  .footer-brand__logo {
-    height: clamp(2.25rem, 3vw, 2.75rem);
-    max-width: 100%;
-    width: auto;
-    display: block;
-  }
-  .footer-brand__line {
-    font-family: var(--font-display-italic);
-    font-style: italic;
-    font-size: 1.05rem;
-    line-height: 1.35;
-    color: var(--cream-bright);
-    margin: 0 0 1.5rem;
-    max-width: 20ch;
-  }
-  .footer-h {
-    font-family: var(--font-mono);
-    font-size: 0.8rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--ochre);
-    margin-bottom: 1rem;
-    font-weight: 500;
-  }
-  .footer-col ul { display: flex; flex-direction: column; gap: 0.55rem; }
-  .footer-col a {
-    color: rgba(255, 250, 241, 0.76);
-    transition: color 180ms var(--ease);
-    font-size: 0.95rem;
-  }
-  .footer-col a:hover { color: var(--ochre); }
-  .footer-col a.btn--bronze,
-  .footer-col a.btn--bronze:hover {
-    color: var(--evergreen-deep);
-  }
-  .footer-states { color: rgba(255, 250, 241, 0.76); font-size: 0.95rem; }
-  .footer-addr {
-    color: rgba(255, 250, 241, 0.64);
-    font-size: 0.85rem;
-    line-height: 1.5;
-    margin-top: 1rem;
-  }
-  .footer-bottom {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-top: 2rem;
-    flex-wrap: wrap;
-    gap: 1rem;
-    font-family: var(--font-mono);
-    font-size: 0.78rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: rgba(255, 250, 241, 0.66);
-  }
-  .footer-disclaimer { max-width: 56ch; text-align: right; }
-  @media (max-width: 720px) {
-    .footer-disclaimer { text-align: left; }
-  }
-  .footer-provider {
-    margin-top: 1.5rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid rgba(255, 250, 241, 0.14);
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    font-family: var(--font-mono);
-    font-size: 0.78rem;
-    letter-spacing: 0.05em;
-    color: rgba(255, 250, 241, 0.6);
-    line-height: 1.6;
-    text-transform: none;
-  }
-  .footer-provider__line strong {
-    color: rgba(255, 250, 241, 0.78);
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    margin-right: 0.4rem;
+    .footer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.75rem 1.25rem; }
+    .footer-col a { min-height: 44px; }
   }
 </style>

@@ -13,6 +13,23 @@ async function blockExternal(page) {
   await page.route(/^(?!http:\/\/(?:localhost|127\.0\.0\.1):4173)/, (route) => route.abort());
 }
 
+// Exercise a real reading region, rather than an obsolete pixel offset that
+// can put a redesigned page's own booking button in view.
+async function scrollToReadingRegion(page, route = '/') {
+  const selectors = {
+    '/': '.care-paths',
+    '/services/': '#plans',
+    '/blog/': '.post-list',
+    '/start/': '.start-steps',
+  };
+  const region = page.locator(selectors[route]).first();
+  await region.evaluate((element) => {
+    const headerHeight = document.querySelector('.site-header').getBoundingClientRect().height;
+    window.scrollTo({ top: element.getBoundingClientRect().top + window.scrollY - headerHeight - 24, behavior: 'instant' });
+  });
+  await expect(region).toBeVisible();
+}
+
 test.describe('mobile experience contracts', () => {
   test('every public page fits the narrowest supported phone', async ({ page }) => {
     test.setTimeout(180_000);
@@ -52,7 +69,7 @@ test.describe('mobile experience contracts', () => {
       await expect(bar).toHaveAttribute('aria-hidden', 'true');
       await expect(bar).toHaveAttribute('inert', '');
 
-      await page.evaluate(() => window.scrollTo(0, 650));
+      await scrollToReadingRegion(page, route);
       await expect(bar).toHaveClass(/is-visible/);
       await expect(bar).toHaveAttribute('aria-hidden', 'false');
       await expect(bar).not.toHaveAttribute('inert', '');
@@ -75,7 +92,7 @@ test.describe('mobile experience contracts', () => {
 
     await page.goto('/');
     const bar = page.locator('.msc');
-    await page.evaluate(() => window.scrollTo(0, 650));
+    await scrollToReadingRegion(page);
     await expect(bar).toHaveClass(/is-visible/);
     await page.locator('.nav-toggle').click();
     await expect(bar).toHaveAttribute('aria-hidden', 'true');
@@ -99,14 +116,14 @@ test.describe('mobile experience contracts', () => {
       await expect(drawer).toHaveAttribute('inert', '');
       await expect(drawer).toHaveCSS('visibility', 'hidden');
 
-      await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+      await page.evaluate(() => window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'instant' }));
       await expect(sticky).toHaveAttribute('aria-hidden', 'true');
 
       // Leave the footer so the legitimate bottom action can return, then
       // continue to the top exactly as reported on iOS Safari.
-      await page.evaluate(() => window.scrollTo(0, 650));
+      await scrollToReadingRegion(page);
       await expect(sticky).toHaveClass(/is-visible/);
-      await page.evaluate(() => window.scrollTo(0, 0));
+      await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
       await expect(sticky).not.toHaveClass(/is-visible/);
       await expect(sticky).toHaveAttribute('aria-hidden', 'true');
 

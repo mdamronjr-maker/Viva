@@ -1,291 +1,222 @@
 ---
 const path = Astro.url.pathname;
 const pathKey = path === '/' ? '/' : path.replace(/\/+$/, '');
-const isActive = (p: string) => pathKey === p || (p !== '/' && pathKey.startsWith(p));
+const isActive = (p: string) => pathKey === p || (p !== '/' && pathKey.startsWith(`${p}/`));
+const careLinks = [
+  { href: '/weight-management/', label: 'Weight management' },
+  { href: '/menopause/', label: 'Menopause care' },
+  { href: '/testosterone/', label: 'Testosterone care' },
+  { href: '/peptide-therapy/', label: 'Peptide consultations' },
+  { href: '/recovery/', label: 'Recovery & longevity' },
+];
+const careActive = careLinks.some(({ href }) => isActive(href.replace(/\/$/, '')));
 const onStart = pathKey === '/start';
 const bookingHref = onStart
   ? 'https://vivawellnessco.glossgenius.com/services?utm_source=vivawellnessco&utm_medium=cta&utm_content=header_start'
   : '/start/?utm_source=vivawellnessco&utm_medium=cta&utm_content=header_nav';
 ---
 
-<header class:list={["site-header", path === '/' && 'site-header--home']}>
+<header class:list={['site-header', pathKey === '/' && 'site-header--home']}>
   <div class="container site-header__inner">
     <a href="/" class="brand" aria-label="Viva Wellness Co. · home">
-      <img
-        src={pathKey === '/' ? '/viva-logo-paper-cropped.png' : '/viva-logo-ink-cropped.png'}
-        alt="Viva Wellness Co."
-        class="brand__logo"
-        width="1130"
-        height="212"
-      />
+      <img src={pathKey === '/' ? '/viva-logo-paper-cropped.png' : '/viva-logo-ink-cropped.png'} alt="Viva Wellness Co." class="brand__logo" width="1130" height="212" />
     </a>
-
     <nav class="nav" aria-label="Primary">
-      <a href="/" class:list={["nav__link", isActive('/') && 'is-active']} aria-current={isActive('/') ? 'page' : undefined}>Home</a>
-      <a href="/services/" class:list={["nav__link", isActive('/services') && 'is-active']} aria-current={isActive('/services') ? 'page' : undefined}>Care &amp; pricing</a>
-      <a href="/menopause/" class:list={["nav__link", isActive('/menopause') && 'is-active']} aria-current={isActive('/menopause') ? 'page' : undefined}>Menopause</a>
-      <a href="/about/" class:list={["nav__link", isActive('/about') && 'is-active']} aria-current={isActive('/about') ? 'page' : undefined}>About Liliana</a>
-      <a href="/blog/" class:list={["nav__link", isActive('/blog') && 'is-active']} aria-current={isActive('/blog') ? 'page' : undefined}>Resources</a>
-      <a href="/contact/" class:list={["nav__link", isActive('/contact') && 'is-active']} aria-current={isActive('/contact') ? 'page' : undefined}>Contact</a>
+      <details class="care-nav">
+        <summary class:list={['nav__link', careActive && 'is-active']}>Care <span aria-hidden="true">⌄</span></summary>
+        <div class="care-nav__links">
+          {careLinks.map(({ href, label }) => <a href={href} aria-current={isActive(href.replace(/\/$/, '')) ? 'page' : undefined}>{label}</a>)}
+        </div>
+      </details>
+      <a href="/services/" class:list={['nav__link', isActive('/services') && 'is-active']} aria-current={isActive('/services') ? 'page' : undefined}>Pricing</a>
+      <a href="/about/" class:list={['nav__link', isActive('/about') && 'is-active']} aria-current={isActive('/about') ? 'page' : undefined}>About Liliana</a>
+      <a href="/blog/" class:list={['nav__link', isActive('/blog') && 'is-active']} aria-current={isActive('/blog') ? 'page' : undefined}>Resources</a>
+      <a href="/contact/" class:list={['nav__link', isActive('/contact') && 'is-active']} aria-current={isActive('/contact') ? 'page' : undefined}>Contact</a>
     </nav>
-
-    <a href={bookingHref} target={onStart ? '_blank' : undefined} rel={onStart ? 'noopener' : undefined} class="btn btn--bronze nav__cta">
-      Book your first visit
-    </a>
-
-    <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="site-mobile-nav">
+    <a href={bookingHref} target={onStart ? '_blank' : undefined} rel={onStart ? 'noopener' : undefined} class="btn btn--bronze nav__cta">Book a visit</a>
+    <button type="button" class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="site-mobile-nav">
       <span aria-hidden="true"></span><span aria-hidden="true"></span>
     </button>
   </div>
 </header>
 
-<style>
-  .site-header {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    backdrop-filter: blur(18px) saturate(125%);
-    background: rgba(246, 240, 228, 0.94);
-    border-bottom: 1px solid var(--rule);
-  }
-  .site-header--home {
-    position: absolute;
-    left: 0;
-    right: 0;
-    color: var(--cream-bright);
-    background-color: var(--evergreen-deep);
-    background-image: linear-gradient(180deg, rgba(8, 34, 23, 0.42), rgba(8, 34, 23, 0));
-    border-bottom-color: transparent;
-    backdrop-filter: none;
-  }
-  .site-header--home .nav__link {
-    color: var(--cream-bright);
-  }
-  .site-header--home .nav__link::after { background: var(--ochre); }
-  .site-header--home .nav__link:hover,
-  .site-header--home .nav__link.is-active { color: var(--ochre); }
-  .site-header--home .nav-toggle span { background: var(--cream-bright); }
-  .site-header--home .nav__cta {
-    color: var(--evergreen-deep);
-    background: var(--ochre);
-    border-color: transparent;
-  }
-  .site-header--home .nav__cta:hover { background: var(--butter-bright); }
-  .site-header__inner {
-    display: grid;
-    grid-template-columns: auto 1fr auto auto;
-    align-items: center;
-    gap: 2rem;
-    padding-top: 0.8rem;
-    padding-bottom: 0.8rem;
-  }
-  .brand {
-    display: inline-flex;
-    align-items: center;
-    line-height: 0;
-  }
-  .brand__logo {
-    height: 40px;
-    width: auto;
-    display: block;
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-  }
-  @media (max-width: 540px) {
-    .brand__logo { height: 34px; }
-  }
-  .nav {
-    display: flex;
-    gap: 1.1rem;
-    justify-content: center;
-  }
-  .nav__link {
-    font-family: var(--font-body);
-    font-size: 0.83rem;
-    letter-spacing: 0.01em;
-    font-weight: 600;
-    color: var(--paper);
-    white-space: nowrap;
-    padding: 0.4rem 0;
-    position: relative;
-    transition: color 200ms var(--ease);
-  }
-  .nav__link::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: 1px;
-    background: var(--terracotta);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 280ms var(--ease);
-  }
-  .nav__link:hover { color: var(--terracotta); }
-  .nav__link:hover::after,
-  .nav__link.is-active::after { transform: scaleX(1); }
-  .nav__link.is-active { color: var(--evergreen); }
-  .nav__cta { padding: 0.75rem 1.1rem; white-space: nowrap; letter-spacing: 0.08em; }
-
-  .nav-toggle { display: none; }
-
-  @media (max-width: 1120px) {
-    .site-header__inner { grid-template-columns: auto 1fr auto; }
-    .nav { display: none; }
-    /* The full-size booking action and hamburger must never share the
-       collapsed header. Safari can temporarily report a wider layout
-       viewport while its browser chrome is changing; tying both states to
-       the same breakpoint keeps the button from being placed off-canvas. */
-    .nav__cta { display: none; }
-    .nav-toggle {
-      display: grid; gap: 5px;
-      width: 44px; height: 44px;
-      align-content: center; justify-content: center;
-    }
-    .nav-toggle span {
-      display: block; width: 22px; height: 1.5px; background: var(--paper);
-      transition: transform 240ms var(--ease), opacity 200ms var(--ease);
-      transform-origin: center;
-    }
-    :global(body.menu-open) .nav-toggle span:first-child {
-      transform: translateY(3.25px) rotate(45deg);
-    }
-    :global(body.menu-open) .nav-toggle span:last-child {
-      transform: translateY(-3.25px) rotate(-45deg);
-    }
-  }
-  /* Mobile action layout. The header CTA is already removed at the same
-     breakpoint that enables the hamburger above. */
-  @media (max-width: 720px) {
-    .site-header__inner { grid-template-columns: auto 1fr auto; }
-  }
-
-  /* Mobile menu open */
-  :global(body.menu-open) .site-mobile-nav {
-    transform: translateY(0);
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-    transition-delay: 0s;
-  }
-</style>
-
-<nav class="site-mobile-nav" id="site-mobile-nav" aria-label="Mobile" inert>
-  <a href="/" aria-current={isActive('/') ? 'page' : undefined}>Home</a>
-  <a href="/services/" aria-current={isActive('/services') ? 'page' : undefined}>Care &amp; pricing</a>
-  <a href="/menopause/" aria-current={isActive('/menopause') ? 'page' : undefined}>Menopause</a>
-  <a href="/about/" aria-current={isActive('/about') ? 'page' : undefined}>About Liliana</a>
-  <a href="/partners/" aria-current={isActive('/partners') ? 'page' : undefined}>Partners</a>
-  <a href="/blog/" aria-current={isActive('/blog') ? 'page' : undefined}>Resources</a>
-  <a href="/contact/" aria-current={isActive('/contact') ? 'page' : undefined}>Contact</a>
-  <a href={bookingHref} target={onStart ? '_blank' : undefined} rel={onStart ? 'noopener' : undefined} class="mobile-cta">Book your first visit</a>
+<nav class="site-mobile-nav" id="site-mobile-nav" aria-label="Mobile" aria-hidden="true" inert>
+  <div class="mobile-nav__group">
+    <p class="mobile-nav__label">Your care</p>
+    {careLinks.map(({ href, label }) => <a href={href} aria-current={isActive(href.replace(/\/$/, '')) ? 'page' : undefined}>{label}</a>)}
+    <a href="/services/" aria-current={isActive('/services') ? 'page' : undefined}>Care &amp; pricing</a>
+  </div>
+  <div class="mobile-nav__group">
+    <p class="mobile-nav__label">Viva Wellness Co.</p>
+    <a href="/about/" aria-current={isActive('/about') ? 'page' : undefined}>About Liliana</a>
+    <a href="/blog/" aria-current={isActive('/blog') ? 'page' : undefined}>Resources</a>
+    <a href="/partners/" aria-current={isActive('/partners') ? 'page' : undefined}>Partners</a>
+    <a href="/contact/" aria-current={isActive('/contact') ? 'page' : undefined}>Contact</a>
+  </div>
+  <a href={bookingHref} target={onStart ? '_blank' : undefined} rel={onStart ? 'noopener' : undefined} class="mobile-cta">Book a visit</a>
 </nav>
 
 <style>
+  .site-header {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--surface-page); color: var(--text-primary);
+    border-bottom: 1px solid var(--border-subtle, #d3dcd6);
+  }
+  .site-header--home {
+    background: var(--surface-inverse); color: var(--text-inverse);
+    border-bottom-color: transparent; --focus-ring: var(--action-primary);
+  }
+  .site-header__inner {
+    display: grid; grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center; gap: clamp(1rem, 2.5vw, 2rem);
+    padding-top: 0.8rem; padding-bottom: 0.8rem;
+  }
+  .brand { display: inline-flex; align-items: center; line-height: 0; min-width: 0; width: fit-content; max-width: 100%; }
+  .brand__logo { display: block; width: 210px; max-width: 100%; height: auto; }
+  .nav { display: flex; align-items: center; justify-content: center; gap: clamp(0.85rem, 1.8vw, 1.6rem); }
+  .nav__link {
+    display: inline-flex; align-items: center; gap: 0.35rem; min-height: 44px;
+    font-family: var(--font-body); font-size: 0.9375rem; font-weight: 600;
+    letter-spacing: 0; line-height: 1.4; color: inherit; white-space: nowrap;
+    padding: 0.5rem 0; text-decoration: none;
+  }
+  .nav__link:hover, .nav__link.is-active { text-decoration: underline; text-underline-offset: 0.3em; }
+  .care-nav { position: relative; }
+  .care-nav summary { cursor: pointer; list-style: none; }
+  .care-nav summary::-webkit-details-marker { display: none; }
+  .care-nav__links {
+    position: absolute; top: calc(100% + 0.5rem); left: -1rem; min-width: 250px;
+    display: grid; gap: 0.25rem; padding: 0.65rem;
+    background: var(--surface-page); color: var(--text-primary);
+    border: 1px solid var(--border-control); border-radius: 12px;
+    box-shadow: 0 8px 24px rgb(18 59 58 / 12%); --focus-ring: var(--text-primary);
+  }
+  .care-nav__links a { padding: 0.7rem 0.75rem; min-height: 44px; font-size: 0.9375rem; border-radius: 6px; }
+  .care-nav__links a:hover, .care-nav__links a[aria-current] { background: var(--surface-subtle); }
+  .nav__cta { min-height: 48px; padding: 0.75rem 1.1rem; white-space: nowrap; letter-spacing: 0; font-size: 1rem; }
+  .nav-toggle { display: none; }
   .site-mobile-nav {
-    position: fixed;
-    inset: 76px 0 0 0;
-    z-index: 90;
-    background: var(--evergreen-deep);
-    color: var(--cream-bright);
-    /* Moving this panel by -110% did not guarantee that it cleared the top
-       of a short iOS visual viewport because the panel itself begins 76px
-       below the viewport. A hidden state must also prevent painting and hit
-       testing; the larger translation is a defensive geometry fallback. */
-    transform: translateY(calc(-100% - 76px));
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-    transition:
-      transform 360ms var(--ease),
-      opacity 180ms var(--ease),
-      visibility 0s linear 360ms;
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-    padding: 2.5rem var(--gutter);
-    border-bottom: 1px solid rgba(255, 250, 241, 0.18);
-    /* Scroll when the links + CTA are taller than the viewport (short/landscape
-       phones), so the bottom links and the Start CTA stay reachable. */
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior: contain;
+    position: fixed; inset: var(--site-header-height, 76px) 0 0; z-index: 99;
+    display: none; padding: 1.25rem var(--gutter) calc(1.5rem + env(safe-area-inset-bottom, 0px));
+    background: var(--surface-inverse); color: var(--text-inverse); --focus-ring: var(--action-primary);
+    visibility: hidden; opacity: 0; pointer-events: none;
+    overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch;
+    scroll-padding-block: 1rem;
   }
+  .mobile-nav__group { display: grid; }
+  .mobile-nav__group + .mobile-nav__group { margin-top: 1.25rem; }
+  .mobile-nav__label { font-size: 0.875rem; line-height: 1.5; color: var(--action-primary); font-weight: 600; margin: 0 0 0.4rem; }
   .site-mobile-nav a {
-    font-family: var(--font-display);
-    font-size: 1.9rem;
-    letter-spacing: -0.018em;
-    padding: 0.6rem 0;
-    border-bottom: 1px solid rgba(255, 250, 241, 0.14);
+    display: flex; align-items: center; min-height: 48px;
+    padding: 0.65rem 0; font-family: var(--font-body); font-size: 1rem; font-weight: 600;
+    line-height: 1.4; letter-spacing: 0; border-bottom: 1px solid rgb(247 247 242 / 18%);
   }
-  .mobile-cta {
-    margin-top: 1.5rem;
-    color: var(--evergreen-deep);
-    background: var(--ochre);
-    border: 0 !important;
-    border-radius: var(--radius-pill);
-    font-family: var(--font-body) !important;
-    font-size: 1rem !important;
-    font-weight: 650;
-    text-align: center;
-    padding: 0.9rem 1.2rem !important;
+  .site-mobile-nav a[aria-current] { text-decoration: underline; text-underline-offset: 0.25em; }
+  .site-mobile-nav .mobile-cta {
+    justify-content: center; margin-top: 1.5rem; min-height: 48px; padding: 0.85rem 1.2rem;
+    color: var(--text-primary); background: var(--action-primary); border: 0; border-radius: var(--radius-pill, 999px);
   }
-  @media (min-width: 1121px) { .site-mobile-nav { display: none; } }
+  .site-mobile-nav .mobile-cta:hover { background: var(--action-hover); }
+  @media (max-width: 1120px) {
+    .site-header__inner { grid-template-columns: minmax(0, 1fr) auto; gap: 1rem; }
+    .nav, .nav__cta { display: none; }
+    .nav-toggle {
+      display: grid; justify-self: end; gap: 5px; width: 44px; height: 44px;
+      align-content: center; justify-content: center; color: inherit;
+    }
+    .nav-toggle span { display: block; width: 22px; height: 2px; background: currentColor; transform-origin: center; }
+    .site-mobile-nav { display: block; }
+    :global(body.menu-open) .site-header { position: fixed; top: 0; left: 0; right: 0; }
+    :global(body.menu-open) .nav-toggle span:first-child { transform: translateY(3.5px) rotate(45deg); }
+    :global(body.menu-open) .nav-toggle span:last-child { transform: translateY(-3.5px) rotate(-45deg); }
+    :global(body.menu-open) .site-mobile-nav { visibility: visible; opacity: 1; pointer-events: auto; }
+  }
+  @media (max-width: 380px) { .brand__logo { width: 195px; } }
 </style>
 
 <script>
-  // Re-bind on every page navigation so view transitions work cleanly.
-  // Element-level listeners die with the DOM; document-level keydown is bound
-  // once via a module-scoped flag to avoid accumulating duplicates.
-  let escBound = false;
+  let cleanupHeader: (() => void) | undefined;
 
   function bindHeader() {
-    const toggle = document.querySelector('.nav-toggle') as HTMLButtonElement | null;
-    const mobileNav = document.getElementById('site-mobile-nav');
-    if (!toggle || !mobileNav) return;
+    cleanupHeader?.();
+    const header = document.querySelector<HTMLElement>('.site-header');
+    const toggle = document.querySelector<HTMLButtonElement>('.nav-toggle');
+    const mobileNav = document.querySelector<HTMLElement>('#site-mobile-nav');
+    const careNav = document.querySelector<HTMLDetailsElement>('.care-nav');
+    if (!header || !toggle || !mobileNav) return;
 
-    // Background regions to make inert while the full-screen menu is open, so
-    // keyboard/SR focus can't escape behind the opaque overlay.
-    const bg = () => [document.querySelector('main'), document.querySelector('.site-footer')];
+    const controller = new AbortController();
+    const { signal } = controller;
+    const mobile = window.matchMedia('(max-width: 1120px)');
+    const background = [...document.querySelectorAll<HTMLElement>('main, .site-footer')];
+    const ownedInert = new Set<HTMLElement>();
+    let open = false;
+    let scrollPosition = 0;
+    let savedBodyStyles: { position: string; top: string; width: string; overflow: string } | null = null;
 
-    function setOpen(open: boolean) {
-      document.body.classList.toggle('menu-open', open);
-      toggle!.setAttribute('aria-expanded', open ? 'true' : 'false');
-      toggle!.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
-      if (open) {
-        mobileNav!.removeAttribute('inert');
-        bg().forEach((el) => el?.setAttribute('inert', ''));
-      } else {
-        mobileNav!.setAttribute('inert', '');
-        bg().forEach((el) => el?.removeAttribute('inert'));
+    const measureHeader = () => document.documentElement.style.setProperty('--site-header-height', `${header.getBoundingClientRect().height}px`);
+    const setOpen = (next: boolean, returnFocus = false) => {
+      const shouldOpen = next && mobile.matches;
+      if (shouldOpen && !open) {
+        scrollPosition = window.scrollY;
+        savedBodyStyles = { position: document.body.style.position, top: document.body.style.top, width: document.body.style.width, overflow: document.body.style.overflow };
+        document.body.style.position = 'fixed';
+        document.body.style.top = `-${scrollPosition}px`;
+        document.body.style.width = '100%';
+        document.body.style.overflow = 'hidden';
+        background.forEach((element) => { if (!element.inert) { element.inert = true; ownedInert.add(element); } });
       }
-    }
+      open = shouldOpen;
+      document.body.classList.toggle('menu-open', open);
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      mobileNav.inert = !open;
+      mobileNav.setAttribute('aria-hidden', String(!open));
+      if (!open) {
+        ownedInert.forEach((element) => { element.inert = false; });
+        ownedInert.clear();
+        if (savedBodyStyles) {
+          Object.assign(document.body.style, savedBodyStyles);
+          savedBodyStyles = null;
+          window.scrollTo({ top: scrollPosition, behavior: 'instant' });
+        }
+        if (returnFocus && mobile.matches) toggle.focus({ preventScroll: true });
+      }
+      measureHeader();
+      if (open) mobileNav.querySelector<HTMLAnchorElement>('a')?.focus({ preventScroll: true });
+    };
 
-    toggle.addEventListener('click', () => {
-      setOpen(!document.body.classList.contains('menu-open'));
-    });
-    mobileNav.querySelectorAll('a').forEach((a) =>
-      a.addEventListener('click', () => setOpen(false))
-    );
-
-    if (!escBound) {
-      escBound = true;
-      document.addEventListener('keydown', (e) => {
-        if (e.key !== 'Escape' || !document.body.classList.contains('menu-open')) return;
-        document.body.classList.remove('menu-open');
-        const t = document.querySelector('.nav-toggle') as HTMLButtonElement | null;
-        t?.setAttribute('aria-expanded', 'false');
-        document.getElementById('site-mobile-nav')?.setAttribute('inert', '');
-        // Mirror setOpen's cleanup: this handler bypasses setOpen (stale-closure
-        // guard), so clear the background inert here too or the page stays locked.
-        document.querySelector('main')?.removeAttribute('inert');
-        document.querySelector('.site-footer')?.removeAttribute('inert');
-        t?.focus();
-      });
-    }
+    toggle.addEventListener('click', () => setOpen(!open, open), { signal });
+    mobileNav.addEventListener('click', (event) => { if ((event.target as Element).closest('a')) setOpen(false, true); }, { signal });
+    header.querySelector('.brand')?.addEventListener('click', () => setOpen(false), { signal });
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        if (open) { event.preventDefault(); setOpen(false, true); }
+        if (careNav?.open) { careNav.open = false; careNav.querySelector<HTMLElement>('summary')?.focus(); }
+      }
+      if (event.key !== 'Tab' || !open) return;
+      const focusable = [header.querySelector<HTMLAnchorElement>('.brand'), toggle, ...mobileNav.querySelectorAll<HTMLAnchorElement>('a')].filter((element): element is HTMLAnchorElement | HTMLButtonElement => element !== null);
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+      else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+    }, { signal });
+    document.addEventListener('click', (event) => { if (careNav?.open && !careNav.contains(event.target as Node)) careNav.open = false; }, { signal });
+    const reset = () => {
+      const focusWasInDrawer = mobileNav.contains(document.activeElement);
+      setOpen(false, focusWasInDrawer);
+      if (careNav) careNav.open = false;
+      if (focusWasInDrawer && !mobile.matches) careNav?.querySelector<HTMLElement>('summary')?.focus({ preventScroll: true });
+    };
+    mobile.addEventListener('change', reset, { signal });
+    window.addEventListener('pageshow', reset, { signal });
+    window.addEventListener('pagehide', reset, { signal });
+    document.addEventListener('astro:before-swap', reset, { signal });
+    const headerSize = new ResizeObserver(measureHeader);
+    headerSize.observe(header);
+    setOpen(false);
+    cleanupHeader = () => { reset(); controller.abort(); headerSize.disconnect(); };
   }
 
-  // Astro fires astro:page-load on initial load AND every router navigation
   document.addEventListener('astro:page-load', bindHeader);
 </script>

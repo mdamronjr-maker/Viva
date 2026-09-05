@@ -69,7 +69,9 @@ test.describe('brand and experience contracts', () => {
     await expect(page.locator('link[rel="icon"]')).toHaveAttribute('href', '/favicon-viva-garden-v2.svg');
     await expect(page.locator('link[rel="apple-touch-icon"]')).toHaveAttribute('href', '/viva-icon-garden-v2.png');
     await expect(page.locator('.brand__logo')).toHaveAttribute('src', '/viva-logo-paper-cropped.png');
-    await expect(page.locator('[data-viva-wordmark="viva"] img')).toHaveAttribute('src', '/viva-logo-paper-cropped.png');
+    await expect(page.locator('[data-viva-wordmark="viva"]')).toHaveCount(0);
+    await expect(page.locator('[data-final-cta]')).toHaveCount(1);
+    await expect(page.locator('.site-footer a[href^="/start"]')).toHaveCount(0);
     await expect(page.locator('[data-viva-wordmark="full"] img')).toHaveAttribute('src', '/viva-logo-paper-cropped.png');
     await expect(page.locator('[data-viva-monogram]')).toHaveCount(0);
   });
@@ -81,15 +83,15 @@ test.describe('brand and experience contracts', () => {
     await expect(page.locator('.hero__eyebrows')).toContainText('TX · CO · FL · IA');
     await expect(page.locator('.hero__eyebrow-secondary')).toHaveText('Austin-based · Virtual care');
     await expect(page.locator('.hero__title')).toContainText('Medical weight and hormone care.');
-    await expect(page.locator('.hero__title .italic-display')).toHaveText('Built around your life.');
+    await expect(page.locator('.hero__title-line')).toHaveText('Built around your life.');
     await expect(page.locator('.hero__lead')).toContainText('Liliana Damron, APRN, FNP-BC');
     await expect(page.locator('.hero__ctas a').first()).toHaveText('Book a visit');
 
     const image = page.locator('.hero__media img');
-    await expect(image).toHaveAttribute('src', '/liliana-founder-portrait-v2.webp');
-    await expect(image).toHaveAttribute('width', '2048');
-    await expect(image).toHaveAttribute('height', '3072');
-    await expect(image).toHaveAttribute('srcset', /2048w/);
+    await expect(image).toHaveAttribute('src', '/liliana-founder-portrait.webp');
+    await expect(image).toHaveAttribute('width', '1023');
+    await expect(image).toHaveAttribute('height', '1537');
+    await expect(image).toHaveAttribute('srcset', /1023w/);
 
     const rotation = page.locator('[data-tplaypause]');
     await expect(rotation).toHaveAttribute('aria-label', 'Play automatic review rotation');
@@ -100,11 +102,17 @@ test.describe('brand and experience contracts', () => {
   });
 
   test('key viewports have no horizontal overflow', async ({ page }) => {
+    test.setTimeout(180_000);
     await blockExternal(page);
     for (const viewport of [
+      { width: 320, height: 568 },
+      { width: 375, height: 812 },
       { width: 390, height: 844 },
+      { width: 430, height: 932 },
       { width: 768, height: 1024 },
+      { width: 1024, height: 768 },
       { width: 1440, height: 1000 },
+      { width: 1920, height: 1080 },
     ]) {
       await page.setViewportSize(viewport);
       for (const route of RESPONSIVE_PAGES) {
@@ -343,7 +351,7 @@ test.describe('SEO, content, and accessibility contracts', () => {
     await blockExternal(page);
     await page.goto('/peptide-therapy/');
 
-    await expect(page).toHaveTitle(/Peptide Therapy in Austin, TX/);
+    await expect(page).toHaveTitle(/Peptide Therapy Consultations in Austin/);
     await expect(page.locator('h1')).toContainText(/Peptide therapy/i);
     await expect(page.locator('main')).toContainText('Compounded drugs are not FDA-approved');
     await expect(page.locator('main')).toContainText('Texas, Colorado, Florida, or Iowa');
@@ -365,7 +373,9 @@ test.describe('SEO, content, and accessibility contracts', () => {
 
     for (const route of ['/', '/services/']) {
       await page.goto(route);
-      await expect(page.locator('a[href="/peptide-therapy/"]')).toHaveCount(2);
+      await expect(page.locator('main a[href="/peptide-therapy/"]')).toHaveCount(1);
+      await expect(page.locator('.care-nav a[href="/peptide-therapy/"]')).toHaveCount(1);
+      await expect(page.locator('#site-mobile-nav a[href="/peptide-therapy/"]')).toHaveCount(1);
     }
   });
 
@@ -384,6 +394,7 @@ test.describe('SEO, content, and accessibility contracts', () => {
     expect(sitemap).not.toContain('/quiz/');
     expect(sitemap).not.toContain('/menu/');
     expect(sitemap).not.toContain('/unsubscribe/');
+    expect(sitemap).not.toContain('/contact/received/');
   });
 
   test('404 is noindex and retired routes are absent from the build', async ({ request }) => {

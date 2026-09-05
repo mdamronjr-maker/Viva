@@ -27,8 +27,8 @@ test('home production assets remain inside first-party release budgets', () => {
 
   expect(statSync(resolve(process.cwd(), 'public/liliana-founder-portrait-sm.webp')).size)
     .toBeLessThanOrEqual(80 * 1024);
-  expect(statSync(resolve(process.cwd(), 'public/liliana-founder-portrait-v2.webp')).size)
-    .toBeLessThanOrEqual(240 * 1024);
+  expect(statSync(resolve(process.cwd(), 'public/liliana-founder-portrait.webp')).size)
+    .toBeLessThanOrEqual(120 * 1024);
 });
 
 test('home has no material local-preview layout shift', async ({ page }) => {

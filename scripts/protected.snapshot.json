@@ -58,6 +58,6 @@
     { "category": "funnel-contract", "file": "functions/api/lead.js", "literal": "source = 'contact',", "count": 1 },
     { "category": "funnel-contract", "file": "functions/api/lead.js", "literal": "if (source !== 'contact')", "count": 1 },
     { "category": "funnel-contract", "file": "functions/api/lead.js", "literal": "if (payload?.quiz || payload?.match)", "count": 1 },
-    { "category": "funnel-contract", "file": "functions/api/lead.js", "literal": "const order = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content'];", "count": 1 }
+    { "category": "funnel-contract", "file": "functions/api/lead.js", "literal": "const notifySubject = 'New non-clinical contact request';", "count": 1 }
   ]
 }

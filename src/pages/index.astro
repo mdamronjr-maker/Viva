@@ -114,11 +114,9 @@ const testimonials = [
 
 <Layout
   title="Concierge Weight, Hormone & Peptide Telehealth | Viva"
-  description="One named provider for medical weight management, hormone health, menopause, peptide therapy consultations, and recovery in TX, CO, FL, and IA."
+  description="Virtual weight management, menopause, testosterone, peptide consultations, and recovery care with Liliana Damron, APRN, FNP-BC. Serving TX, CO, FL, and IA."
   schema={faqSchema}
 >
-
-  {/* ============ HERO · native-resolution founder portrait ============ */}
   <section class="hero">
     <div class="container hero__inner">
       <div class="hero__copy">
@@ -126,318 +124,47 @@ const testimonials = [
           <span class="eyebrow" aria-label="Concierge telehealth in Texas, Colorado, Florida, and Iowa">Concierge telehealth · TX · CO · FL · IA</span>
           <span class="hero__eyebrow-secondary">Austin-based · Virtual care</span>
         </div>
-
-        <h1 class="hero__title">
-          <span class="hero__title-line">Medical weight and hormone care.</span>
-          <span class="hero__title-line italic-display">Built around your life.</span>
-        </h1>
-
-        <div class="hero__foot">
-          <p class="hero__lead">
-            I'm Liliana Damron, APRN, FNP-BC—your provider for virtual weight
-            management, menopause, hormone health, and recovery, with local labs
-            when appropriate and clear self-pay pricing.
-          </p>
-          <div class="hero__ctas">
-            <a href="/start/?utm_source=vivawellnessco&utm_medium=cta&utm_content=home_hero" class="btn btn--bronze">Book a visit</a>
-            <a href="#quiz" class="btn hero__btn-quiet">Take the quiz</a>
-          </div>
+        <h1 class="hero__title">Medical weight and hormone care.<span class="hero__title-line">Built around your life.</span></h1>
+        <p class="hero__lead">I'm Liliana Damron, APRN, FNP-BC. Get connected care for weight management, hormones, and recovery through virtual visits, local labs when appropriate, and clear self-pay plans.</p>
+        <div class="hero__ctas">
+          <a href="/start/" class="btn btn--bronze" data-primary-booking>Book a visit</a>
+          <a href="#care" class="btn">Explore care</a>
         </div>
+        <p class="hero__cost">First visit $199 · $50 deposit at booking</p>
       </div>
-      <picture class="hero__media">
-        <img
-          src="/liliana-founder-portrait-v2.webp"
-          srcset="/liliana-founder-portrait-sm.webp 640w, /liliana-founder-portrait-v2.webp 2048w"
-          sizes="(max-width: 800px) 100vw, 46vw"
-          width="2048"
-          height="3072"
-          alt="Liliana Damron, APRN, FNP-BC"
-          fetchpriority="high"
-        />
-      </picture>
-    </div>
-  </section>
-
-  {/* ============ FEATURE BAND · butter, static (replaces the marquee) ============ */}
-  <section class="features" aria-label="What concierge care includes">
-    <ul class="features__grid container" role="list">
-      <li class="feature">
-        <svg class="feature__ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={PICON.person} />
-        <span class="feature__name">Concierge care</span>
-        <p class="feature__body">Direct access to your provider and personalized support every step of the way.</p>
-      </li>
-      <li class="feature">
-        <svg class="feature__ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={PICON.flask} />
-        <span class="feature__name">Clinically guided</span>
-        <p class="feature__body">History, goals, and labs when appropriate guide the decisions you make with Liliana.</p>
-      </li>
-      <li class="feature">
-        <svg class="feature__ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={PICON.clipboard} />
-        <span class="feature__name">A plan that fits</span>
-        <p class="feature__body">Care is adjusted to your goals, response, schedule, and clinical needs.</p>
-      </li>
-      <li class="feature">
-        <svg class="feature__ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={PICON.package} />
-        <span class="feature__name">Doorstep delivery</span>
-        <p class="feature__body">Eligible medications and supplies ship discreetly and conveniently to you.</p>
-      </li>
-    </ul>
-  </section>
-
-  {/* ============ WHOLE-PERSON WELLNESS · editorial image break ============ */}
-  <section class="wellness-story" aria-labelledby="wellness-story-title">
-    <div class="container wellness-story__inner">
-      <figure class="wellness-story__media">
-        <picture>
-          <source media="(max-width: 800px)" srcset="/viva-pool-sm.webp" />
-          <img
-            src="/viva-pool.webp"
-            width="1448"
-            height="1086"
-            alt="A woman resting at the edge of a rooftop pool with the Austin skyline beyond"
-            loading="lazy"
-            decoding="async"
-          />
-        </picture>
-        <figcaption class="caption">Whole-person wellness · Austin</figcaption>
+      <figure class="hero__media">
+        <img src="/liliana-founder-portrait.webp" srcset="/liliana-founder-portrait-sm.webp 640w, /liliana-founder-portrait.webp 1023w" sizes="(max-width: 720px) calc(100vw - 2.5rem), (max-width: 1280px) 40vw, 480px" width="1023" height="1537" alt="Liliana Damron, APRN, FNP-BC, founder of Viva Wellness Co." loading="eager" fetchpriority="high" decoding="async" />
+        <figcaption>Liliana Damron <span>APRN, FNP-BC · Your Viva provider</span></figcaption>
       </figure>
-
-      <div class="wellness-story__copy">
-        <span class="eyebrow">Whole-person wellness</span>
-        <h2 id="wellness-story-title" class="wellness-story__title">
-          Care that makes room<br />for real life.
-        </h2>
-        <p class="wellness-story__lead">
-          Virtual visits can remove the commute and keep follow-up connected to
-          one provider. They do not replace the in-person, primary, urgent, or
-          specialty care you may need.
-        </p>
-        <a href="/services/" class="btn">Explore care &amp; pricing</a>
-      </div>
     </div>
   </section>
 
-  {/* ============ AUDIENCE RECOGNITION · start with the life, not the treatment ============ */}
-  <section class="audience" aria-labelledby="audience-title">
-    <div class="container audience__inner">
-      <div class="audience__head">
-        <span class="eyebrow">Care for the season you are in</span>
-        <h2 id="audience-title" class="audience__title">
-          Your life is full.<br />Your care can still fit.
-        </h2>
-        <p class="lead audience__lead">
-          Work, family, sleep, and recovery all pull on the same body. Bring me
-          what changed, what you have tried, and what you need your health to
-          support. I will explain what Viva can reasonably evaluate and when a
-          different kind of care makes more sense.
-        </p>
-      </div>
-
-      <ul class="audience__grid" role="list">
-        <li class="audience-card">
-          <h3>Energy, sleep, and hormones</h3>
-          <p>For broken sleep, brain fog, mood or libido changes, low testosterone, perimenopause, or menopause.</p>
-          <a href="/menopause/">Explore menopause care →</a>
-        </li>
-        <li class="audience-card">
-          <h3>Weight and metabolism</h3>
-          <p>For appetite or weight changes when the routines that used to work are no longer enough.</p>
-          <a href="/weight-management/">Explore weight care →</a>
-        </li>
-        <li class="audience-card">
-          <h3>Recovery and strength</h3>
-          <p>For training, surgery, or injury that is taking longer to recover from, and for protecting the muscle you have built.</p>
-          <a href="/recovery/">Explore recovery care →</a>
-        </li>
-        <li class="audience-card">
-          <h3>Peptide therapy questions</h3>
-          <p>For adults who want to understand the evidence, product status, cost, and care boundaries before deciding.</p>
-          <a href="/peptide-therapy/">Explore peptide therapy →</a>
-        </li>
-      </ul>
-
-      <a class="audience__article" href="/blog/the-parent-tax/">
-        <span>For parents and caregivers</span>
-        <strong>The Parent Tax: a realistic health reset for busy caregivers</strong>
-        <span aria-hidden="true">Read the practical guide →</span>
-      </a>
-    </div>
-  </section>
-
-  <aside class="trust" aria-label="Practice credentials"><ul class="trust__grid container" role="list"><li class="trust__cell"><p class="trust__label">Board-certified nurse practitioner</p></li><li class="trust__cell"><p class="trust__label">Licensed in TX, CO, FL, IA</p></li><li class="trust__cell"><p class="trust__label">Compounded medications are not FDA-approved</p></li><li class="trust__cell"><p class="trust__label">Every prescription requires clinical review</p></li></ul></aside>
-
-  {/* ============ PROVIDER BAND · trust before the visitor chooses a path ============ */}
-  <section class="provider-band section--paper">
-    <div class="container provider-band__inner">
-      <div class="provider-band__facts" aria-label="Provider facts">
-        <span class="provider-band__facts-kicker">Liliana Damron</span>
-        <strong>APRN, FNP-BC</strong>
-        <ul>
-          <li>Board-certified family nurse practitioner</li>
-          <li>Licensed in Texas, Colorado, Florida, and Iowa</li>
-          <li>Telehealth visits with one named provider</li>
-          <li>Clinical communication in the secure patient portal</li>
-        </ul>
-      </div>
-
-      <div class="provider-band__copy">
-        <span class="eyebrow">Your provider</span>
-        <h2 class="provider-band__title">
-          A real, named provider, every single visit.
-        </h2>
-        <p class="provider-band__voice">
-          Your first visit is with Liliana, not a chatbot. She reviews the
-          relevant history, explains the options and limitations, and remains
-          the named provider for ongoing Viva care.
-        </p>
-        <a href="/about/" class="btn btn--bronze provider-band__cta">Meet your provider</a>
-      </div>
-    </div>
-  </section>
-
-
-  {/* ============ INLINE QUIZ · the showpiece ============ */}
-  <section class="qx" id="quiz">
-    <div class="container qx__inner">
-
-      <div class="qx__head">
-        <span class="eyebrow">Private, in-browser guide</span>
-        <h2 class="qx__title">
-          Find your starting point.
-        </h2>
-        <div class="qx__meta">
-          <span class="eyebrow" id="qx-step-label" role="status" aria-live="polite" aria-atomic="true">Question 1 of 3</span>
-          <div class="qx__progress" aria-hidden="true">
-            <div class="qx__progress-bar" id="qx-bar"></div>
-          </div>
-        </div>
-      </div>
-
-      {/* Step 1 */}
-      <div class="qx__step is-active" data-step="1">
-        <p class="qx__q" id="qx-q1" role="heading" aria-level="3" tabindex="-1">What feels most different right now?</p>
-        <div class="qx__options" role="group" aria-labelledby="qx-q1">
-          <button class="qx__opt" data-q="goal" data-v="weight"><span class="qx__opt-label">Weight or appetite feels harder to manage</span><span class="qx__opt-arrow">→</span></button>
-          <button class="qx__opt" data-q="goal" data-v="hormones"><span class="qx__opt-label">My energy, mood, or libido feels off</span><span class="qx__opt-arrow">→</span></button>
-          <button class="qx__opt" data-q="goal" data-v="recovery"><span class="qx__opt-label">Recovery from training, surgery, or injury takes longer</span><span class="qx__opt-arrow">→</span></button>
-          <button class="qx__opt" data-q="goal" data-v="longevity"><span class="qx__opt-label">I want to protect my health for the long term</span><span class="qx__opt-arrow">→</span></button>
-          <button class="qx__opt" data-q="goal" data-v="performance"><span class="qx__opt-label">I want better strength, performance, or body composition</span><span class="qx__opt-arrow">→</span></button>
-        </div>
-      </div>
-
-      {/* Step 2 · preference, not a demographic or clinical intake question */}
-      <div class="qx__step" data-step="2">
-        <p class="qx__q" id="qx-q2" role="heading" aria-level="3" tabindex="-1">Which care path would you like to compare?</p>
-        <div class="qx__options" role="group" aria-labelledby="qx-q2">
-          <button class="qx__opt" data-q="path" data-v="menopause"><span class="qx__opt-label">Menopause or other hormone care</span><span class="qx__opt-arrow">→</span></button>
-          <button class="qx__opt" data-q="path" data-v="testosterone"><span class="qx__opt-label">Testosterone evaluation and follow-up</span><span class="qx__opt-arrow">→</span></button>
-          <button class="qx__opt" data-q="path" data-v="metabolic"><span class="qx__opt-label">Medical weight-management care</span><span class="qx__opt-arrow">→</span></button>
-          <button class="qx__opt" data-q="path" data-v="concierge"><span class="qx__opt-label">General concierge or recovery questions</span><span class="qx__opt-arrow">→</span></button>
-          <button class="qx__opt" data-q="path" data-v="unsure"><span class="qx__opt-label">I am not sure yet</span><span class="qx__opt-arrow">→</span></button>
-        </div>
-      </div>
-
-      {/* Step 3 */}
-      <div class="qx__step" data-step="3">
-        <p class="qx__q" id="qx-q3" role="heading" aria-level="3" tabindex="-1">Which published monthly range would you like to compare?</p>
-        <div class="qx__options" role="group" aria-labelledby="qx-q3">
-          <button class="qx__opt" data-q="budget" data-v="b99"><span class="qx__opt-label">Up to $99 a month</span><span class="qx__opt-arrow">→</span></button>
-          <button class="qx__opt" data-q="budget" data-v="b199"><span class="qx__opt-label">Up to $199 a month</span><span class="qx__opt-arrow">→</span></button>
-          <button class="qx__opt" data-q="budget" data-v="b249"><span class="qx__opt-label">Up to $249 a month</span><span class="qx__opt-arrow">→</span></button>
-          <button class="qx__opt" data-q="budget" data-v="b349"><span class="qx__opt-label">Up to $349 a month</span><span class="qx__opt-arrow">→</span></button>
-          <button class="qx__opt" data-q="budget" data-v="bmax"><span class="qx__opt-label">Show me every published tier</span><span class="qx__opt-arrow">→</span></button>
-        </div>
-      </div>
-
-      {/* Step 4 · anonymous result */}
-      <div class="qx__step" data-step="4" tabindex="-1">
-        <span class="eyebrow">Your starting point</span>
-        <h2 class="qx__result-title">
-          A place to begin:<br/>
-          <span id="qx-r-name">Viva Concierge</span>
-        </h2>
-        <div class="qx__result-card">
-          <div class="qx__result-price">
-            <span class="qx__result-amt" id="qx-r-price">$99</span>
-            <span class="qx__result-cad">/mo</span>
-          </div>
-          <p class="qx__result-body" id="qx-r-body">A starting point based on your answers.</p>
-          <ul class="qx__result-list" id="qx-r-list"></ul>
-          <div class="qx__discuss">
-            <span class="qx__discuss-label">Bring to your first visit</span>
-            <p class="qx__discuss-hint">
-              These are conversation starters based on your answers. Liliana
-              confirms what fits clinically during your visit.
-            </p>
-            <ul class="qx__result-list qx__result-list--discuss" id="qx-r-discuss"></ul>
-          </div>
-          <div class="qx__result-ctas">
-            <a href="/start/?utm_source=vivawellnessco&utm_medium=cta&utm_content=home_quiz_result" class="btn btn--bronze">Book your first visit</a>
-            <a href="/services/" class="btn">Compare care &amp; pricing</a>
-          </div>
-          <p class="qx__result-note">
-            Your answers stay in this browser and are not sent to Viva. This guide is
-            educational and does not determine eligibility, diagnosis, medication, or
-            treatment. Liliana confirms what is clinically appropriate during your visit.
-          </p>
-        </div>
-      </div>
-
-      <button class="qx__back" id="qx-back" aria-label="Previous question" hidden>← Back</button>
-      <button class="qx__exit" id="qx-exit" type="button" aria-label="Exit quiz">×</button>
-    </div>
-  </section>
-
-  {/* ============ PROGRAMS ============ */}
-  <section class="section">
+  <section class="section care-paths" id="care" aria-labelledby="care-title">
     <div class="container">
-      <div class="section-head">
-        <span class="eyebrow">The programs</span>
-        <h2 class="section-head__title">
-          Where most people start.
-        </h2>
-        <p class="lead section-head__lead">
-          From a $99 concierge entry point to a $499 closely managed metabolic
-          plan. Every tier includes named-provider oversight and ongoing follow-up.
-          Medication, supplies, delivery, and labs are bundled only where listed.
-        </p>
-      </div>
-
-      <ul class="programs">
-        {programs.map((p) => (
-          <li class:list={["program", p.featured && 'program--featured']}>
-            <svg class="program__ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={PICON[p.icon]} />
-            <span class="program__tier">{p.tier}</span>
-            <h3 class="program__name">{p.name}</h3>
-            <div class="program__price">
-              <span class="program__price-amt">{p.price}</span>
-              <span class="program__price-cad">{p.cadence}</span>
-            </div>
-            <p class="program__body">{p.body}</p>
-            <a href={p.href} class="program__link">Learn more →</a>
-          </li>
-        ))}
+      <div class="section-head"><span class="eyebrow">Care that connects</span><h2 id="care-title">Start with what you need.</h2><p class="lead">A place to discuss what has changed, what you've tried, and what you want your health to support.</p></div>
+      <ul class="care-grid" role="list">
+        <li><a href="/weight-management/"><h3>Medical weight management</h3><p>Explore metabolic care, GLP-1 questions, and ongoing follow-up.</p><span>Explore weight care →</span></a></li>
+        <li><a href="/menopause/"><h3>Menopause &amp; hormone health</h3><p>Discuss perimenopause, changing symptoms, and care options.</p><span>Explore menopause care →</span></a></li>
+        <li><a href="/testosterone/"><h3>Testosterone care</h3><p>Understand evaluation, monitoring, and whether treatment fits.</p><span>Explore testosterone care →</span></a></li>
+        <li><a href="/peptide-therapy/"><h3>Peptide consultations</h3><p>Bring your questions about evidence, risks, and available options.</p><span>Understand peptide care →</span></a></li>
+        <li><a href="/recovery/"><h3>Recovery &amp; active living</h3><p>Discuss training, recovery, and when another kind of care is needed.</p><span>Explore recovery care →</span></a></li>
       </ul>
-
-      <p class="programs-terms">
-        Individual results vary. Memberships include an initial 12-week commitment, then renew
-        automatically every 30 days; cancel anytime after the first 12 weeks · <a href="/terms/">membership terms</a>.
-      </p>
-
-      <div class="programs-foot">
-        <a href="/services/" class="btn">Compare all care &amp; pricing</a>
-      </div>
+      <p class="care-boundary">Every prescription requires clinical evaluation. Compounded medications are not FDA-approved. Telehealth does not replace in-person primary, urgent, emergency, or specialist care when those services are needed.</p>
     </div>
   </section>
 
-  {/* ============ TESTIMONIALS ============ */}
+  <section class="section provider-band section--paper">
+    <div class="container provider-band__inner">
+      <div class="provider-band__copy"><span class="eyebrow">One named provider</span><h2>Your history stays connected to your care.</h2><p class="lead">Your first visit is with Liliana. She reviews your relevant history, explains options and limitations, and remains the named provider for ongoing Viva care.</p><a href="/about/" class="btn">Meet Liliana</a></div>
+      <div class="provider-band__facts" aria-label="Provider facts"><strong>Liliana Damron, APRN, FNP-BC</strong><ul role="list"><li>Board-certified family nurse practitioner</li><li>Licensed in Texas, Colorado, Florida, and Iowa</li><li>Virtual visits with one named provider</li><li>Clinical communication in the secure patient portal</li></ul></div>
+    </div>
+  </section>
   <section class="testimonials">
     <div class="container">
       <div class="testimonials__head">
         <span class="eyebrow">In their words</span>
         <h2 class="testimonials__title">
-          Patient experiences.<br/>
-          Verifiable on Google.
+          Patient experiences.
         </h2>
         <a href="https://www.google.com/maps/place/Viva+Wellness+Co./@30.448506,-93.3099761,5366828m/data=!3m2!1e3!4b1!4m6!3m5!1s0x838a2a09b2fa0069:0x23603b7d6308b72a!8m2!3d30.448506!4d-93.309976!16s%2Fg%2F11x1q1jhw9" target="_blank" rel="noopener" class="testimonials__rating">
           <span class="testimonials__stars" aria-label="5 out of 5 stars">
@@ -490,7 +217,42 @@ const testimonials = [
     </div>
   </section>
 
-  {/* ============ FAQ ============ */}
+
+  <section class="section process" aria-labelledby="process-title">
+    <div class="container"><div class="section-head"><span class="eyebrow">How care works</span><h2 id="process-title">A clear first step. A plan you understand.</h2></div>
+      <ol class="process-grid" role="list"><li><span class="process-number" aria-hidden="true">1</span><h3>Book a virtual visit</h3><p>Choose a time in the booking system. You must be physically in Texas, Colorado, Florida, or Iowa for your visit.</p></li><li><span class="process-number" aria-hidden="true">2</span><h3>Review your options</h3><p>Discuss your history and goals with Liliana. Labs may be recommended when appropriate; treatment depends on individual evaluation.</p></li><li><span class="process-number" aria-hidden="true">3</span><h3>Agree on ongoing care</h3><p>Review what your plan includes, its cost, and follow-up before choosing a membership.</p></li></ol>
+      <div class="visit-summary"><div><span class="eyebrow">Your first visit</span><h3>$199 consultation</h3><p>A $50 deposit is required at booking. Review the booking terms before confirming.</p></div><a href="/start/" class="btn btn--bronze">See booking details</a></div>
+    </div>
+  </section>
+  <section class="section membership-summary">
+    <div class="container"><div class="section-head"><span class="eyebrow">Ongoing care</span><h2>Compare the published plans.</h2><p class="lead">Memberships range from $99 to $499 per month. Medication, supplies, delivery, and labs are included only where expressly listed and clinically appropriate.</p></div>
+      <ul class="programs" role="list">
+        {programs.map((p) => (
+          <li class:list={["program", p.featured && 'program--featured']}>
+            <svg class="program__ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={PICON[p.icon]} />
+            <span class="program__tier">{p.tier}</span>
+            <h3 class="program__name">{p.name}</h3>
+            <div class="program__price">
+              <span class="program__price-amt">{p.price}</span>
+              <span class="program__price-cad">{p.cadence}</span>
+            </div>
+            <p class="program__body">{p.body}</p>
+            <a href={p.href} class="program__link">Learn more →</a>
+          </li>
+        ))}
+      </ul>
+
+      <p class="programs-terms">
+        Individual results vary. Memberships include an initial 12-week commitment, then renew
+        automatically every 30 days; cancel anytime after the first 12 weeks · <a href="/terms/">membership terms</a>.
+      </p>
+
+      <div class="programs-foot">
+        <a href="/services/" class="btn">Compare all care &amp; pricing</a>
+      </div>
+
+    </div>
+  </section>
   <section class="faq">
     <div class="container">
       <div class="faq__head">
@@ -504,7 +266,7 @@ const testimonials = [
         </p>
       </div>
 
-      <ul class="faq__list">
+      <ul class="faq__list" role="list">
         {faqs.map((f, i) => (
           <li class="faq__item">
             <details>
@@ -524,24 +286,106 @@ const testimonials = [
     </div>
   </section>
 
-  {/* ============ CTA ============ */}
-  <section class="cta">
-    <div class="container cta__inner">
-      <div class="cta__brand" aria-hidden="true" data-viva-wordmark="viva">
-        <img src="/viva-logo-paper-cropped.png" alt="" width="1130" height="212" />
+
+  <section class="section resources" aria-labelledby="resources-title"><div class="container"><div class="section-head"><span class="eyebrow">Read at your pace</span><h2 id="resources-title">Practical information for the next step.</h2></div><div class="resource-grid"><a href="/blog/the-parent-tax/"><h3>A health reset for busy caregivers</h3><p>Read The Parent Tax →</p></a><a href="/blog/concierge-telehealth-explained/"><h3>What concierge telehealth involves</h3><p>Understand the care model →</p></a><a href="/partners/"><h3>Viva Perks &amp; resources</h3><p>Explore partner resources and offers →</p></a></div></div></section>
+  <section class="qx" id="quiz">
+    <div class="container qx__inner">
+
+      <div class="qx__head">
+        <span class="eyebrow">Private, in-browser guide</span>
+        <h2 class="qx__title" id="qx-title">
+          Find your starting point.
+        </h2>
+        <p class="qx__intro">Optional, anonymous, and educational. You can book directly without completing this guide.</p>
+        <div class="qx__meta">
+          <span class="eyebrow" id="qx-step-label" role="status" aria-live="polite" aria-atomic="true">Question 1 of 3</span>
+          <div class="qx__progress" aria-hidden="true">
+            <div class="qx__progress-bar" id="qx-bar"></div>
+          </div>
+        </div>
       </div>
-      <div class="cta__copy">
-        <h2 class="cta__title">Health is personal.<br />Your care should be, too.</h2>
-        <p class="lead">One named provider, one clear plan, and follow-up that fits real life.</p>
+
+      {/* Step 1 */}
+      <div class="qx__step is-active" data-step="1">
+        <p class="qx__q" id="qx-q1" role="heading" aria-level="3" tabindex="-1">What feels most different right now?</p>
+        <div class="qx__options" role="group" aria-labelledby="qx-q1">
+          <button class="qx__opt" data-q="goal" data-v="weight"><span class="qx__opt-label">Weight or appetite feels harder to manage</span><span class="qx__opt-arrow">→</span></button>
+          <button class="qx__opt" data-q="goal" data-v="hormones"><span class="qx__opt-label">My energy, mood, or libido feels off</span><span class="qx__opt-arrow">→</span></button>
+          <button class="qx__opt" data-q="goal" data-v="recovery"><span class="qx__opt-label">I have questions about recovery and training</span><span class="qx__opt-arrow">→</span></button>
+          <button class="qx__opt" data-q="goal" data-v="longevity"><span class="qx__opt-label">I want to protect my health for the long term</span><span class="qx__opt-arrow">→</span></button>
+          <button class="qx__opt" data-q="goal" data-v="performance"><span class="qx__opt-label">I want better strength, performance, or body composition</span><span class="qx__opt-arrow">→</span></button>
+        </div>
       </div>
-      <div class="cta__ctas">
-        <a href="/start/?utm_source=vivawellnessco&utm_medium=cta&utm_content=home_cta" class="btn btn--bronze">Book your first visit</a>
+
+      {/* Step 2 · preference, not a demographic or clinical intake question */}
+      <div class="qx__step" data-step="2">
+        <p class="qx__q" id="qx-q2" role="heading" aria-level="3" tabindex="-1">Which care path would you like to compare?</p>
+        <div class="qx__options" role="group" aria-labelledby="qx-q2">
+          <button class="qx__opt" data-q="path" data-v="menopause"><span class="qx__opt-label">Menopause or other hormone care</span><span class="qx__opt-arrow">→</span></button>
+          <button class="qx__opt" data-q="path" data-v="testosterone"><span class="qx__opt-label">Testosterone evaluation and follow-up</span><span class="qx__opt-arrow">→</span></button>
+          <button class="qx__opt" data-q="path" data-v="metabolic"><span class="qx__opt-label">Medical weight-management care</span><span class="qx__opt-arrow">→</span></button>
+          <button class="qx__opt" data-q="path" data-v="concierge"><span class="qx__opt-label">General concierge or recovery questions</span><span class="qx__opt-arrow">→</span></button>
+          <button class="qx__opt" data-q="path" data-v="unsure"><span class="qx__opt-label">I am not sure yet</span><span class="qx__opt-arrow">→</span></button>
+        </div>
       </div>
+
+      {/* Step 3 */}
+      <div class="qx__step" data-step="3">
+        <p class="qx__q" id="qx-q3" role="heading" aria-level="3" tabindex="-1">Which published monthly range would you like to compare?</p>
+        <div class="qx__options" role="group" aria-labelledby="qx-q3">
+          <button class="qx__opt" data-q="budget" data-v="b99"><span class="qx__opt-label">Up to $99 a month</span><span class="qx__opt-arrow">→</span></button>
+          <button class="qx__opt" data-q="budget" data-v="b199"><span class="qx__opt-label">Up to $199 a month</span><span class="qx__opt-arrow">→</span></button>
+          <button class="qx__opt" data-q="budget" data-v="b249"><span class="qx__opt-label">Up to $249 a month</span><span class="qx__opt-arrow">→</span></button>
+          <button class="qx__opt" data-q="budget" data-v="b349"><span class="qx__opt-label">Up to $349 a month</span><span class="qx__opt-arrow">→</span></button>
+          <button class="qx__opt" data-q="budget" data-v="bmax"><span class="qx__opt-label">Show me every published tier</span><span class="qx__opt-arrow">→</span></button>
+        </div>
+      </div>
+
+      {/* Step 4 · anonymous result */}
+      <div class="qx__step" data-step="4" tabindex="-1">
+        <span class="eyebrow">Your starting point</span>
+        <h2 class="qx__result-title">
+          A place to begin:<br/>
+          <span id="qx-r-name">Viva Concierge</span>
+        </h2>
+        <div class="qx__result-card">
+          <div class="qx__result-price">
+            <span class="qx__result-amt" id="qx-r-price">$99</span>
+            <span class="qx__result-cad">/mo</span>
+          </div>
+          <p class="qx__result-body" id="qx-r-body">A starting point based on your answers.</p>
+          <ul class="qx__result-list" id="qx-r-list"></ul>
+          <div class="qx__discuss">
+            <span class="qx__discuss-label">Bring to your first visit</span>
+            <p class="qx__discuss-hint">
+              These are conversation starters based on your answers. Liliana
+              confirms what fits clinically during your visit.
+            </p>
+            <ul class="qx__result-list qx__result-list--discuss" id="qx-r-discuss"></ul>
+          </div>
+          <p class="qx__visit-cost">First visit: $199. A $50 deposit is required at booking. Monthly membership pricing is separate.</p>
+          <div class="qx__result-ctas">
+            <a href="/start/" class="btn btn--bronze">Book your first visit</a>
+            <a href="/services/" class="btn">Compare care &amp; pricing</a>
+          </div>
+          <p class="qx__result-note">
+            Your answers stay in this browser and are not sent to Viva. This guide is
+            educational and does not determine eligibility, diagnosis, medication, or
+            treatment. Liliana confirms what is clinically appropriate during your visit.
+          </p>
+        </div>
+      </div>
+
+      <button class="qx__back" id="qx-back" aria-label="Previous question" hidden>← Back</button>
+      <button class="qx__exit" id="qx-exit" type="button" aria-label="Exit quiz">×</button>
     </div>
   </section>
 
-</Layout>
 
+  <section class="cta section--inverse" data-final-cta>
+    <div class="container cta__inner"><div><h2>Make room for your health.</h2><p class="lead">Start with a conversation about your goals, your history, and your options.</p></div><a href="/start/" class="btn btn--bronze">Book your first visit</a></div>
+  </section>
+</Layout>
 <script>
   // Testimonial carousel · prev/next arrows + longer interval for reading.
   let tRotatorTimer: number | undefined;
@@ -615,6 +459,8 @@ const testimonials = [
     if (tRotatorTimer) { clearInterval(tRotatorTimer); tRotatorTimer = undefined; }
     // Always exit quiz focus mode before navigation so the next page renders normally
     document.body.classList.remove('quiz-focus');
+    const skip = document.querySelector<HTMLElement>('.skip-link');
+    if (skip) skip.inert = false;
   });
 </script>
 
@@ -657,9 +503,9 @@ const testimonials = [
     // focus mode (first click hasn't happened yet), fall back to scrolling the
     // page so the quiz block lines up under the sticky header.
     if (document.body.classList.contains('quiz-focus')) {
-      section?.scrollTo({ top: 0, behavior: 'smooth' });
+      section?.scrollTo({ top: 0, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
     } else {
-      section?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      section?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth', block: 'start' });
     }
     // Move keyboard + SR focus to the active step on every advance so users
     // don't get dumped on <body> (the clicked option is display:none'd) and
@@ -678,11 +524,24 @@ const testimonials = [
   function enterFocus() {
     if (document.body.classList.contains('quiz-focus')) return;
     document.body.classList.add('quiz-focus');
+    section?.setAttribute('role', 'dialog');
+    section?.setAttribute('aria-modal', 'true');
+    section?.setAttribute('aria-labelledby', 'qx-title');
+    const skip = document.querySelector<HTMLElement>('.skip-link');
+    if (skip) skip.inert = true;
     window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
   }
   function exitFocus() {
     if (!document.body.classList.contains('quiz-focus')) return;
     document.body.classList.remove('quiz-focus');
+    section?.removeAttribute('role');
+    section?.removeAttribute('aria-modal');
+    section?.removeAttribute('aria-labelledby');
+    const skip = document.querySelector<HTMLElement>('.skip-link');
+    if (skip) skip.inert = false;
+    const active = stepEls[state.step - 1];
+    const target = state.step > TOTAL ? active : active?.querySelector<HTMLElement>('.qx__q');
+    target?.focus({ preventScroll: true });
     document.getElementById('quiz')?.scrollIntoView({ behavior: 'instant' as ScrollBehavior, block: 'start' });
   }
 
@@ -715,7 +574,16 @@ const testimonials = [
   document.getElementById('qx-exit')?.addEventListener('click', exitFocus);
   if (qxKeyHandler) document.removeEventListener('keydown', qxKeyHandler);
   qxKeyHandler = (e) => {
-    if (e.key === 'Escape' && document.body.classList.contains('quiz-focus')) exitFocus();
+    if (!document.body.classList.contains('quiz-focus')) return;
+    if (e.key === 'Escape') { e.preventDefault(); exitFocus(); return; }
+    if (e.key === 'Tab' && section) {
+      const controls = [...section.querySelectorAll<HTMLElement>('a[href], button:not([disabled])')].filter((el) => el.getClientRects().length > 0 && !el.hidden);
+      const first = controls[0];
+      const last = controls[controls.length - 1];
+      const focused = document.activeElement;
+      if (e.shiftKey && (focused === first || !controls.includes(focused as HTMLElement))) { e.preventDefault(); last?.focus(); }
+      else if (!e.shiftKey && focused === last) { e.preventDefault(); first?.focus(); }
+    }
   };
   document.addEventListener('keydown', qxKeyHandler);
 
@@ -725,986 +593,139 @@ const testimonials = [
 </script>
 
 <style>
-  /* ============ TRUST STRIP · styles were lost in the p3 hero-style rework; restored ============ */
-  .trust {
-    padding: 1.2rem 0;
-    border-bottom: 1px solid rgba(255, 250, 241, 0.16);
-    background: var(--evergreen-deep);
-  }
-  .trust__grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1.5rem;
-  }
-  @media (max-width: 900px) { .trust__grid { grid-template-columns: repeat(2, 1fr); gap: 0.9rem 1.5rem; } }
-  @media (max-width: 520px) { .trust__grid { grid-template-columns: 1fr; gap: 0.7rem; } }
-  .trust__label {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: rgba(255, 250, 241, 0.72);
-    line-height: 1.5;
-    margin: 0;
-  }
-
-  /* ============ HERO · real portrait at native display density ============ */
-  .hero {
-    position: relative;
-    overflow: hidden;
-    background: var(--evergreen-deep);
-    color: var(--cream-bright);
-  }
-  .hero__media {
-    width: 100%;
-    max-width: 38rem;
-    justify-self: end;
-    aspect-ratio: 4 / 5;
-    overflow: hidden;
-    border: 1px solid rgba(255, 253, 248, 0.2);
-    border-radius: 1.25rem 1.25rem 7rem 1.25rem;
-    box-shadow: 0 2rem 5rem rgba(0, 0, 0, 0.24);
-  }
-  .hero__media img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center 38%;
-    display: block;
-  }
-  .hero__inner {
-    display: grid;
-    grid-template-columns: minmax(0, 1.1fr) minmax(25rem, 0.8fr);
-    align-items: center;
-    gap: clamp(2rem, 4vw, 4rem);
-    min-height: min(54rem, 100svh);
-    padding-top: clamp(5.8rem, 8vw, 7.25rem);
-    padding-bottom: clamp(2.5rem, 4vw, 3.5rem);
-  }
-  .hero__copy {
-    display: flex;
-    flex-direction: column;
-    gap: clamp(1.45rem, 2.5vw, 2rem);
-    width: 100%;
-  }
-  .hero__eyebrows {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1.05rem;
-  }
-  .hero .eyebrow,
-  .hero__eyebrow-secondary {
-    font-family: var(--font-mono);
-    font-size: clamp(0.75rem, 1vw, 0.82rem);
-    font-weight: 600;
-    line-height: 1.35;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-  }
-  .hero .eyebrow { color: var(--cream-bright); }
-  .hero__eyebrow-secondary { color: var(--cream-bright); }
-  .hero__title {
-    max-width: 13ch;
-    margin: 0;
-    color: var(--cream-bright);
-    font-size: clamp(3.15rem, 4.6vw, 4.65rem);
-    font-weight: 470;
-    line-height: 0.98;
-    letter-spacing: -0.04em;
-    text-shadow: none;
-  }
-  .hero__title-line {
-    display: block;
-    white-space: normal;
-    text-wrap: balance;
-  }
-  .hero__title .italic-display {
-    margin-top: 0.14em;
-    color: var(--cream-bright);
-    font-weight: 410;
-    font-size: 0.86em;
-    line-height: 1.04;
-  }
-  .hero__foot {
-    display: flex;
-    flex-direction: column;
-    gap: 1.55rem;
-  }
-  .hero__lead {
-    max-width: 41ch;
-    margin: 0;
-    color: rgba(255, 253, 248, 0.94);
-    font-size: clamp(1rem, 1.35vw, 1.16rem);
-    line-height: 1.58;
-  }
-  .hero__ctas { display: flex; gap: 0.9rem; flex-wrap: wrap; }
-  .hero__ctas .btn {
-    min-width: 11.8rem;
-    justify-content: center;
-    padding: 0.86rem 1.65rem;
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.13em;
-    text-transform: uppercase;
-  }
-  .hero__btn-quiet {
-    color: var(--cream-bright);
-    border-color: var(--cream-bright);
-    background: transparent;
-  }
-  .hero__btn-quiet:hover {
-    color: var(--evergreen-deep);
-    background: var(--cream-bright);
-    border-color: var(--cream-bright);
-  }
-
-  @media (max-width: 980px) {
-    .hero__inner { grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.78fr); gap: 2rem; }
-    .hero__title { font-size: clamp(2.8rem, 5.9vw, 4rem); }
-  }
-  @media (max-width: 700px) {
-    .hero__inner {
-      grid-template-columns: 1fr;
-      gap: 1.35rem;
-      min-height: 0;
-      padding-top: 5.25rem;
-      padding-bottom: 2.25rem;
-    }
-    .hero__media {
-      width: min(100%, 31rem);
-      max-width: none;
-      justify-self: center;
-      aspect-ratio: 4 / 5;
-      border-radius: 1rem 1rem 4.5rem 1rem;
-    }
-    .hero__copy { width: 100%; gap: 0.95rem; }
-    .hero__eyebrows { gap: 0; }
-    .hero .eyebrow {
-      font-size: clamp(0.6rem, 2.65vw, 0.7rem);
-      letter-spacing: 0.1em;
-      white-space: nowrap;
-    }
-    .hero__eyebrow-secondary { display: none; }
-    .hero__title { max-width: none; font-size: clamp(2.15rem, 9.6vw, 2.6rem); }
-    .hero__title .italic-display { font-size: 0.9em; }
-    .hero__foot { gap: 1.1rem; }
-    .hero__lead { max-width: 39ch; font-size: 0.96rem; line-height: 1.48; }
-    .hero__ctas { display: grid; grid-template-columns: 1fr 1fr; }
-    .hero__ctas .btn {
-      min-width: 0;
-      padding: 0.72rem 0.65rem;
-      font-size: 0.68rem;
-      letter-spacing: 0.09em;
-    }
-  }
-  @media (max-width: 430px) {
-    .hero__title { font-size: clamp(2.05rem, 9.6vw, 2.35rem); }
-  }
-
-  /* ============ FEATURE BAND · butter, static ============ */
-  .features {
-    background: var(--cream-bright);
-    border-bottom: 1px solid var(--rule);
-    padding: clamp(2.35rem, 4vw, 3.25rem) 0;
-  }
-  .features__grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 0;
-  }
-  @media (max-width: 900px) { .features__grid { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 520px) { .features__grid { grid-template-columns: 1fr; } }
-  .feature {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: 10.5rem;
-    padding: 0 clamp(1.15rem, 3vw, 2.5rem);
-    text-align: center;
-    gap: 0.55rem;
-  }
-  .feature + .feature { border-left: 1px solid var(--rule-strong); }
-  .feature__ico { width: 44px; height: 44px; color: var(--evergreen-deep); opacity: 1; }
-  .feature__name {
-    font-family: var(--font-mono);
-    font-size: 0.78rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--evergreen-deep);
-    font-weight: 600;
-  }
-  .feature__body { font-size: 0.93rem; line-height: 1.5; color: rgba(20, 37, 27, 0.86); max-width: 27ch; margin: 0; }
-
-  @media (max-width: 900px) {
-    .feature:nth-child(3) { border-left: 0; }
-    .feature:nth-child(n + 3) { border-top: 1px solid rgba(255, 253, 248, 0.72); padding-top: 2rem; margin-top: 2rem; }
-  }
-  @media (max-width: 520px) {
-    .feature { min-height: 0; padding: 1.2rem 0; }
-    .feature + .feature,
-    .feature:nth-child(n + 3) { border-left: 0; border-top: 1px solid rgba(255, 253, 248, 0.72); margin-top: 0; }
-  }
-
-  /* ============ AUDIENCE RECOGNITION ============ */
-  .audience {
-    padding: var(--section-pad) 0;
-    background: var(--cream-bright);
-    border-bottom: 1px solid var(--rule);
-  }
-  .audience__inner {
-    display: flex;
-    flex-direction: column;
-    gap: clamp(2.5rem, 5vw, 4rem);
-  }
-  .audience__head {
-    display: grid;
-    grid-template-columns: minmax(0, 0.85fr) minmax(20rem, 1.15fr);
-    gap: 1rem clamp(2.5rem, 7vw, 6rem);
-    align-items: end;
-  }
-  .audience__head .eyebrow { grid-column: 1 / -1; }
-  .audience__title {
-    margin: 0;
-    max-width: 14ch;
-    font-size: clamp(2.2rem, 5vw, 4rem);
-    line-height: 1.04;
-    letter-spacing: -0.02em;
-  }
-  .audience__lead { margin: 0; max-width: 52ch; }
-  .audience__grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1rem;
-  }
-  .audience-card {
-    display: flex;
-    min-height: 15rem;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
-    padding: clamp(1.6rem, 3vw, 2.25rem);
-    background: var(--cream);
-    border: 1px solid var(--rule-strong);
-    border-top: 5px solid var(--terracotta);
-    border-radius: 1.2rem;
-    transition: transform 220ms var(--ease), border-color 220ms var(--ease), background 220ms var(--ease);
-  }
-  .audience-card:hover {
-    transform: translateY(-3px);
-    border-color: var(--terracotta);
-    background: var(--cream-bright);
-  }
-  .audience-card:nth-child(2),
-  .audience-card:nth-child(3) {
-    background: var(--sage);
-    border-top-color: var(--evergreen);
-  }
-  .audience-card h3 {
-    max-width: 19ch;
-    font-size: clamp(1.45rem, 2.5vw, 2rem);
-    line-height: 1.12;
-    letter-spacing: -0.018em;
-  }
-  .audience-card p {
-    max-width: 50ch;
-    margin: 0;
-    color: rgba(28, 35, 27, 0.78);
-    font-size: 1rem;
-    line-height: 1.6;
-  }
-  .audience-card a {
-    margin-top: auto;
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--bronze-deep);
-  }
-  .audience-card a:hover { color: var(--paper); }
-  .audience__article {
-    display: grid;
-    grid-template-columns: minmax(10rem, 0.55fr) minmax(18rem, 1.2fr) auto;
-    gap: 1rem 2rem;
-    align-items: center;
-    padding: clamp(1.4rem, 3vw, 2rem);
-    background: var(--terracotta);
-    border: 1px solid var(--bronze-deep);
-    border-radius: 1.2rem;
-    color: var(--evergreen-deep);
-    transition: background 220ms var(--ease), transform 220ms var(--ease);
-  }
-  .audience__article:hover { background: var(--bronze-deep); color: var(--cream-bright); transform: translateY(-2px); }
-  .audience__article > span:first-child,
-  .audience__article > span:last-child {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-  }
-  .audience__article strong {
-    font-family: var(--font-display);
-    font-size: clamp(1.25rem, 2.2vw, 1.65rem);
-    font-weight: 460;
-    line-height: 1.25;
-    letter-spacing: -0.015em;
-  }
-  @media (max-width: 820px) {
-    .audience__head { grid-template-columns: 1fr; align-items: start; }
-    .audience__grid { grid-template-columns: 1fr; }
-    .audience-card { min-height: 0; }
-    .audience__article { grid-template-columns: 1fr; gap: 0.65rem; }
-  }
-
-  /* ============ WHOLE-PERSON WELLNESS ============ */
-  .wellness-story {
-    padding: clamp(3.75rem, 7.5vw, 6.25rem) 0;
-    background: var(--ink-2);
-    border-bottom: 1px solid var(--rule);
-  }
-  .wellness-story__inner {
-    display: grid;
-    grid-template-columns: minmax(0, 1.05fr) minmax(20rem, 0.95fr);
-    align-items: center;
-    gap: clamp(3rem, 8vw, 7rem);
-  }
-  .wellness-story__media {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-    margin: 0;
-  }
-  .wellness-story__media picture {
-    display: block;
-    aspect-ratio: 4 / 3;
-    overflow: hidden;
-    border: 0;
-    border-radius: 0.85rem;
-  }
-  .wellness-story__media img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    filter: saturate(0.82) contrast(0.98);
-  }
-  .wellness-story__copy {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1.4rem;
-  }
-  .wellness-story__title {
-    max-width: 13ch;
-    margin: 0;
-    font-size: clamp(2.2rem, 5vw, 4rem);
-    line-height: 1.03;
-    letter-spacing: -0.02em;
-  }
-  .wellness-story__lead {
-    max-width: 38rem;
-    margin: 0;
-    color: rgba(28, 35, 27, 0.8);
-    font-size: 1.08rem;
-    line-height: 1.65;
-  }
-  .wellness-story__copy .btn {
-    color: var(--cream-bright);
-    background: var(--evergreen);
-    border-color: transparent;
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.13em;
-    text-transform: uppercase;
-  }
-  .wellness-story__copy .btn:hover { color: var(--cream-bright); background: var(--evergreen-deep); border-color: transparent; }
-  @media (max-width: 900px) {
-    .wellness-story__inner { grid-template-columns: 1fr; gap: 3rem; }
-    .wellness-story__media { width: calc(100% - 1rem); }
-  }
-  @media (max-width: 520px) {
-    .wellness-story__media picture {
-      border-radius: var(--radius-sm);
-    }
-  }
-
-  /* ============ SECTION HEAD ============ */
-  .section-head { display: grid; grid-template-columns: 1fr; gap: var(--space-sm); margin-bottom: var(--head-gap); max-width: 100%; }
-  .section-head__title { font-size: clamp(2rem, 4.5vw, 3.5rem); max-width: 16ch; letter-spacing: -0.018em; }
-  .section-head__lead { margin-top: var(--space-2xs); }
-
-  /* ============ INLINE QUIZ ============ */
-  .qx {
-    padding: var(--section-pad-lg) 0;
-    border-top: 1px solid var(--rule);
-    border-bottom: 1px solid var(--rule);
-    background: var(--ink-3);
-    position: relative;
-    overflow: hidden;
-    scroll-margin-top: 80px;
-  }
-    /* glow and dim recipes removed in p2: the quiz sits on a flat token ground */
-  .qx__inner { position: relative; z-index: 2; max-width: 820px; margin: 0 auto; }
-  .qx__head { display: flex; flex-direction: column; gap: 2rem; margin-bottom: 3rem; }
-  .qx__title { font-size: clamp(2rem, 4.5vw, 3.4rem); line-height: 1.05; letter-spacing: -0.02em; max-width: 22ch; margin: 0; }
-  .qx__meta { display: flex; align-items: center; gap: 1.2rem; flex-wrap: wrap; }
-  .qx__progress { flex: 1; height: 2px; background: var(--rule-strong); overflow: hidden; min-width: 120px; }
-  .qx__progress-bar { height: 100%; background: var(--bronze); width: 20%; transition: width 500ms var(--ease); }
-
-  .qx__step { display: none; opacity: 0; transform: translateY(8px); transition: opacity 400ms var(--ease), transform 400ms var(--ease); }
-  .qx__step.is-active { display: block; opacity: 1; transform: translateY(0); animation: qxFadeIn 500ms var(--ease) both; }
-  @keyframes qxFadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
-
-  .qx__q {
-    font-family: var(--font-display);
-    font-weight: 400;
-    font-size: clamp(2.2rem, 4.5vw, 3.4rem);
-    line-height: 1.08;
-    letter-spacing: -0.025em;
-    margin-bottom: 2.5rem;
-    max-width: 20ch;
-    font-variation-settings: 'opsz' 96;
-  }
-  .qx__lede { color: rgba(28, 35, 27, 0.78); font-size: 1.1rem; line-height: 1.55; max-width: 52ch; margin: -1.5rem 0 2rem; }
-
-  .qx__options { display: flex; flex-direction: column; gap: 0.6rem; }
-  .qx__opt {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    align-items: center;
-    gap: 1.5rem;
-    padding: 1.5rem 1.8rem;
-    background: var(--ink);
-    border: 1px solid var(--rule-strong);
-    border-radius: var(--radius);
-    text-align: left;
-    cursor: pointer;
-    transition: background 250ms var(--ease), border-color 250ms var(--ease), transform 250ms var(--ease);
-    backdrop-filter: blur(8px);
-  }
-  .qx__opt:hover {
-    background: rgba(23, 75, 51, 0.1);
-    border-color: var(--evergreen);
-    transform: translateX(6px);
-  }
-  .qx__opt:active {
-    background: rgba(23, 75, 51, 0.16);
-    border-color: var(--evergreen-deep);
-    transform: translateX(3px);
-  }
-  .qx__opt:hover .qx__opt-arrow { transform: translateX(4px); color: var(--bronze-bright); }
-  .qx__opt-label { font-family: var(--font-body); font-size: clamp(1rem, 1.5vw, 1.15rem); font-weight: 500; letter-spacing: -0.01em; color: var(--paper); line-height: 1.4; }
-  .qx__opt-arrow { font-family: var(--font-body); font-size: 1.3rem; color: var(--evergreen-deep); transition: color 250ms var(--ease), transform 250ms var(--ease); }
-
-  @media (max-width: 520px) {
-    .qx__opt { gap: 0.9rem; padding: 1.25rem 1.15rem; }
-  }
-
-  .qx__form { display: flex; flex-direction: column; gap: 1.4rem; max-width: 520px; }
-  .qx__form .btn { align-self: flex-start; margin-top: 0.4rem; }
-  /* .btn's display:inline-flex (author style) would beat the UA [hidden]
-     rule, so the retry button needs the override spelled out. */
-  .qx__form .qx__retry[hidden] { display: none; }
-  .qx__form .qx__retry { margin-top: 0; }
-  .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
-  .qx__status { font-family: var(--font-mono); font-size: 0.85rem; letter-spacing: 0.04em; min-height: 1.2em; padding: 0.3rem 0; }
-  .qx__status.is-success { color: var(--bronze-bright); }
-  .qx__status.is-error { color: #e76e6e; }
-
-  .qx__result-title { font-size: clamp(2.4rem, 5.5vw, 4rem); line-height: 1.0; margin: 1rem 0 2rem; letter-spacing: -0.015em; }
-  .qx__result-card {
-    background: var(--ink);
-    border: 1px solid var(--rule-strong);
-    box-shadow: inset 0 2px 0 0 var(--bronze);
-    padding: clamp(2rem, 4vw, 3rem);
-    backdrop-filter: blur(8px);
-    border-radius: 1.25rem;
-  }
-  .qx__result-price { display: flex; align-items: baseline; gap: 0.3rem; margin-bottom: 1.5rem; }
-  .qx__result-amt { font-family: var(--font-display); font-size: clamp(3rem, 6vw, 4.5rem); color: var(--paper); line-height: 1; letter-spacing: -0.025em; font-variation-settings: 'opsz' 144; font-feature-settings: 'tnum'; }
-  .qx__result-cad { font-family: var(--font-mono); color: var(--mute); font-size: 1rem; }
-  .qx__result-body { font-size: 1.1rem; line-height: 1.55; color: rgba(28, 35, 27, 0.85); max-width: 56ch; margin-bottom: 1.5rem; }
-  .qx__result-list { display: flex; flex-direction: column; gap: 0.7rem; margin-bottom: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--rule); }
-  /* :global() — these li's are injected at runtime by the quiz script, so
-     they never receive Astro's scoped data attribute. */
-  .qx__result-list :global(li) { position: relative; padding-left: 1.6rem; color: rgba(28, 35, 27, 0.85); font-size: 0.97rem; line-height: 1.5; }
-  .qx__result-list :global(li)::before { content: '✓'; position: absolute; left: 0; top: 0; color: var(--bronze); font-family: var(--font-mono); font-size: 0.85rem; }
-  .qx__discuss { margin-bottom: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--rule); }
-  .qx__discuss-label { display: block; font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--bronze); margin-bottom: 0.5rem; }
-  .qx__discuss-hint { font-size: 0.85rem; color: var(--mute); line-height: 1.55; margin: 0 0 1rem; max-width: 60ch; }
-  .qx__result-list--discuss { border-top: 0; padding-top: 0; margin-bottom: 0; }
-  .qx__result-list--discuss :global(li)::before { content: '→'; }
-  .qx__result-ctas { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
-  .qx__result-note { font-size: 0.85rem; color: var(--mute); line-height: 1.55; padding-top: 1.2rem; border-top: 1px solid var(--rule); max-width: 60ch; }
-  .qx__back { display: inline-flex; align-items: center; margin-top: 2.5rem; font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mute); padding: 0.75rem 0; min-height: 44px; transition: color 200ms var(--ease); }
-  .qx__back:hover { color: var(--paper); }
-
-  /* ============ QUIZ FOCUS MODE ============
-     Engaged when the user clicks their first answer. Header, footer, sticky
-     CTA, and all other home sections hide. The quiz fills the viewport with
-     a single-question feel. Exit via X (top-right), Escape, or any navigation.
-
-     Mobile note: body is locked with overflow:hidden so the page behind the
-     focused quiz can't scroll. To prevent tall steps (form/result) from
-     getting cut off, the .qx element itself becomes the scroll container.
-     Uses dvh so iOS URL-bar collapse doesn't clip content. Below 760px,
-     content starts at the top instead of being centered, so the first
-     question is always visible without scrolling. */
+  .hero { background: var(--surface-page); }
+  .hero__inner { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: clamp(2rem, 4vw, 4rem); align-items: center; padding-block: clamp(2rem, 5vw, 4.5rem); }
+  .hero__copy { display: flex; flex-direction: column; align-items: flex-start; gap: 1.25rem; min-width: 0; }
+  .hero__eyebrows { display: flex; flex-direction: column; gap: .25rem; }
+  .hero__eyebrow-secondary { font-size: .875rem; color: var(--text-secondary); }
+  .hero__title { max-width: 18ch; font-size: var(--text-h1); }
+  .hero__title-line { display: block; margin-top: .3em; color: var(--text-secondary); }
+  .hero__lead { max-width: 53ch; font-size: 1.0625rem; color: var(--text-secondary); }
+  .hero__ctas { display: flex; gap: .75rem; flex-wrap: wrap; }
+  .hero__cost { font-size: .9375rem; color: var(--text-secondary); }
+  .hero__media { width: 100%; max-width: 480px; justify-self: end; border-radius: var(--radius); overflow: hidden; background: var(--surface-subtle); }
+  .hero__media img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: center 53%; }
+  .hero__media figcaption { display: flex; flex-direction: column; padding: .875rem 1.25rem; font-weight: 600; font-size: 1rem; }
+  .hero__media figcaption span { color: var(--text-secondary); font-size: .875rem; font-weight: 400; }
+  .section-head { display: grid; gap: .75rem; margin-bottom: var(--head-gap); max-width: 760px; }
+  .care-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 1rem; }
+  .care-grid li { border: 1px solid var(--border-subtle); border-radius: var(--radius); background: var(--surface-card); }
+  .care-grid a { display: flex; flex-direction: column; gap: 1rem; height: 100%; padding: 1.5rem; border-radius: inherit; transition: background 160ms; }
+  .care-grid a:hover { background: var(--surface-subtle); }
+  .care-grid p { color: var(--text-secondary); }
+  .care-grid span { font-size: 1rem; font-weight: 600; margin-top: auto; padding-top: .5rem; text-decoration: underline; text-underline-offset: .25em; }
+  .care-boundary { max-width: 85ch; margin-top: 1.5rem; color: var(--text-secondary); font-size: .9375rem; }
+  .provider-band__inner { display: grid; grid-template-columns: 1.2fr 1fr; gap: clamp(2rem,5vw,4rem); align-items: center; }
+  .provider-band__copy { display: grid; gap: 1rem; justify-items: start; }
+  .provider-band__facts { background: var(--surface-card); border-radius: var(--radius); padding: 1.5rem; }
+  .provider-band__facts ul { list-style: disc; padding-left: 1.25rem; margin-top: 1rem; display: grid; gap: .75rem; color: var(--text-secondary); }
+  .testimonials { padding-block: var(--section-pad); border-top: 1px solid var(--border-subtle); }
+  .testimonials .container { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1.4fr); gap: 2rem; }
+  .testimonials__head { display: grid; align-content: start; gap: .75rem; }
+  .testimonials__title { font-size: var(--text-h2); }
+  .testimonials__rating { display: flex; align-items: center; flex-wrap: wrap; gap: .5rem; min-height: 44px; font-size: 1rem; font-weight: 600; }
+  .testimonials__rating-stars { display: flex; gap: .25rem; }
+  .star { display: inline-block; width: 16px; height: 16px; background: var(--text-primary); clip-path: polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%); }
+  .testimonials__disclaimer { font-size: .9375rem; color: var(--text-secondary); }
+  .t-rotator { min-width: 0; }
+  .t-rotator__track { display: grid; }
+  .t-slide { grid-area: 1/1; visibility: hidden; display: flex; flex-direction: column; gap: 1rem; padding: 1.5rem; background: var(--surface-subtle); border-radius: var(--radius); }
+  .t-slide.is-active { visibility: visible; }
+  .t-slide__stars { display: flex; gap: .25rem; }
+  .t-slide__quote { font-size: 1.125rem; line-height: 1.6; }
+  .t-slide__author { display: flex; flex-direction: column; gap: .25rem; margin-top: auto; font-size: 1rem; }
+  .t-slide__author span { font-size: .9375rem; color: var(--text-secondary); }
+  .t-rotator__controls, .t-rotator__dots { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; }
+  .t-rotator__controls { margin-top: .5rem; gap: .25rem; }
+  .t-rotator__nav { width: 44px; height: 44px; border: 1px solid var(--border-control); border-radius: 50%; flex: 0 0 44px; }
+  .t-dot { display: grid; place-items: center; width: 44px; height: 44px; }
+  .t-dot::after { content: ''; width: 8px; height: 8px; border: 1px solid var(--text-primary); border-radius: 50%; }
+  .t-dot.is-active::after { background: var(--text-primary); }
+  .testimonials__foot { grid-column: 1/-1; }
+  .process-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 2rem; }
+  .process-grid li { display: grid; align-content: start; gap: .75rem; }
+  .process-grid p { color: var(--text-secondary); }
+  .process-number { width: 36px; height: 36px; display: grid; place-items: center; border-radius: 50%; background: var(--surface-subtle); font-weight: 600; }
+  .visit-summary { margin-top: 2rem; padding: 1.5rem; background: var(--surface-subtle); border-radius: var(--radius); display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; }
+  .visit-summary h3 { margin-block: .5rem; }
+  .visit-summary p { color: var(--text-secondary); }
+  .programs { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 1rem; }
+  .program { display: flex; flex-direction: column; align-items: flex-start; gap: .75rem; padding: 1.25rem; border: 1px solid var(--border-subtle); border-radius: var(--radius); background: var(--surface-card); }
+  .program__ico { width: 24px; height: 24px; }
+  .program__tier, .program__price-cad { font-size: .9375rem; color: var(--text-secondary); }
+  .program__name { font-size: 1.25rem; }
+  .program__price-amt { font-size: 2rem; font-weight: 600; }
+  .program__body { font-size: 1rem; color: var(--text-secondary); }
+  .program__link { display: inline-flex; min-height: 44px; align-items: center; margin-top: auto; text-decoration: underline; text-underline-offset: .25em; font-weight: 600; }
+  .programs-terms { margin-top: 1.5rem; max-width: 85ch; font-size: .9375rem; color: var(--text-secondary); }
+  .programs-terms a { text-decoration: underline; }
+  .programs-foot { margin-top: 1.5rem; }
+  .faq { border-top: 1px solid var(--border-subtle); padding-block: var(--section-pad); }
+  .faq .container { max-width: 960px; }
+  .faq__head { display: grid; gap: .75rem; margin-bottom: 2rem; }
+  .faq__item { border-bottom: 1px solid var(--border-subtle); }
+  .faq__q { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-block: 1.25rem; min-height: 48px; cursor: pointer; font-weight: 600; list-style: none; }
+  .faq__q::-webkit-details-marker { display: none; }
+  .faq__q-icon { font-size: 1.5rem; flex-shrink: 0; }
+  details[open] .faq__q-icon { transform: rotate(45deg); }
+  .faq__a { color: var(--text-secondary); padding-bottom: 1.5rem; max-width: 75ch; }
+  .faq__a :global(a) { text-decoration: underline; text-underline-offset: .2em; }
+  .faq__foot { margin-top: 1.5rem; }
+  .resource-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 1.5rem; }
+  .resource-grid a { display: grid; align-content: start; gap: 1rem; border-top: 2px solid var(--border-control); padding-top: 1.25rem; }
+  .resource-grid p { text-decoration: underline; text-underline-offset: .2em; }
+  .qx { padding-block: var(--section-pad); border-top: 1px solid var(--border-subtle); background: var(--surface-subtle); }
+  .qx__inner { max-width: 960px; position: relative; }
+  .qx__head { display: grid; gap: .75rem; margin-bottom: 1.5rem; }
+  .qx__intro, .qx__discuss-hint { color: var(--text-secondary); }
+  .qx__meta { display: grid; gap: .5rem; }
+  .qx__progress { height: 4px; border-radius: 2px; background: var(--border-subtle); }
+  .qx__progress-bar { height: 100%; width: 0; background: var(--text-primary); transition: width 160ms; }
+  .qx__step { display: none; }
+  .qx__step.is-active { display: block; }
+  .qx__q { margin-bottom: 1rem; font-weight: 600; font-size: 1.25rem; }
+  .qx__options { display: grid; gap: .75rem; }
+  .qx__opt { display: flex; gap: 1rem; justify-content: space-between; align-items: center; text-align: left; min-height: 52px; padding: 1rem; border: 1px solid var(--border-control); border-radius: var(--radius-sm); background: var(--surface-card); font-size: 1rem; }
+  .qx__opt:hover { background: var(--surface-subtle); }
+  .qx__opt-arrow { flex-shrink: 0; }
+  .qx__back { min-height: 48px; padding: .75rem; margin-top: 1rem; text-decoration: underline; }
   .qx__exit { display: none; }
-  :global(body.quiz-focus) {
-    overflow: hidden;
-    padding-bottom: 0 !important;
+  .qx__result-title { margin-block: .75rem 1.5rem; }
+  .qx__result-card { display: grid; gap: 1rem; }
+  .qx__result-amt { font-size: 2rem; font-weight: 600; }
+  .qx__result-cad { color: var(--text-secondary); }
+  .qx__result-list { list-style: disc; padding-left: 1.25rem; }
+  .qx__result-list :global(li) { margin-block: .5rem; }
+  .qx__discuss-label { font-weight: 600; }
+  .qx__discuss-hint { margin-top: .5rem; }
+  .qx__result-ctas { display: flex; flex-wrap: wrap; gap: .75rem; }
+  .qx__result-note { color: var(--text-secondary); font-size: .9375rem; }
+  :global(body.quiz-focus) { overflow: hidden; }
+  :global(body.quiz-focus .site-header), :global(body.quiz-focus .site-footer), :global(body.quiz-focus main > :not(#quiz)) { display: none !important; }
+  :global(body.quiz-focus) .qx { position: fixed; inset: 0; z-index: 200; overflow-y: auto; overscroll-behavior: contain; padding-block: 4rem 2rem; }
+  :global(body.quiz-focus) .qx__exit { display: grid; place-items: center; position: absolute; top: -3.5rem; right: var(--gutter); width: 48px; height: 48px; font-size: 2rem; }
+  .cta { padding-block: var(--section-pad); }
+  .cta__inner { display: flex; align-items: center; justify-content: space-between; gap: 2rem; }
+  .cta h2 { margin-bottom: 1rem; }
+  .cta a { flex-shrink: 0; }
+  @media (max-width: 1024px) { .programs { grid-template-columns: repeat(2,minmax(0,1fr)); } .care-grid { grid-template-columns: repeat(2,minmax(0,1fr)); } .testimonials .container { grid-template-columns: 1fr; } }
+  @media (max-width: 720px) {
+    .hero__inner { grid-template-columns: 1fr; gap: 1.5rem; padding-block: 1.75rem 2rem; }
+    .hero__copy { gap: 1rem; }
+    .hero__eyebrows .eyebrow { font-size: .8125rem; }
+    .hero__eyebrow-secondary { font-size: .8125rem; }
+    .hero__title { font-size: clamp(2.25rem,8.6vw,2.5rem); max-width: 20ch; }
+    .hero__lead { font-size: 1rem; line-height: 1.55; }
+    .hero__ctas { width: 100%; display: grid; grid-template-columns: repeat(auto-fit,minmax(min(100%,10rem),1fr)); gap: .5rem; }
+    .hero__ctas .btn { padding-inline: .75rem; }
+    .hero__cost { font-size: .875rem; }
+    .hero__media { max-width: none; }
+    .hero__media img { aspect-ratio: 4 / 3; object-position: center 53%; }
+    .care-grid, .provider-band__inner, .process-grid, .resource-grid { grid-template-columns: 1fr; }
+    .care-grid a { padding: 1.25rem; gap: .75rem; }
+    .visit-summary, .cta__inner { flex-direction: column; align-items: stretch; }
+    .t-rotator__controls { gap: 0; }
+    .t-rotator__dots { order: 4; width: 100%; }
   }
-  :global(body.quiz-focus) :global(.site-header),
-  :global(body.quiz-focus) :global(.site-footer),
-  :global(body.quiz-focus) :global(.msc) { display: none; }
-  :global(body.quiz-focus) :global(main) > :global(*:not(#quiz)) { display: none; }
-  :global(body.quiz-focus) .qx {
-    min-height: 100vh;
-    min-height: 100dvh;
-    max-height: 100vh;
-    max-height: 100dvh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding-top: 4rem;
-    padding-bottom: 3rem;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior: contain;
-  }
-  @media (max-width: 760px) {
-    :global(body.quiz-focus) .qx {
-      justify-content: flex-start;
-      padding-top: 5rem;
-      padding-bottom: 4rem;
-    }
-  }
-  :global(body.quiz-focus) .qx__exit {
-    display: grid;
-    place-items: center;
-    position: fixed;
-    top: 1.2rem;
-    right: 1.2rem;
-    z-index: 120;
-    width: 44px;
-    height: 44px;
-    background: rgba(28, 35, 27, 0.04);
-    border: 1px solid var(--rule-strong);
-    border-radius: 50%;
-    color: var(--paper);
-    font-size: 1.6rem;
-    line-height: 1;
-    cursor: pointer;
-    font-family: inherit;
-    padding: 0;
-    transition: background 200ms var(--ease), border-color 200ms var(--ease);
-  }
-  :global(body.quiz-focus) .qx__exit:hover {
-    background: rgba(28, 35, 27, 0.08);
-    border-color: var(--bronze);
-  }
-
-  /* ============ PROVIDER ============ */
-  .provider { display: grid; grid-template-columns: 5fr 7fr; gap: clamp(2.5rem, 6vw, 6rem); align-items: center; }
-  @media (max-width: 900px) { .provider { grid-template-columns: 1fr; gap: 2.5rem; } }
-  .provider__media { display: flex; flex-direction: column; gap: 1rem; }
-  .provider__photo { aspect-ratio: 2/3; background: linear-gradient(135deg, var(--bronze-deep), var(--ink-3)); position: relative; overflow: hidden; }
-  .provider__photo img { width: 100%; height: 100%; object-fit: cover; object-position: center center; display: block; position: relative; z-index: 2; }
-  .provider__photo::before { content: ''; position: absolute; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E"); mix-blend-mode: overlay; opacity: 0.12; pointer-events: none; z-index: 3; }
-  .provider__caption { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink); line-height: 1.7; }
-  .provider__title { font-size: clamp(1.8rem, 4vw, 3rem); margin-bottom: 1.5rem; max-width: 22ch; }
-  .provider__copy p { margin-bottom: 1.2rem; max-width: 60ch; }
-  .provider__copy .btn { margin-top: 1rem; }
-
-  /* ============ PROGRAMS ============ */
-  .programs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.9rem; }
-  @media (max-width: 1000px) { .programs { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 600px) { .programs { grid-template-columns: 1fr; } }
-  .program { background: var(--cream-bright); border: 1px solid var(--rule-strong); padding: 2rem 1.7rem; border-radius: 1.15rem; display: flex; flex-direction: column; gap: 0.7rem; transition: background 240ms var(--ease), border-color 240ms var(--ease), transform 240ms var(--ease); }
-  .program:hover { background: var(--sage); border-color: var(--evergreen); transform: translateY(-3px); }
-  .program--featured { background: var(--sage); border-color: var(--terracotta); box-shadow: inset 0 5px 0 var(--terracotta); }
-  .program__ico { width: 26px; height: 26px; color: var(--bronze); margin-bottom: 0.5rem; }
-  .program__tier { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--bronze); }
-  .program__name { font-size: 1.45rem; line-height: 1.1; }
-  .program__price { display: flex; align-items: baseline; gap: 0.2rem; margin: 0.5rem 0 0.7rem; }
-  .program__price-amt { font-family: var(--font-display); font-size: 2.6rem; color: var(--paper); letter-spacing: -0.022em; font-variation-settings: 'opsz' 96; font-feature-settings: 'tnum'; }
-  .program__price-cad { font-family: var(--font-mono); font-size: 0.85rem; color: var(--mute); }
-  .program__body { color: rgba(28, 35, 27, 0.75); font-size: 0.92rem; flex-grow: 1; margin-bottom: 1rem; }
-  .programs-terms { color: var(--mute); font-size: 0.8rem; line-height: 1.5; text-align: center; max-width: 640px; margin: 1.4rem auto 0; }
-  .programs-terms a { color: var(--mute); text-decoration: underline; text-underline-offset: 2px; }
-  .programs-terms a:hover { color: var(--bronze); }
-  .program__link { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--bronze); align-self: flex-start; }
-  .program__link:hover { color: var(--bronze-bright); }
-  .programs-foot { margin-top: 3rem; text-align: center; }
-
-  /* ============ TESTIMONIALS ============ */
-  .testimonials { padding: var(--section-pad) 0; border-top: 1px solid var(--rule); position: relative; overflow: hidden; background: var(--sage); }
-    /* glow and dim recipes removed in p2 */
-  .testimonials > .container { position: relative; z-index: 2; }
-  .testimonials > .container { position: relative; }
-  .testimonials__head { margin-bottom: var(--head-gap); max-width: 900px; }
-  .testimonials__title { font-size: clamp(2rem, 5vw, 3.6rem); line-height: 1.05; letter-spacing: -0.02em; margin: 0.7rem 0 2rem; max-width: 22ch; }
-  .testimonials__rating { display: inline-flex; align-items: center; gap: 1rem; padding: 1rem 1.4rem; border: 1px solid var(--rule-strong); background: var(--ink-2); border-radius: var(--radius-pill); transition: background 220ms var(--ease), border-color 220ms var(--ease); }
-  .testimonials__rating:hover { background: var(--ink-3); border-color: var(--butter-deep); }
-  .testimonials__stars { display: inline-flex; gap: 3px; }
-  .star { width: 18px; height: 18px; background: var(--ochre); display: inline-block; -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='black'%3E%3Cpath d='M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z'/%3E%3C/svg%3E"); mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='black'%3E%3Cpath d='M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z'/%3E%3C/svg%3E"); -webkit-mask-size: contain; mask-size: contain; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; flex-shrink: 0; }
-  .testimonials__rating-meta { display: flex; align-items: baseline; gap: 0.5rem; flex-wrap: wrap; }
-  .testimonials__rating-meta strong { font-family: var(--font-display); font-size: 1.5rem; color: var(--paper); line-height: 1; letter-spacing: -0.015em; font-feature-settings: 'tnum'; }
-  .testimonials__rating-meta > span:not(.testimonials__rating-link) { font-family: var(--font-mono); font-size: 0.78rem; letter-spacing: 0.06em; color: rgba(28, 35, 27, 0.75); }
-  .testimonials__rating-link { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--bronze); margin-left: 0.5rem; border-left: 1px solid var(--rule-strong); padding-left: 1rem; }
-  @media (max-width: 640px) { .testimonials__rating-link { border-left: 0; padding-left: 0; margin-left: 0; width: 100%; } }
-  /* FTC Endorsement Guides · individual-results disclaimer beneath the rating
-     block. Small, muted, doesn't fight for visual weight. */
-  .testimonials__disclaimer {
-    font-size: 0.75rem;
-    line-height: 1.5;
-    color: rgba(28, 35, 27, 0.7);
-    max-width: 56ch;
-    margin: 1rem 0 0;
-    letter-spacing: 0.01em;
-  }
-  /* Carousel · one testimonial visible, auto-rotates, dots + arrows + hover-pause */
-  .t-rotator { max-width: 880px; margin: 0 auto; position: relative; }
-  .t-rotator__track {
-    position: relative;
-    background: var(--ink-2);
-    border: 1px solid var(--rule-strong);
-    border-radius: 1.25rem;
-    border-top: 5px solid var(--terracotta);
-    min-height: 320px;
-    overflow: hidden;
-  }
-  @media (max-width: 600px) { .t-rotator__track { min-height: 380px; } }
-  .t-slide {
-    position: absolute;
-    inset: 0;
-    padding: clamp(2rem, 5vw, 3.5rem);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 1.5rem;
-    opacity: 0;
-    transform: translateY(8px);
-    transition: opacity 700ms var(--ease), transform 700ms var(--ease);
-    pointer-events: none;
-  }
-  .t-slide.is-active {
-    opacity: 1;
-    transform: translateY(0);
-    pointer-events: auto;
-    position: relative;
-  }
-  .t-slide__stars { display: inline-flex; gap: 4px; }
-  .t-slide__stars .star { width: 18px; height: 18px; background: var(--ochre); }
-  .t-slide__quote {
-    font-family: var(--font-display-italic);
-    font-size: clamp(1.15rem, 2.2vw, 1.6rem);
-    font-weight: 380;
-    line-height: 1.5;
-    letter-spacing: -0.005em;
-    color: var(--paper);
-    margin: 0;
-    flex-grow: 1;
-    max-width: 65ch;
-    font-variation-settings: 'opsz' 60, 'SOFT' 60, 'WONK' 1;
-  }
-  .t-slide__author {
-    display: flex;
-    flex-direction: column;
-    gap: 0.3rem;
-    padding-top: 1.2rem;
-    border-top: 1px solid var(--rule);
-  }
-  .t-slide__author strong {
-    font-family: var(--font-display-italic);
-    font-size: 1.05rem;
-    font-weight: 500;
-    color: var(--paper);
-    letter-spacing: -0.01em;
-  }
-  .t-slide__author span {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--mute);
-  }
-  .t-rotator__controls {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    margin-top: 1.5rem;
-  }
-  .t-rotator__nav {
-    background: transparent;
-    border: 1px solid var(--rule-strong);
-    color: var(--paper);
-    width: 48px;
-    height: 48px;
-    min-width: 48px;
-    min-height: 48px;
-    flex: 0 0 48px;
-    display: grid;
-    place-items: center;
-    cursor: pointer;
-    border-radius: 50%;
-    transition: background 200ms var(--ease), border-color 200ms var(--ease);
-    font-size: 1.05rem;
-  }
-  .t-rotator__nav:hover { background: rgba(23, 75, 51, 0.1); border-color: var(--evergreen); }
-  .t-rotator__nav:active { background: rgba(23, 75, 51, 0.18); border-color: var(--evergreen); }
-  .t-rotator__dots { display: flex; gap: 0.5rem; }
-  .t-dot {
-    width: 32px;
-    /* 24px tall hit target (WCAG 2.5.8) with the visible bar kept at 4px via
-       vertical padding + content-box clip — box-sizing:border-box is global. */
-    height: 24px;
-    padding: 10px 0;
-    background-color: var(--rule-strong);
-    background-clip: content-box;
-    border: 0;
-    cursor: pointer;
-    transition: background-color 280ms var(--ease), width 280ms var(--ease);
-  }
-  .t-dot:hover { background-color: var(--mute); }
-  .t-dot.is-active { background-color: var(--bronze); width: 56px; }
-  @media (max-width: 600px) {
-    .t-rotator__controls {
-      display: grid;
-      grid-template-columns: 48px 1fr 48px;
-      grid-template-areas:
-        "dots dots dots"
-        "prev play next";
-      gap: 0.75rem;
-    }
-    .t-rotator__nav--prev { grid-area: prev; }
-    .t-rotator__dots { grid-area: dots; justify-content: center; gap: 0.35rem; }
-    .t-rotator__nav--next { grid-area: next; justify-self: end; }
-    .t-rotator__playpause { grid-area: play; justify-self: center; }
-    .t-dot {
-      height: 44px;
-      padding: 20px 0;
-    }
-  }
-  .testimonials__foot { margin-top: 2.5rem; text-align: center; }
-
-  /* ============ FAQ ============
-     Light reading section on the deeper cream surface. */
-  .faq {
-    padding: var(--section-pad) 0;
-    background: var(--ink-2);
-    color: var(--paper);
-    position: relative;
-    overflow: hidden;
-  }
-  .faq > .container { position: relative; }
-  .faq__head { max-width: 900px; margin-bottom: var(--head-gap); }
-  .faq__head .eyebrow { color: var(--bronze-deep); }
-  .faq__head .index { color: rgba(28, 35, 27, 0.7); }
-  .faq__head .index::before { color: var(--bronze-deep); }
-  .faq__title {
-    font-size: clamp(2rem, 5vw, 3.6rem);
-    letter-spacing: -0.02em;
-    margin: 0.7rem 0 1.2rem;
-    max-width: 22ch;
-    line-height: 1.05;
-    color: var(--paper);
-  }
-  .faq__head .lead { color: rgba(28, 35, 27, 0.75); }
-  .faq__list {
-    display: flex;
-    flex-direction: column;
-    border-top: 1px solid rgba(28, 35, 27, 0.16);
-    max-width: 900px;
-  }
-  .faq__item { border-bottom: 1px solid rgba(28, 35, 27, 0.10); }
-  .faq__item details { padding: 0; }
-  .faq__item summary {
-    list-style: none;
-    cursor: pointer;
-    display: grid;
-    grid-template-columns: 1fr 32px;
-    gap: clamp(1rem, 3vw, 2rem);
-    align-items: center;
-    padding: clamp(1.4rem, 3vw, 2rem) 0;
-    transition: background 220ms var(--ease);
-  }
-  .faq__item summary::-webkit-details-marker { display: none; }
-  .faq__item summary:hover { background: rgba(23, 75, 51, 0.07); }
-  .faq__q-num {
-    font-family: var(--font-mono);
-    font-size: 0.78rem;
-    color: var(--bronze-deep);
-    letter-spacing: 0.12em;
-  }
-  .faq__q-text {
-    font-family: var(--font-display-italic);
-    font-style: italic;
-    font-weight: 420;
-    font-size: clamp(1.2rem, 2.4vw, 1.7rem);
-    line-height: 1.25;
-    letter-spacing: -0.015em;
-    color: var(--paper);
-  }
-  .faq__q-icon {
-    font-family: var(--font-display);
-    font-size: 1.6rem;
-    color: var(--bronze-deep);
-    text-align: center;
-    line-height: 1;
-    transition: transform 280ms var(--ease);
-  }
-  .faq__item details[open] .faq__q-icon { transform: rotate(45deg); }
-  @supports (interpolate-size: allow-keywords) {
-    .faq__item details { interpolate-size: allow-keywords; }
-    .faq__item details::details-content {
-      height: 0;
-      overflow: hidden;
-      opacity: 0;
-      transition: height 320ms var(--ease), opacity 300ms var(--ease), content-visibility 320ms allow-discrete;
-    }
-    .faq__item details[open]::details-content { height: auto; opacity: 1; }
-  }
-  .faq__a {
-    grid-column: 2;
-    padding: 0 0 clamp(1.4rem, 3vw, 2rem) clamp(1rem, 3vw, 2rem);
-    margin-left: 0;
-    color: rgba(28, 35, 27, 0.8);
-    line-height: 1.7;
-    font-size: 1.05rem;
-    max-width: 65ch;
-  }
-  @media (max-width: 640px) {
-    .faq__item summary { grid-template-columns: 1fr 28px; gap: 0.8rem; }
-    .faq__a { margin-left: 0; padding-left: 0.8rem; padding-right: 0; }
-  }
-  .faq__foot { margin-top: 2.5rem; max-width: 900px; }
-
-
-/* ============ PROVIDER BAND ============ */
-/* Powder-blue brand band (same .section--paper treatment used by the About
-   founder section) so the named-provider moment reads as a calm, editorial
-   breath between the Programs grid and Testimonials rotator. */
-.provider-band {
-  padding: var(--section-pad) 0;
-}
-.provider-band__inner {
-  display: grid;
-  grid-template-columns: 5fr 7fr;
-  gap: clamp(2.5rem, 6vw, 6rem);
-  align-items: center;
-}
-@media (max-width: 900px) {
-  .provider-band__inner { grid-template-columns: 1fr; align-items: start; }
-}
-
-.provider-band__facts {
-  background: var(--evergreen-deep);
-  color: var(--cream-bright);
-  padding: clamp(2rem, 5vw, 3.5rem);
-  border-radius: 1.25rem 1.25rem 4rem 1.25rem;
-  border-top: 6px solid var(--ochre);
-  --focus-ring: var(--ochre);
-}
-.provider-band__facts-kicker {
-  display: block;
-  font-family: var(--font-display);
-  font-size: clamp(1.7rem, 3vw, 2.4rem);
-  line-height: 1.1;
-}
-.provider-band__facts > strong {
-  display: block;
-  margin-top: 0.4rem;
-  color: var(--ochre);
-  font-size: 0.95rem;
-  letter-spacing: 0.04em;
-}
-.provider-band__facts ul {
-  display: grid;
-  gap: 0.85rem;
-  margin-top: 2rem;
-}
-.provider-band__facts li {
-  padding-top: 0.85rem;
-  border-top: 1px solid rgba(255, 253, 248, 0.18);
-  color: rgba(255, 253, 248, 0.82);
-  line-height: 1.45;
-}
-
-.provider-band__copy {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 1.4rem;
-}
-.provider-band__title {
-  font-size: clamp(2rem, 4.5vw, 3.4rem);
-  line-height: 1.05;
-  letter-spacing: -0.02em;
-  max-width: 16ch;
-  margin: 0;
-}
-/* Keep the provider quote dark enough against the powder-blue surface. */
-.provider-band__voice {
-  font-family: var(--font-display-italic);
-  font-style: italic;
-  font-weight: 400;
-  font-size: clamp(1.25rem, 2.4vw, 1.85rem);
-  line-height: 1.4;
-  letter-spacing: -0.01em;
-  color: var(--paper);
-  max-width: 30ch;
-  font-variation-settings: 'opsz' 96, 'SOFT' 60, 'WONK' 1;
-  margin: 0;
-}
-.provider-band__cta { margin-top: 0.4rem; }
-
-  /* ============ CTA ============ */
-  .cta { padding: clamp(2.75rem, 6vw, 5rem) 0; background: var(--evergreen); color: var(--cream-bright); position: relative; overflow: hidden; border-top: 0; }
-  .cta__inner {
-    position: relative;
-    z-index: 2;
-    display: grid;
-    grid-template-columns: auto minmax(0, 1fr) auto;
-    align-items: center;
-    gap: clamp(2rem, 6vw, 6rem);
-  }
-  .cta__brand {
-    flex: none;
-    width: clamp(7.75rem, 12vw, 10rem);
-    aspect-ratio: 360 / 258;
-    overflow: hidden;
-  }
-  .cta__brand img {
-    display: block;
-    width: auto;
-    max-width: none;
-    height: 100%;
-  }
-  .cta__copy { display: flex; flex-direction: column; gap: 0.65rem; }
-  .cta__title { font-size: clamp(2.15rem, 4.4vw, 4rem); max-width: 18ch; margin: 0; }
-  .cta__inner .lead { margin: 0; color: rgba(255, 253, 248, 0.78); }
-  .cta__ctas { display: flex; flex-wrap: wrap; justify-content: flex-end; }
-  .cta__ctas .btn {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.13em;
-    text-transform: uppercase;
-  }
-  .cta .btn:not(.btn--bronze) { color: var(--cream-bright); border-color: var(--cream-bright); }
-  .cta .btn:not(.btn--bronze):hover { background: var(--cream-bright); color: var(--evergreen-deep); }
-  @media (max-width: 800px) {
-    .cta__inner { grid-template-columns: auto 1fr; }
-    .cta__ctas { grid-column: 2; justify-content: flex-start; }
-  }
-  @media (max-width: 520px) {
-    .cta__inner { grid-template-columns: 1fr; justify-items: start; }
-    .cta__ctas { grid-column: auto; }
-  }
+  @media (max-width: 480px) { .programs { grid-template-columns: 1fr; } }
 </style>

@@ -4,12 +4,13 @@ import CareDetail from '../components/CareDetail.astro';
 
 <CareDetail
   path="/weight-management"
+  serviceName="Medical weight management"
   title="Medical Weight Management Austin | Viva Wellness Co."
   description="Provider-led medical weight management with transparent self-pay pricing and virtual follow-up in Texas, Colorado, Florida, and Iowa."
   eyebrow="Medical weight management"
-  headline="Weight care that starts"
-  accent="with the whole picture."
-  intro="When appetite, weight, sleep, stress, and a full schedule all overlap, the answer should not begin with a product menu. Liliana starts with your history, goals, prior approaches, and what you can realistically sustain."
+  headline="Medical weight management"
+  accent="A plan that considers your whole life."
+  intro="Appetite, weight, sleep, stress, and a full schedule can overlap. Liliana starts with your history, goals, prior approaches, and what you can realistically sustain."
   decisionTitle="What you should understand before choosing a plan."
   decisions={[
     { title: 'Whether Viva fits', body: 'A first visit clarifies service-state eligibility, relevant history, and whether telehealth is an appropriate setting for the care you need.' },
@@ -38,5 +39,9 @@ import CareDetail from '../components/CareDetail.astro';
     { label: 'FDA: concerns with unapproved GLP-1 drugs', href: 'https://www.fda.gov/drugs/drug-alerts-and-statements/fdas-concerns-unapproved-glp-1-drugs-used-weight-loss' },
     { label: 'FDA: current GLP-1 compounding policy', href: 'https://www.fda.gov/drugs/drug-alerts-and-statements/fda-clarifies-policies-compounders-national-glp-1-supply-begins-stabilize' },
     { label: 'FDA: compounding questions and answers', href: 'https://www.fda.gov/drugs/human-drug-compounding/compounding-and-fda-questions-and-answers' },
+  ]}
+  relatedResources={[
+    { title: 'GLP-1 weight-management questions', href: '/blog/glp-1-weight-loss-austin/', description: 'Read the existing guide to evaluation, medication questions, and pricing.' },
+    { title: 'Tirzepatide and semaglutide', href: '/blog/tirzepatide-vs-semaglutide/', description: 'Explore the comparison and bring your individual questions to the visit.' },
   ]}
 />
