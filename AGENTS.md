@@ -11,7 +11,7 @@ remain, and only two.
 
 Marketing site for **Viva Wellness Co.** (https://vivawellnessco.com), a
 concierge telehealth clinic in Austin run by Liliana Damron, APRN, FNP-BC.
-**Astro 6** static site + **Cloudflare Pages Functions** (lead/email
+**Astro 7** static site + **Cloudflare Pages Functions** (lead/email
 pipeline), hosted on Cloudflare Pages. Owner and technical lead: Michael
 Damron (mdamronjr-maker on GitHub). The bar: the best site in Austin for
 this business. How to get there is judgment, not rules; decide and ship.
@@ -61,12 +61,13 @@ structure, and SEO, is the assistant's judgment.
 ## Layout
 
 ```
-src/pages/          index, about, services, menopause, menu, start, partners,
-                    contact, blog/, legal pages, og/ (build-time share cards)
+src/pages/          index, about, services, weight management, menopause,
+                    testosterone, recovery, start, partners, contact, blog/,
+                    legal pages, og/ (build-time share cards)
 src/components/     Header, Footer, MobileStickyCta, NoPhiNotice
 src/layouts/        Layout.astro (meta, schema graph, font preloads)
-src/lib/            quiz.ts (match logic), partners.ts (directory + perks),
-                    turnstile.ts
+src/lib/            quiz.ts (care-path matching), partners.ts (directory +
+                    disclosed perks), turnstile.ts
 src/styles/         global.css (design tokens + type system), fonts.css
 functions/api/      Cloudflare Pages Functions: lead.js, unsubscribe.js,
                     resend-webhook.js, email-status.js + helpers
