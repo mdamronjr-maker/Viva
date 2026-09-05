@@ -5,10 +5,11 @@ type ContentItem = { title: string; body: string };
 type Plan = { name: string; price: string; href: string; note: string };
 type Source = { label: string; href: string };
 type Faq = { q: string; a: string };
+type RelatedResource = { title: string; href: string; description: string };
 
 interface Props {
   path: string;
-  serviceName?: string;
+  serviceName: string;
   title: string;
   description: string;
   eyebrow: string;
@@ -25,6 +26,7 @@ interface Props {
   faqEyebrow?: string;
   faqTitle?: string;
   faqs?: Faq[];
+  relatedResources?: RelatedResource[];
 }
 
 const {
@@ -46,10 +48,11 @@ const {
   faqEyebrow = 'Common questions',
   faqTitle = 'Questions to ask before deciding.',
   faqs = [],
+  relatedResources = [],
 } = Astro.props;
 
 const absolute = `https://vivawellnessco.com${path}/`;
-const resolvedServiceName = serviceName ?? headline;
+const resolvedServiceName = serviceName;
 const schemaGraph = [
     {
       '@type': 'Service',
@@ -67,6 +70,7 @@ const schemaGraph = [
     },
     {
       '@type': 'BreadcrumbList',
+      '@id': `${absolute}#breadcrumb`,
       itemListElement: [
         { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://vivawellnessco.com/' },
         { '@type': 'ListItem', position: 2, name: 'Care and pricing', item: 'https://vivawellnessco.com/services/' },
@@ -94,13 +98,15 @@ const schema = {
   <section class="care-hero">
     <div class="container care-hero__inner">
       <nav class="breadcrumbs" aria-label="Breadcrumb">
-        <a href="/">Home</a><span aria-hidden="true">/</span><a href="/services/">Care</a><span aria-hidden="true">/</span><span>{eyebrow}</span>
+        <a href="/">Home</a><span aria-hidden="true">/</span><a href="/services/">Care and pricing</a><span aria-hidden="true">/</span><span aria-current="page">{serviceName}</span>
       </nav>
       <span class="eyebrow">{eyebrow}</span>
-      <h1>{headline}<br/><span class="italic-display">{accent}</span></h1>
+      <h1>{headline}</h1>
+      <p class="care-hero__subhead">{accent}</p>
       <p class="care-hero__intro">{intro}</p>
+      <p class="care-hero__cost">First visit $199 · $50 deposit due at booking · Membership separate</p>
       <div class="care-hero__ctas">
-        <a href="/start/?utm_source=vivawellnessco&utm_medium=cta&utm_content=care_detail_hero" class="btn btn--bronze">Book your first visit</a>
+        <a href="/start/?utm_source=vivawellnessco&utm_medium=cta&utm_content=care_detail_hero" class="btn btn--bronze">Book a visit</a>
         <a href="/services/#plans" class="btn">Compare all pricing</a>
       </div>
       <p class="care-hero__boundary">A website cannot determine diagnosis, eligibility, or treatment. Those decisions require an individual visit with Liliana.</p>
@@ -205,94 +211,101 @@ const schema = {
     </section>
   )}
 
-  <section class="care-end">
+  {relatedResources.length > 0 && (
+    <section class="section care-reading" aria-labelledby="care-reading-title">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Explore your questions</span>
+          <h2 id="care-reading-title">Related reading and resources.</h2>
+        </div>
+        <ul class="care-reading__list" role="list">
+          {relatedResources.map((resource) => (
+            <li><h3><a href={resource.href}>{resource.title} <span aria-hidden="true">→</span></a></h3><p>{resource.description}</p></li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )}
+
+  <section class="care-end" data-final-cta>
     <div class="container care-end__inner">
-      <div><span class="eyebrow">One provider, one clear next step</span><h2>Start with a conversation, not a product.</h2></div>
+      <div><span class="eyebrow">Your next step</span><h2>Bring your questions to Liliana.</h2></div>
       <div class="care-end__action">
         <p>Liliana reviews whether Viva fits, what information is needed, and what happens if a requested option is not appropriate.</p>
-        <a href="/start/?utm_source=vivawellnessco&utm_medium=cta&utm_content=care_detail_end" class="btn btn--bronze">Book your first visit</a>
+        <a href="/start/?utm_source=vivawellnessco&utm_medium=cta&utm_content=care_detail_end" class="btn btn--bronze">Book a visit</a>
       </div>
     </div>
   </section>
 </Layout>
 
 <style>
-  .care-hero { background: var(--evergreen); color: var(--cream-bright); border-bottom: 6px solid var(--ochre); padding: clamp(5.5rem, 12vw, 9rem) 0 clamp(4rem, 8vw, 6.5rem); --focus-ring: var(--ochre); }
-  .care-hero .eyebrow, .care-safety .eyebrow, .care-end .eyebrow { color: var(--ochre); }
-  .care-hero__inner { max-width: 1120px; display: flex; flex-direction: column; align-items: flex-start; gap: 1.25rem; }
-  .breadcrumbs { display: flex; flex-wrap: wrap; gap: 0.55rem; font-size: 0.82rem; color: rgba(255,253,248,.72); margin-bottom: 1rem; }
-  .breadcrumbs a { text-decoration: underline; text-underline-offset: 3px; }
-  .care-hero h1 { max-width: 16ch; }
-  .care-hero__intro { max-width: 62ch; color: rgba(255,253,248,.84); font-size: clamp(1.08rem, 1.7vw, 1.3rem); line-height: 1.6; }
-  .care-hero__ctas { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: .4rem; }
-  .care-hero .btn:not(.btn--bronze) { color: var(--cream-bright); border-color: var(--cream-bright); }
-  .care-hero .btn:not(.btn--bronze):hover { background: var(--cream-bright); color: var(--evergreen-deep); }
-  .care-hero__boundary { font-size: .86rem; color: rgba(255,253,248,.68); border-top: 1px solid rgba(255,253,248,.2); padding-top: 1rem; max-width: 70ch; }
-  .section-head { max-width: 760px; margin-bottom: clamp(2rem, 5vw, 3.5rem); }
-  .section-head h2 { margin-top: .65rem; }
-  .care-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--rule-strong); border: 1px solid var(--rule-strong); }
-  .care-grid li { background: var(--ink-2); padding: clamp(1.6rem, 3vw, 2.4rem); }
-  .care-grid__num { color: var(--evergreen); font-weight: 700; font-size: .84rem; }
-  .care-grid h3 { margin: 1.4rem 0 .6rem; }
-  .care-grid p, .visit p { color: var(--mute); line-height: 1.6; }
-  .visit { display: grid; grid-template-columns: 5fr 7fr; gap: clamp(2.5rem, 7vw, 7rem); }
-  .visit__head h2 { margin: .7rem 0 1rem; }
+  .care-hero { background: var(--surface-page); color: var(--text-primary); border-bottom: 1px solid var(--border-subtle); padding: clamp(2.5rem, 5vw, 4.5rem) 0; }
+  .care-hero__inner { display: flex; flex-direction: column; align-items: flex-start; gap: 1rem; }
+  .breadcrumbs { display: flex; flex-wrap: wrap; gap: .5rem; font-size: .9375rem; color: var(--text-secondary); margin-bottom: .5rem; }
+  .breadcrumbs a, .sources a { text-decoration: underline; text-underline-offset: .2em; }
+  .care-hero h1 { max-width: 23ch; font-size: var(--text-h1); line-height: 1.1; }
+  .care-hero__subhead { font-size: clamp(1.25rem, 2.2vw, 1.625rem); font-weight: 600; max-width: 44ch; line-height: 1.35; }
+  .care-hero__intro { max-width: 66ch; color: var(--text-secondary); font-size: 1.0625rem; line-height: 1.6; }
+  .care-hero__cost { font-size: .9375rem; font-weight: 600; margin-top: .5rem; }
+  .care-hero__ctas { display: flex; flex-wrap: wrap; gap: .75rem; }
+  .care-hero__boundary { font-size: .9375rem; color: var(--text-secondary); border-top: 1px solid var(--border-subtle); padding-top: 1rem; max-width: 72ch; }
+  .section-head { max-width: 760px; margin-bottom: 2rem; }
+  .section-head h2 { margin: .5rem 0 .75rem; }
+  .care-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+  .care-grid li { background: var(--surface-card); border: 1px solid var(--border-subtle); border-radius: var(--radius); padding: clamp(1.25rem, 2.5vw, 2rem); }
+  .care-grid__num { color: var(--text-secondary); font-weight: 600; font-size: .9375rem; }
+  .care-grid h3 { margin: 1rem 0 .65rem; font-size: var(--text-h3); }
+  .care-grid p, .visit p { color: var(--text-secondary); line-height: 1.6; }
+  .visit { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(2rem, 5vw, 4rem); }
+  .visit__head h2 { margin: .5rem 0 1rem; }
   .visit__list { display: grid; gap: 0; }
-  .visit__list li { display: grid; grid-template-columns: 2.6rem 1fr; gap: 1rem; padding: 1.35rem 0; border-top: 1px solid var(--rule-strong); }
-  .visit__list > li > span { color: var(--evergreen); font-weight: 700; }
-  .visit__list h3 { font-size: 1.2rem; margin-bottom: .35rem; }
-  .care-safety { background: var(--evergreen-deep); color: var(--cream-bright); --focus-ring: var(--ochre); }
-  .care-safety__inner { display: grid; grid-template-columns: 5fr 7fr; gap: clamp(2.5rem, 7vw, 7rem); }
-  .care-safety h2 { margin-top: .7rem; max-width: 16ch; }
-  .care-safety ul { display: grid; gap: .9rem; }
-  .care-safety li { padding: 1rem 0 1rem 1.4rem; border-top: 1px solid rgba(255,253,248,.18); position: relative; color: rgba(255,253,248,.82); }
-  .care-safety li::before { content: ''; position: absolute; left: 0; top: 1.55rem; width: 7px; height: 7px; border-radius: 50%; background: var(--ochre); }
-  .plan-links > ul { display: grid; gap: .8rem; }
-  .plan-links > ul > li { display: grid; grid-template-columns: 1fr auto auto; gap: 1.5rem; align-items: center; background: var(--ink-2); border: 1px solid var(--rule-strong); padding: 1.4rem 1.6rem; border-radius: var(--radius-sm); }
-  .plan-links h3 { font-size: 1.25rem; }
-  .plan-links p { font-size: .92rem; color: var(--mute); }
-  .plan-links strong { font-family: var(--font-display); font-size: 2rem; }
-  .plan-links small { font-family: var(--font-body); font-size: .8rem; color: var(--mute); }
-  .plan-links a { font-weight: 650; text-decoration: underline; text-underline-offset: 4px; }
-  .sources { padding: 2.5rem 0; background: var(--ink-2); border-top: 1px solid var(--rule); }
-  .sources__inner { max-width: 960px; }
-  .sources h2 { font-size: 1.35rem; }
-  .sources p { color: var(--mute); margin: .7rem 0 1rem; }
-  .sources ul { display: flex; flex-wrap: wrap; gap: .7rem 1.5rem; }
-  .sources a { text-decoration: underline; text-underline-offset: 3px; }
-  .care-faq { background: var(--ink); color: var(--paper); }
-  .care-faq__inner { max-width: 960px; }
-  .care-faq__list { border-top: 1px solid var(--rule-strong); }
-  .care-faq__list > div { display: grid; grid-template-columns: minmax(14rem, 5fr) 7fr; gap: clamp(1.5rem, 5vw, 4rem); padding: 1.4rem 0; border-bottom: 1px solid var(--rule-strong); }
-  .care-faq dt { font-family: var(--font-display); font-size: 1.2rem; line-height: 1.25; }
-  .care-faq dd { color: var(--mute); line-height: 1.65; }
-  .care-end { background: var(--evergreen); color: var(--cream-bright); border-top: 6px solid var(--ochre); padding: clamp(3.5rem, 8vw, 6rem) 0; --focus-ring: var(--ochre); }
-  .care-end__inner { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 7vw, 6rem); align-items: end; }
-  .care-end h2 { margin-top: .65rem; max-width: 16ch; }
-  .care-end__action p { color: rgba(255,253,248,.8); margin-bottom: 1.5rem; }
+  .visit__list li { display: grid; grid-template-columns: 2rem minmax(0, 1fr); gap: 1rem; padding: 1.25rem 0; border-top: 1px solid var(--border-subtle); }
+  .visit__list > li > span { color: var(--text-secondary); font-weight: 600; }
+  .visit__list h3 { font-size: 1.25rem; margin-bottom: .5rem; }
+  .care-safety { background: var(--surface-subtle); }
+  .care-safety__inner { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(2rem, 5vw, 4rem); }
+  .care-safety h2 { margin-top: .5rem; }
+  .care-safety ul { display: grid; gap: 1rem; padding-left: 1.25rem; list-style: disc; }
+  .care-safety li { color: var(--text-primary); line-height: 1.6; }
+  .plan-links > ul { display: grid; gap: 1rem; }
+  .plan-links > ul > li { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 1.5rem; align-items: center; background: var(--surface-card); border: 1px solid var(--border-subtle); padding: 1.5rem; border-radius: var(--radius); }
+  .plan-links h3 { font-size: 1.25rem; margin-bottom: .35rem; }
+  .plan-links p { color: var(--text-secondary); }
+  .plan-links strong { font-size: 2rem; font-weight: 600; white-space: nowrap; }
+  .plan-links small { font-size: 1rem; font-weight: 400; color: var(--text-secondary); }
+  .plan-links a { font-weight: 600; text-decoration: underline; text-underline-offset: .2em; }
+  .sources { padding: 2rem 0; background: var(--surface-page); border-top: 1px solid var(--border-subtle); }
+  .sources h2 { font-size: 1.25rem; }
+  .sources p { color: var(--text-secondary); margin: .75rem 0 1rem; max-width: 72ch; }
+  .sources ul { display: flex; flex-wrap: wrap; gap: .75rem 1.5rem; font-size: .9375rem; }
+  .care-faq { background: var(--surface-page); }
+  .care-faq__list { border-top: 1px solid var(--border-subtle); }
+  .care-faq__list > div { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(1.5rem, 4vw, 3rem); padding: 1.5rem 0; border-bottom: 1px solid var(--border-subtle); }
+  .care-faq dt { font-size: 1.125rem; font-weight: 600; line-height: 1.4; }
+  .care-faq dd { color: var(--text-secondary); line-height: 1.6; }
+  .care-reading { border-top: 1px solid var(--border-subtle); }
+  .care-reading__list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+  .care-reading__list li { padding: 1.5rem; border: 1px solid var(--border-subtle); border-radius: var(--radius); }
+  .care-reading__list h3 { font-size: 1.25rem; line-height: 1.4; margin-bottom: .5rem; }
+  .care-reading__list a { text-decoration: underline; text-underline-offset: .2em; }
+  .care-reading__list p { color: var(--text-secondary); }
+  .care-end { background: var(--surface-inverse); color: var(--text-inverse); padding: var(--section-pad) 0; --focus-ring: var(--action-primary); }
+  .care-end .eyebrow { color: var(--action-primary); }
+  .care-end__inner { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(2rem, 5vw, 4rem); align-items: center; }
+  .care-end h2 { margin-top: .5rem; }
+  .care-end__action p { color: var(--text-inverse); margin-bottom: 1.5rem; }
   @media (max-width: 820px) {
     .care-grid, .visit, .care-safety__inner, .care-end__inner { grid-template-columns: 1fr; }
-    .care-faq__list > div { grid-template-columns: 1fr; gap: .65rem; }
-    .plan-links > ul > li { grid-template-columns: 1fr auto; }
+    .care-faq__list > div { grid-template-columns: 1fr; gap: .75rem; }
+    .plan-links > ul > li { grid-template-columns: minmax(0, 1fr) auto; }
     .plan-links a { grid-column: 1 / -1; }
   }
   @media (max-width: 520px) {
-    .care-hero { padding: 3.75rem 0 3rem; }
-    .care-hero__inner { gap: 1rem; }
-    .breadcrumbs { margin-bottom: 0.4rem; }
-    .care-hero h1 { font-size: clamp(2.25rem, 10.5vw, 2.8rem); }
+    .care-hero { padding: 2rem 0 2.5rem; }
     .care-hero__ctas { display: grid; grid-template-columns: 1fr; width: 100%; }
-    .care-hero__ctas .btn { width: 100%; justify-content: center; }
-    .care-grid { grid-template-columns: 1fr; }
-    .care-grid li { padding: 1.35rem 1.2rem; }
-    .care-grid h3 { margin-top: 0.8rem; }
-    .visit__list li { padding: 1.1rem 0; }
-    .care-safety li { padding-top: 0.8rem; padding-bottom: 0.8rem; }
-    .care-safety li::before { top: 1.35rem; }
-    .plan-links > ul > li { grid-template-columns: 1fr; gap: .8rem; }
-    .plan-links > ul > li { padding: 1.2rem; }
+    .care-hero__ctas .btn, .care-end .btn { width: 100%; justify-content: center; }
+    .care-reading__list, .plan-links > ul > li { grid-template-columns: 1fr; }
+    .plan-links > ul > li { padding: 1.25rem; gap: .75rem; }
     .plan-links a { grid-column: auto; }
-    .care-end { padding: 3.75rem 0; }
-    .care-end .btn { width: 100%; justify-content: center; }
   }
 </style>

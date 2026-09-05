@@ -12,7 +12,7 @@ import Layout from '../layouts/Layout.astro';
 // here only when it is configured on GG.
 const programs = [
   {
-    tier: 'Insurance',
+    tier: 'Provider access',
     name: 'Viva Concierge Access',
     price: 99,
     priceLabel: '$99',
@@ -133,24 +133,6 @@ const programs = [
   },
 ];
 
-// Items truly common across every tier above. "Supplies and home delivery"
-// is intentionally omitted — it does not apply to Viva Concierge Access,
-// which is the insurance-routed tier.
-const ICON = {
-  calendar: '<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="m9 16 2 2 4-4"/>',
-  message: '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',
-  sliders: '<line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/>',
-  zap: '<path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/>',
-  tag: '<path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/><circle cx="7.5" cy="7.5" r=".75" fill="currentColor" stroke="none"/>',
-};
-const includedAlways = [
-  { label: 'Named-provider oversight', icon: 'calendar' },
-  { label: 'Secure clinical messaging', icon: 'message' },
-  { label: 'Ongoing follow-up', icon: 'sliders' },
-  { label: 'Published plan inclusions', icon: 'zap' },
-  { label: 'No automatic prescribing', icon: 'tag' },
-];
-
 const pillars = [
   { href: '/menopause/', title: 'Menopause and perimenopause', body: 'For hot flashes, sleep disruption, concentration, mood, or other midlife concerns that deserve evaluation without assuming one cause.' },
   { href: '/weight-management/', title: 'Medical weight management', body: 'For adults who want to review sustainable approaches, medication questions, costs, and safety in context.' },
@@ -159,10 +141,8 @@ const pillars = [
   { href: '/recovery/', title: 'Recovery and long-term health', body: 'For active adults who want an evidence-aware discussion about recovery, function, and when in-person care is needed.' },
 ];
 
-// Schema.org · each tier emits a Service node so Google can surface a specific
-// program in search. Service (not MedicalProcedure) is used because it is the
-// type that actually defines `offers` and `provider` — MedicalProcedure does
-// not, and validators reject those properties on it, discarding the pricing.
+// Represent each published membership and its monthly price as a Service.
+// This describes the offer; structured data does not promise search display.
 const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 const areaServed = [
   { '@type': 'State', name: 'Texas' },
@@ -205,196 +185,89 @@ const servicesSchema = {
   description="Compare memberships from $99 to $499 per month for weight, hormone, peptide therapy, and recovery care, with clear medication boundaries."
   schema={servicesSchema}
 >
-
-  {/* HERO */}
   <section class="services-hero">
     <div class="container services-hero__inner">
-      <span class="eyebrow">Energy · hormones · metabolism · peptides · recovery</span>
-      <h1 class="services-hero__title">
-        What I treat,<br/>
-        <span class="italic-display">and what it costs.</span>
-      </h1>
-      <p class="lead">
-        You may be here because sleep, energy, weight, hormones, or recovery
-        changed—or because you want a clear answer about peptide therapy. I
-        start with your history and goals, decide what information may help,
-        and explain which options fall inside Viva's scope.
-      </p>
-      <p class="services-hero__detail">
-        All-inclusive testosterone and metabolic tiers bundle only the medication
-        and services listed in that plan. Viva Concierge Access keeps medications
-        separate. Every prescription requires an individual clinical evaluation,
-        and choosing a price tier does not establish eligibility.
-      </p>
-      <div class="services-hero__ctas">
-        <a href="#plans" class="btn btn--bronze">Compare plans</a>
-        <a href="/start/?utm_source=vivawellnessco&utm_medium=cta&utm_content=services_hero" class="btn">Book your first visit</a>
+      <span class="eyebrow">Virtual care · Texas, Colorado, Florida &amp; Iowa</span>
+      <h1>Care and pricing.</h1>
+      <p class="lead">Explore your care options and the cost of getting started. Your first visit with Liliana comes before choosing a membership.</p>
+      <div class="services-actions">
+        <a href="/start/" class="btn btn--bronze">Book a visit</a>
+        <a href="#plans" class="btn">Compare memberships</a>
       </div>
     </div>
   </section>
 
-  {/* PILLARS · recognizable problems before clinical categories */}
-  <section class="section pillars-section">
+  <section class="first-visit" aria-labelledby="first-visit-title">
+    <div class="container first-visit__inner">
+      <div>
+        <span class="eyebrow">Start here</span>
+        <h2 id="first-visit-title">One visit. An individual plan.</h2>
+        <p>Liliana reviews your history, goals and current care, then explains which options may fit. Choosing a membership does not establish clinical eligibility.</p>
+        <a class="text-link" href="/start/">See what to expect at your first visit →</a>
+      </div>
+      <div class="first-visit__cost">
+        <p class="first-visit__price"><strong>$199</strong><span>First telehealth visit</span></p>
+        <p>One-time fee, separate from any membership.</p>
+        <p><strong>$50 deposit</strong> due at booking. Review the payment and cancellation terms in the booking system before confirming.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section programs-section" id="plans" aria-labelledby="plans-title">
     <div class="container">
       <div class="section-head">
-        <span class="eyebrow">Start with what changed</span>
-        <h2 class="section-head__title">
-          Start with what feels different.
-        </h2>
-        <p class="lead section-head__lead">
-          Bring me what has changed, what you have tried, and what you need your
-          health to support. I will connect the symptoms, the labs, and the care
-          options with you.
-        </p>
+        <span class="eyebrow">Ongoing care</span>
+        <h2 id="plans-title">Compare the five memberships.</h2>
+        <p class="lead">Viva Concierge Access keeps medications separate. Testosterone and metabolic plans bundle only the medication and services listed, when clinically appropriate and lawfully prescribed.</p>
+        <p class="plans-commitment">Every program has a <strong>12-week minimum commitment</strong> and renews every 30 days. <a href="#membership-policies">Read the membership policies.</a></p>
       </div>
-
-      <ul class="pillars">
-        {pillars.map((p) => (
-          <li class="pillar">
-            <a class="pillar__link" href={p.href}>
-              <h3 class="pillar__title">{p.title}</h3>
-              <p class="pillar__body">{p.body}</p>
-              <span class="pillar__more">See care options →</span>
-            </a>
-          </li>
-        ))}
-      </ul>
-    </div>
-  </section>
-
-  {/* INCLUDED-EVERYWHERE STRIP */}
-  <section class="included">
-    <div class="container">
-      <div class="included__inner">
-        <div class="included__head">
-          <span class="eyebrow">Every membership includes</span>
-        </div>
-        <ul class="included__list">
-          {includedAlways.map((item) => (
-            <li>
-              <svg class="incl-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={ICON[item.icon]} />
-              <span>{item.label}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  {/* QUIZ CTA BANNER */}
-  <section class="quiz-banner">
-    <div class="container quiz-banner__inner">
-      <div class="quiz-banner__copy">
-        <span class="eyebrow">Three quick questions</span>
-        <h2 class="quiz-banner__title">
-          Find your starting point.
-        </h2>
-        <p>
-          Compare Viva's published care paths in about a minute. Your
-          answers stay in this browser and do not determine clinical eligibility.
-        </p>
-      </div>
-      <a href="/#quiz" class="btn btn--bronze">Use the anonymous guide</a>
-    </div>
-  </section>
-
-  {/* PROVIDER STRIP · a beat of warmth before the pricing grid */}
-  <section class="section--paper provider-strip">
-    <div class="container provider-strip__inner">
-      <div class="provider-strip__credential" aria-label="Provider credentials">
-        <strong>Liliana Damron</strong>
-        <span>APRN, FNP-BC</span>
-      </div>
-      <div class="provider-strip__copy">
-        <span class="eyebrow">One named provider</span>
-        <p class="provider-strip__line">
-          Every tier on this page is managed by
-          <strong>Liliana Damron, APRN, FNP-BC</strong>.
-          Your first visit, follow-up decisions, and medication management stay
-          connected to the same provider.
-        </p>
-        <a href="/about/" class="provider-strip__link">Meet your provider →</a>
-      </div>
-    </div>
-  </section>
-
-  {/* PROGRAMS · five memberships, mirrored from GlossGenius */}
-  <section class="section programs-section" id="plans">
-    <div class="container">
-      <div class="section-head">
-        <span class="eyebrow">Care and pricing</span>
-        <h2 class="section-head__title">
-          Start with one visit. I will help you choose.
-        </h2>
-        <p class="lead section-head__lead">
-          The cards below show exactly what each membership lists as included.
-          Viva Concierge Access keeps medication separate. Other plans bundle
-          only the medication and services stated on the card, when clinically prescribed.
-        </p>
-      </div>
-
+      <nav class="plan-jump" aria-label="Jump to a membership">
+        {programs.map((p) => <a href={`#${slugify(p.name)}`}>{p.name} <span>{p.priceLabel}/mo</span></a>)}
+      </nav>
       <ul class="prog-grid">
-        {programs.map((p, i) => (
-          <li class:list={["prog-card", i === programs.length - 1 && 'prog-card--span']} id={slugify(p.name)}>
-            <header class="prog-card__head">
-              <span class="prog-card__tier">{p.tier}</span>
-              <h3 class="prog-card__name">{p.name}</h3>
-              <div class="prog-card__price">
-                <span class="prog-card__amt">{p.priceLabel}</span>
-                <span class="prog-card__cad">/mo</span>
+        {programs.map((p) => (
+          <li class="prog-card" id={slugify(p.name)}>
+            <div class="prog-card__overview">
+              <header class="prog-card__head">
+                <span class="prog-card__tier">{p.tier}</span>
+                <h3 class="prog-card__name">{p.name}</h3>
+                <p class="prog-card__price"><strong>{p.priceLabel}</strong><span>/ month</span></p>
+                <p class="prog-card__tagline">{p.tagline}</p>
+              </header>
+              <p class="prog-card__body">{p.body}</p>
+            </div>
+            <div class="prog-card__inclusions">
+              <h4>What this membership includes</h4>
+              <ul class="prog-card__includes">
+                {p.includes.map((item) => <li>{item}</li>)}
+              </ul>
+            </div>
+            <details class="prog-card__fit">
+              <summary>When to discuss this plan or compare another path</summary>
+              <div class="prog-card__fit-content">
+                <div>
+                  <h4>Worth discussing if</h4>
+                  <ul>{p.rightFor.map((item) => <li>{item}</li>)}</ul>
+                </div>
+                <div>
+                  <h4>Compare another path if</h4>
+                  <ul>{p.notRightFor.map((item) => <li>{item}</li>)}</ul>
+                </div>
               </div>
-              <p class="prog-card__tagline">{p.tagline}</p>
-            </header>
-            <p class="prog-card__body">{p.body}</p>
-            <ul class="prog-card__includes">
-              {p.includes.map((item) => (
-                <li>{item}</li>
-              ))}
-            </ul>
-            {(p.rightFor || p.notRightFor) && (
-              <div class="prog-card__fit">
-                {p.rightFor && (
-                  <div class="prog-card__fit-block">
-                    <span class="prog-card__fit-label prog-card__fit-label--yes">Worth discussing if</span>
-                    <ul class="prog-card__fit-list">
-                      {p.rightFor.map((item) => (<li>{item}</li>))}
-                    </ul>
-                  </div>
-                )}
-                {p.notRightFor && (
-                  <div class="prog-card__fit-block">
-                    <span class="prog-card__fit-label prog-card__fit-label--no">Compare another path if</span>
-                    <ul class="prog-card__fit-list prog-card__fit-list--no">
-                      {p.notRightFor.map((item) => (<li>{item}</li>))}
-                    </ul>
-                  </div>
-                )}
-              </div>
-            )}
-            <a href={`/start/?utm_source=vivawellnessco&utm_medium=cta&utm_content=services_tier_${slugify(p.name)}`} class="btn btn--bronze prog-card__cta">
-              Book your first visit
-            </a>
+            </details>
+            <div class="prog-card__action"><a href="/start/" class="btn">Book a visit</a></div>
           </li>
         ))}
       </ul>
+      <p class="services-pricing-note">These prices mirror Viva's current booking system. Review the final booking screen before purchase and contact Viva if anything appears inconsistent.</p>
     </div>
   </section>
 
-  {/* PRICING NOTE + REVIEW PULLQUOTE */}
-  <div class="container services-aside">
-    <p class="sidenote services-pricing-note">These prices mirror Viva's current booking system. Review the final booking screen before purchase and contact Viva if anything appears inconsistent.</p>
-    <figure class="services-quote">
-      <blockquote class="pullquote">Most competent, caring provider. I get personalized care that's effective and timely. The proof is in the results and in how I feel. Just grateful everyday I found her.</blockquote>
-      <figcaption class="caption">Tiffany Plaster · <a href="https://www.google.com/maps/place/Viva+Wellness+Co./@30.448506,-93.3099761,5366828m/data=!3m2!1e3!4b1!4m6!3m5!1s0x838a2a09b2fa0069:0x23603b7d6308b72a!8m2!3d30.448506!4d-93.309976!16s%2Fg%2F11x1q1jhw9" target="_blank" rel="noopener">verified Google review</a></figcaption>
-    </figure>
-  </div>
-
-  {/* POLICIES */}
-  <section class="section section--paper">
+  <section class="section section--paper" id="membership-policies" aria-labelledby="policies-title">
     <div class="container policies">
       <div>
-        <span class="eyebrow">The fine print</span>
-        <h2 class="policies__title">Membership policies, plainly stated.</h2>
+        <span class="eyebrow">Before you enroll</span>
+        <h2 id="policies-title">Membership policies, plainly stated.</h2>
       </div>
       <ul class="policies__list">
         <li>Provider review and approval required prior to initiating any therapy.</li>
@@ -408,484 +281,142 @@ const servicesSchema = {
     </div>
   </section>
 
-  {/* CTA */}
-  <section class="services-cta">
+  <section class="section" aria-labelledby="care-paths-title">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Explore your care</span>
+        <h2 id="care-paths-title">Start with what has changed.</h2>
+        <p class="lead">Bring what has changed, what you have tried, and what you need your health to support. Explore the care pages for process, safety and scope.</p>
+      </div>
+      <ul class="pillars">
+        {pillars.map((p) => (
+          <li><a class="pillar__link" href={p.href}>
+            <h3>{p.title}</h3><p>{p.body}</p><span class="text-link">See care options →</span>
+          </a></li>
+        ))}
+      </ul>
+      <p class="care-guide">Prefer a guided starting point? <a href="/#quiz">Use the optional anonymous guide.</a> Your answers stay in this browser and do not determine clinical eligibility.</p>
+    </div>
+  </section>
+
+  <section class="section provider-section" aria-labelledby="provider-title">
+    <div class="container provider-grid">
+      <div>
+        <span class="eyebrow">One named provider</span>
+        <h2 id="provider-title">Liliana Damron, APRN, FNP-BC.</h2>
+        <p>Every tier on this page is managed by Liliana. Your first visit, follow-up decisions, and medication management stay connected to the same provider.</p>
+        <ul class="membership-basics" aria-label="Across every membership">
+          <li>Named-provider oversight</li>
+          <li>Secure clinical messaging</li>
+          <li>Ongoing follow-up</li>
+          <li>Published plan inclusions</li>
+          <li>No automatic prescribing</li>
+        </ul>
+        <a class="text-link" href="/about/">Meet your provider →</a>
+      </div>
+    <figure class="services-quote">
+      <blockquote class="pullquote">Most competent, caring provider. I get personalized care that's effective and timely. The proof is in the results and in how I feel. Just grateful everyday I found her.</blockquote>
+      <figcaption class="caption">Tiffany Plaster · <a href="https://www.google.com/maps/place/Viva+Wellness+Co./@30.448506,-93.3099761,5366828m/data=!3m2!1e3!4b1!4m6!3m5!1s0x838a2a09b2fa0069:0x23603b7d6308b72a!8m2!3d30.448506!4d-93.309976!16s%2Fg%2F11x1q1jhw9" target="_blank" rel="noopener">verified Google review</a></figcaption>
+    </figure>
+    </div>
+  </section>
+
+  <section class="services-cta" data-final-cta aria-labelledby="services-cta-title">
     <div class="container services-cta__inner">
-      <h2 class="services-cta__title">
-        Not sure which tier? Start with a visit.
-      </h2>
-      <p class="lead">
-        Your first telehealth visit is where Liliana reviews your goals, history,
-        current care, and any relevant information available. She explains which
-        options may fit and what happens if a requested treatment is not appropriate.
-      </p>
-      <div class="services-cta__ctas">
-        <a href="/start/?utm_source=vivawellnessco&utm_medium=cta&utm_content=services_cta" class="btn btn--bronze">Book your first visit</a>
+      <h2 id="services-cta-title">Not sure which membership? Start with a visit.</h2>
+      <p>Your first visit is where Liliana reviews your goals, history and current care. She explains which options may fit and what happens if a requested treatment is not appropriate.</p>
+      <div class="services-actions">
+        <a href="/start/" class="btn btn--bronze">Book a visit</a>
         <a href="/contact/" class="btn">Ask a question</a>
       </div>
     </div>
   </section>
-
 </Layout>
 
 <style>
-  /* HERO */
-  .services-aside { padding: clamp(2rem, 4vw, 3rem) var(--gutter); display: flex; flex-direction: column; gap: 2rem; }
-  .services-pricing-note { max-width: 46ch; }
-  .services-quote { margin: 0; display: flex; flex-direction: column; gap: 0.7rem; }
-  .services-hero {
-    background: var(--sky);
-    border-bottom: 1px solid var(--rule);
-    padding: clamp(6rem, 12vw, 10rem) 0 clamp(4rem, 8vw, 6rem);
-    position: relative;
-    overflow: hidden;
-  }
-  .services-hero::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    background: none; /* bronze glow removed in p2 */
-    pointer-events: none;
-  }
-  .services-hero__inner {
-    position: relative;
-    z-index: 2;
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-    max-width: 1100px;
-  }
-  .services-hero__title {
-    font-size: clamp(2.6rem, 6.8vw, 5.4rem);
-    line-height: 1.02;
-    letter-spacing: -0.028em;
-  }
-  .services-hero__detail {
-    max-width: 70ch;
-    margin: 0;
-    color: rgba(28, 35, 27, 0.72);
-    font-size: 1rem;
-    line-height: 1.65;
-  }
-  .services-hero__ctas { display: flex; flex-wrap: wrap; gap: 0.8rem; }
-
-  /* PILLARS */
-  .pillars-section { padding: clamp(3rem, 7vw, 5rem) 0; }
-  .pillars { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0; border-top: 1px solid var(--rule-strong); }
-  .pillar { padding: 1.4rem 1.2rem; border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule-strong); transition: background 240ms var(--ease); }
-  .pillars > .pillar:nth-child(2n+1) { padding-left: 0; }
-  .pillar:nth-child(2n) { border-right: 0; }
-  .pillar:hover { background: rgba(23, 75, 51, 0.1); }
-  .pillar__title { font-size: 1.2rem; margin-bottom: 0.5rem; color: var(--paper); line-height: 1.2; }
-  .pillar__body { color: rgba(28, 35, 27, 0.75); font-size: 0.9rem; line-height: 1.45; }
-  @media (max-width: 600px) { .pillars { grid-template-columns: 1fr; } .pillar { border-right: 0 !important; padding-left: 0; } }
-  .pillar__link { display: flex; flex-direction: column; height: 100%; color: inherit; text-decoration: none; }
-  .pillar__link:focus-visible { outline: 2px solid var(--bronze); outline-offset: 4px; }
-  .pillar__more { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.1em; color: var(--bronze); margin-top: auto; padding-top: 0.9rem; opacity: 0; transform: translateX(-4px); transition: opacity 220ms var(--ease), transform 220ms var(--ease); }
-  .pillar:hover .pillar__more, .pillar:focus-within .pillar__more { opacity: 1; transform: none; }
-  @media (max-width: 600px) { .pillar__more { opacity: 1; transform: none; } }
-
-  /* INCLUDED */
-  .included {
-    background: var(--ink-2);
-    border-top: 1px solid var(--rule-strong);
-    border-bottom: 1px solid var(--rule-strong);
-    padding: 2.5rem 0;
-  }
-  .included__inner {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    gap: 2rem;
-    align-items: start;
-  }
+  .services-hero { padding: var(--section-pad) 0 3rem; background: var(--surface-subtle); }
+  .services-hero__inner { display: grid; gap: 1.25rem; }
+  .services-hero h1 { max-width: 20ch; }
+  .services-hero .lead { max-width: 57ch; }
+  .services-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 0.5rem; }
+  .first-visit { padding: 2.5rem 0; background: var(--surface-card); border-bottom: 1px solid var(--border-subtle); }
+  .first-visit__inner { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: clamp(2rem, 5vw, 4rem); align-items: center; }
+  .first-visit h2 { font-size: clamp(1.5rem, 2.5vw, 2rem); margin: 0.5rem 0 1rem; }
+  .first-visit p { font-size: 1rem; }
+  .first-visit__cost { display: grid; gap: 0.75rem; padding: 1.5rem; background: var(--surface-page); border: 1px solid var(--border-subtle); border-radius: var(--radius); }
+  .first-visit__price { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.5rem 1rem; }
+  .first-visit__price strong { font-size: 2.25rem; line-height: 1.15; }
+  .text-link { display: inline-flex; align-items: center; min-height: 48px; font-size: 1rem; font-weight: 600; text-decoration: underline; text-underline-offset: 0.2em; }
+  .section-head { display: grid; gap: 0.75rem; margin-bottom: 2rem; max-width: 72ch; }
+  .plans-commitment { font-size: 1rem; padding-top: 0.5rem; }
+  .plans-commitment a, .care-guide a, .policies__list a { text-decoration: underline; text-underline-offset: 0.2em; }
+  .plan-jump { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2rem; }
+  .plan-jump a { display: inline-flex; align-items: center; flex-wrap: wrap; gap: 0.35rem; min-height: 48px; padding: 0.625rem 0.875rem; border: 1px solid var(--border-control); border-radius: var(--radius-sm); font-size: 0.9375rem; line-height: 1.4; }
+  .plan-jump a span { color: var(--text-secondary); }
+  .plan-jump a:hover { background: var(--surface-subtle); }
+  .prog-grid { display: grid; gap: 1.5rem; }
+  .prog-card { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 1.5rem 3rem; padding: clamp(1.25rem, 3vw, 2rem); background: var(--surface-card); border: 1px solid var(--border-subtle); border-radius: var(--radius); }
+  .prog-card__overview { display: grid; gap: 1rem; }
+  .prog-card__head { display: grid; gap: 0.5rem; }
+  .prog-card__tier { font-size: 0.9375rem; font-weight: 600; color: var(--text-secondary); }
+  .prog-card__name { font-size: 1.5rem; }
+  .prog-card__price { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0.35rem; }
+  .prog-card__price strong { font-size: 2.25rem; line-height: 1.15; }
+  .prog-card__price span { font-size: 0.9375rem; color: var(--text-secondary); }
+  .prog-card__tagline { font-weight: 600; font-size: 1rem; }
+  .prog-card__body { font-size: 1rem; line-height: 1.65; color: var(--text-secondary); }
+  .prog-card__inclusions { border-left: 1px solid var(--border-subtle); padding-left: 2rem; }
+  .prog-card h4 { font-size: 1rem; line-height: 1.5; margin-bottom: 0.75rem; }
+  .prog-card__includes { display: grid; gap: 0.75rem; font-size: 1rem; }
+  .prog-card__includes li { padding-left: 1.25rem; position: relative; }
+  .prog-card__includes li::before { content: '✓'; position: absolute; left: 0; font-weight: 600; }
+  .prog-card__fit { grid-column: 1 / -1; border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle); }
+  .prog-card__fit summary { padding: 0.875rem 0.25rem; min-height: 48px; cursor: pointer; font-weight: 600; font-size: 1rem; line-height: 1.5; }
+  .prog-card__fit-content { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem 3rem; padding: 0.5rem 0 1.5rem; }
+  .prog-card__fit-content ul { list-style: disc; padding-left: 1.25rem; display: grid; gap: 0.5rem; font-size: 1rem; color: var(--text-secondary); }
+  .prog-card__action { grid-column: 1 / -1; }
+  .services-pricing-note { padding-top: 1.5rem; font-size: 0.9375rem; color: var(--text-secondary); }
+  .policies { display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.4fr); gap: 2rem 4rem; }
+  .policies h2 { margin-top: 0.75rem; }
+  .policies__list { list-style: decimal; padding-left: 1.25rem; }
+  .policies__list li { padding: 0.75rem 0 0.75rem 0.35rem; border-bottom: 1px solid var(--border-subtle); font-size: 1rem; }
+  .policies__list li:first-child { padding-top: 0; }
+  .pillars { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+  .pillar__link { display: flex; flex-direction: column; gap: 0.75rem; height: 100%; padding: 1.5rem; background: var(--surface-card); border: 1px solid var(--border-subtle); border-radius: var(--radius); }
+  .pillar__link:hover { border-color: var(--border-control); }
+  .pillar__link h3 { font-size: 1.25rem; }
+  .pillar__link p { font-size: 1rem; color: var(--text-secondary); }
+  .pillar__link .text-link { margin-top: auto; }
+  .care-guide { margin-top: 1.5rem; font-size: 0.9375rem; color: var(--text-secondary); }
+  .provider-section { background: var(--surface-subtle); }
+  .provider-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2.5rem 4rem; align-items: center; }
+  .provider-grid h2 { font-size: clamp(1.5rem, 2.5vw, 2rem); margin: 0.75rem 0 1rem; }
+  .provider-grid p { font-size: 1rem; }
+  .membership-basics { display: grid; gap: 0.5rem; margin: 1rem 0 0.5rem; padding-left: 1.25rem; list-style: disc; font-size: 0.9375rem; }
+  .services-quote { display: grid; gap: 1rem; }
+  .services-quote .pullquote { font-size: clamp(1.25rem, 2vw, 1.5rem); }
+  .services-quote a { text-decoration: underline; text-underline-offset: 0.2em; }
+  .services-cta { background: var(--surface-inverse); color: var(--text-inverse); padding: var(--section-pad) 0; --focus-ring: var(--action-primary); }
+  .services-cta__inner { display: grid; gap: 1rem; max-width: 960px; }
+  .services-cta h2 { max-width: 28ch; }
+  .services-cta p { max-width: 64ch; }
+  .services-cta .btn:not(.btn--bronze) { color: var(--text-inverse); border-color: var(--text-inverse); }
+  .services-cta .btn:not(.btn--bronze):hover { background: var(--text-inverse); color: var(--text-primary); }
   @media (max-width: 800px) {
-    .included__inner { grid-template-columns: 1fr; }
-  }
-  .included__head { padding-top: 0.4rem; }
-  .included__list {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.5rem 2rem;
-    color: rgba(28, 35, 27, 0.85);
-    font-size: 0.95rem;
-  }
-  @media (max-width: 600px) { .included__list { grid-template-columns: 1fr; } }
-  .included__list li {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-  }
-  .included__list .incl-ico {
-    width: 20px;
-    height: 20px;
-    flex: 0 0 20px;
-    color: var(--bronze);
-  }
-
-  /* QUIZ BANNER */
-  .quiz-banner {
-    padding: clamp(3rem, 6vw, 5rem) 0;
-    border-top: 1px solid var(--rule);
-    border-bottom: 1px solid var(--rule);
-    background: var(--ink);
-    position: relative;
-    overflow: hidden;
-  }
-  .quiz-banner::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: none; /* bronze glow removed in p2 */
-    pointer-events: none;
-  }
-  .quiz-banner__inner {
-    position: relative;
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: clamp(1.5rem, 4vw, 4rem);
-    align-items: center;
-  }
-  @media (max-width: 800px) {
-    .quiz-banner__inner { grid-template-columns: 1fr; }
-  }
-  .quiz-banner__title {
-    font-size: clamp(2rem, 4vw, 3rem);
-    margin: 0.7rem 0 1rem;
-    max-width: 16ch;
-  }
-  .quiz-banner__copy p {
-    color: rgba(28, 35, 27, 0.75);
-    max-width: 56ch;
-  }
-
-  /* PROVIDER STRIP · between quiz banner and programs grid */
-  .provider-strip {
-    padding: clamp(2.4rem, 5vw, 3.8rem) 0;
-    border-bottom: 1px solid rgba(28, 35, 27, 0.08);
-  }
-  .provider-strip__inner {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: clamp(1.5rem, 4vw, 3rem);
-    align-items: center;
+    .first-visit__inner, .prog-card, .policies, .provider-grid { grid-template-columns: 1fr; }
+    .prog-card__inclusions { border-left: 0; border-top: 1px solid var(--border-subtle); padding: 1.25rem 0 0; }
+    .prog-card__fit-content { grid-template-columns: 1fr; }
   }
   @media (max-width: 600px) {
-    .provider-strip__inner { grid-template-columns: 1fr; text-align: center; gap: 1.2rem; }
-  }
-  .provider-strip__credential {
-    width: clamp(150px, 18vw, 210px);
-    min-height: 132px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 0.35rem;
-    padding: 1.3rem;
-    background: var(--evergreen-deep);
-    color: var(--cream-bright);
-    border-top: 5px solid var(--ochre);
-    border-radius: var(--radius-sm);
-  }
-  .provider-strip__credential strong { font-family: var(--font-display); font-size: 1.25rem; line-height: 1.1; }
-  .provider-strip__credential span { color: var(--ochre); font-size: 0.82rem; font-weight: 650; }
-  @media (max-width: 600px) {
-    .provider-strip__credential { justify-self: center; width: min(100%, 280px); }
-  }
-  .provider-strip__copy {
-    display: flex;
-    flex-direction: column;
-    gap: 0.55rem;
-  }
-  .provider-strip__line {
-    font-family: var(--font-display);
-    font-size: clamp(1.05rem, 2vw, 1.35rem);
-    font-weight: 400;
-    line-height: 1.45;
-    color: var(--paper);
-    margin: 0;
-    max-width: 58ch;
-    letter-spacing: -0.005em;
-  }
-  .provider-strip__line strong { font-weight: 500; }
-  .provider-strip__link {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    letter-spacing: 0.13em;
-    text-transform: uppercase;
-    color: var(--bronze);
-    text-decoration: none;
-    transition: color 200ms var(--ease);
-  }
-  .provider-strip__link:hover { color: var(--bronze-deep); }
-
-  /* PROGRAMS · five membership cards mirrored from GlossGenius */
-  .programs-section { padding: clamp(3rem, 7vw, 5rem) 0; }
-  .prog-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1px;
-    background: var(--rule-strong);
-    border: 1px solid var(--rule-strong);
-  }
-  @media (max-width: 800px) { .prog-grid { grid-template-columns: 1fr; } }
-  .prog-card {
-    background: var(--ink-2);
-    border: 1px solid var(--rule);
-    padding: clamp(1.8rem, 3.5vw, 2.4rem);
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    transition: background 240ms var(--ease);
-    position: relative;
-  }
-  .prog-card:hover { background: var(--ink-2); }
-  /* The last card (Metabolic Advanced) spans the full row as the top-tier
-     finale. The 2-col grid leaves it alone on row 3 otherwise. */
-  .prog-card--span {
-    grid-column: 1 / -1;
-    background: var(--ink-2);
-    box-shadow: inset 0 2px 0 0 var(--bronze);
-  }
-  @media (max-width: 800px) {
-    .prog-card--span { grid-column: 1 / -1; }
-  }
-  .prog-card__head {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    grid-template-areas:
-      "tier tier"
-      "name price"
-      "tagline tagline";
-    gap: 0.35rem 1rem;
-    padding-bottom: 1.2rem;
-    border-bottom: 1px solid var(--rule);
-  }
-  .prog-card__tier {
-    grid-area: tier;
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--bronze);
-  }
-  .prog-card__name {
-    grid-area: name;
-    font-size: 1.5rem;
-    line-height: 1.15;
-    color: var(--paper);
-  }
-  .prog-card__price {
-    grid-area: price;
-    display: flex;
-    align-items: baseline;
-    gap: 0.2rem;
-  }
-  .prog-card__amt {
-    font-family: var(--font-display);
-    font-size: 2.2rem;
-    font-weight: 460;
-    color: var(--paper);
-    line-height: 1;
-    letter-spacing: -0.015em;
-  }
-  .prog-card__cad {
-    font-family: var(--font-mono);
-    font-size: 0.8rem;
-    color: var(--mute);
-  }
-  .prog-card__tagline {
-    grid-area: tagline;
-    font-family: var(--font-display-italic);
-    font-size: 1.02rem;
-    line-height: 1.4;
-    color: var(--bronze-bright);
-    letter-spacing: -0.005em;
-    margin: 0.2rem 0 0;
-  }
-  .prog-card__body {
-    color: rgba(28, 35, 27, 0.78);
-    font-size: 0.95rem;
-    line-height: 1.6;
-    margin: 0;
-    max-width: none;
-  }
-  .prog-card__includes {
-    display: flex;
-    flex-direction: column;
-    gap: 0.55rem;
-    padding: 0.7rem 0;
-    flex-grow: 1;
-  }
-  .prog-card__includes li {
-    position: relative;
-    padding-left: 1.4rem;
-    color: rgba(28, 35, 27, 0.85);
-    font-size: 0.92rem;
-    line-height: 1.5;
-  }
-  .prog-card__includes li::before {
-    content: '✓';
-    position: absolute;
-    left: 0;
-    top: 0;
-    color: var(--bronze);
-    font-family: var(--font-mono);
-    font-size: 0.85rem;
-  }
-  .prog-card__fit {
-    display: flex;
-    flex-direction: column;
-    gap: 0.9rem;
-    padding: 1rem 0 0.4rem;
-    border-top: 1px solid var(--rule);
-    margin-top: 0.2rem;
-  }
-  .prog-card__fit-block { display: flex; flex-direction: column; gap: 0.45rem; }
-  .prog-card__fit-label {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-  }
-  .prog-card__fit-label--yes { color: var(--bronze); }
-  .prog-card__fit-label--no { color: rgba(28, 35, 27, 0.65); }
-  .prog-card__fit-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0.35rem;
-  }
-  .prog-card__fit-list li {
-    padding-left: 1.4rem;
-    position: relative;
-    color: rgba(28, 35, 27, 0.78);
-    font-size: 0.88rem;
-    line-height: 1.5;
-  }
-  .prog-card__fit-list li::before {
-    content: '✓';
-    position: absolute;
-    left: 0;
-    top: 0;
-    color: var(--bronze);
-    font-size: 0.82rem;
-  }
-  .prog-card__fit-list--no li {
-    color: rgba(28, 35, 27, 0.65);
-  }
-  .prog-card__fit-list--no li::before {
-    content: '×';
-    color: rgba(28, 35, 27, 0.65);
-    font-size: 1.05rem;
-    line-height: 1;
-    top: -0.05rem;
-  }
-  .prog-card__cta {
-    align-self: flex-start;
-    margin-top: 0.6rem;
-  }
-
-  /* POLICIES */
-  .policies {
-    display: grid;
-    grid-template-columns: 5fr 7fr;
-    gap: clamp(2rem, 5vw, 5rem);
-  }
-  @media (max-width: 800px) { .policies { grid-template-columns: 1fr; } }
-  .policies__title {
-    font-size: clamp(1.8rem, 4vw, 3rem);
-    margin: 1rem 0 0;
-    max-width: 14ch;
-    line-height: 1.05;
-  }
-  .policies__list {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-  .policies__list li {
-    padding: 1rem 0 1rem 2rem;
-    border-bottom: 1px solid var(--rule);
-    position: relative;
-    color: rgba(28, 35, 27, 0.82);
-    font-size: 0.98rem;
-  }
-  .policies__list li::before {
-    content: counter(p);
-    counter-increment: p;
-    position: absolute;
-    left: 0;
-    top: 1rem;
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    color: var(--bronze);
-    letter-spacing: 0.1em;
-  }
-  .policies__list { counter-reset: p; }
-
-  /* CTA */
-  .services-cta {
-    padding: clamp(5rem, 10vw, 9rem) 0;
-    text-align: center;
-    background: var(--evergreen);
-    color: var(--cream-bright);
-    position: relative;
-    overflow: hidden;
-    border-top: 6px solid var(--terracotta);
-  }
-  .services-cta::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: none; /* bronze glow removed in p2 */
-    pointer-events: none;
-  }
-  .services-cta__inner {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1.2rem;
-  }
-  .services-cta__inner .lead { text-align: center; color: rgba(255, 253, 248, 0.82); }
-  .services-cta__title {
-    font-size: clamp(2rem, 5vw, 3.6rem);
-    max-width: 22ch;
-  }
-  .services-cta__ctas { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; margin-top: 0.8rem; }
-  .services-cta .btn:not(.btn--bronze) { color: var(--cream-bright); border-color: var(--cream-bright); }
-  .services-cta .btn:not(.btn--bronze):hover { color: var(--evergreen-deep); background: var(--cream-bright); }
-  @media (max-width: 720px) {
-    .services-hero { padding: 3.75rem 0 2.75rem; }
-    .services-hero__inner { gap: 1.4rem; }
-    .services-hero__title { font-size: clamp(2.25rem, 10.5vw, 2.8rem); }
-    .services-hero__ctas,
-    .services-cta__ctas { display: grid; grid-template-columns: 1fr; width: 100%; }
-    .services-hero__ctas .btn,
-    .services-cta__ctas .btn,
-    .quiz-banner .btn { width: 100%; justify-content: center; }
-
-    .pillars-section { padding: 2.25rem 0; }
-    .pillar { padding-top: 1.15rem; padding-bottom: 1.15rem; }
-    .included { padding: 2.25rem 0; }
-    .included__inner { gap: 1.25rem; }
-    .quiz-banner { padding: 2.75rem 0; }
-    .quiz-banner__title { margin-bottom: 0.8rem; }
-    .provider-strip { padding: 2.25rem 0; }
-    .provider-strip__credential { min-height: 116px; padding: 1.1rem; }
-
-    .programs-section { padding: 2.75rem 0; }
-    .prog-card { padding: 1.4rem 1.25rem; gap: 0.8rem; }
-    .prog-card__head { padding-bottom: 1rem; }
-    .prog-card__body { line-height: 1.55; }
-    .prog-card__includes { gap: 0.45rem; padding: 0.45rem 0; }
-    .prog-card__fit { gap: 0.7rem; padding-top: 0.8rem; }
-    .prog-card__cta { align-self: stretch; justify-content: center; }
-
-    .policies { gap: 1.5rem; }
-    .policies__title { margin-top: 0.7rem; }
-    .policies__list { gap: 0.45rem; }
-    .policies__list li { padding-top: 0.8rem; padding-bottom: 0.8rem; }
-    .policies__list li::before { top: 0.8rem; }
-    .services-cta { padding: 4rem 0; }
+    .services-hero { padding: 3rem 0 2.5rem; }
+    .services-actions { display: grid; grid-template-columns: 1fr; }
+    .first-visit { padding: 2rem 0; }
+    .first-visit__cost { padding: 1.25rem; }
+    .plan-jump { display: grid; grid-template-columns: 1fr; }
+    .plan-jump a { justify-content: space-between; }
+    .prog-card { gap: 1.25rem; }
+    .prog-card__action .btn { width: 100%; }
+    .pillars { grid-template-columns: 1fr; }
+    .pillar__link { padding: 1.25rem; }
   }
 </style>

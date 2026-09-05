@@ -106,21 +106,14 @@ const blogSchema = {
 
 <style>
   .blog-hero {
-    padding: clamp(5rem, 11vw, 9rem) 0 clamp(3rem, 6vw, 5rem);
+    padding: var(--section-pad) 0 3rem;
     position: relative;
     overflow: hidden;
   }
-  .blog-hero::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: none; /* bronze glow removed in p2 */
-    pointer-events: none;
-  }
   .blog-hero__inner { position: relative; max-width: 900px; }
   .blog-hero__title {
-    font-size: clamp(2.6rem, 6.8vw, 5.4rem);
-    line-height: 1.02;
+    font-size: var(--text-h1);
+    line-height: 1.1;
     letter-spacing: -0.028em;
     margin: 1rem 0 1.5rem;
     max-width: 18ch;
@@ -129,12 +122,12 @@ const blogSchema = {
   .post-list {
     display: flex;
     flex-direction: column;
-    border-top: 1px solid var(--rule-strong);
+    border-top: 1px solid var(--border-subtle);
   }
-  .post-card { border-bottom: 1px solid var(--rule); }
+  .post-card { border-bottom: 1px solid var(--border-subtle); }
   .post-card__link {
     display: grid;
-    grid-template-columns: 56px 150px 1fr 40px;
+    grid-template-columns: 2rem 8rem minmax(0, 1fr) 2rem;
     gap: clamp(1rem, 3vw, 2.2rem);
     padding: clamp(1.6rem, 4vw, 2.5rem) 0;
     align-items: center;
@@ -144,43 +137,43 @@ const blogSchema = {
     aspect-ratio: 4 / 3;
     border-radius: 10px;
     overflow: hidden;
-    background: rgba(23, 75, 51, 0.12);
+    background: var(--surface-subtle);
   }
   .post-card__thumb img {
     width: 100%; height: 100%; object-fit: cover; display: block;
     transition: transform 400ms var(--ease);
   }
-  .post-card__link:hover .post-card__thumb img { transform: scale(1.05); }
-  .post-card__link:hover { background: rgba(23, 75, 51, 0.08); }
+  .post-card__link:hover .post-card__thumb img { transform: none; }
+  .post-card__link:hover { background: var(--surface-subtle); }
   .post-card__num {
-    font-family: var(--font-mono);
-    font-size: 0.78rem;
-    color: var(--bronze);
-    letter-spacing: 0.12em;
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    color: var(--text-primary);
+    letter-spacing: 0;
     align-self: start;
     padding-top: 0.6rem;
   }
   .post-card__cat {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--bronze);
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--text-primary);
     display: block;
     margin-bottom: 0.6rem;
   }
   .post-card__title {
-    font-family: var(--font-display);
-    font-size: clamp(1.5rem, 3.5vw, 2.4rem);
-    font-weight: 380;
-    line-height: 1.05;
+    font-family: var(--font-heading);
+    font-size: clamp(1.375rem, 2.4vw, 1.875rem);
+    font-weight: 600;
+    line-height: 1.15;
     letter-spacing: -0.02em;
     margin: 0 0 0.8rem;
     max-width: 28ch;
   }
-  .post-card__link:hover .post-card__title { color: var(--bronze-bright); }
+  .post-card__link:hover .post-card__title { color: var(--surface-inverse-hover); }
   .post-card__desc {
-    color: rgba(28, 35, 27, 0.75);
+    color: var(--text-secondary);
     font-size: 1rem;
     line-height: 1.55;
     max-width: 60ch;
@@ -190,23 +183,23 @@ const blogSchema = {
     display: flex;
     gap: 1.5rem;
     flex-wrap: wrap;
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    letter-spacing: 0.08em;
-    color: var(--mute);
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    letter-spacing: 0;
+    color: var(--text-secondary);
   }
   .post-card__arrow {
-    font-family: var(--font-display);
+    font-family: var(--font-heading);
     font-size: 1.6rem;
-    color: var(--bronze);
+    color: var(--text-primary);
     transition: transform 280ms var(--ease);
     text-align: center;
   }
-  .post-card__link:hover .post-card__arrow { transform: translateX(8px); }
+  .post-card__link:hover .post-card__arrow { transform: translateX(3px); }
 
   @media (max-width: 600px) {
-    .blog-hero { padding: 3.75rem 0 2.75rem; }
-    .blog-hero__title { margin: 0.75rem 0 1.15rem; font-size: clamp(2.25rem, 10.5vw, 2.8rem); }
+    .blog-hero { padding: 3rem 0 2.5rem; }
+    .blog-hero__title { margin: 0.75rem 0 1.15rem; font-size: var(--text-h1); }
     .post-card__link { grid-template-columns: 1fr; gap: 0.5rem; }
     .post-card__num { padding-top: 0; }
     .post-card__thumb { display: none; }

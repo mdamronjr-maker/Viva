@@ -11,7 +11,6 @@ const contactSchema = {
     { '@type': 'ListItem', position: 2, name: 'Contact', item: 'https://vivawellnessco.com/contact/' },
   ],
 };
-const sent = Astro.url.searchParams.get('sent') === '1';
 ---
 
 <Layout
@@ -39,7 +38,6 @@ const sent = Astro.url.searchParams.get('sent') === '1';
     <div class="container contact-body__grid">
       <div class="contact-body__form-wrap">
         <NoPhiNotice />
-        {sent && <p class="contact-sent" role="status">Viva received your contact request.</p>}
         <form class="contact-form" id="contact-form" method="post" action="/api/lead">
           <input type="hidden" name="source" value="contact" />
           <div class="field">
@@ -119,7 +117,7 @@ const sent = Astro.url.searchParams.get('sent') === '1';
 
           <button type="submit" class="btn btn--bronze" id="c-submit">Send contact request</button>
 
-          <div class="contact-form__status" id="c-status" role="status" aria-live="polite"></div>
+          <div class="contact-form__status" id="c-status" role="status" aria-live="polite" tabindex="-1"></div>
         </form>
       </div>
 
@@ -170,12 +168,24 @@ const sent = Astro.url.searchParams.get('sent') === '1';
     const status = document.getElementById('c-status') as HTMLDivElement | null;
     const submit = document.getElementById('c-submit') as HTMLButtonElement | null;
     if (!form || !status || !submit) return;
+    if (form.dataset.ready === 'true') return;
+    form.dataset.ready = 'true';
+    // Native validation remains available without this enhancement. With
+    // JavaScript, use the linked inline errors and focus the first problem.
+    form.noValidate = true;
     const nameInput = document.getElementById('c-name') as HTMLInputElement | null;
     const emailInput = document.getElementById('c-email') as HTMLInputElement | null;
     const topicInput = document.getElementById('c-message') as HTMLSelectElement | null;
     const nameError = document.getElementById('c-name-error');
     const emailError = document.getElementById('c-email-error');
     const topicError = document.getElementById('c-message-error');
+    for (const input of [nameInput, emailInput, topicInput]) {
+      input?.addEventListener('input', () => {
+        input.removeAttribute('aria-invalid');
+        const error = document.getElementById(`${input.id}-error`);
+        if (error) error.textContent = '';
+      });
+    }
     const tsEl = form.querySelector('.cf-turnstile') as HTMLElement | null;
     const ts = () => (window as any).turnstile;
     if (tsEl && ts() && !tsEl.querySelector('iframe')) {
@@ -189,12 +199,6 @@ const sent = Astro.url.searchParams.get('sent') === '1';
       for (const error of [nameError, emailError, topicError]) if (error) error.textContent = '';
 
       const data = new FormData(form);
-      const utm: Record<string, string> = {};
-      const params = new URLSearchParams(window.location.search);
-      for (const k of ['utm_source','utm_medium','utm_campaign','utm_content'] as const) {
-        const v = params.get(k);
-        if (v && v.length <= 120) utm[k] = v;
-      }
       const payload = {
         source: 'contact',
         name: String(data.get('name') || '').trim(),
@@ -204,7 +208,6 @@ const sent = Astro.url.searchParams.get('sent') === '1';
         company: String(data.get('company') || '').trim(), // honeypot
         marketingConsent: data.get('marketing_consent') === 'yes',
         turnstileToken: String(data.get('cf-turnstile-response') || ''),
-        utm,
       };
 
       let firstInvalid: HTMLInputElement | HTMLSelectElement | null = null;
@@ -249,11 +252,15 @@ const sent = Astro.url.searchParams.get('sent') === '1';
           : 'Sent. Viva received your contact request.';
         status.classList.add('is-success');
         form.reset();
+        status.focus({ preventScroll: true });
       } catch (err) {
         status.textContent = err instanceof Error ? err.message : 'Send failed. Try again.';
         status.classList.add('is-error');
-        try { if (tsEl && ts()) ts().reset(tsEl); } catch (e) {}
+        status.focus({ preventScroll: true });
       } finally {
+        // A successful Turnstile token is single-use too. A second request
+        // from this page needs a fresh challenge after either outcome.
+        try { if (tsEl && ts()) ts().reset(tsEl); } catch (e) {}
         submit.disabled = false;
         submit.removeAttribute('aria-busy');
         submit.textContent = 'Send contact request';
@@ -266,7 +273,7 @@ const sent = Astro.url.searchParams.get('sent') === '1';
 
 <style>
   .contact-hero {
-    padding: clamp(5rem, 12vw, 9rem) 0 clamp(2rem, 5vw, 4rem);
+    padding: var(--section-pad) 0 2rem;
     position: relative;
     overflow: hidden;
   }
@@ -282,57 +289,61 @@ const sent = Astro.url.searchParams.get('sent') === '1';
     max-width: 60ch;
   }
   .contact-hero__title {
-    font-size: clamp(2.5rem, 6.5vw, 5rem);
-    line-height: 1.04;
+    font-size: var(--text-h1);
+    line-height: 1.1;
     letter-spacing: -0.025em;
     margin: 1rem 0 1.5rem;
   }
 
   .contact-body {
-    padding: clamp(2rem, 5vw, 4rem) 0 clamp(5rem, 10vw, 8rem);
+    padding: 2rem 0 var(--section-pad);
   }
   .contact-body__grid {
     display: grid;
-    grid-template-columns: 1.4fr 1fr;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
     gap: clamp(2rem, 5vw, 5rem);
     align-items: start;
   }
+  /* Native controls contribute an intrinsic minimum width. Let the grid
+     follow the available viewport instead, including at doubled text size. */
+  .contact-body__grid > * { min-width: 0; }
   @media (max-width: 900px) {
-    .contact-body__grid { grid-template-columns: 1fr; }
+    .contact-body__grid { grid-template-columns: minmax(0, 1fr); }
   }
 
   .contact-form {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
+    width: 100%;
+    min-width: 0;
     max-width: 540px;
   }
   .contact-form .btn { align-self: flex-start; margin-top: 0.5rem; }
-  .contact-sent { background: var(--sage); border-left: 4px solid var(--evergreen); padding: 1rem 1.2rem; margin-bottom: 1.5rem; }
   .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
   .contact-consent {
     display: grid;
-    grid-template-columns: 1.2rem 1fr;
+    grid-template-columns: 1.2rem minmax(0, 1fr);
     gap: 0.75rem;
     align-items: center;
     min-height: 44px;
     padding: 0.35rem 0;
-    font-size: 0.92rem;
+    font-size: 0.9375rem;
     line-height: 1.5;
-    color: var(--mute);
+    color: var(--text-secondary);
     cursor: pointer;
   }
   .contact-consent input { width: 1.1rem; height: 1.1rem; margin-top: 0.2rem; }
 
   .contact-form__status {
-    font-family: var(--font-mono);
-    font-size: 0.85rem;
-    letter-spacing: 0.04em;
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    letter-spacing: 0;
     min-height: 1.2em;
     padding: 0.4rem 0;
   }
-  .contact-form__status.is-success { color: var(--bronze-bright); }
-  .contact-form__status.is-error { color: #e76e6e; }
+  .contact-form__status.is-success { color: var(--text-primary); }
+  .contact-form__status.is-error { color: var(--text-error); }
 
   .contact-side {
     display: flex;
@@ -341,10 +352,10 @@ const sent = Astro.url.searchParams.get('sent') === '1';
   }
   .contact-side__book { display: block; margin-top: 1.3rem; text-align: center; }
   .contact-side__card {
-    background: var(--ink-2);
-    border: 1px solid var(--rule-strong);
+    background: var(--surface-card);
+    border: 1px solid var(--border-subtle);
     padding: 1.8rem 1.6rem;
-    border-radius: 2px;
+    border-radius: var(--radius);
   }
   .contact-side__card .eyebrow { display: block; margin-bottom: 1.2rem; }
   .contact-side__list {
@@ -358,24 +369,26 @@ const sent = Astro.url.searchParams.get('sent') === '1';
     gap: 0.15rem;
   }
   .contact-side__k {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--mute);
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--text-secondary);
   }
   .contact-side__v {
-    font-family: var(--font-display-italic);
+    font-family: var(--font-heading);
     font-size: 1.1rem;
     letter-spacing: -0.01em;
-    color: var(--paper);
+    color: var(--text-primary);
     border-bottom: 1px solid transparent;
     transition: border-color 200ms var(--ease), color 200ms var(--ease);
     align-self: flex-start;
+    max-width: 100%;
+    overflow-wrap: anywhere;
   }
   .contact-side__v:hover {
-    color: var(--bronze-bright);
-    border-bottom-color: var(--bronze);
+    color: var(--text-primary);
+    border-bottom-color: var(--text-secondary);
   }
 
   .contact-side__heading {
@@ -384,30 +397,30 @@ const sent = Astro.url.searchParams.get('sent') === '1';
   }
   .contact-side__panel {
     padding: 1.2rem 0;
-    border-top: 1px solid var(--rule);
+    border-top: 1px solid var(--border-subtle);
   }
   .contact-side__heading + .contact-side__panel { border-top: 0; padding-top: 0.8rem; }
   .contact-side__num {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    letter-spacing: 0.12em;
-    color: var(--bronze);
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    letter-spacing: 0;
+    color: var(--text-secondary);
     display: block;
     margin-bottom: 0.6rem;
   }
   .contact-side__panel h3 {
     font-size: 1.25rem;
     margin-bottom: 0.4rem;
-    color: var(--paper);
+    color: var(--text-primary);
   }
   .contact-side__panel p {
-    color: rgba(28, 35, 27, 0.75);
+    color: var(--text-secondary);
     font-size: 0.93rem;
     line-height: 1.55;
     max-width: 36ch;
   }
   @media (max-width: 720px) {
-    .contact-hero { padding: 3.75rem 0 2.25rem; }
+    .contact-hero { padding: 2.75rem 0 2rem; }
     .contact-hero__title { margin: 0.75rem 0 1.15rem; }
     .contact-body { padding: 1.75rem 0 4rem; }
     .contact-form { gap: 1.3rem; }

@@ -23,7 +23,7 @@ export default defineConfig({
       // Keep Safari-specific coverage focused on the responsive contracts;
       // the rest of the deterministic content suite remains single-engine.
       name: 'webkit-mobile',
-      testMatch: /mobile-experience\.spec\.mjs/,
+      testMatch: /(?:mobile-experience|navigation-state)\.spec\.mjs/,
       use: { ...devices['iPhone 13'] },
     },
   ],
