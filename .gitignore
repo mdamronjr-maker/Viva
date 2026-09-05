@@ -13,9 +13,10 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-# environment variables
+# environment variables: ignore every local variant, retain the safe template
 .env
-.env.production
+.env.*
+!.env.example
 
 # macOS-specific files
 .DS_Store
@@ -31,3 +32,8 @@ asset-drop/*
 # playwright
 /test-results/
 /playwright-report/
+
+# local editor and test artifacts
+*.swp
+*.swo
+coverage/

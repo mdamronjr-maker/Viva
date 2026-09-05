@@ -132,6 +132,42 @@ test.describe('brand and experience contracts', () => {
     await expect(toggle).toHaveAttribute('aria-expanded', 'false');
     await expect(menu).toHaveAttribute('inert', '');
   });
+
+  test('Viva Perks publishes verified destinations with proximate disclosures', async ({ page }) => {
+    await blockExternal(page);
+    await page.goto('/partners/');
+
+    const cards = page.locator('#viva-perks .perk-card');
+    await expect(cards).toHaveCount(4);
+    await expect(page.locator('#viva-perks .perk-card__static')).toHaveCount(0);
+
+    const bodySpec = cards.filter({ hasText: 'BodySpec' });
+    await expect(bodySpec.locator('.perk-code strong')).toHaveText('VIVA');
+    await expect(bodySpec.locator('a')).toHaveCount(2);
+    await expect(bodySpec.getByRole('link', { name: /Book a BodySpec scan/ }))
+      .toHaveAttribute('href', 'https://www.bodyspec.com/booking');
+    await expect(bodySpec.getByRole('link', { name: /View a sample report/ }))
+      .toHaveAttribute('href', 'https://www.bodyspec.com/sample-report');
+    await expect(bodySpec).toContainText('$10 off a one-time scan');
+    await expect(bodySpec).toContainText('$5 off membership options');
+
+    const momentous = cards.filter({ hasText: 'Momentous' });
+    await expect(momentous.locator('.perk-code strong')).toHaveText('VIVA');
+    await expect(momentous.getByRole('link', { name: /Shop Momentous/ }))
+      .toHaveAttribute('href', 'https://crrnt.app/MOME/QMg8PBab');
+    await expect(cards.filter({ hasText: 'Noble Origins' }).getByRole('link', { name: /Shop Noble Origins/ }))
+      .toHaveAttribute('href', 'https://www.nobleorigins.com/VIVAWELLNESS');
+    await expect(cards.filter({ hasText: 'Fullscript' }).getByRole('link', { name: /Fullscript shop/ }))
+      .toHaveAttribute('href', 'https://us.fullscript.com/s/vivawellnessco/shop');
+
+    await expect(page.locator('#viva-perks .perk-disclosure')).toHaveCount(4);
+    for (const link of await page.locator('#viva-perks a[target="_blank"]').all()) {
+      await expect(link).toHaveAttribute('rel', /noopener/);
+    }
+    for (const link of await page.locator('#viva-perks a[rel~="sponsored"]').all()) {
+      await expect(link).toHaveAttribute('target', '_blank');
+    }
+  });
 });
 
 test.describe('privacy-conscious funnels', () => {

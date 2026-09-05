@@ -1,37 +1,22 @@
-# Partner Images
+# Partner asset intake
 
-Drop image files in this folder using these exact filenames:
+This directory contains approved images used by the public partner directory. Partner copy and outbound links live in `src/lib/partners.ts`.
 
-| Partner | Filename | Type | Recommended size |
-|---|---|---|---|
-| Team Perez (Jorge) | `team-perez.jpg` | Portrait photo | 800 × 1000 px (4:5) |
-| Voltex PT | `voltex-pt.png` | Logo | 1200 × 750 px, transparent PNG |
-| Austin Sports Therapy | `austin-sports-therapy.png` | Logo | 1200 × 750 px, transparent PNG |
+## Before adding an asset
 
-## How to get the assets
+1. Confirm Viva has permission to publish the image or logo.
+2. Confirm the asset depicts or identifies the correct independent business.
+3. Remove embedded metadata that is not needed for display.
+4. Do not add patient photos, testimonials, clinical records, or personal contact information.
+5. Record a descriptive `imageAlt` in `src/lib/partners.ts`. Decorative marks should use an empty alt value instead.
 
-Easiest path: email each partner.
+## Production standards
 
-> "Hey, we're launching our updated website and we're featuring you in our network section at vivawellnessco.com/partners. Can you send over your logo (high-res, preferably PNG with transparent background) and any photo you'd like us to use? Want to make sure you're represented the way you'd want. Take a look at the page when you have a sec — viva-8nl.pages.dev/partners — and let me know if anything reads off."
+- Prefer SVG for logos when the partner supplies an authoritative vector file.
+- Prefer AVIF or WebP for photos; keep a PNG only when transparency or exact artwork requires it.
+- Use lowercase, descriptive, hyphenated filenames.
+- Crop photos to the aspect ratio used by the component before committing.
+- Verify the result at mobile and desktop widths and run `npm run verify`.
+- Do not upscale a small source image; request a sharper original.
 
-That email does three things at once: it asks for assets, gives them a chance to review their representation, and reinforces that you're treating the partnership as a real one.
-
-## What happens before the images arrive
-
-The partners page already works without them. Each card has a typographic placeholder that uses the partner's initials — looks intentional, not broken. Once you drop a file in this folder with the right filename, the placeholder is automatically replaced.
-
-## After dropping files in
-
-```powershell
-cd C:\dev\viva-wellness
-git add .
-git commit -m "Add partner images for [partner name]"
-git push
-```
-
-Live in ~90 seconds. No code changes needed.
-
-## File format notes
-
-- **Photos** (Team Perez): JPG is fine, smaller files. Crop to 4:5 portrait orientation.
-- **Logos** (Voltex, Austin Sports Therapy): PNG with transparency is best — looks cleanest on the warm paper background. Vector formats (SVG) work even better if they have one. Save as `voltex-pt.svg` or `austin-sports-therapy.svg` and update the `imageExt` field in `src/pages/partners.astro` from `'png'` to `'svg'` if so.
+Current production assets are referenced directly from `src/lib/partners.ts`. Unreferenced drafts belong in the gitignored `asset-drop/` intake directory, not here.

@@ -1,0 +1,11 @@
+# Michael reviews all production website changes.
+* @mdamronjr-maker
+
+# Higher-risk surfaces remain explicit for review tooling and future teams.
+/.github/ @mdamronjr-maker
+/functions/ @mdamronjr-maker
+/scripts/ @mdamronjr-maker
+/src/pages/privacy.astro @mdamronjr-maker
+/src/pages/notice.astro @mdamronjr-maker
+/src/pages/terms.astro @mdamronjr-maker
+/src/pages/accessibility.astro @mdamronjr-maker
