@@ -1,7 +1,9 @@
 {
-  "name": "eccentric-equinox",
+  "name": "viva-wellness-co-website",
+  "private": true,
   "type": "module",
   "version": "0.0.1",
+  "packageManager": "npm@11.9.0",
   "engines": {
     "node": ">=22.12.0"
   },

@@ -1,0 +1,52 @@
+name: Website change request
+description: Propose a focused content, design, SEO, accessibility, or engineering improvement.
+title: "[Change]: "
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Explain the visitor problem, not only the proposed solution. GitHub is a public technical workspace; do not include patient information or private clinical correspondence.
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Content or SEO
+        - Design or responsive layout
+        - Accessibility
+        - Performance
+        - Forms or conversion flow
+        - Infrastructure or maintenance
+    validations:
+      required: true
+  - type: input
+    id: pages
+    attributes:
+      label: Affected page or component
+      placeholder: /partners/ or Header.astro
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Visitor or maintenance problem
+      description: What is wrong, who is affected, and what evidence supports it?
+    validations:
+      required: true
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Desired outcome and acceptance criteria
+      description: Describe observable success without inventing a clinical or business fact.
+    validations:
+      required: true
+  - type: checkboxes
+    id: sensitive
+    attributes:
+      label: Sensitive-change screening
+      options:
+        - label: This request contains no patient or health information.
+          required: true
+        - label: Any proposed clinical, pricing, testimonial, service-area, or disclosure change has an identified owner or clinician approver.
+          required: true
