@@ -119,24 +119,24 @@ const testimonials = [
     <div class="container hero__inner">
       <div class="hero__copy">
         <div class="hero__eyebrows">
-          <span class="eyebrow">Concierge telehealth · Texas · Colorado · Florida · Iowa</span>
+          <span class="eyebrow" aria-label="Concierge telehealth in Texas, Colorado, Florida, and Iowa">Concierge telehealth · TX · CO · FL · IA</span>
           <span class="hero__eyebrow-secondary">Austin-based · Virtual care</span>
         </div>
 
         <h1 class="hero__title">
           <span class="hero__title-line">Medical weight and hormone care.</span>
-          <span class="hero__title-line italic-display">One provider who knows your plan.</span>
+          <span class="hero__title-line italic-display">Built around your life.</span>
         </h1>
 
         <div class="hero__foot">
           <p class="hero__lead">
-            I'm Liliana Damron, APRN, FNP-BC. I provide medical weight-management,
-            menopause, hormone, and recovery care through virtual visits, local
-            labs when appropriate, and clear self-pay plans.
+            I'm Liliana Damron, APRN, FNP-BC—your provider for virtual weight
+            management, menopause, hormone health, and recovery, with local labs
+            when appropriate and clear self-pay pricing.
           </p>
           <div class="hero__ctas">
-            <a href="/start/?utm_source=vivawellnessco&utm_medium=cta&utm_content=home_hero" class="btn btn--bronze">Book your first visit</a>
-            <a href="#quiz" class="btn hero__btn-quiet">Find your care path</a>
+            <a href="/start/?utm_source=vivawellnessco&utm_medium=cta&utm_content=home_hero" class="btn btn--bronze">Book a visit</a>
+            <a href="#quiz" class="btn hero__btn-quiet">Take the quiz</a>
           </div>
         </div>
       </div>
@@ -753,9 +753,9 @@ const testimonials = [
   }
   .hero__media {
     width: 100%;
-    max-width: 34rem;
+    max-width: 38rem;
     justify-self: end;
-    aspect-ratio: 2 / 3;
+    aspect-ratio: 4 / 5;
     overflow: hidden;
     border: 1px solid rgba(255, 253, 248, 0.2);
     border-radius: 1.25rem 1.25rem 7rem 1.25rem;
@@ -765,16 +765,17 @@ const testimonials = [
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center top;
+    object-position: center 38%;
     display: block;
   }
   .hero__inner {
     display: grid;
-    grid-template-columns: minmax(0, 1.08fr) minmax(20rem, 0.72fr);
+    grid-template-columns: minmax(0, 1.1fr) minmax(25rem, 0.8fr);
     align-items: center;
-    gap: clamp(2.5rem, 7vw, 7rem);
-    padding-top: clamp(6.8rem, 11vw, 8.5rem);
-    padding-bottom: clamp(3rem, 6vw, 5.25rem);
+    gap: clamp(2rem, 4vw, 4rem);
+    min-height: min(54rem, 100svh);
+    padding-top: clamp(5.8rem, 8vw, 7.25rem);
+    padding-bottom: clamp(2.5rem, 4vw, 3.5rem);
   }
   .hero__copy {
     display: flex;
@@ -800,10 +801,10 @@ const testimonials = [
   .hero .eyebrow { color: var(--cream-bright); }
   .hero__eyebrow-secondary { color: var(--cream-bright); }
   .hero__title {
-    max-width: none;
+    max-width: 13ch;
     margin: 0;
     color: var(--cream-bright);
-    font-size: clamp(3.25rem, 5.35vw, 5.25rem);
+    font-size: clamp(3.15rem, 4.6vw, 4.65rem);
     font-weight: 470;
     line-height: 0.98;
     letter-spacing: -0.04em;
@@ -818,6 +819,8 @@ const testimonials = [
     margin-top: 0.14em;
     color: var(--cream-bright);
     font-weight: 410;
+    font-size: 0.86em;
+    line-height: 1.04;
   }
   .hero__foot {
     display: flex;
@@ -854,29 +857,46 @@ const testimonials = [
   }
 
   @media (max-width: 980px) {
-    .hero__inner { grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.72fr); gap: 2.5rem; }
-    .hero__title { font-size: clamp(2.8rem, 6.6vw, 4.1rem); }
+    .hero__inner { grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.78fr); gap: 2rem; }
+    .hero__title { font-size: clamp(2.8rem, 5.9vw, 4rem); }
   }
   @media (max-width: 700px) {
     .hero__inner {
       grid-template-columns: 1fr;
-      gap: 1.6rem;
-      padding-top: 5.4rem;
-      padding-bottom: 2.5rem;
+      gap: 1.35rem;
+      min-height: 0;
+      padding-top: 5.25rem;
+      padding-bottom: 2.25rem;
     }
-    .hero__media { width: min(100%, 31rem); justify-self: center; border-radius: 1rem 1rem 4.5rem 1rem; }
-    .hero__copy { width: 100%; gap: 1.15rem; }
-    .hero__eyebrows { gap: 0.7rem; }
-    .hero .eyebrow,
-    .hero__eyebrow-secondary { font-size: 0.75rem; letter-spacing: 0.11em; }
-    .hero__title { font-size: clamp(2.05rem, 8.65vw, 2.55rem); }
-    .hero__lead { max-width: 37ch; font-size: 0.98rem; line-height: 1.5; }
+    .hero__media {
+      width: min(100%, 31rem);
+      max-width: none;
+      justify-self: center;
+      aspect-ratio: 4 / 5;
+      border-radius: 1rem 1rem 4.5rem 1rem;
+    }
+    .hero__copy { width: 100%; gap: 0.95rem; }
+    .hero__eyebrows { gap: 0; }
+    .hero .eyebrow {
+      font-size: clamp(0.6rem, 2.65vw, 0.7rem);
+      letter-spacing: 0.1em;
+      white-space: nowrap;
+    }
+    .hero__eyebrow-secondary { display: none; }
+    .hero__title { max-width: none; font-size: clamp(2.15rem, 9.6vw, 2.6rem); }
+    .hero__title .italic-display { font-size: 0.9em; }
+    .hero__foot { gap: 1.1rem; }
+    .hero__lead { max-width: 39ch; font-size: 0.96rem; line-height: 1.48; }
     .hero__ctas { display: grid; grid-template-columns: 1fr 1fr; }
-    .hero__ctas .btn { min-width: 0; padding-inline: 0.8rem; }
+    .hero__ctas .btn {
+      min-width: 0;
+      padding: 0.72rem 0.65rem;
+      font-size: 0.68rem;
+      letter-spacing: 0.09em;
+    }
   }
   @media (max-width: 430px) {
-    .hero__title { font-size: clamp(1.95rem, 8.3vw, 2.25rem); }
-    .hero__ctas { grid-template-columns: 1fr; }
+    .hero__title { font-size: clamp(2.05rem, 9.6vw, 2.35rem); }
   }
 
   /* ============ FEATURE BAND · butter, static ============ */

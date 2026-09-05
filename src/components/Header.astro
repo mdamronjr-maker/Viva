@@ -150,7 +150,11 @@ const bookingHref = onStart
       transform: translateY(-3.25px) rotate(-45deg);
     }
   }
-  @media (max-width: 560px) {
+  /* Once narrow layouts rely on the hamburger, the header CTA is redundant
+     with the page action. Hiding it at the mobile-action breakpoint also
+     prevents a half-visible pill while the absolute home header scrolls away
+     on intermediate-width phones and zoomed Safari viewports. */
+  @media (max-width: 720px) {
     .nav__cta { display: none; }
     .site-header__inner { grid-template-columns: auto 1fr auto; }
   }
