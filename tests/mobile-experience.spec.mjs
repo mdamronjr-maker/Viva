@@ -61,6 +61,12 @@ test.describe('mobile experience contracts', () => {
         const box = await link.boundingBox();
         expect(box?.height, `${route} sticky target height`).toBeGreaterThanOrEqual(48);
       }
+      const barBox = await bar.boundingBox();
+      expect(barBox?.y, `${route} sticky bar remains bottom anchored`).toBeGreaterThan(844 * 0.75);
+      await expect.poll(async () => {
+        const settledBox = await bar.boundingBox();
+        return Math.round((settledBox?.y ?? 0) + (settledBox?.height ?? 0));
+      }, { message: `${route} sticky bar settles against the viewport bottom` }).toBeLessThanOrEqual(845);
 
       await page.locator('.site-footer').scrollIntoViewIfNeeded();
       await expect(bar).not.toHaveClass(/is-visible/);
@@ -74,6 +80,28 @@ test.describe('mobile experience contracts', () => {
     await page.locator('.nav-toggle').click();
     await expect(bar).toHaveAttribute('aria-hidden', 'true');
     await expect(bar).toHaveAttribute('inert', '');
+  });
+
+  test('homepage hero stays compact and the collapsed header never leaks its desktop CTA', async ({ page }) => {
+    await blockExternal(page);
+
+    for (const viewport of [
+      { width: 390, height: 844 },
+      { width: 600, height: 900 },
+    ]) {
+      await page.setViewportSize(viewport);
+      await page.goto('/');
+
+      const toggleDisplay = await page.locator('.nav-toggle').evaluate((el) => getComputedStyle(el).display);
+      const desktopCtaDisplay = await page.locator('.nav__cta').evaluate((el) => getComputedStyle(el).display);
+      expect(toggleDisplay, `${viewport.width}px menu toggle`).not.toBe('none');
+      expect(desktopCtaDisplay, `${viewport.width}px desktop header CTA`).toBe('none');
+
+      const heroCta = await page.locator('.hero__ctas').boundingBox();
+      const heroMedia = await page.locator('.hero__media').boundingBox();
+      expect(heroCta?.y, `${viewport.width}px primary action position`).toBeLessThan(viewport.height * 0.75);
+      expect(heroMedia?.y, `${viewport.width}px founder portrait position`).toBeLessThan(viewport.height);
+    }
   });
 
   test('compact interactive controls retain comfortable touch targets', async ({ page }) => {
