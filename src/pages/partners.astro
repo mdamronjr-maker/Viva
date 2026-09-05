@@ -437,10 +437,11 @@ const partnersSchema = {
   .part-cta {
     padding: clamp(4rem, 9vw, 8rem) 0;
     text-align: center;
-    background: var(--ink);
+    background: var(--evergreen);
+    color: var(--cream-bright);
     position: relative;
     overflow: hidden;
-    border-top: 1px solid var(--rule);
+    border-top: 6px solid var(--terracotta);
   }
   .part-cta::before {
     content: '';
@@ -456,7 +457,8 @@ const partnersSchema = {
     align-items: center;
     gap: 1rem;
   }
-  .part-cta__inner .lead { text-align: center; max-width: 56ch; }
+  .part-cta__inner .lead { text-align: center; max-width: 56ch; color: rgba(255, 253, 248, 0.82); }
+  .part-cta .eyebrow { color: var(--ochre); }
   .part-cta__title {
     font-size: clamp(1.9rem, 4.8vw, 3.4rem);
     line-height: 1.05;

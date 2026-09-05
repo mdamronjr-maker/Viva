@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import NoPhiNotice from '../components/NoPhiNotice.astro';
+import VivaMonogram from '../components/VivaMonogram.astro';
 import { TURNSTILE_SITEKEY } from '../lib/turnstile';
 
 const faqs = [
@@ -267,10 +268,10 @@ const testimonials = [
       <figure class="provider-band__media">
         <div class="provider-band__frame" transition:name="provider-photo">
           <img
-            src="/liliana-new.webp"
+            src="/liliana-founder-original-v1.jpg"
             alt="Liliana Damron, APRN, FNP-BC"
-            width="640"
-            height="800"
+            width="1024"
+            height="1536"
             loading="lazy"
             decoding="async"
           />
@@ -566,9 +567,7 @@ const testimonials = [
   <section class="cta">
     <div class="container cta__inner">
       <div class="cta__seal" aria-hidden="true">
-        <span>Viva Wellness Co.</span>
-        <strong>VW</strong>
-        <small>Austin, Texas</small>
+        <VivaMonogram variant="solid" />
       </div>
       <div class="cta__copy">
         <h2 class="cta__title">Health is personal.<br />Your care should be, too.</h2>
@@ -1709,11 +1708,12 @@ const testimonials = [
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
+  width: min(100%, 32rem);
 }
 /* Mirrors .founder__frame on the About page so the shared-element
    transition:name="provider-photo" morph lands on a matching shape. */
 .provider-band__frame {
-  aspect-ratio: 4 / 5;
+  aspect-ratio: 2 / 3;
   background: linear-gradient(135deg, var(--bronze-deep) 0%, var(--ink-3) 100%);
   overflow: hidden;
   border-radius: 1.25rem 1.25rem 5rem 1.25rem;
@@ -1725,14 +1725,6 @@ const testimonials = [
   object-fit: cover;
   object-position: center top;
   display: block;
-}
-.provider-band__frame::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='pbn'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23pbn)' opacity='0.4'/%3E%3C/svg%3E");
-  mix-blend-mode: overlay;
-  pointer-events: none;
 }
 .provider-band__caption {
   display: flex;
@@ -1802,27 +1794,10 @@ const testimonials = [
     gap: clamp(2rem, 6vw, 6rem);
   }
   .cta__seal {
-    display: grid;
-    place-items: center;
     flex: none;
-    width: clamp(6rem, 9vw, 7.75rem);
-    aspect-ratio: 1;
-    padding: 0.75rem;
-    border-radius: 50%;
-    background: var(--ochre);
-    color: var(--evergreen-deep);
-    text-align: center;
+    width: clamp(6.5rem, 10vw, 8.5rem);
+    filter: drop-shadow(0 1rem 1.5rem rgba(5, 29, 19, 0.22));
   }
-  .cta__seal span,
-  .cta__seal small {
-    font-family: var(--font-mono);
-    font-size: 0.48rem;
-    font-weight: 650;
-    line-height: 1.15;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-  }
-  .cta__seal strong { font-family: var(--font-display); font-size: 1.65rem; font-weight: 470; line-height: 1; }
   .cta__copy { display: flex; flex-direction: column; gap: 0.65rem; }
   .cta__title { font-size: clamp(2.15rem, 4.4vw, 4rem); max-width: 18ch; margin: 0; }
   .cta__inner .lead { margin: 0; color: rgba(255, 253, 248, 0.78); }

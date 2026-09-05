@@ -175,10 +175,10 @@ const formattedUpdate = hasUpdate
       <div class="container post-author__inner">
         <div class="post-author__media">
           <img
-            src="/liliana.webp"
+            src="/liliana-founder-original-v1.jpg"
             alt="Liliana Damron, APRN, FNP-BC"
-            width="120"
-            height="120"
+            width="1024"
+            height="1536"
             loading="lazy"
           />
         </div>
@@ -266,6 +266,9 @@ const formattedUpdate = hasUpdate
     overflow: hidden;
     aspect-ratio: 16 / 7;
     box-shadow: 0 24px 55px -32px rgba(28, 35, 27, 0.25);
+    max-width: 70rem;
+    margin-left: auto;
+    margin-right: auto;
   }
   .post-banner img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .post-hero {
@@ -589,8 +592,9 @@ const formattedUpdate = hasUpdate
 
   .post-foot {
     padding: clamp(4rem, 8vw, 6rem) 0;
-    background: var(--ink-2);
-    border-top: 1px solid var(--rule);
+    background: var(--evergreen);
+    color: var(--cream-bright);
+    border-top: 6px solid var(--terracotta);
     position: relative;
     overflow: hidden;
     text-align: center;
@@ -611,11 +615,13 @@ const formattedUpdate = hasUpdate
     margin: 0 auto 1rem;
     max-width: 18ch;
   }
-  .post-foot .lead { margin: 0 auto 2rem; max-width: 50ch; }
+  .post-foot .lead { margin: 0 auto 2rem; max-width: 50ch; color: rgba(255, 253, 248, 0.82); }
   .post-foot__ctas {
     display: flex;
     gap: 1rem;
     flex-wrap: wrap;
     justify-content: center;
   }
+  .post-foot .btn:not(.btn--bronze) { color: var(--cream-bright); border-color: var(--cream-bright); }
+  .post-foot .btn:not(.btn--bronze):hover { color: var(--evergreen-deep); background: var(--cream-bright); }
 </style>

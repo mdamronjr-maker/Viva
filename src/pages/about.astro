@@ -23,7 +23,7 @@ const standards = [
         jobTitle: 'Family Nurse Practitioner, Founder',
         description: 'Founder and lead provider of Viva Wellness Co., a concierge telehealth practice delivering peptide therapy, hormone optimization, and GLP-1 weight loss from Austin, Texas.',
         worksFor: { '@id': 'https://vivawellnessco.com/#organization' },
-        image: 'https://vivawellnessco.com/liliana-founder-portrait.webp',
+        image: 'https://vivawellnessco.com/liliana-founder-original-v1.jpg',
         url: 'https://vivawellnessco.com/about',
         knowsAbout: ['Peptide Therapy', 'Hormone Replacement Therapy', 'GLP-1 Weight Loss', 'Performance Medicine', 'Geriatric Medicine'],
       },
@@ -60,7 +60,7 @@ const standards = [
     <div class="container founder">
       <div class="founder__media">
         <div class="founder__frame" transition:name="provider-photo">
-          <img src="/liliana-founder-portrait.webp" alt="Liliana Damron, APRN, FNP-BC" loading="lazy" />
+          <img src="/liliana-founder-original-v1.jpg" alt="Liliana Damron, APRN, FNP-BC" width="1024" height="1536" loading="lazy" decoding="async" />
         </div>
         <div class="founder__caption">
           <div>Liliana Damron</div>
@@ -239,10 +239,11 @@ const standards = [
     display: flex;
     flex-direction: column;
     gap: 1.2rem;
+    width: min(100%, 32rem);
   }
   @media (max-width: 900px) { .founder__media { position: static; } }
   .founder__frame {
-    aspect-ratio: 4/5;
+    aspect-ratio: 2/3;
     background: linear-gradient(135deg, var(--bronze-deep) 0%, var(--ink-3) 100%);
     display: grid;
     place-items: center;
@@ -259,13 +260,6 @@ const standards = [
     display: block;
     position: relative;
     z-index: 2;
-  }
-  .founder__frame::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
-    mix-blend-mode: overlay;
   }
   .founder__mono {
     font-family: var(--font-display);

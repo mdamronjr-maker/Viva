@@ -51,8 +51,17 @@ test.describe('funnel contracts', () => {
   test('site uses the Founder Garden Viva favicon', async ({ page }) => {
     await blockExternal(page);
     await page.goto('/');
-    await expect(page.locator('link[rel="icon"]')).toHaveAttribute('href', '/favicon-viva-garden-v1.svg');
-    await expect(page.locator('link[rel="apple-touch-icon"]')).toHaveAttribute('href', '/viva-icon-garden-v1.png');
+    await expect(page.locator('link[rel="icon"]')).toHaveAttribute('href', '/favicon-viva-garden-v2.svg');
+    await expect(page.locator('link[rel="apple-touch-icon"]')).toHaveAttribute('href', '/viva-icon-garden-v2.png');
+  });
+
+  test('home closing CTA and footer share the crisp Viva monogram', async ({ page }) => {
+    await blockExternal(page);
+    await page.goto('/');
+    await expect(page.locator('.cta__seal [data-viva-monogram="solid"]')).toHaveCount(1);
+    await expect(page.locator('.footer-badge [data-viva-monogram="outline"]')).toHaveCount(1);
+    await expect(page.locator('.cta__seal')).not.toContainText('VW');
+    await expect(page.locator('.footer-badge')).not.toContainText('VW');
   });
 
   test('home renders the #quiz section (public/_redirects 301s /quiz here)', async ({ page }) => {
@@ -107,6 +116,37 @@ test.describe('funnel contracts', () => {
     ]) {
       await page.goto(route);
       await expect(page.locator(selector)).toHaveCSS('background-color', 'rgb(23, 75, 51)');
+    }
+  });
+
+  test('sitewide founder photography uses the untouched original asset', async ({ page }) => {
+    await blockExternal(page);
+    for (const [route, selector] of [
+      ['/', '.hero__media img'],
+      ['/', '.provider-band__frame img'],
+      ['/about/', '.founder__frame img'],
+      ['/services/', '.provider-strip__media img'],
+      ['/blog/the-parent-tax/', '.post-author__media img'],
+    ]) {
+      await page.goto(route);
+      await expect(page.locator(selector)).toHaveAttribute('src', '/liliana-founder-original-v1.jpg');
+    }
+  });
+
+  test('sitewide conversion endcaps use the green, cream, and coral system', async ({ page }) => {
+    await blockExternal(page);
+    for (const [route, selector] of [
+      ['/about/', '.about-cta'],
+      ['/services/', '.services-cta'],
+      ['/menopause/', '.meno-cta'],
+      ['/menu/', '.menu-cta'],
+      ['/partners/', '.part-cta'],
+      ['/start/', '.start-final'],
+      ['/blog/the-parent-tax/', '.post-foot'],
+    ]) {
+      await page.goto(route);
+      await expect(page.locator(selector)).toHaveCSS('background-color', 'rgb(23, 75, 51)');
+      await expect(page.locator(selector)).toHaveCSS('border-top-color', 'rgb(200, 95, 70)');
     }
   });
 
