@@ -1,6 +1,6 @@
 /* ============================================
    VIVA WELLNESS CO. · DESIGN SYSTEM
-   Founder Garden demo · forest, cream, and sunlit yellow (2026-09)
+   Founder Garden demo · forest, cream, and warm coral (2026-09)
 
    Fonts are loaded via <link> in Layout.astro (not @import) so they
    don't block CSS parsing.
@@ -8,7 +8,7 @@
 
 :root {
   /* A disciplined three-color system sampled from Liliana's portrait:
-     scrub green, clean cream, and warm sunlight. */
+     scrub green, clean cream, and the chair's warm coral. */
   --ink: #f8f6f0;
   --ink-2: #fffdf8;
   --ink-3: #e8eee7;
@@ -31,17 +31,17 @@
   --sky: #e8eee7;
   --sky-deep: #d6e0d4;
   --brand-blue: #174b33;
-  --butter: #f3d990;
-  --butter-bright: #ffe9ad;
-  --butter-deep: #d4b867;
+  --butter: #d97859;
+  --butter-bright: #e99174;
+  --butter-deep: #b94f37;
 
   --evergreen: #174b33;
   --evergreen-deep: #0c3323;
   --cream: #f8f6f0;
   --cream-bright: #fffdf8;
   --sage: #e8eee7;
-  --terracotta: #1d5137;
-  --ochre: #f3d990;
+  --terracotta: #c85f46;
+  --ochre: #d97859;
   --olive: #687654;
 
   /* Typography · UNCHANGED. Fraunces + Geist pairing and its documented
@@ -433,9 +433,9 @@ main:focus { outline: none; }
   --paper: #fffdf8;
   --paper-2: #f5f0e5;
   --paper-3: #dfd8ca;
-  --bronze: #f3d990;
-  --bronze-bright: #ffe9ad;
-  --bronze-deep: #d4b867;
+  --bronze: #d97859;
+  --bronze-bright: #e99174;
+  --bronze-deep: #b94f37;
   --sky: #174b33;
   --sky-deep: #0c3323;
   --mute: rgba(255, 253, 248, 0.7);
