@@ -133,6 +133,11 @@ const bookingHref = onStart
   @media (max-width: 1120px) {
     .site-header__inner { grid-template-columns: auto 1fr auto; }
     .nav { display: none; }
+    /* The full-size booking action and hamburger must never share the
+       collapsed header. Safari can temporarily report a wider layout
+       viewport while its browser chrome is changing; tying both states to
+       the same breakpoint keeps the button from being placed off-canvas. */
+    .nav__cta { display: none; }
     .nav-toggle {
       display: grid; gap: 5px;
       width: 44px; height: 44px;
@@ -150,17 +155,20 @@ const bookingHref = onStart
       transform: translateY(-3.25px) rotate(-45deg);
     }
   }
-  /* Once narrow layouts rely on the hamburger, the header CTA is redundant
-     with the page action. Hiding it at the mobile-action breakpoint also
-     prevents a half-visible pill while the absolute home header scrolls away
-     on intermediate-width phones and zoomed Safari viewports. */
+  /* Mobile action layout. The header CTA is already removed at the same
+     breakpoint that enables the hamburger above. */
   @media (max-width: 720px) {
-    .nav__cta { display: none; }
     .site-header__inner { grid-template-columns: auto 1fr auto; }
   }
 
   /* Mobile menu open */
-  :global(body.menu-open) .site-mobile-nav { transform: translateY(0); }
+  :global(body.menu-open) .site-mobile-nav {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transition-delay: 0s;
+  }
 </style>
 
 <nav class="site-mobile-nav" id="site-mobile-nav" aria-label="Mobile" inert>
@@ -181,8 +189,18 @@ const bookingHref = onStart
     z-index: 90;
     background: var(--evergreen-deep);
     color: var(--cream-bright);
-    transform: translateY(-110%);
-    transition: transform 360ms var(--ease);
+    /* Moving this panel by -110% did not guarantee that it cleared the top
+       of a short iOS visual viewport because the panel itself begins 76px
+       below the viewport. A hidden state must also prevent painting and hit
+       testing; the larger translation is a defensive geometry fallback. */
+    transform: translateY(calc(-100% - 76px));
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition:
+      transform 360ms var(--ease),
+      opacity 180ms var(--ease),
+      visibility 0s linear 360ms;
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
