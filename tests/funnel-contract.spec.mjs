@@ -75,12 +75,13 @@ test.describe('brand and experience contracts', () => {
   test('home states care, provider, service area, and primary action', async ({ page }) => {
     await blockExternal(page);
     await page.goto('/');
-    await expect(page.locator('.hero__eyebrows')).toContainText('Texas · Colorado · Florida · Iowa');
+    await expect(page.locator('.hero__eyebrows .eyebrow')).toHaveAttribute('aria-label', 'Concierge telehealth in Texas, Colorado, Florida, and Iowa');
+    await expect(page.locator('.hero__eyebrows')).toContainText('TX · CO · FL · IA');
     await expect(page.locator('.hero__eyebrow-secondary')).toHaveText('Austin-based · Virtual care');
     await expect(page.locator('.hero__title')).toContainText('Medical weight and hormone care.');
-    await expect(page.locator('.hero__title .italic-display')).toHaveText('One provider who knows your plan.');
+    await expect(page.locator('.hero__title .italic-display')).toHaveText('Built around your life.');
     await expect(page.locator('.hero__lead')).toContainText('Liliana Damron, APRN, FNP-BC');
-    await expect(page.locator('.hero__ctas a').first()).toHaveText('Book your first visit');
+    await expect(page.locator('.hero__ctas a').first()).toHaveText('Book a visit');
 
     const image = page.locator('.hero__media img');
     await expect(image).toHaveAttribute('src', '/liliana-founder-portrait-v2.webp');
