@@ -8,10 +8,14 @@
 
 # /quiz folded into the home page quiz section after audit pass
 /quiz /#quiz 301
+/quiz/ /#quiz 301
 
 # Retire the product-catalog framing in favor of care goals and clear pricing.
 /menu /services/ 301
+/menu/ /services/ 301
 
 # /refer unpublished pending final reward confirmation; send traffic to contact
 /refer /contact/ 301
+/refer/ /contact/ 301
 /_refer /contact/ 301
+/_refer/ /contact/ 301
