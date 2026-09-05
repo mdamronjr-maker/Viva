@@ -18,7 +18,7 @@ const blogPosts = await getCollection('blog', ({ data }) => !data.draft);
 const pages: Record<string, { title: string; tagline: string }> = {
   home: {
     title: 'Medical weight and hormone care. One provider who knows your plan.',
-    tagline: 'One provider · Weight · Hormones · Recovery · TX · CO · FL · IA',
+    tagline: 'One provider · Weight · Hormones · Peptides · Recovery · TX · CO · FL · IA',
   },
   about: {
     title: 'Meet your provider.',
@@ -35,6 +35,10 @@ const pages: Record<string, { title: string; tagline: string }> = {
   testosterone: {
     title: 'Evaluation first. Treatment only when it fits.',
     tagline: 'Testosterone Care · Labs · Ongoing Monitoring',
+  },
+  'peptide-therapy': {
+    title: 'Peptide therapy, with the hard questions first.',
+    tagline: 'Austin-Based Telehealth · TX · CO · FL · IA',
   },
   recovery: {
     title: 'Stay active without buying into hype.',

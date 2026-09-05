@@ -12,6 +12,7 @@ const PUBLIC_PAGES = [
   '/weight-management/',
   '/testosterone/',
   '/menopause/',
+  '/peptide-therapy/',
   '/recovery/',
   '/partners/',
   '/blog/',
@@ -33,6 +34,7 @@ const RESPONSIVE_PAGES = [
   '/services/',
   '/weight-management/',
   '/menopause/',
+  '/peptide-therapy/',
   '/about/',
   '/contact/',
   '/start/',
@@ -324,8 +326,8 @@ test.describe('SEO, content, and accessibility contracts', () => {
     }
   });
 
-  test('home and menopause FAQ structured data parse', async ({ request }) => {
-    for (const route of ['/', '/menopause/']) {
+  test('home, menopause, and peptide FAQ structured data parse', async ({ request }) => {
+    for (const route of ['/', '/menopause/', '/peptide-therapy/']) {
       const docs = parseJsonLd(await (await request.get(route)).text());
       const faqs = faqPagesIn(docs);
       expect(faqs.length, route).toBe(1);
@@ -334,6 +336,36 @@ test.describe('SEO, content, and accessibility contracts', () => {
         expect(question['@type']).toBe('Question');
         expect(question.acceptedAnswer?.['@type']).toBe('Answer');
       }
+    }
+  });
+
+  test('peptide search destination is specific, internally linked, and claim-safe', async ({ page, request }) => {
+    await blockExternal(page);
+    await page.goto('/peptide-therapy/');
+
+    await expect(page).toHaveTitle(/Peptide Therapy in Austin, TX/);
+    await expect(page.locator('h1')).toContainText(/Peptide therapy/i);
+    await expect(page.locator('main')).toContainText('Compounded drugs are not FDA-approved');
+    await expect(page.locator('main')).toContainText('Texas, Colorado, Florida, or Iowa');
+    await expect(page.locator('main')).toContainText('$199');
+    await expect(page.locator('main')).toContainText('$50 deposit');
+
+    const html = await (await request.get('/peptide-therapy/')).text();
+    const docs = parseJsonLd(html);
+    const service = docs
+      .flatMap((doc) => Array.isArray(doc['@graph']) ? doc['@graph'] : [doc])
+      .find((node) => node?.['@type'] === 'Service' && node.name === 'Peptide therapy consultation');
+    expect(service).toBeTruthy();
+    expect(service.areaServed?.map((area) => area.name)).toEqual(['Texas', 'Colorado', 'Florida', 'Iowa']);
+
+    // A category-level destination must not silently become a compound menu
+    // or imply that any requested product is automatically available.
+    expect(html).not.toMatch(/BPC-157|TB-500|CJC-1295|ipamorelin|GHK-Cu|MOTS-c/i);
+    expect(html).toContain('A prescription is never automatic');
+
+    for (const route of ['/', '/services/']) {
+      await page.goto(route);
+      await expect(page.locator('a[href="/peptide-therapy/"]')).toHaveCount(2);
     }
   });
 
@@ -347,6 +379,7 @@ test.describe('SEO, content, and accessibility contracts', () => {
     const sitemap = await (await request.get(sitemapPath)).text();
     expect(sitemap).toContain('https://vivawellnessco.com/weight-management/');
     expect(sitemap).toContain('https://vivawellnessco.com/testosterone/');
+    expect(sitemap).toContain('https://vivawellnessco.com/peptide-therapy/');
     expect(sitemap).toContain('https://vivawellnessco.com/recovery/');
     expect(sitemap).not.toContain('/quiz/');
     expect(sitemap).not.toContain('/menu/');

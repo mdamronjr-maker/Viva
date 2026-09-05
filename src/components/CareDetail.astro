@@ -4,9 +4,11 @@ import Layout from '../layouts/Layout.astro';
 type ContentItem = { title: string; body: string };
 type Plan = { name: string; price: string; href: string; note: string };
 type Source = { label: string; href: string };
+type Faq = { q: string; a: string };
 
 interface Props {
   path: string;
+  serviceName?: string;
   title: string;
   description: string;
   eyebrow: string;
@@ -20,10 +22,14 @@ interface Props {
   safetyItems: string[];
   plans: Plan[];
   sources?: Source[];
+  faqEyebrow?: string;
+  faqTitle?: string;
+  faqs?: Faq[];
 }
 
 const {
   path,
+  serviceName,
   title,
   description,
   eyebrow,
@@ -37,16 +43,18 @@ const {
   safetyItems,
   plans,
   sources = [],
+  faqEyebrow = 'Common questions',
+  faqTitle = 'Questions to ask before deciding.',
+  faqs = [],
 } = Astro.props;
 
 const absolute = `https://vivawellnessco.com${path}/`;
-const schema = {
-  '@context': 'https://schema.org',
-  '@graph': [
+const resolvedServiceName = serviceName ?? headline;
+const schemaGraph = [
     {
       '@type': 'Service',
       '@id': `${absolute}#service`,
-      name: headline,
+      name: resolvedServiceName,
       description,
       url: absolute,
       provider: { '@id': 'https://vivawellnessco.com/#organization' },
@@ -62,10 +70,23 @@ const schema = {
       itemListElement: [
         { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://vivawellnessco.com/' },
         { '@type': 'ListItem', position: 2, name: 'Care and pricing', item: 'https://vivawellnessco.com/services/' },
-        { '@type': 'ListItem', position: 3, name: headline, item: absolute },
+        { '@type': 'ListItem', position: 3, name: resolvedServiceName, item: absolute },
       ],
     },
-  ],
+    ...(faqs.length > 0 ? [{
+      '@type': 'FAQPage',
+      '@id': `${absolute}#faq`,
+      mainEntity: faqs.map((faq) => ({
+        '@type': 'Question',
+        name: faq.q,
+        acceptedAnswer: { '@type': 'Answer', text: faq.a },
+      })),
+    }] : []),
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@graph': schemaGraph,
 };
 ---
 
@@ -165,6 +186,25 @@ const schema = {
     </section>
   )}
 
+  {faqs.length > 0 && (
+    <section class="section care-faq" aria-labelledby="care-faq-title">
+      <div class="container care-faq__inner">
+        <div class="section-head">
+          <span class="eyebrow">{faqEyebrow}</span>
+          <h2 id="care-faq-title">{faqTitle}</h2>
+        </div>
+        <dl class="care-faq__list">
+          {faqs.map((faq) => (
+            <div>
+              <dt>{faq.q}</dt>
+              <dd>{faq.a}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    </section>
+  )}
+
   <section class="care-end">
     <div class="container care-end__inner">
       <div><span class="eyebrow">One provider, one clear next step</span><h2>Start with a conversation, not a product.</h2></div>
@@ -220,12 +260,19 @@ const schema = {
   .sources p { color: var(--mute); margin: .7rem 0 1rem; }
   .sources ul { display: flex; flex-wrap: wrap; gap: .7rem 1.5rem; }
   .sources a { text-decoration: underline; text-underline-offset: 3px; }
+  .care-faq { background: var(--ink); color: var(--paper); }
+  .care-faq__inner { max-width: 960px; }
+  .care-faq__list { border-top: 1px solid var(--rule-strong); }
+  .care-faq__list > div { display: grid; grid-template-columns: minmax(14rem, 5fr) 7fr; gap: clamp(1.5rem, 5vw, 4rem); padding: 1.4rem 0; border-bottom: 1px solid var(--rule-strong); }
+  .care-faq dt { font-family: var(--font-display); font-size: 1.2rem; line-height: 1.25; }
+  .care-faq dd { color: var(--mute); line-height: 1.65; }
   .care-end { background: var(--evergreen); color: var(--cream-bright); border-top: 6px solid var(--ochre); padding: clamp(3.5rem, 8vw, 6rem) 0; --focus-ring: var(--ochre); }
   .care-end__inner { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 7vw, 6rem); align-items: end; }
   .care-end h2 { margin-top: .65rem; max-width: 16ch; }
   .care-end__action p { color: rgba(255,253,248,.8); margin-bottom: 1.5rem; }
   @media (max-width: 820px) {
     .care-grid, .visit, .care-safety__inner, .care-end__inner { grid-template-columns: 1fr; }
+    .care-faq__list > div { grid-template-columns: 1fr; gap: .65rem; }
     .plan-links > ul > li { grid-template-columns: 1fr auto; }
     .plan-links a { grid-column: 1 / -1; }
   }
