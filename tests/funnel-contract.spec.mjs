@@ -68,7 +68,7 @@ test.describe('funnel contracts', () => {
     await expect(page.locator('.hero__eyebrow-secondary')).toHaveText('100% concierge care');
     await expect(page.locator('.hero__title')).toContainText('You bring the goals.');
     await expect(page.locator('.hero__title .italic-display')).toHaveText("I'll build the protocol.");
-    await expect(page.locator('.hero__media img')).toHaveAttribute('src', '/liliana-founder-hero-v2.webp');
+    await expect(page.locator('.hero__media img')).toHaveAttribute('src', '/liliana-founder-hero-v3-1920.webp');
     await expect(page.locator('.hero__portrait')).toHaveCount(0);
 
     const styles = await page.evaluate(() => {
