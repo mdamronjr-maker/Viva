@@ -82,6 +82,7 @@ The environment-variable names and their purposes are documented in [deployment.
 - [Contributing guide](./CONTRIBUTING.md)
 - [Security policy](./SECURITY.md)
 - [Architecture](./docs/architecture.md)
+- [GitHub administration](./docs/github-administration.md)
 - [Content and compliance](./docs/content-and-compliance.md)
 
 Use GitHub Issues only for technical work. Never place patient names, contact details, symptoms, medications, appointment information, or other health information in an issue, pull request, commit, log, screenshot, or test fixture.
