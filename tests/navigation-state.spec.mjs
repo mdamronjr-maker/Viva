@@ -3,6 +3,11 @@ import { test, expect } from '@playwright/test';
 async function openLocal(page, path = '/') {
   await page.route(/^(?!http:\/\/(?:localhost|127\.0\.0\.1):4173)/, (route) => route.abort());
   await page.goto(path);
+  await expect(page.locator('.site-header')).toHaveAttribute('data-menu-ready', 'true');
+  await page.evaluate(async () => {
+    await document.fonts.ready;
+    await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+  });
 }
 
 async function expectClosedMenu(page) {
@@ -26,7 +31,10 @@ test.describe('navigation lifecycle and single booking action', () => {
     });
     expect(Math.abs(geometry.rightGap - geometry.padding)).toBeLessThanOrEqual(1);
     await page.evaluate(() => window.scrollTo({ top: 450, behavior: 'instant' }));
+    await expect.poll(() => page.evaluate(() => window.scrollY), { message: 'Reading position settles before menu interaction' }).toBe(450);
     await page.locator('.nav-toggle').click();
+    const lockedPosition = await page.locator('body').evaluate((element) => -parseFloat(element.style.top));
+    expect(lockedPosition, 'Menu locks the actual requested reading position').toBe(450);
     await expect(page.locator('main')).toHaveAttribute('inert', '');
     await expect(page.locator('body')).toHaveCSS('position', 'fixed');
     await page.keyboard.press('Escape');
@@ -121,8 +129,11 @@ test('essential mobile pages reflow at doubled text size', async ({ page }) => {
   for (const route of ['/', '/services/', '/start/', '/weight-management/', '/contact/']) {
     await page.goto(route);
     await page.addStyleTag({ content: 'html { font-size: 200% !important; }' });
-    const size = await page.evaluate(() => ({ client: document.documentElement.clientWidth, scroll: document.documentElement.scrollWidth }));
-    expect(size.scroll, route).toBeLessThanOrEqual(size.client + 1);
+    const size = await page.evaluate(() => ({
+      client: document.documentElement.clientWidth, scroll: document.documentElement.scrollWidth,
+      overflow: [...document.querySelectorAll('body *')].filter((el) => { const r = el.getBoundingClientRect(); const s = getComputedStyle(el); return r.width > 0 && s.visibility !== 'hidden' && r.right > document.documentElement.clientWidth + 1; }).map((el) => ({ tag: el.tagName, class: el.className, right: el.getBoundingClientRect().right, width: el.getBoundingClientRect().width, text: el.textContent.slice(0,70) })).slice(0,15),
+    }));
+    expect(size.scroll, `${route}: ${JSON.stringify(size.overflow)}`).toBeLessThanOrEqual(size.client + 1);
     await page.locator('.nav-toggle').click();
     await expect(page.locator('#site-mobile-nav')).toHaveAttribute('aria-hidden', 'false');
     await page.keyboard.press('Escape');

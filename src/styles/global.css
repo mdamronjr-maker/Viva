@@ -112,6 +112,7 @@ h1, .h1, h2, .h2, h3, .h3, h4, h5, h6 {
   font-family: var(--font-heading);
   font-weight: 600;
   text-wrap: balance;
+  overflow-wrap: anywhere;
 }
 h1, .h1 { font-size: var(--text-h1); line-height: 1.1; letter-spacing: -0.035em; }
 h2, .h2 { font-size: var(--text-h2); line-height: 1.15; letter-spacing: -0.025em; }
@@ -143,6 +144,7 @@ p { max-width: 65ch; }
   justify-content: center;
   gap: 0.5rem;
   min-height: 48px;
+  min-width: 0;
   max-width: 100%;
   padding: 0.8125rem 1.5rem;
   border: 1px solid var(--border-control);

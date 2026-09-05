@@ -104,7 +104,8 @@ const primaryHref = onStart
     window.visualViewport?.addEventListener('scroll', scheduleUpdate, { passive: true, signal });
     document.addEventListener('astro:before-swap', () => { bar.inert = true; bar.setAttribute('aria-hidden', 'true'); bar.classList.remove('is-visible'); }, { signal });
     update();
-    cleanupSticky = () => { if (frame) window.cancelAnimationFrame(frame); bodyObserver.disconnect(); controller.abort(); };
+    bar.dataset.stickyReady = 'true';
+    cleanupSticky = () => { if (frame) window.cancelAnimationFrame(frame); bodyObserver.disconnect(); controller.abort(); delete bar.dataset.stickyReady; };
   }
 
   document.addEventListener('astro:page-load', initMobileStickyCta);

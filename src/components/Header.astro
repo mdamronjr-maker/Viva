@@ -152,6 +152,7 @@ const bookingHref = onStart
     const ownedInert = new Set<HTMLElement>();
     let open = false;
     let scrollPosition = 0;
+    let savedScrollBehavior = '';
     let savedBodyStyles: { position: string; top: string; width: string; overflow: string } | null = null;
 
     const measureHeader = () => document.documentElement.style.setProperty('--site-header-height', `${header.getBoundingClientRect().height}px`);
@@ -159,6 +160,12 @@ const bookingHref = onStart
       const shouldOpen = next && mobile.matches;
       if (shouldOpen && !open) {
         scrollPosition = window.scrollY;
+        // Stop any in-flight smooth scroll before freezing the page. Otherwise
+        // its animation can continue while the body is fixed and overwrite the
+        // restored position when the menu closes.
+        savedScrollBehavior = document.documentElement.style.scrollBehavior;
+        document.documentElement.style.scrollBehavior = 'auto';
+        window.scrollTo({ top: scrollPosition, behavior: 'instant' });
         savedBodyStyles = { position: document.body.style.position, top: document.body.style.top, width: document.body.style.width, overflow: document.body.style.overflow };
         document.body.style.position = 'fixed';
         document.body.style.top = `-${scrollPosition}px`;
@@ -179,6 +186,7 @@ const bookingHref = onStart
           Object.assign(document.body.style, savedBodyStyles);
           savedBodyStyles = null;
           window.scrollTo({ top: scrollPosition, behavior: 'instant' });
+          document.documentElement.style.scrollBehavior = savedScrollBehavior;
         }
         if (returnFocus && mobile.matches) toggle.focus({ preventScroll: true });
       }
@@ -203,10 +211,12 @@ const bookingHref = onStart
     }, { signal });
     document.addEventListener('click', (event) => { if (careNav?.open && !careNav.contains(event.target as Node)) careNav.open = false; }, { signal });
     const reset = () => {
-      const focusWasInDrawer = mobileNav.contains(document.activeElement);
-      setOpen(false, focusWasInDrawer);
+      // A breakpoint can hide the focused drawer before the media-query
+      // listener runs, clearing activeElement. Preserve the interaction state.
+      const restoreFocus = open || mobileNav.contains(document.activeElement);
+      setOpen(false, restoreFocus);
       if (careNav) careNav.open = false;
-      if (focusWasInDrawer && !mobile.matches) careNav?.querySelector<HTMLElement>('summary')?.focus({ preventScroll: true });
+      if (restoreFocus && !mobile.matches) careNav?.querySelector<HTMLElement>('summary')?.focus({ preventScroll: true });
     };
     mobile.addEventListener('change', reset, { signal });
     window.addEventListener('pageshow', reset, { signal });
@@ -215,7 +225,8 @@ const bookingHref = onStart
     const headerSize = new ResizeObserver(measureHeader);
     headerSize.observe(header);
     setOpen(false);
-    cleanupHeader = () => { reset(); controller.abort(); headerSize.disconnect(); };
+    header.dataset.menuReady = 'true';
+    cleanupHeader = () => { reset(); controller.abort(); headerSize.disconnect(); delete header.dataset.menuReady; };
   }
 
   document.addEventListener('astro:page-load', bindHeader);

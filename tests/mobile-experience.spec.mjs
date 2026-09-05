@@ -13,9 +13,16 @@ async function blockExternal(page) {
   await page.route(/^(?!http:\/\/(?:localhost|127\.0\.0\.1):4173)/, (route) => route.abort());
 }
 
-// Exercise a real reading region, rather than an obsolete pixel offset that
-// can put a redesigned page's own booking button in view.
+// Choose an actual reading viewport with no usable booking link and no footer.
+// Its position comes from settled content geometry, independent of the sticky
+// controller, so a broken controller cannot make the test choose an easier pass.
 async function scrollToReadingRegion(page, route = '/') {
+  await expect(page.locator('.site-header')).toHaveAttribute('data-menu-ready', 'true');
+  await expect(page.locator('.msc')).toHaveAttribute('data-sticky-ready', 'true');
+  await page.evaluate(async () => {
+    await document.fonts.ready;
+    await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+  });
   const selectors = {
     '/': '.care-paths',
     '/services/': '#plans',
@@ -23,11 +30,48 @@ async function scrollToReadingRegion(page, route = '/') {
     '/start/': '.start-steps',
   };
   const region = page.locator(selectors[route]).first();
-  await region.evaluate((element) => {
+  const selection = await region.evaluate((element) => {
+    const regionBox = element.getBoundingClientRect();
+    const height = window.visualViewport?.height ?? window.innerHeight;
     const headerHeight = document.querySelector('.site-header').getBoundingClientRect().height;
-    window.scrollTo({ top: element.getBoundingClientRect().top + window.scrollY - headerHeight - 24, behavior: 'instant' });
+    const footerTop = document.querySelector('.site-footer').getBoundingClientRect().top + window.scrollY;
+    const links = [...document.querySelectorAll('main a[href]')].filter((link) => {
+      const url = new URL(link.href);
+      return (url.origin === location.origin && /^\/start\/?$/.test(url.pathname)) || url.hostname === 'vivawellnessco.glossgenius.com';
+    }).flatMap((link) => {
+      const box = link.getBoundingClientRect();
+      if (!box.width || !box.height || getComputedStyle(link).visibility === 'hidden' || link.closest('[hidden]')) return [];
+      return [{ label: link.textContent.trim(), top: box.top + scrollY, bottom: box.bottom + scrollY }];
+    });
+    const first = Math.max(600, regionBox.top + scrollY - headerHeight - 24);
+    const last = Math.min(regionBox.bottom + scrollY - headerHeight - 80, footerTop - height - 96);
+    let target = null;
+    for (let candidate = first; candidate <= last; candidate += 80) {
+      if (!links.some((link) => link.top >= candidate + headerHeight && link.bottom <= candidate + height)) {
+        target = candidate;
+        break;
+      }
+    }
+    if (target !== null) window.scrollTo({ top: target, behavior: 'instant' });
+    return { target, first, last, footerTop, height, headerHeight, links };
   });
+  expect(selection.target, `${route}: no uncontested reading viewport: ${JSON.stringify(selection)}`).not.toBeNull();
+  await expect.poll(() => page.evaluate(() => window.scrollY), { message: `${route}: selected reading position` }).toBeCloseTo(selection.target, 0);
   await expect(region).toBeVisible();
+  return `${route}: ${JSON.stringify(selection)}`;
+}
+
+async function stickyDiagnostics(page) {
+  return page.evaluate(() => ({
+    url: location.pathname,
+    scrollY,
+    viewport: { width: innerWidth, height: innerHeight, visualHeight: visualViewport?.height, offsetTop: visualViewport?.offsetTop },
+    bodyClass: document.body.className,
+    focused: document.activeElement?.tagName,
+    modal: document.querySelector('dialog[open], [aria-modal="true"]:not([hidden]):not([aria-hidden="true"])')?.outerHTML.slice(0, 300),
+    footer: document.querySelector('.site-footer')?.getBoundingClientRect().toJSON(),
+    actions: [...document.querySelectorAll('main a[href]')].filter((link) => link.href.includes('/start/') || link.href.includes('glossgenius.com')).map((link) => ({ text: link.textContent.trim(), rect: link.getBoundingClientRect().toJSON(), visibility: getComputedStyle(link).visibility })),
+  }));
 }
 
 test.describe('mobile experience contracts', () => {
@@ -69,8 +113,8 @@ test.describe('mobile experience contracts', () => {
       await expect(bar).toHaveAttribute('aria-hidden', 'true');
       await expect(bar).toHaveAttribute('inert', '');
 
-      await scrollToReadingRegion(page, route);
-      await expect(bar).toHaveClass(/is-visible/);
+      const readingPosition = await scrollToReadingRegion(page, route);
+      await expect(bar, `${readingPosition}; actual=${JSON.stringify(await stickyDiagnostics(page))}`).toHaveClass(/is-visible/);
       await expect(bar).toHaveAttribute('aria-hidden', 'false');
       await expect(bar).not.toHaveAttribute('inert', '');
 
