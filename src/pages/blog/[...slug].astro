@@ -21,6 +21,16 @@ const showToc = tocItems.length >= 3;
 const wordCount = post.body?.split(/\s+/).filter(Boolean).length ?? 0;
 const readingMinutes = Math.max(1, Math.round(wordCount / 200));
 
+const heroSizes: Record<string, { width: number; height: number }> = {
+  '/blog/compare-real.webp': { width: 1600, height: 900 },
+  '/blog/glp1.webp': { width: 1024, height: 576 },
+  '/blog/perimenopause-starts-earlier.webp': { width: 1216, height: 640 },
+  '/blog/telehealth.webp': { width: 1024, height: 576 },
+  '/blog/the-parent-tax.webp': { width: 1216, height: 608 },
+};
+const heroSize = post.data.heroImage ? heroSizes[post.data.heroImage] : undefined;
+const articleImage = new URL(post.data.heroImage || `/og/blog/${post.id}.png`, Astro.site).href;
+
 // Related posts: same category, exclude self, most recent 2
 const allPosts = await getCollection('blog', ({ data }) => !data.draft);
 const related = allPosts
@@ -33,34 +43,34 @@ const articleSchema = {
   '@graph': [
     {
       '@type': 'BlogPosting',
-      '@id': `https://vivawellnessco.com/blog/${post.id}#article`,
+      '@id': `https://vivawellnessco.com/blog/${post.id}/#article`,
       headline: post.data.title,
       description: post.data.description,
-      url: `https://vivawellnessco.com/blog/${post.id}`,
+      url: `https://vivawellnessco.com/blog/${post.id}/`,
       datePublished: post.data.publishDate.toISOString(),
       dateModified: (post.data.modifiedDate || post.data.publishDate).toISOString(),
-      image: 'https://vivawellnessco.com/og-image.jpg',
+      image: articleImage,
       articleSection: post.data.category,
       author: {
         '@type': 'Person',
-        '@id': 'https://vivawellnessco.com/about#liliana',
+        '@id': 'https://vivawellnessco.com/about/#liliana',
         name: post.data.author,
       },
       publisher: { '@id': 'https://vivawellnessco.com/#organization' },
       mainEntityOfPage: {
         '@type': 'WebPage',
-        '@id': `https://vivawellnessco.com/blog/${post.id}`,
+        '@id': `https://vivawellnessco.com/blog/${post.id}/`,
       },
       inLanguage: 'en-US',
       keywords: post.data.keywords,
     },
     {
       '@type': 'BreadcrumbList',
-      '@id': `https://vivawellnessco.com/blog/${post.id}#breadcrumb`,
+      '@id': `https://vivawellnessco.com/blog/${post.id}/#breadcrumb`,
       itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://vivawellnessco.com' },
-        { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://vivawellnessco.com/blog' },
-        { '@type': 'ListItem', position: 3, name: post.data.title, item: `https://vivawellnessco.com/blog/${post.id}` },
+        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://vivawellnessco.com/' },
+        { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://vivawellnessco.com/blog/' },
+        { '@type': 'ListItem', position: 3, name: post.data.title, item: `https://vivawellnessco.com/blog/${post.id}/` },
       ],
     },
   ],
@@ -80,7 +90,7 @@ const formattedUpdate = hasUpdate
 ---
 
 <Layout
-  title={`${post.data.title} | Viva Wellness Co.`}
+  title={`${post.data.title} | Viva`}
   description={post.data.description}
   ogType="article"
   publishDate={post.data.publishDate.toISOString()}
@@ -95,13 +105,21 @@ const formattedUpdate = hasUpdate
     {post.data.heroImage && (
       <div class="container">
         <figure class="post-banner">
-          <img src={post.data.heroImage} alt="" loading="eager" decoding="async" />
+          <img
+            src={post.data.heroImage}
+            alt=""
+            width={heroSize?.width}
+            height={heroSize?.height}
+            loading="eager"
+            decoding="async"
+            fetchpriority="high"
+          />
         </figure>
       </div>
     )}
     <header class="post-hero" class:list={[{ 'post-hero--withbanner': post.data.heroImage }]}>
       <div class="container post-hero__inner">
-        <a href="/blog" class="post-back">← Back to all articles</a>
+        <a href="/blog/" class="post-back">← Back to all articles</a>
         <span class="eyebrow">{post.data.category}</span>
         <h1 class="post-title">{post.data.title}</h1>
         <p class="post-lede">{post.data.description}</p>
@@ -118,6 +136,7 @@ const formattedUpdate = hasUpdate
             </>
           )}
         </div>
+        <p class="post-disclosure">General education only · Sources are linked in the article · Not individualized medical advice</p>
       </div>
     </header>
 
@@ -158,7 +177,7 @@ const formattedUpdate = hasUpdate
           <ul class="post-related__list">
             {related.map((r) => (
               <li class="post-related__item">
-                <a href={`/blog/${r.id}`} class="post-related__link">
+                <a href={`/blog/${r.id}/`} class="post-related__link">
                   <span class="post-related__cat">{r.data.category}</span>
                   <h3 class="post-related__h">{r.data.title}</h3>
                   <p class="post-related__desc">{r.data.description}</p>
@@ -175,10 +194,12 @@ const formattedUpdate = hasUpdate
       <div class="container post-author__inner">
         <div class="post-author__media">
           <img
-            src="/liliana-founder-original-v1.jpg"
+            src="/liliana-founder-portrait-v2.webp"
+            srcset="/liliana-founder-portrait-sm.webp 640w, /liliana-founder-portrait-v2.webp 2048w"
+            sizes="(max-width: 700px) 8rem, 10rem"
             alt="Liliana Damron, APRN, FNP-BC"
-            width="1024"
-            height="1536"
+            width="2048"
+            height="3072"
             loading="lazy"
           />
         </div>
@@ -188,12 +209,11 @@ const formattedUpdate = hasUpdate
             {post.data.author}
           </p>
           <p class="post-author__bio">
-            Founder of Viva Wellness Co. Background in geriatric medicine, now
-            focused on the opposite end of the curve: catching dysfunction
-            early and extending the years where you feel like yourself.
-            Licensed in Texas, Colorado, Florida, and Iowa.
+            Liliana Damron is the founder and named provider at Viva Wellness
+            Co. Her background includes geriatric medicine. Viva currently
+            serves adults in Texas, Colorado, Florida, and Iowa.
           </p>
-          <a href="/about" class="post-author__link">Read the full story →</a>
+          <a href="/about/" class="post-author__link">Read about Liliana →</a>
         </div>
       </div>
     </aside>
@@ -204,12 +224,12 @@ const formattedUpdate = hasUpdate
           Ready to <span class="italic-display">start the conversation?</span>
         </h2>
         <p class="lead">
-          The protocol begins with one telehealth visit. Forty-five minutes,
-          provider-led, no pressure to commit.
+          The first visit is a provider-led evaluation. It does not guarantee
+          eligibility, a prescription, or enrollment in a membership.
         </p>
         <div class="post-foot__ctas">
-          <a href="/start?utm_source=vivawellnessco&utm_medium=cta&utm_content=blog_post_foot" class="btn btn--bronze">Book your first visit</a>
-          <a href="/#quiz" class="btn">Find your protocol</a>
+          <a href="/start/?utm_source=vivawellnessco&utm_medium=cta&utm_content=blog_post_foot" class="btn btn--bronze">Book your first visit</a>
+          <a href="/#quiz" class="btn">Use the care-path guide</a>
         </div>
       </div>
     </footer>
@@ -324,6 +344,12 @@ const formattedUpdate = hasUpdate
   }
   .post-meta__author { color: var(--paper); }
   .post-meta__sep { margin: 0 0.6rem; }
+  .post-disclosure {
+    margin-top: 0.9rem;
+    color: var(--mute);
+    font-size: 0.84rem;
+    max-width: 68ch;
+  }
 
   .post-toc {
     padding: clamp(1rem, 3vw, 1.6rem) 0 0;
@@ -348,7 +374,7 @@ const formattedUpdate = hasUpdate
   .post-toc__summary::-webkit-details-marker { display: none; }
   .post-toc__count {
     font-family: var(--font-mono);
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     letter-spacing: 0.1em;
     color: var(--mute);
   }
@@ -382,7 +408,7 @@ const formattedUpdate = hasUpdate
   .post-toc__link:hover { color: var(--bronze-bright); }
   .post-toc__num {
     font-family: var(--font-mono);
-    font-size: 0.72rem;
+    font-size: 0.75rem;
     letter-spacing: 0.1em;
     color: var(--bronze);
   }
@@ -471,7 +497,7 @@ const formattedUpdate = hasUpdate
     color: var(--bronze);
     border: 1px solid var(--butter-deep);
     padding: 0.1rem 0.5rem;
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     letter-spacing: 0.08em;
   }
 
@@ -508,7 +534,7 @@ const formattedUpdate = hasUpdate
   }
   .post-related__cat {
     font-family: var(--font-mono);
-    font-size: 0.68rem;
+    font-size: 0.75rem;
     letter-spacing: 0.16em;
     text-transform: uppercase;
     color: var(--bronze);
@@ -582,7 +608,7 @@ const formattedUpdate = hasUpdate
   }
   .post-author__link {
     font-family: var(--font-mono);
-    font-size: 0.72rem;
+    font-size: 0.75rem;
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--bronze);

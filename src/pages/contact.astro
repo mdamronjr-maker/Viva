@@ -8,28 +8,29 @@ const contactSchema = {
   '@type': 'BreadcrumbList',
   itemListElement: [
     { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://vivawellnessco.com/' },
-    { '@type': 'ListItem', position: 2, name: 'Contact', item: 'https://vivawellnessco.com/contact' },
+    { '@type': 'ListItem', position: 2, name: 'Contact', item: 'https://vivawellnessco.com/contact/' },
   ],
 };
+const sent = Astro.url.searchParams.get('sent') === '1';
 ---
 
 <Layout
-  title="Contact · Viva Wellness Co."
-  description="Get in touch with Viva Wellness Co. and receive the free Precision Hormone & Peptide Therapy eBook by email. Concierge telehealth in Austin, TX."
+  title="Contact Viva Wellness Co. | Scheduling Questions"
+  description="Contact Viva Wellness Co. for scheduling, pricing, partnerships, or other non-clinical questions. Clinical communication belongs in the secure patient portal."
   schema={contactSchema}
 >
 
   <section class="contact-hero">
     <div class="container contact-hero__inner">
-      <span class="eyebrow">Start the conversation</span>
+      <span class="eyebrow">Non-clinical contact</span>
       <h1 class="contact-hero__title">
-        Get the <span class="italic-display">eBook.</span><br/>
-        Get a real reply.
+        Questions before you book?<br/>
+        <span class="italic-display">Ask Viva.</span>
       </h1>
       <p class="lead">
-        Leave me your details and I'll send the Precision Hormone &amp; Peptide
-        Therapy guide straight to your inbox. If you've got questions,
-        Liliana answers them herself. No bots, no funnels, no spam.
+        Use this page for scheduling, pricing, partnerships, or website questions.
+        Please keep symptoms, labs, medication details, and other clinical information
+        inside the secure patient portal.
       </p>
     </div>
   </section>
@@ -38,7 +39,9 @@ const contactSchema = {
     <div class="container contact-body__grid">
       <div class="contact-body__form-wrap">
         <NoPhiNotice />
-        <form class="contact-form" id="contact-form" novalidate>
+        {sent && <p class="contact-sent" role="status">Viva received your contact request.</p>}
+        <form class="contact-form" id="contact-form" method="post" action="/api/lead">
+          <input type="hidden" name="source" value="contact" />
           <div class="field">
             <label for="c-name" class="field__label">Your name</label>
             <input
@@ -50,7 +53,9 @@ const contactSchema = {
               required
               maxlength="200"
               placeholder="First and last"
+              aria-describedby="c-name-error"
             />
+            <span class="field__error" id="c-name-error" aria-live="polite"></span>
           </div>
 
           <div class="field">
@@ -62,8 +67,11 @@ const contactSchema = {
               class="field__input"
               autocomplete="email"
               required
+              maxlength="254"
               placeholder="you@example.com"
+              aria-describedby="c-email-error"
             />
+            <span class="field__error" id="c-email-error" aria-live="polite"></span>
           </div>
 
           <div class="field">
@@ -74,22 +82,31 @@ const contactSchema = {
               type="tel"
               class="field__input"
               autocomplete="tel"
+              maxlength="40"
               placeholder="(512) 555-0123"
+              aria-describedby="c-phone-hint"
             />
-            <span class="field__hint">Optional. I'll only use it if you ask me to call or text.</span>
+            <span class="field__hint" id="c-phone-hint">Optional. Used only to respond to this request.</span>
           </div>
 
           <div class="field">
-            <label for="c-message" class="field__label">Anything to share?</label>
-            <textarea
-              id="c-message"
-              name="message"
-              class="field__textarea"
-              maxlength="5000"
-              placeholder="Goals, current routine, questions about a specific protocol&hellip;"
-            ></textarea>
-            <span class="field__hint">Optional. Skip it if you just want the eBook. Please leave out medical details or test results · those belong in the patient portal.</span>
+            <label for="c-message" class="field__label">What can we help with?</label>
+            <select id="c-message" name="message" class="field__select" required aria-describedby="c-message-hint c-message-error">
+              <option value="">Choose one</option>
+              <option value="Scheduling or first-visit question">Scheduling or first-visit question</option>
+              <option value="Pricing or membership question">Pricing or membership question</option>
+              <option value="Partnership or media question">Partnership or media question</option>
+              <option value="Website or email question">Website or email question</option>
+              <option value="Other non-clinical question">Other non-clinical question</option>
+            </select>
+            <span class="field__hint" id="c-message-hint">No symptoms, diagnoses, labs, or medication details. Liliana can discuss those only through the clinical intake and secure portal.</span>
+            <span class="field__error" id="c-message-error" aria-live="polite"></span>
           </div>
+
+          <label class="contact-consent">
+            <input type="checkbox" name="marketing_consent" value="yes" />
+            <span>Email me occasional Viva practice updates and new educational articles. Optional; you can unsubscribe anytime.</span>
+          </label>
 
           {/* Honeypot · spam trap, hidden from real users */}
           <div class="hp" aria-hidden="true">
@@ -100,7 +117,7 @@ const contactSchema = {
 
           <div class="cf-turnstile" data-sitekey={TURNSTILE_SITEKEY} data-theme="light"></div>
 
-          <button type="submit" class="btn btn--bronze" id="c-submit">Send &amp; get the eBook</button>
+          <button type="submit" class="btn btn--bronze" id="c-submit">Send contact request</button>
 
           <div class="contact-form__status" id="c-status" role="status" aria-live="polite"></div>
         </form>
@@ -119,7 +136,7 @@ const contactSchema = {
               <a href="mailto:info&#64;vivawellnessco.com" class="contact-side__v">info&#64;vivawellnessco.com</a>
             </li>
           </ul>
-          <a href="/start?utm_source=vivawellnessco&utm_medium=cta&utm_content=contact_side" class="btn btn--bronze contact-side__book">Book your first visit</a>
+          <a href="/start/?utm_source=vivawellnessco&utm_medium=cta&utm_content=contact_side" class="btn btn--bronze contact-side__book">Book your first visit</a>
         </div>
 
         <div class="contact-side__heading">
@@ -127,18 +144,18 @@ const contactSchema = {
         </div>
         <div class="contact-side__panel">
           <span class="contact-side__num">01</span>
-          <h3>The eBook lands</h3>
-          <p>Precision Hormone &amp; Peptide Therapy (fifteen pages, eight chapters) shows up in your inbox within sixty seconds.</p>
+          <h3>Viva receives your request</h3>
+          <p>Your contact details and selected non-clinical topic go to the practice. Educational emails are sent only when you opt in.</p>
         </div>
         <div class="contact-side__panel">
           <span class="contact-side__num">02</span>
-          <h3>Liliana reads your note</h3>
-          <p>Personally. If you asked something, she's the one reading it.</p>
+          <h3>A real person reviews it</h3>
+          <p>Liliana or the practice follows up about the scheduling, pricing, or general question you selected.</p>
         </div>
         <div class="contact-side__panel">
           <span class="contact-side__num">03</span>
-          <h3>A real reply</h3>
-          <p>Within one business day, often the same day. Currently licensed in Texas, Colorado, Florida, and Iowa.</p>
+          <h3>Clinical details stay secure</h3>
+          <p>Patient care, lab results, and medication questions move to the HIPAA-compliant patient portal.</p>
         </div>
       </aside>
     </div>
@@ -153,6 +170,12 @@ const contactSchema = {
     const status = document.getElementById('c-status') as HTMLDivElement | null;
     const submit = document.getElementById('c-submit') as HTMLButtonElement | null;
     if (!form || !status || !submit) return;
+    const nameInput = document.getElementById('c-name') as HTMLInputElement | null;
+    const emailInput = document.getElementById('c-email') as HTMLInputElement | null;
+    const topicInput = document.getElementById('c-message') as HTMLSelectElement | null;
+    const nameError = document.getElementById('c-name-error');
+    const emailError = document.getElementById('c-email-error');
+    const topicError = document.getElementById('c-message-error');
     const tsEl = form.querySelector('.cf-turnstile') as HTMLElement | null;
     const ts = () => (window as any).turnstile;
     if (tsEl && ts() && !tsEl.querySelector('iframe')) {
@@ -162,15 +185,16 @@ const contactSchema = {
       e.preventDefault();
       status.textContent = '';
       status.className = 'contact-form__status';
+      for (const input of [nameInput, emailInput, topicInput]) input?.removeAttribute('aria-invalid');
+      for (const error of [nameError, emailError, topicError]) if (error) error.textContent = '';
 
       const data = new FormData(form);
       const utm: Record<string, string> = {};
       const params = new URLSearchParams(window.location.search);
-      for (const k of ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'] as const) {
+      for (const k of ['utm_source','utm_medium','utm_campaign','utm_content'] as const) {
         const v = params.get(k);
-        if (v) utm[k] = v;
+        if (v && v.length <= 120) utm[k] = v;
       }
-      const referrer = document.referrer || '';
       const payload = {
         source: 'contact',
         name: String(data.get('name') || '').trim(),
@@ -178,14 +202,31 @@ const contactSchema = {
         phone: String(data.get('phone') || '').trim(),
         message: String(data.get('message') || '').trim(),
         company: String(data.get('company') || '').trim(), // honeypot
+        marketingConsent: data.get('marketing_consent') === 'yes',
         turnstileToken: String(data.get('cf-turnstile-response') || ''),
         utm,
-        referrer,
       };
 
-      if (!payload.name || !payload.email) {
-        status.textContent = 'Name and email are required.';
+      let firstInvalid: HTMLInputElement | HTMLSelectElement | null = null;
+      if (!payload.name) {
+        nameInput?.setAttribute('aria-invalid', 'true');
+        if (nameError) nameError.textContent = 'Enter your name.';
+        firstInvalid = nameInput;
+      }
+      if (!payload.email || !emailInput?.validity.valid) {
+        emailInput?.setAttribute('aria-invalid', 'true');
+        if (emailError) emailError.textContent = 'Enter a valid email address.';
+        firstInvalid ||= emailInput;
+      }
+      if (!payload.message) {
+        topicInput?.setAttribute('aria-invalid', 'true');
+        if (topicError) topicError.textContent = 'Choose a non-clinical topic.';
+        firstInvalid ||= topicInput;
+      }
+      if (firstInvalid) {
+        status.textContent = 'Check the highlighted fields.';
         status.classList.add('is-error');
+        firstInvalid.focus();
         return;
       }
 
@@ -201,9 +242,11 @@ const contactSchema = {
         });
         const json = await res.json().catch(() => ({}));
         if (!res.ok || !json.ok) {
-          throw new Error(json.error || 'Something went wrong. Try again or email info&#64;vivawellnessco.com.');
+          throw new Error(json.error || 'Something went wrong. Try again or email info@vivawellnessco.com.');
         }
-        status.textContent = "Sent. Give it a minute and the eBook should be in your inbox.";
+        status.textContent = payload.marketingConsent
+          ? 'Sent. Your contact request is in, and your email preference is saved.'
+          : 'Sent. Viva received your contact request.';
         status.classList.add('is-success');
         form.reset();
       } catch (err) {
@@ -213,7 +256,7 @@ const contactSchema = {
       } finally {
         submit.disabled = false;
         submit.removeAttribute('aria-busy');
-        submit.textContent = 'Send & get the eBook';
+        submit.textContent = 'Send contact request';
       }
     });
   }
@@ -265,7 +308,19 @@ const contactSchema = {
     max-width: 540px;
   }
   .contact-form .btn { align-self: flex-start; margin-top: 0.5rem; }
+  .contact-sent { background: var(--sage); border-left: 4px solid var(--evergreen); padding: 1rem 1.2rem; margin-bottom: 1.5rem; }
   .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  .contact-consent {
+    display: grid;
+    grid-template-columns: 1.2rem 1fr;
+    gap: 0.75rem;
+    align-items: start;
+    font-size: 0.92rem;
+    line-height: 1.5;
+    color: var(--mute);
+    cursor: pointer;
+  }
+  .contact-consent input { width: 1.1rem; height: 1.1rem; margin-top: 0.2rem; }
 
   .contact-form__status {
     font-family: var(--font-mono);
@@ -302,7 +357,7 @@ const contactSchema = {
   }
   .contact-side__k {
     font-family: var(--font-mono);
-    font-size: 0.65rem;
+    font-size: 0.75rem;
     letter-spacing: 0.15em;
     text-transform: uppercase;
     color: var(--mute);
@@ -332,7 +387,7 @@ const contactSchema = {
   .contact-side__heading + .contact-side__panel { border-top: 0; padding-top: 0.8rem; }
   .contact-side__num {
     font-family: var(--font-mono);
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     letter-spacing: 0.12em;
     color: var(--bronze);
     display: block;

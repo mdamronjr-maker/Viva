@@ -9,9 +9,9 @@ const partnersSchema = {
   '@graph': [
     {
       '@type': 'CollectionPage',
-      name: 'Trusted Austin Partners',
-      description: 'The Austin practitioners, gyms, and physical therapists Liliana Damron, FNP-BC refers Viva Wellness patients to for care outside the concierge telehealth scope.',
-      url: 'https://vivawellnessco.com/partners',
+      name: 'Austin Care and Wellness Directory',
+      description: 'An Austin-area directory of physical therapy, training, fitness, recovery, and meal-prep resources outside Viva Wellness Co.’s telehealth scope.',
+      url: 'https://vivawellnessco.com/partners/',
       isPartOf: { '@id': 'https://vivawellnessco.com/#organization' },
       about: partners.map((p) => ({
         '@type': 'LocalBusiness',
@@ -30,7 +30,7 @@ const partnersSchema = {
       '@type': 'BreadcrumbList',
       itemListElement: [
         { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://vivawellnessco.com/' },
-        { '@type': 'ListItem', position: 2, name: 'Partners', item: 'https://vivawellnessco.com/partners' },
+        { '@type': 'ListItem', position: 2, name: 'Partners', item: 'https://vivawellnessco.com/partners/' },
       ],
     },
   ],
@@ -38,24 +38,24 @@ const partnersSchema = {
 ---
 
 <Layout
-  title="Trusted Austin Partners · The Network I Refer To | Viva Wellness Co."
-  description="The Austin gyms, trainers, and physical therapists Liliana Damron refers Viva Wellness patients to. Strength coaches, recovery, sports therapy, and fitness facilities, vetted for the patients on a protocol."
+  title="Austin Care & Wellness Directory | Viva Wellness Co."
+  description="Austin-area physical therapy, training, fitness, recovery, and meal-prep resources for needs outside Viva’s telehealth scope."
   schema={partnersSchema}
 >
 
   {/* HERO */}
   <section class="partners-hero">
     <div class="container partners-hero__inner">
-      <span class="eyebrow">The trusted network</span>
+      <span class="eyebrow">Local resources · Austin</span>
       <h1 class="partners-hero__title">
-        The Austin partners<br/>
-        <span class="italic-display">I trust with my patients.</span>
+        Care does not all happen<br/>
+        <span class="italic-display">through a screen.</span>
       </h1>
       <p class="lead">
-        What I do is one piece of a much bigger picture. For the parts that live
-        outside my lane (strength coaching, physical therapy, sports recovery,
-        the in-person stuff), I send people to a handful of folks I'd trust with
-        my own family. That's the whole bar.
+        Viva is a telehealth practice. This directory gives Austin-area patients
+        a starting point for services that may require in-person facilities or
+        hands-on care. Confirm fit, credentials, availability, and cost directly
+        with each independent business.
       </p>
       <div class="partners-hero__meta">
         <span class="eyebrow">{partnerCount} partners · Austin, TX</span>
@@ -67,16 +67,16 @@ const partnersSchema = {
   <section class="how-strip">
     <div class="container how-strip__inner">
       <div class="how-strip__col">
-        <h3 class="how-strip__title">Nobody paid to be here</h3>
-        <p class="how-strip__body">Everyone in the directory below is someone I actually send patients to. No paid listings, no kickbacks. The Viva Perks further down are simply brand discounts I pass along.</p>
+        <h3 class="how-strip__title">Independent businesses</h3>
+        <p class="how-strip__body">Directory listings are informational and do not make a business part of Viva. Ask each business about its services, credentials, privacy practices, and fees.</p>
       </div>
       <div class="how-strip__col">
         <h3 class="how-strip__title">A video visit can't do everything</h3>
-        <p class="how-strip__body">Strength coaching, hands-on PT, a real gym. That is what makes a protocol stick. I keep a short list of who's good at each.</p>
+        <p class="how-strip__body">Physical therapy, training, and facility-based services may require in-person evaluation. A listing here is not a clinical recommendation for every patient.</p>
       </div>
       <div class="how-strip__col">
-        <h3 class="how-strip__title">It goes both ways</h3>
-        <p class="how-strip__body">Most of these folks send their clients my way for hormones, GLP-1, and recovery. We look out for each other's people.</p>
+        <h3 class="how-strip__title">Review before booking</h3>
+        <p class="how-strip__body">Descriptions summarize available information and may change. Directory last reviewed September 5, 2026; verify current details with the business.</p>
       </div>
     </div>
   </section>
@@ -132,12 +132,12 @@ const partnersSchema = {
       <header class="part-section__head">
         <span class="eyebrow">Viva Perks</span>
         <h2 class="part-section__title">
-          Brands I use, discounts you keep.
+          Optional products and discounts.
         </h2>
         <p class="perks-lead">
-          The national brands I recommend on protocols, with the codes
-          and links that get you the patient discount. Codes are entered at each
-          brand's checkout.
+          These links and codes are optional and are not a condition of care.
+          Discount terms can change. Some referral links or codes may provide a
+          benefit to Viva; confirm current terms with the vendor before purchasing.
         </p>
       </header>
 
@@ -190,12 +190,12 @@ const partnersSchema = {
         we should know about?
       </h2>
       <p class="lead">
-        I keep this list short on purpose. But if you run a clinical, training, or
-        recovery practice here in Austin and you take care of the same people I do
-        (hormones, GLP-1, performance medicine), I'd love to hear from you.
+        If you run a licensed clinical practice or an established training or
+        recovery business in Austin, you can send Viva a non-clinical note for
+        directory consideration. Do not include patient information.
       </p>
       <div class="part-cta__ctas">
-        <a href="/contact" class="btn btn--bronze">Get in touch</a>
+        <a href="/contact/" class="btn btn--bronze">Get in touch</a>
       </div>
     </div>
   </section>
@@ -264,7 +264,7 @@ const partnersSchema = {
   }
   .how-strip__num {
     font-family: var(--font-mono);
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     letter-spacing: 0.15em;
     color: var(--bronze);
   }
@@ -346,7 +346,7 @@ const partnersSchema = {
   }
   .part-card__cat {
     font-family: var(--font-mono);
-    font-size: 0.62rem;
+    font-size: 0.75rem;
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--bronze);
@@ -365,7 +365,7 @@ const partnersSchema = {
   }
   .part-card__operator {
     font-family: var(--font-mono);
-    font-size: 0.68rem;
+    font-size: 0.75rem;
     letter-spacing: 0.04em;
     color: var(--mute);
   }
@@ -389,7 +389,7 @@ const partnersSchema = {
   }
   .part-card__links li {
     font-family: var(--font-mono);
-    font-size: 0.68rem;
+    font-size: 0.75rem;
     letter-spacing: 0.06em;
     color: rgba(28, 35, 27, 0.7);
     padding-left: 0;
@@ -423,7 +423,7 @@ const partnersSchema = {
   .perk-code {
     align-self: flex-start;
     font-family: var(--font-mono);
-    font-size: 0.72rem;
+    font-size: 0.75rem;
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--bronze-bright, var(--bronze));

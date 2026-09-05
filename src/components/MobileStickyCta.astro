@@ -3,14 +3,14 @@
 // duplicate the page's primary action.
 // Strip trailing slash for matching (Astro emits both /contact and /contact/)
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
-const hideOn = ['/privacy', '/terms', '/unsubscribe'];
+const hideOn = ['/contact', '/privacy', '/terms', '/unsubscribe'];
 const hide = hideOn.includes(path);
 // On /start the bar used to link back to /start (a loop). Send the primary
 // action straight to the scheduler there instead.
 const onStart = path === '/start';
 const primaryHref = onStart
   ? 'https://vivawellnessco.glossgenius.com/services?utm_source=vivawellnessco&utm_medium=cta&utm_content=mobile_sticky_start'
-  : '/start?utm_source=vivawellnessco&utm_medium=cta&utm_content=mobile_sticky';
+  : '/start/?utm_source=vivawellnessco&utm_medium=cta&utm_content=mobile_sticky';
 ---
 
 {!hide && (
@@ -21,9 +21,9 @@ const primaryHref = onStart
       rel={onStart ? 'noopener' : undefined}
       class="msc__btn msc__btn--bronze"
     >
-      {onStart ? 'Schedule now' : 'Book a visit'}
+      {onStart ? 'Schedule now' : 'Book first visit'}
     </a>
-    <a href="/#quiz" class="msc__btn msc__btn--ghost">Take the quiz</a>
+    <a href="/services/" class="msc__btn msc__btn--ghost">Explore care</a>
   </div>
 )}
 
@@ -64,8 +64,8 @@ const primaryHref = onStart
     transition: background 220ms var(--ease), color 220ms var(--ease);
   }
   .msc__btn--bronze {
-    background: var(--terracotta);
-    color: var(--cream-bright);
+    background: var(--ochre);
+    color: var(--evergreen-deep);
     border-color: transparent;
   }
   .msc__btn--ghost {

@@ -31,17 +31,17 @@
   --sky: #e8eee7;
   --sky-deep: #d6e0d4;
   --brand-blue: #174b33;
-  --butter: #d97859;
-  --butter-bright: #e99174;
-  --butter-deep: #b94f37;
+  --butter: #f1a88d;
+  --butter-bright: #ffc2aa;
+  --butter-deep: #c85f46;
 
   --evergreen: #174b33;
   --evergreen-deep: #0c3323;
   --cream: #f8f6f0;
   --cream-bright: #fffdf8;
   --sage: #e8eee7;
-  --terracotta: #c85f46;
-  --ochre: #d97859;
+  --terracotta: #e88668;
+  --ochre: #f1a88d;
   --olive: #687654;
 
   /* Typography · UNCHANGED. Fraunces + Geist pairing and its documented
@@ -102,7 +102,7 @@ html, body {
 /* Typography scales */
 .eyebrow {
   font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-size: 0.82rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--bronze);
@@ -116,7 +116,7 @@ html, body {
 h1, .h1 {
   font-family: var(--font-display);
   font-weight: 490;
-  font-size: clamp(2.6rem, 7vw, 6rem);
+  font-size: clamp(2.6rem, 7vw, 4.8rem);
   line-height: 0.98;
   letter-spacing: -0.025em;
   font-variation-settings: 'opsz' 144, 'SOFT' 45, 'WONK' 1;
@@ -212,7 +212,7 @@ p { max-width: 62ch; }
   padding: 0.95rem 1.7rem;
   border-radius: var(--radius-pill);
   font-family: var(--font-body);
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   letter-spacing: 0.01em;
   font-weight: 500;
   color: var(--paper);
@@ -220,6 +220,7 @@ p { max-width: 62ch; }
   border: 1px solid var(--paper);
   transition: background 220ms var(--ease), color 220ms var(--ease), transform 240ms var(--ease), box-shadow 240ms var(--ease);
   position: relative;
+  min-height: 48px;
 }
 .btn:hover { background: var(--paper); color: var(--cream); }
 
@@ -278,9 +279,9 @@ p { max-width: 62ch; }
    the marquee slot on the home page. */
 
 /* Accessibility */
-:focus-visible { outline: 2px solid var(--paper); outline-offset: 3px; }
-::selection { background: var(--terracotta); color: var(--cream-bright); }
-::-moz-selection { background: var(--terracotta); color: var(--cream-bright); }
+:focus-visible { outline: 3px solid var(--focus-ring, var(--evergreen-deep)); outline-offset: 3px; }
+::selection { background: var(--terracotta); color: var(--evergreen-deep); }
+::-moz-selection { background: var(--terracotta); color: var(--evergreen-deep); }
 .sr-only {
   position: absolute;
   width: 1px; height: 1px;
@@ -326,13 +327,14 @@ main:focus { outline: none; }
 }
 .field__label {
   font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-size: 0.82rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--mute);
 }
 .field__input,
-.field__textarea {
+.field__textarea,
+.field__select {
   background: transparent;
   border: 0;
   /* --rule-form, not --rule-strong: input strokes carry meaning and must
@@ -346,13 +348,15 @@ main:focus { outline: none; }
   transition: border-color 200ms var(--ease);
 }
 .field__input:focus,
-.field__textarea:focus {
+.field__textarea:focus,
+.field__select:focus {
   outline: none;
   border-bottom-color: var(--bronze);
 }
 .field__input::placeholder,
 .field__textarea::placeholder { color: rgba(28, 35, 27, 0.65); }
 .field__textarea { resize: vertical; min-height: 120px; }
+.field__select { appearance: auto; min-height: 52px; }
 /* Subtle invalid state · only after user has typed something (not on empty fields) */
 .field__input:not(:placeholder-shown):invalid,
 .field__textarea:not(:placeholder-shown):invalid {
@@ -360,29 +364,38 @@ main:focus { outline: none; }
 }
 .field__hint {
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: 0.78rem;
   letter-spacing: 0.06em;
   color: var(--mute);
 }
+.field__error {
+  min-height: 1.2em;
+  color: #9d2f23;
+  font-size: 0.88rem;
+  line-height: 1.35;
+}
+[aria-invalid='true'] { border-bottom-color: #9d2f23 !important; }
 
 /* Powder-blue band variants for forms */
 .section--paper .field__label { color: var(--mute); }
 .section--paper .field__input,
-.section--paper .field__textarea {
+.section--paper .field__textarea,
+.section--paper .field__select {
   color: var(--paper);
   border-bottom-color: var(--rule-form);
 }
 .section--paper .field__input::placeholder,
 .section--paper .field__textarea::placeholder { color: rgba(28, 35, 27, 0.65); }
 .section--paper .field__input:focus,
-.section--paper .field__textarea:focus { border-bottom-color: var(--bronze); }
+.section--paper .field__textarea:focus,
+.section--paper .field__select:focus { border-bottom-color: var(--bronze); }
 
 /* ============================================
    EDITORIAL UTILITIES (Lights On additions)
    ============================================ */
 .caption {
   font-family: var(--font-mono);
-  font-size: 0.68rem;
+  font-size: 0.78rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--mute);
@@ -433,9 +446,9 @@ main:focus { outline: none; }
   --paper: #fffdf8;
   --paper-2: #f5f0e5;
   --paper-3: #dfd8ca;
-  --bronze: #d97859;
-  --bronze-bright: #e99174;
-  --bronze-deep: #b94f37;
+  --bronze: #f1a88d;
+  --bronze-bright: #ffc2aa;
+  --bronze-deep: #e88668;
   --sky: #174b33;
   --sky-deep: #0c3323;
   --mute: rgba(255, 253, 248, 0.7);
@@ -445,6 +458,7 @@ main:focus { outline: none; }
   background: var(--evergreen);
   color: var(--cream-bright);
   border-bottom: 6px solid var(--ochre);
+  --focus-ring: var(--ochre);
 }
 
 :is(

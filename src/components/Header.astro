@@ -1,33 +1,36 @@
 ---
 const path = Astro.url.pathname;
-const isActive = (p: string) => path === p || (p !== '/' && path.startsWith(p));
+const pathKey = path === '/' ? '/' : path.replace(/\/+$/, '');
+const isActive = (p: string) => pathKey === p || (p !== '/' && pathKey.startsWith(p));
+const onStart = pathKey === '/start';
+const bookingHref = onStart
+  ? 'https://vivawellnessco.glossgenius.com/services?utm_source=vivawellnessco&utm_medium=cta&utm_content=header_start'
+  : '/start/?utm_source=vivawellnessco&utm_medium=cta&utm_content=header_nav';
 ---
 
 <header class:list={["site-header", path === '/' && 'site-header--home']}>
   <div class="container site-header__inner">
     <a href="/" class="brand" aria-label="Viva Wellness Co. · home">
       <img
-        src={path === '/' ? '/viva-logo-paper.png' : '/viva-logo-ink.png'}
+        src={pathKey === '/' ? '/viva-logo-paper-cropped.png' : '/viva-logo-ink-cropped.png'}
         alt="Viva Wellness Co."
         class="brand__logo"
-        width="1200"
-        height="258"
+        width="1130"
+        height="212"
       />
     </a>
 
     <nav class="nav" aria-label="Primary">
-      <a href="/" class:list={["nav__link", isActive('/') && 'is-active']}>Home</a>
-      <a href="/about" class:list={["nav__link", isActive('/about') && 'is-active']}>Provider</a>
-      <a href="/services" class:list={["nav__link", isActive('/services') && 'is-active']}>Services</a>
-      <a href="/menopause" class:list={["nav__link", isActive('/menopause') && 'is-active']}>Menopause</a>
-      <a href="/menu" class:list={["nav__link", isActive('/menu') && 'is-active']}>Menu</a>
-      <a href="/partners" class:list={["nav__link", isActive('/partners') && 'is-active']}>Partners</a>
-      <a href="/blog" class:list={["nav__link", isActive('/blog') && 'is-active']}>Blog</a>
-      <a href="/contact" class:list={["nav__link", isActive('/contact') && 'is-active']}>Contact</a>
+      <a href="/" class:list={["nav__link", isActive('/') && 'is-active']} aria-current={isActive('/') ? 'page' : undefined}>Home</a>
+      <a href="/services/" class:list={["nav__link", isActive('/services') && 'is-active']} aria-current={isActive('/services') ? 'page' : undefined}>Care &amp; pricing</a>
+      <a href="/menopause/" class:list={["nav__link", isActive('/menopause') && 'is-active']} aria-current={isActive('/menopause') ? 'page' : undefined}>Menopause</a>
+      <a href="/about/" class:list={["nav__link", isActive('/about') && 'is-active']} aria-current={isActive('/about') ? 'page' : undefined}>About Liliana</a>
+      <a href="/blog/" class:list={["nav__link", isActive('/blog') && 'is-active']} aria-current={isActive('/blog') ? 'page' : undefined}>Resources</a>
+      <a href="/contact/" class:list={["nav__link", isActive('/contact') && 'is-active']} aria-current={isActive('/contact') ? 'page' : undefined}>Contact</a>
     </nav>
 
-    <a href="/start?utm_source=vivawellnessco&utm_medium=cta&utm_content=header_nav" class="btn btn--bronze nav__cta">
-      Book a visit
+    <a href={bookingHref} target={onStart ? '_blank' : undefined} rel={onStart ? 'noopener' : undefined} class="btn btn--bronze nav__cta">
+      Book your first visit
     </a>
 
     <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="site-mobile-nav">
@@ -50,7 +53,8 @@ const isActive = (p: string) => path === p || (p !== '/' && path.startsWith(p));
     left: 0;
     right: 0;
     color: var(--cream-bright);
-    background: linear-gradient(180deg, rgba(8, 34, 23, 0.48), rgba(8, 34, 23, 0));
+    background-color: var(--evergreen-deep);
+    background-image: linear-gradient(180deg, rgba(8, 34, 23, 0.42), rgba(8, 34, 23, 0));
     border-bottom-color: transparent;
     backdrop-filter: none;
   }
@@ -96,10 +100,9 @@ const isActive = (p: string) => path === p || (p !== '/' && path.startsWith(p));
     justify-content: center;
   }
   .nav__link {
-    font-family: var(--font-mono);
-    font-size: 0.72rem;
-    letter-spacing: 0.11em;
-    text-transform: uppercase;
+    font-family: var(--font-body);
+    font-size: 0.83rem;
+    letter-spacing: 0.01em;
     font-weight: 600;
     color: var(--paper);
     white-space: nowrap;
@@ -157,14 +160,14 @@ const isActive = (p: string) => path === p || (p !== '/' && path.startsWith(p));
 </style>
 
 <nav class="site-mobile-nav" id="site-mobile-nav" aria-label="Mobile" inert>
-  <a href="/">Home</a>
-  <a href="/about">Provider</a>
-  <a href="/services">Services</a>
-  <a href="/menu">Menu</a>
-  <a href="/partners">Partners</a>
-  <a href="/blog">Blog</a>
-  <a href="/contact">Contact</a>
-  <a href="/start?utm_source=vivawellnessco&utm_medium=cta&utm_content=header_mobile" class="mobile-cta">Book a visit</a>
+  <a href="/" aria-current={isActive('/') ? 'page' : undefined}>Home</a>
+  <a href="/services/" aria-current={isActive('/services') ? 'page' : undefined}>Care &amp; pricing</a>
+  <a href="/menopause/" aria-current={isActive('/menopause') ? 'page' : undefined}>Menopause</a>
+  <a href="/about/" aria-current={isActive('/about') ? 'page' : undefined}>About Liliana</a>
+  <a href="/partners/" aria-current={isActive('/partners') ? 'page' : undefined}>Partners</a>
+  <a href="/blog/" aria-current={isActive('/blog') ? 'page' : undefined}>Resources</a>
+  <a href="/contact/" aria-current={isActive('/contact') ? 'page' : undefined}>Contact</a>
+  <a href={bookingHref} target={onStart ? '_blank' : undefined} rel={onStart ? 'noopener' : undefined} class="mobile-cta">Book your first visit</a>
 </nav>
 
 <style>
@@ -196,10 +199,15 @@ const isActive = (p: string) => path === p || (p !== '/' && path.startsWith(p));
   }
   .mobile-cta {
     margin-top: 1.5rem;
-    color: var(--ochre);
-    font-family: var(--font-display-italic) !important;
-    font-style: italic;
-    text-transform: none !important;
+    color: var(--evergreen-deep);
+    background: var(--ochre);
+    border: 0 !important;
+    border-radius: var(--radius-pill);
+    font-family: var(--font-body) !important;
+    font-size: 1rem !important;
+    font-weight: 650;
+    text-align: center;
+    padding: 0.9rem 1.2rem !important;
   }
   @media (min-width: 1121px) { .site-mobile-nav { display: none; } }
 </style>

@@ -1,7 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 
-const lastUpdated = 'May 13, 2026';
+const lastUpdated = 'September 5, 2026';
 ---
 
 <Layout
@@ -29,21 +29,22 @@ const lastUpdated = 'May 13, 2026';
 
       <div class="legal-callout">
         <strong>Our standard.</strong>
-        We target Web Content Accessibility Guidelines (WCAG) 2.2 Level AA
-        across this website, the patient portal, and any documents we
-        publish.
+        Viva targets Web Content Accessibility Guidelines (WCAG) 2.2 Level AA
+        for this public website. Third-party services, including booking and
+        the patient portal, are operated by their respective vendors and may
+        have separate accessibility statements and support channels.
       </div>
 
       <h2 class="legal-h">What this means in practice</h2>
       <ul class="legal-list">
-        <li>Keyboard navigation works across every interactive element, with a visible "Skip to main content" link at the top of every page</li>
-        <li>Focus indicators are visible on links, buttons, and form fields (bronze outline)</li>
-        <li>Color contrast meets AA on body and large text</li>
-        <li>Form inputs have associated labels; required fields are announced to assistive technology</li>
-        <li>Modal-style overlays (mobile menu, quiz focus mode) remove the rest of the page from the tab order so keyboard and screen-reader users cannot reach hidden content</li>
-        <li>Motion is reduced when the operating system reports <code>prefers-reduced-motion</code></li>
-        <li>Images have alternative text where they carry meaning; decorative images are marked aria-hidden</li>
-        <li>The site is responsive from 320px viewports up to ultrawide, and zooms cleanly to 200% without horizontal scrolling</li>
+        <li>A “Skip to main content” link and visible keyboard focus styles are provided sitewide</li>
+        <li>Navigation, buttons, disclosure widgets, and forms are designed for keyboard use</li>
+        <li>Text and interactive controls are tested against WCAG contrast requirements</li>
+        <li>Form controls use visible labels, instructions, and announced error or status messages</li>
+        <li>The mobile menu manages focus while open and returns focus when closed</li>
+        <li>Nonessential motion is reduced when the operating system reports <code>prefers-reduced-motion</code></li>
+        <li>Meaningful images have text alternatives; decorative graphics are hidden from assistive technology</li>
+        <li>Layouts are tested at small screens and browser zoom to reduce horizontal scrolling and content loss</li>
       </ul>
 
       <h2 class="legal-h">Working with our team</h2>
@@ -62,9 +63,9 @@ const lastUpdated = 'May 13, 2026';
       <p>
         Found something that does not work for you? Tell us. Send the page
         URL, what you were trying to do, what got in the way, and the
-        assistive technology you use (if any). We aim to acknowledge within
-        two business days and remediate or provide an alternative within
-        thirty.
+        assistive technology you use (if any). We will acknowledge the report
+        and work to provide the requested information or a reasonable alternative
+        as promptly as practical.
       </p>
       <p>
         Email <a href="mailto:info&#64;vivawellnessco.com">info&#64;vivawellnessco.com</a>
@@ -73,10 +74,10 @@ const lastUpdated = 'May 13, 2026';
 
       <h2 class="legal-h">Ongoing work</h2>
       <p>
-        Accessibility is not a one-time project. We test with automated
-        tools and with real assistive technology, and we re-audit at every
-        major design change. If you spot a regression on a page that worked
-        before, we want to hear about it.
+        Accessibility is not a one-time project. We use automated checks,
+        keyboard testing, responsive review, and targeted manual inspection as
+        part of significant site changes. Automated testing cannot find every
+        barrier, so reports from people using the site remain important.
       </p>
 
       <h2 class="legal-h">Formal complaints</h2>
@@ -85,7 +86,7 @@ const lastUpdated = 'May 13, 2026';
         services based on disability, you may file a complaint with the
         U.S. Department of Health and Human Services, Office for Civil
         Rights, under Section 1557 of the Affordable Care Act:
-        <a href="https://www.hhs.gov/civil-rights/filing-a-complaint/" target="_blank" rel="noopener">hhs.gov/civil-rights/filing-a-complaint</a>.
+        <a href="https://www.hhs.gov/ocr/complaints/index.html" target="_blank" rel="noopener">hhs.gov/ocr/complaints</a>.
         You will not be retaliated against for filing a complaint.
       </p>
 
@@ -119,7 +120,7 @@ const lastUpdated = 'May 13, 2026';
   }
   .legal-hero__updated {
     font-family: var(--font-mono);
-    font-size: 0.72rem;
+    font-size: 0.75rem;
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--mute);
@@ -143,7 +144,7 @@ const lastUpdated = 'May 13, 2026';
   .legal-callout strong {
     display: block;
     font-family: var(--font-mono);
-    font-size: 0.72rem;
+    font-size: 0.75rem;
     letter-spacing: 0.16em;
     text-transform: uppercase;
     color: var(--bronze);

@@ -11,63 +11,63 @@ import Layout from '../layouts/Layout.astro';
    ============================================================ */
 
 const symptoms = [
-  { name: 'Hot flashes & night sweats', body: 'The classic vasomotor symptoms, and the ones HRT treats most reliably.' },
-  { name: 'Sleep that stopped working', body: 'Waking at 3 a.m., light sleep, never feeling rested no matter what you try.' },
-  { name: 'Brain fog', body: 'Losing words mid-sentence, rereading the same email, a focus that used to be automatic.' },
-  { name: 'Mood shifts', body: 'Irritability, anxiety, or a flatness that does not match your circumstances.' },
-  { name: 'Weight that stopped responding', body: 'Midsection weight gain while eating and training the same as always.' },
-  { name: 'Low libido', body: 'Desire and response change when estradiol and testosterone decline. This is hormonal, not personal.' },
-  { name: 'Irregular or heavy cycles', body: 'The hallmark of perimenopause: cycles that shorten, skip, or flood.' },
-  { name: 'Joint aches & thinning hair', body: 'Estrogen touches connective tissue, skin, and hair. Its decline shows up there too.' },
+  { name: 'Hot flashes & night sweats', body: 'Common vasomotor symptoms that can disrupt work, sleep, and daily life.' },
+  { name: 'Sleep changes', body: 'Trouble falling asleep, waking often, or feeling unrefreshed deserves a broader review of possible causes.' },
+  { name: 'Concentration changes', body: 'Word-finding or focus changes can occur during the transition, but they are not specific to menopause.' },
+  { name: 'Mood shifts', body: 'Irritability, anxiety, or low mood may overlap with hormonal change, stress, sleep, and other health factors.' },
+  { name: 'Weight or body-composition change', body: 'Midlife changes are multifactorial. Hormone therapy is not a stand-alone weight-loss treatment.' },
+  { name: 'Sexual-health concerns', body: 'Changes in desire, comfort, or response are valid reasons for a private, individualized conversation.' },
+  { name: 'Irregular or heavy cycles', body: 'Cycle changes are common in perimenopause; new, very heavy, or concerning bleeding needs appropriate evaluation.' },
+  { name: 'Joint, skin, or hair changes', body: 'These concerns can have many causes. A clinical review helps decide what belongs in the same picture.' },
 ];
 
 const steps = [
   {
     num: '01',
-    title: 'Labs first, always',
-    body: 'A full hormone and metabolic panel: estradiol, progesterone, FSH, testosterone, thyroid, and the metabolic markers that travel with midlife hormone shifts. Drawn at a lab near you, reviewed together on video.',
+    title: 'History and goals first',
+    body: 'Liliana reviews your symptoms, cycle pattern, medical and family history, current medications, and priorities. Menopause is often identified clinically; testing is ordered when it can inform a decision or monitoring plan.',
   },
   {
     num: '02',
-    title: 'A protocol built for your case',
-    body: 'Compounded estradiol and progesterone in the form that fits your life: cream, troche, or injectable. DHEA, low-dose testosterone, and thyroid support when your labs and symptoms say they belong in the plan.',
+    title: 'Options explained in context',
+    body: 'You review potential benefits, limitations, routes, and alternatives. FDA-approved products are considered when available; a compounded preparation is discussed only for an identified patient-specific need and is clearly labeled as not FDA-approved.',
   },
   {
     num: '03',
-    title: 'Titration at your pace',
-    body: 'We start conservative and adjust from how you feel, with direct message access to me between visits. No phone tree, no waiting for the next annual physical.',
+    title: 'A shared decision',
+    body: 'No page, symptom list, or lab value guarantees treatment. If care is appropriate and you choose to proceed, the plan is documented and clinical messages move through the secure patient portal.',
   },
   {
     num: '04',
-    title: 'Labs twice a year, forever adjustable',
-    body: 'Biannual labs confirm the protocol is doing what we intended. Doses move when your body does.',
+    title: 'Follow-up matched to the plan',
+    body: 'Follow-up considers symptom response, side effects, changing risks, preventive care, and any monitoring appropriate to the medication. Treatment can be adjusted or stopped when the balance changes.',
   },
 ];
 
 const faqs = [
   {
     q: 'What is the difference between perimenopause and menopause?',
-    a: 'Perimenopause is the transition, often starting in the late 30s or 40s, when estrogen and progesterone begin to swing and symptoms first appear. Menopause is the point of twelve consecutive months without a period. Symptoms can be treated in both phases; you do not have to wait until your cycles stop to get help.',
+    a: 'Perimenopause is the transition leading up to menopause and can involve cycle and symptom changes. Menopause is identified after twelve consecutive months without a menstrual period when another cause does not explain it. You can ask for an evaluation before periods stop; the right evaluation and options depend on your history.',
   },
   {
     q: 'Can I get perimenopause or menopause treatment online?',
-    a: 'Yes. Viva Wellness Co. is a fully telehealth practice licensed in Texas, Colorado, Florida, and Iowa. Visits happen by secure video, labs are drawn at a location near you, and compounded medication ships from the pharmacy to your door.',
+    a: 'Viva provides telehealth visits to adults who are physically located in Texas, Colorado, Florida, or Iowa at the time of care. Whether labs, an in-person exam, a retail prescription, or pharmacy delivery is part of the next step depends on the individual evaluation and applicable requirements.',
   },
   {
-    q: 'Do I need labs before starting HRT?',
-    a: 'Yes. I order a baseline hormone and metabolic panel before prescribing, and I treat the combination of your labs and your symptoms rather than a number in isolation. Follow-up labs run twice a year on every hormone membership.',
+    q: 'Do I need labs before starting hormone therapy?',
+    a: 'Not every menopause decision depends on a hormone panel. Liliana first reviews symptoms, cycle history, health history, medications, and preventive-care needs, then orders testing when it can answer a relevant question or support safe monitoring. The exact requirements can vary by treatment.',
   },
   {
     q: 'Is hormone replacement therapy safe?',
-    a: 'For most healthy women who start within about ten years of menopause, current evidence supports HRT as safe and effective for symptom relief, and the benefits generally outweigh the risks. It is not right for everyone; personal and family history of breast cancer, blood clots, and cardiovascular disease all factor into the decision. That is exactly what the first visit is for.',
+    a: 'Menopausal hormone therapy can be effective for certain symptoms, but there is no single safety answer for everyone. Age, time since menopause, symptom burden, medical and family history, route, dose, and personal preferences affect the benefit-risk discussion. Some people should use a nonhormonal option or obtain additional evaluation. The first visit is for that individualized review.',
   },
   {
     q: 'What hormones do you actually prescribe?',
-    a: 'Compounded estradiol and progesterone are the core of most protocols, with DHEA, low-dose testosterone, and thyroid support added when clinically indicated. Compounded medications are patient-specific preparations from FDA-regulated 503A pharmacies. They are not FDA-approved finished products, and each is prescribed individually after my clinical evaluation.',
+    a: 'There is no standard Viva hormone formula. After evaluation, Liliana may discuss FDA-approved hormonal or nonhormonal options and, when a documented patient-specific need cannot be met by an available FDA-approved drug, a compounded preparation. Compounded drugs are not FDA-approved, and FDA does not review their safety, effectiveness, or quality before dispensing.',
   },
   {
     q: 'Can HRT help with midlife weight gain?',
-    a: 'Hormone decline is one driver of midlife weight change, and treating it often improves sleep, energy, and body composition. When weight is the primary goal, HRT can also pair with a provider-managed metabolic protocol. No outcome is guaranteed; we measure and adjust instead of promising.',
+    a: 'Hormone therapy is not prescribed as a stand-alone weight-loss treatment. Midlife weight change can involve sleep, activity, nutrition, medications, health conditions, and body-composition changes. If weight is a primary concern, it should receive its own evaluation rather than being attributed to hormones automatically.',
   },
   {
     q: 'What does menopause care cost at Viva?',
@@ -90,7 +90,7 @@ const faqSchema = {
       '@type': 'BreadcrumbList',
       itemListElement: [
         { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://vivawellnessco.com/' },
-        { '@type': 'ListItem', position: 2, name: 'Menopause Care', item: 'https://vivawellnessco.com/menopause' },
+        { '@type': 'ListItem', position: 2, name: 'Menopause Care', item: 'https://vivawellnessco.com/menopause/' },
       ],
     },
   ],
@@ -98,8 +98,8 @@ const faqSchema = {
 ---
 
 <Layout
-  title="Perimenopause & Menopause Treatment Online · HRT Telehealth | Viva Wellness Co."
-  description="Provider-led perimenopause and menopause care by telehealth in Texas, Colorado, Florida, and Iowa. Labs-first HRT with compounded estradiol and progesterone, managed by Liliana Damron, APRN, FNP-BC. Memberships from $99/mo."
+  title="Online Menopause Care in TX, CO, FL & IA | Viva"
+  description="Telehealth evaluation for perimenopause and menopause symptoms with Liliana Damron, APRN, FNP-BC. Available to adults in Texas, Colorado, Florida, and Iowa."
   schema={faqSchema}
 >
 
@@ -112,15 +112,14 @@ const faqSchema = {
         <span class="italic-display">Your care should too.</span>
       </h1>
       <p class="lead">
-        Perimenopause and menopause are not something to white-knuckle through.
-        I'm Liliana Damron, a board-certified nurse practitioner, and treating
-        the women everyone else told "your labs are normal" is a core part of my
-        practice. Labs first, then a protocol built for your case, adjusted as
-        your body responds.
+        Perimenopause and menopause symptoms can collide with work, parenting,
+        sleep, and the rest of an already full life. I'm Liliana Damron, a
+        board-certified nurse practitioner. I start with your history and goals,
+        explain reasonable options, and stay involved when ongoing care is appropriate.
       </p>
       <div class="meno-hero__ctas">
-        <a href="/start?utm_source=vivawellnessco&utm_medium=cta&utm_content=menopause_page" class="btn btn--bronze">Book your first visit</a>
-        <a href="/#quiz" class="btn meno-hero__btn-quiet">Take the quiz</a>
+        <a href="/start/?utm_source=vivawellnessco&utm_medium=cta&utm_content=menopause_page" class="btn btn--bronze">Book your first visit</a>
+        <a href="/#quiz" class="btn meno-hero__btn-quiet">Use the care-path guide</a>
       </div>
     </div>
   </section>
@@ -131,7 +130,7 @@ const faqSchema = {
       <header class="meno-head">
         <span class="eyebrow">Sound familiar?</span>
         <h2 class="meno-head__title">
-          The symptoms are real, and they're hormonal.
+          Symptoms worth evaluating, not self-diagnosing.
         </h2>
       </header>
       <ul class="meno-grid">
@@ -151,7 +150,7 @@ const faqSchema = {
       <header class="meno-head">
         <span class="eyebrow">The approach</span>
         <h2 class="meno-head__title">
-          How I treat perimenopause and menopause.
+          How a menopause evaluation works.
         </h2>
       </header>
       <ol class="meno-steps__list">
@@ -186,7 +185,7 @@ const faqSchema = {
         </h2>
       </header>
       <div class="meno-tiers__row">
-        <a href="/services#viva-concierge-access" class="meno-tier">
+        <a href="/services/#viva-concierge-access" class="meno-tier">
           <span class="meno-tier__tag">Management membership</span>
           <h3 class="meno-tier__name">Viva Concierge Access</h3>
           <p class="meno-tier__price"><strong>$99</strong>/mo</p>
@@ -196,7 +195,7 @@ const faqSchema = {
           </p>
           <span class="meno-tier__cta">See what's included →</span>
         </a>
-        <a href="/menu#hormone" class="meno-tier">
+        <a href="/services/#viva-concierge-access" class="meno-tier">
           <span class="meno-tier__tag">Medication add-ons</span>
           <h3 class="meno-tier__name">Compounded HRT medication</h3>
           <p class="meno-tier__price"><strong>Added separately</strong></p>
@@ -211,6 +210,22 @@ const faqSchema = {
         First visit is $199, one time, separate from any membership. You decide
         about enrolling after the visit, on your own time.
       </p>
+    </div>
+  </section>
+
+  {/* SOURCES */}
+  <section class="meno-sources" aria-labelledby="meno-sources-title">
+    <div class="container meno-sources__inner">
+      <div>
+        <span class="eyebrow">Evidence and medication context</span>
+        <h2 class="meno-head__title" id="meno-sources-title">Read the source, not just the claim.</h2>
+      </div>
+      <ul>
+        <li><a href="https://www.fda.gov/consumers/womens-health-topics/menopause" target="_blank" rel="noopener">FDA menopause overview</a></li>
+        <li><a href="https://menopause.org/patient-education/menopause-topics/hormone-therapy" target="_blank" rel="noopener">The Menopause Society on hormone therapy</a></li>
+        <li><a href="https://www.fda.gov/drugs/human-drug-compounding/compounding-and-fda-questions-and-answers" target="_blank" rel="noopener">FDA questions and answers on compounding</a></li>
+      </ul>
+      <p>This page is general education. It does not diagnose a symptom, establish eligibility, or recommend a medication.</p>
     </div>
   </section>
 
@@ -242,12 +257,12 @@ const faqSchema = {
         You don't have to push through it.
       </h2>
       <p class="lead">
-        Five questions, and I'll point you at the tier that fits. Or skip the
-        quiz and book the first visit directly.
+        Three anonymous questions can help you compare Viva's published care
+        paths. They do not assess eligibility. You can also book the first visit directly.
       </p>
       <div class="meno-cta__ctas">
-        <a href="/start?utm_source=vivawellnessco&utm_medium=cta&utm_content=menopause_cta" class="btn btn--bronze">Book your first visit</a>
-        <a href="/#quiz" class="btn meno-hero__btn-quiet">Take the quiz</a>
+        <a href="/start/?utm_source=vivawellnessco&utm_medium=cta&utm_content=menopause_cta" class="btn btn--bronze">Book your first visit</a>
+        <a href="/#quiz" class="btn meno-hero__btn-quiet">Use the care-path guide</a>
       </div>
     </div>
   </section>
@@ -412,7 +427,7 @@ const faqSchema = {
   .meno-tier:hover { background: var(--ink-2); border-color: var(--butter-deep); }
   .meno-tier__tag {
     font-family: var(--font-mono);
-    font-size: 0.66rem;
+    font-size: 0.75rem;
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--bronze);
@@ -439,7 +454,7 @@ const faqSchema = {
   }
   .meno-tier__cta {
     font-family: var(--font-mono);
-    font-size: 0.72rem;
+    font-size: 0.75rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--bronze);
@@ -451,6 +466,16 @@ const faqSchema = {
     font-size: 0.88rem;
     max-width: 60ch;
   }
+
+  .meno-sources {
+    padding: clamp(3rem, 7vw, 5rem) 0;
+    border-top: 1px solid var(--rule);
+    background: var(--sky);
+  }
+  .meno-sources__inner { display: grid; gap: 1.2rem; max-width: 900px; }
+  .meno-sources__inner ul { display: grid; gap: 0.7rem; padding-left: 1.2rem; }
+  .meno-sources__inner a { color: var(--paper); text-decoration: underline; text-underline-offset: 0.22em; }
+  .meno-sources__inner p { color: var(--paper-2); max-width: 68ch; }
 
   /* FAQ */
   .meno-faq { padding: clamp(3rem, 7vw, 5rem) 0; border-top: 1px solid var(--rule); }

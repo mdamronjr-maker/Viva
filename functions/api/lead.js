@@ -1,9 +1,9 @@
 /**
  * /api/lead · Cloudflare Pages Function
  *
- * Handles lead submissions from /contact and /quiz.
+ * Handles non-clinical contact submissions from /contact.
  * Sends:
- *   1. eBook delivery email to the lead (with download link)
+ *   1. Transactional confirmation, plus an email-preference confirmation when opted in
  *   2. Notification email to Viva (info@vivawellnessco.com) with form data
  *   3. Adds contact to Resend Audience (if RESEND_AUDIENCE_ID is set)
  *
@@ -14,7 +14,7 @@
  *                            The from-domain must be verified in Resend.
  *   RESEND_NOTIFY_EMAIL    · required. Where lead notifications go. Default: info@vivawellnessco.com
  *   RESEND_AUDIENCE_ID     · optional. Audience UUID for newsletter list. Skipped if absent.
- *   SITE_ORIGIN            · optional. Used to build the eBook download link.
+ *   SITE_ORIGIN            · optional. Used to build the education-hub link.
  *                            Default: https://vivawellnessco.com
  *   UNSUB_SECRET           · optional. HMAC secret for one-click unsubscribe
  *                            links. Without it the drip falls back to a
@@ -48,6 +48,14 @@ const json = (body, init = {}) =>
   });
 
 const isEmail = (s) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(s || ''));
+
+const CONTACT_TOPICS = new Set([
+  'Scheduling or first-visit question',
+  'Pricing or membership question',
+  'Partnership or media question',
+  'Website or email question',
+  'Other non-clinical question',
+]);
 
 const esc = (s) =>
   String(s || '')
@@ -99,12 +107,26 @@ async function verifyTurnstile(secret, token, ip) {
 export async function onRequestPost(context) {
   const { request, env } = context;
 
-  // Parse body
+  // Parse JSON enhanced submissions and ordinary HTML form submissions.
+  // The latter keeps contact details out of query strings when JavaScript is
+  // unavailable and provides a safe progressive-enhancement fallback.
   let payload;
+  let isNativeForm = false;
   try {
-    payload = await request.json();
+    const contentType = request.headers.get('content-type') || '';
+    if (contentType.includes('application/json')) {
+      payload = await request.json();
+    } else if (contentType.includes('application/x-www-form-urlencoded') || contentType.includes('multipart/form-data')) {
+      isNativeForm = true;
+      const data = await request.formData();
+      payload = Object.fromEntries(data.entries());
+      payload.marketingConsent = data.get('marketing_consent') === 'yes';
+      payload.turnstileToken = String(data.get('cf-turnstile-response') || '');
+    } else {
+      return json({ ok: false, error: 'Unsupported form format.' }, { status: 415 });
+    }
   } catch {
-    return json({ ok: false, error: 'Invalid JSON body.' }, { status: 400 });
+    return json({ ok: false, error: 'Invalid form submission.' }, { status: 400 });
   }
 
   const {
@@ -114,13 +136,23 @@ export async function onRequestPost(context) {
     phone = '',
     message = '',
     company = '',   // honeypot
-    quiz = null,
-    match = null,
     utm = null,
-    referrer = '',
-    referee = null,        // for source=refer: { name, email }
-    referrer_page = '',    // /refer form sends this in place of referrer for the page-referrer
+    marketingConsent = false,
   } = payload || {};
+
+  // Only the public non-clinical contact form is supported. The previous
+  // referral experiment accepted a third party's identity and an open note
+  // before its terms were approved; that route is retired and the endpoint
+  // fails closed for old or crafted source values.
+  if (source !== 'contact') {
+    return json({ ok: false, error: 'Unsupported form source.' }, { status: 400 });
+  }
+
+  // The public care-path guide is intentionally anonymous. Reject legacy or
+  // crafted payloads that try to combine identity with quiz answers or a match.
+  if (payload?.quiz || payload?.match) {
+    return json({ ok: false, error: 'The care-path guide does not collect or submit answers.' }, { status: 400 });
+  }
 
   // Honeypot: if filled, silently succeed without sending.
   if (company && String(company).trim().length > 0) {
@@ -158,7 +190,7 @@ export async function onRequestPost(context) {
   // content gets rejected at the edge before it reaches Resend (NOT
   // BAA-eligible). These caps mirror the contact form's max-length attrs.
   const MAX_NAME_LEN = 200;
-  const MAX_MSG_LEN = 5000;
+  const MAX_EMAIL_LEN = 254;
   const MAX_PHONE_LEN = 40;
 
   if (!name || !String(name).trim()) {
@@ -167,28 +199,16 @@ export async function onRequestPost(context) {
   if (String(name).length > MAX_NAME_LEN) {
     return json({ ok: false, error: 'Name too long.' }, { status: 400 });
   }
-  if (!isEmail(email)) {
+  if (!isEmail(email) || String(email).length > MAX_EMAIL_LEN) {
     return json({ ok: false, error: 'A valid email is required.' }, { status: 400 });
   }
   if (phone && String(phone).length > MAX_PHONE_LEN) {
     return json({ ok: false, error: 'Phone field too long.' }, { status: 400 });
   }
-  if (message && String(message).length > MAX_MSG_LEN) {
-    return json({ ok: false, error: 'Message too long. Please email info@vivawellnessco.com.' }, { status: 400 });
+  if (!CONTACT_TOPICS.has(String(message))) {
+    return json({ ok: false, error: 'Choose one of the non-clinical contact topics.' }, { status: 400 });
   }
 
-  // Referrals · validate referee data
-  if (source === 'refer') {
-    if (!referee || !referee.email || !isEmail(referee.email)) {
-      return json({ ok: false, error: 'Referee email is required.' }, { status: 400 });
-    }
-    if (!referee.name || !String(referee.name).trim()) {
-      return json({ ok: false, error: 'Referee name is required.' }, { status: 400 });
-    }
-    if (String(referee.name).length > MAX_NAME_LEN) {
-      return json({ ok: false, error: 'Referee name too long.' }, { status: 400 });
-    }
-  }
 
   // Env
   const apiKey = env.RESEND_API_KEY;
@@ -202,88 +222,62 @@ export async function onRequestPost(context) {
   // Where the Day 14 nurture CTA points. Falls back to /start (intake page)
   // when no Calendly/booking URL is configured. Same pattern as the page
   // constants in src/pages/start.astro and src/pages/contact.astro.
-  const discoveryUrl = env.DISCOVERY_CALL_URL || `${origin}/start`;
-  // Federal CAN-SPAM Act requires a "valid physical postal address" in every
-  // commercial email · $51,744 max civil penalty per violation. Set
-  // CAN_SPAM_ADDRESS env var in Cloudflare Pages dashboard to the real
-  // registered business mailing address (street or PO Box, city, state, zip).
-  // The placeholder fallback is intentionally obvious so unset deployments
-  // self-flag rather than silently shipping non-compliant emails.
+  const discoveryUrl = env.DISCOVERY_CALL_URL || `${origin}/start/`;
+  // Commercial emails include a valid physical postal address. The fallback
+  // matches the address already published on the site's legal pages; the env
+  // value can override it if Viva's registered mailing address changes.
   const canSpamAddress =
     env.CAN_SPAM_ADDRESS ||
-    '[postal address not configured · set CAN_SPAM_ADDRESS env var]';
-  // Per-vertical lead magnet: the quiz match can specify its own ebookPath
-  // (see src/lib/quiz.ts). Defaults to the generic eBook. Path is validated
-  // to start with a single leading slash to prevent open-redirect abuse.
-  const requestedEbook = match && typeof match.ebookPath === 'string' ? match.ebookPath : '';
-  const safeEbookPath = /^\/[A-Za-z0-9_\-./]+\.pdf$/.test(requestedEbook)
-    ? requestedEbook
-    : '/viva-ebook.pdf';
-  const ebookUrl = `${origin}${safeEbookPath}`;
+    '5900 Balcones Dr #19640, Austin, TX 78731';
+  const educationUrl = `${origin}/blog/`;
 
   const cleanName = String(name).trim();
   const cleanEmail = String(email).trim().toLowerCase();
   const cleanPhone = String(phone || '').trim();
   const cleanMsg = String(message || '').trim();
+  const wantsMarketing = marketingConsent === true || marketingConsent === 'yes';
+  const cleanUtm = {};
+  if (utm && typeof utm === 'object') {
+    for (const key of ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content']) {
+      const value = typeof utm[key] === 'string' ? utm[key].trim().slice(0, 120) : '';
+      if (value) cleanUtm[key] = value;
+    }
+  }
 
   // --- Build emails ---
-  // Referral submissions are a different shape: the lead-side email goes to
-  // the referrer (confirmation), the notify email captures both names, and
-  // we skip the eBook attachment (it goes to the referee instead, see below).
-  const isReferral = source === 'refer' && referee && referee.email;
-  const cleanReferee = isReferral
-    ? {
-        name: String(referee.name || '').trim(),
-        email: String(referee.email || '').trim().toLowerCase(),
-      }
-    : null;
-
-  const leadEmail = isReferral
-    ? buildReferrerConfirmEmail({ referrerName: cleanName, referee: cleanReferee, canSpamAddress })
-    : buildLeadEmail({ name: cleanName, ebookUrl, canSpamAddress });
+  const leadEmail = wantsMarketing
+      ? buildLeadEmail({ name: cleanName, educationUrl, canSpamAddress })
+      : buildContactConfirmEmail({ name: cleanName, canSpamAddress });
   const notifyEmailBody = buildNotifyEmail({
     source,
     name: cleanName,
     email: cleanEmail,
     phone: cleanPhone,
     message: cleanMsg,
-    quiz,
-    match,
-    utm,
-    referrer: String(referrer || referrer_page || '').trim(),
-    referee: cleanReferee,
+    utm: cleanUtm,
   });
 
   // Subject suffix from UTM content/source for fast triage in the inbox
   const utmTag =
-    utm && (utm.utm_content || utm.utm_source)
-      ? ` [${utm.utm_content || utm.utm_source}]`
+    cleanUtm.utm_content || cleanUtm.utm_source
+      ? ` [${String(cleanUtm.utm_content || cleanUtm.utm_source).replace(/[\r\n\0]/g, '').slice(0, 80)}]`
       : '';
 
-  const notifySubject = isReferral
-    ? `New referral from ${cleanName}: ${cleanReferee.name}${utmTag}`
-    : `New ${source === 'quiz' ? 'quiz match' : 'contact lead'}: ${cleanName}${utmTag}`;
+  const notifySubject = `New contact request: ${cleanName}${utmTag}`;
 
-  // Quiz match notifications also go to Jorge directly, alongside the standard
-  // notify inbox (info@). Other lead sources (contact, refer) notify info@ only.
-  const notifyTo =
-    source === 'quiz'
-      ? [notifyEmail, 'jorge@vivawellnessco.com']
-      : [notifyEmail];
+  const notifyTo = [notifyEmail];
 
   // --- Send emails in parallel ---
-  // For non-referrals: eBook + notify.
-  // For referrals: confirmation to referrer + notify. Outreach to referee is
-  // intentionally provider-initiated (Liliana writes the intro personally,
-  // not an automated email) so we don't email them from here.
+  // Send a transactional confirmation (or the opted-in email confirmation)
+  // plus the internal non-clinical notification.
   const results = await Promise.allSettled([
     sendEmail(apiKey, {
       from: fromEmail,
       to: [cleanEmail],
       bcc: [notifyEmail],
-      subject: isReferral
-        ? 'Thanks for the referral'
-        : 'Your Viva Wellness eBook is here',
+      subject: wantsMarketing
+          ? 'Your Viva email preference is confirmed'
+          : 'Viva received your contact request',
       html: leadEmail.html,
       text: leadEmail.text,
       reply_to: notifyEmail,
@@ -305,7 +299,7 @@ export async function onRequestPost(context) {
     await logEmailEvent(env, {
       to: cleanEmail,
       status: 'send_failed',
-      kind: isReferral ? 'referrer-confirm' : 'lead',
+      kind: 'lead',
     });
     return json(
       { ok: false, error: 'Email send failed. Please email info@vivawellnessco.com directly.' },
@@ -319,7 +313,7 @@ export async function onRequestPost(context) {
       id: leadResult.value && leadResult.value.id,
       to: cleanEmail,
       status: 'sent',
-      kind: isReferral ? 'referrer-confirm' : 'lead',
+      kind: 'lead',
     }),
     logEmailEvent(env, {
       id: results[1].status === 'fulfilled' && results[1].value ? results[1].value.id : null,
@@ -331,12 +325,12 @@ export async function onRequestPost(context) {
 
   // Has this lead previously unsubscribed / been flagged for spam or bounce?
   // If so we honor that: no drip, and the Audience add is marked unsubscribed.
-  // (The Day 0 email above still went · it's the transactional eBook they just
-  // asked for, not marketing.)
+  // (The Day 0 confirmation above still went because it records the request
+  // they just made; no follow-up sequence is sent.)
   const suppressed = await isSuppressed(env, cleanEmail);
 
   // --- Add to Audience (best-effort, non-blocking failure) ---
-  if (audienceId) {
+  if (audienceId && wantsMarketing) {
     try {
       const [firstName, ...rest] = cleanName.split(/\s+/);
       const lastName = rest.join(' ');
@@ -361,12 +355,10 @@ export async function onRequestPost(context) {
   // --- Schedule nurture sequence (best-effort) ---
   // Resend `scheduled_at` holds the email server-side until the target time
   // (supports up to 30 days). All four sends fire at 8 AM America/Chicago.
-  // Day 1 (thank-you + discovery-call offer) and Day 3 are match-tailored;
-  // Days 7 and 14 are match-agnostic. Referrals are skipped: the referee gets
-  // a personal intro from Liliana instead of an automated drip, and the
-  // referrer already has the confirmation in hand. Suppressed leads are
-  // skipped entirely.
-  if (!isReferral && !suppressed) {
+  // The educational sequence is sent only after explicit opt-in and never
+  // incorporates contact-topic or health-intent data. Suppressed contacts
+  // are skipped entirely.
+  if (wantsMarketing && !suppressed) {
     // One-click unsubscribe link (RFC 8058). Null when UNSUB_SECRET is unset,
     // in which case the drip falls back to a mailto/reply-"stop" unsubscribe.
     const unsubscribeUrl = await makeUnsubscribeUrl(origin, env.UNSUB_SECRET, cleanEmail);
@@ -375,7 +367,6 @@ export async function onRequestPost(context) {
       from: fromEmail,
       to: cleanEmail,
       name: cleanName,
-      match,
       notifyEmail,
       discoveryUrl,
       unsubscribeUrl,
@@ -383,6 +374,9 @@ export async function onRequestPost(context) {
     });
   }
 
+  if (isNativeForm) {
+    return Response.redirect(new URL('/contact/?sent=1', request.url), 303);
+  }
   return json({ ok: true });
 }
 
@@ -421,19 +415,21 @@ async function sendEmail(apiKey, body) {
 }
 
 // --- Email body builders ---
-function buildLeadEmail({ name, ebookUrl, canSpamAddress }) {
+function buildLeadEmail({ name, educationUrl, canSpamAddress }) {
   const first = (name || '').split(/\s+/)[0] || 'there';
   const text = [
     `Hi ${first},`,
     ``,
     `Thanks for reaching out to Viva Wellness Co.`,
     ``,
-    `Your copy of the Precision Hormone & Peptide Therapy eBook is ready:`,
-    ebookUrl,
+    `Your optional email preference is confirmed.`,
     ``,
-    `Liliana will send a short note tomorrow morning with an easy way to talk`,
-    `things through if you would like. No pressure either way · the eBook is`,
-    `yours to keep.`,
+    `Viva will send occasional practice updates and new educational articles.`,
+    `You can browse the current education hub here:`,
+    educationUrl,
+    ``,
+    `This email list is not a clinical channel. Current patients should use`,
+    `the secure patient portal for symptoms, labs, diagnoses, or medications.`,
     ``,
     `Talk soon,`,
     `Liliana Damron, APRN, FNP-BC`,
@@ -453,40 +449,39 @@ function buildLeadEmail({ name, ebookUrl, canSpamAddress }) {
             Viva Wellness Co.
           </div>
           <div style="font-family:Arial,sans-serif;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:#c9783a;margin-top:6px;">
-            Peptides &nbsp;·&nbsp; Hormone Optimization &nbsp;·&nbsp; Weight Loss
+            Provider-led telehealth &nbsp;·&nbsp; Clear education
           </div>
         </td></tr>
 
         <tr><td style="padding:36px 32px 8px 32px;">
           <h1 style="font-family:Georgia,serif;font-weight:400;font-size:32px;line-height:1.15;letter-spacing:-0.01em;color:#0c0a09;margin:0 0 12px 0;">
-            Hi ${esc(first)}, your eBook is ready.
+            Hi ${esc(first)}, you are opted in.
           </h1>
           <p style="font-size:16px;line-height:1.6;color:#2a2420;margin:0 0 20px 0;">
-            Thanks for reaching out to Viva Wellness Co. The Precision Hormone &amp;
-            Peptide Therapy guide is below. It is plain-language, honest, and built
-            to make your consult faster.
+            Your optional email preference is confirmed. Viva will send occasional
+            practice updates and new educational articles. You can unsubscribe at any time.
           </p>
         </td></tr>
 
         <tr><td style="padding:8px 32px 28px 32px;">
           <table role="presentation" cellpadding="0" cellspacing="0">
             <tr><td style="background:#c9783a;border-radius:2px;">
-              <a href="${esc(ebookUrl)}"
+              <a href="${esc(educationUrl)}"
                  style="display:inline-block;padding:14px 26px;font-family:Arial,sans-serif;font-size:13px;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:#0c0a09;text-decoration:none;">
-                Download the eBook &nbsp;→
+                Browse patient education &nbsp;→
               </a>
             </td></tr>
           </table>
           <p style="font-size:13px;color:#8a7d72;margin:14px 0 0 0;">
-            Or copy and paste: <a href="${esc(ebookUrl)}" style="color:#8a4d22;">${esc(ebookUrl)}</a>
+            Or copy and paste: <a href="${esc(educationUrl)}" style="color:#8a4d22;">${esc(educationUrl)}</a>
           </p>
         </td></tr>
 
         <tr><td style="padding:0 32px 28px 32px;border-top:1px solid #ebe5db;padding-top:24px;">
           <p style="font-size:15px;line-height:1.6;color:#2a2420;margin:0 0 12px 0;">
-            Liliana will send a short note tomorrow morning with an easy way to
-            talk things through if you would like. No pressure either way · the
-            eBook is yours to keep.
+            This email list is not a clinical channel. Please do not reply with
+            symptoms, lab results, diagnoses, or medication details. Current
+            patients should use the secure patient portal.
           </p>
           <p style="font-size:15px;line-height:1.6;color:#2a2420;margin:18px 0 4px 0;">Talk soon,</p>
           <p style="font-family:Georgia,serif;font-style:italic;font-size:18px;color:#0c0a09;margin:0 0 2px 0;">Liliana Damron, APRN, FNP-BC</p>
@@ -512,66 +507,33 @@ function buildLeadEmail({ name, ebookUrl, canSpamAddress }) {
   return { html, text };
 }
 
-function buildReferrerConfirmEmail({ referrerName, referee, canSpamAddress }) {
-  const first = (referrerName || '').split(/\s+/)[0] || 'there';
-  const refereeName = (referee && referee.name) || 'your friend';
+function buildContactConfirmEmail({ name, canSpamAddress }) {
+  const first = (name || '').split(/\s+/)[0] || 'there';
   const text = [
     `Hi ${first},`,
     ``,
-    `Thanks for the introduction to ${refereeName}.`,
+    `Viva Wellness Co. received your non-clinical contact request.`,
+    `A member of the practice will follow up about scheduling, pricing, partnerships, or your other selected topic.`,
     ``,
-    `Here is what happens next:`,
-    `  1. Liliana reaches out to ${refereeName} personally with the eBook and a quick intro.`,
-    `  2. If they enroll in any Viva membership tier, I credit your account automatically.`,
-    `  3. You get an email when that happens so you know to expect it on your next invoice.`,
+    `Please do not reply with symptoms, lab results, diagnoses, or medication details. Clinical communication belongs in the secure patient portal.`,
     ``,
-    `There is no cap on referrals. Credits do not expire.`,
-    ``,
-    `Talk soon,`,
-    `Liliana Damron, APRN, FNP-BC`,
-    `Founder, Viva Wellness Co.`,
-    `vivawellnessco.com · (737) 210-7283`,
+    `Viva Wellness Co.`,
+    `(737) 210-7283 · vivawellnessco.com`,
+    canSpamAddress,
   ].join('\n');
 
   const html = `
 <!doctype html>
 <html>
-<body style="margin:0;padding:0;background:#f5f1ea;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;color:#0c0a09;">
-  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f5f1ea;padding:32px 16px;">
+<body style="margin:0;padding:0;background:#f8f6f0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;color:#14251b;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="padding:32px 16px;">
     <tr><td align="center">
-      <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;background:#ffffff;border-radius:4px;overflow:hidden;">
-        <tr><td style="background:#0c0a09;padding:28px 32px;">
-          <div style="font-family:Georgia,serif;font-size:24px;color:#f5f1ea;letter-spacing:0.01em;">Viva Wellness Co.</div>
-          <div style="font-family:Arial,sans-serif;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:#c9783a;margin-top:6px;">
-            Member Referral &nbsp;·&nbsp; Confirmation
-          </div>
-        </td></tr>
-        <tr><td style="padding:36px 32px 8px 32px;">
-          <h1 style="font-family:Georgia,serif;font-weight:400;font-size:28px;line-height:1.2;letter-spacing:-0.01em;color:#0c0a09;margin:0 0 12px 0;">
-            Thanks for the intro, ${esc(first)}.
-          </h1>
-          <p style="font-size:16px;line-height:1.6;color:#2a2420;margin:0 0 16px 0;">
-            I received your referral for <strong>${esc(refereeName)}</strong>. Here is what happens next.
-          </p>
-        </td></tr>
-        <tr><td style="padding:0 32px 24px 32px;">
-          <ol style="font-size:15px;line-height:1.6;color:#2a2420;padding-left:18px;margin:0;">
-            <li style="margin-bottom:10px;">Liliana reaches out to ${esc(refereeName)} personally with the eBook and a brief introduction.</li>
-            <li style="margin-bottom:10px;">If they enroll in any Viva membership tier, I credit your account automatically.</li>
-            <li>You get an email confirmation when the credit lands on your next invoice.</li>
-          </ol>
-          <p style="font-size:14px;color:#8a7d72;margin:20px 0 0 0;">No cap on referrals. Credits do not expire.</p>
-        </td></tr>
-        <tr><td style="padding:0 32px 28px 32px;border-top:1px solid #ebe5db;padding-top:24px;">
-          <p style="font-size:15px;line-height:1.6;color:#2a2420;margin:18px 0 4px 0;">Thanks again,</p>
-          <p style="font-family:Georgia,serif;font-style:italic;font-size:18px;color:#0c0a09;margin:0 0 2px 0;">Liliana Damron, APRN, FNP-BC</p>
-          <p style="font-size:13px;color:#8a7d72;margin:0;">Founder &amp; Provider, Viva Wellness Co.</p>
-        </td></tr>
-        <tr><td style="background:#f5f1ea;padding:20px 32px;font-size:11px;color:#8a7d72;line-height:1.6;border-top:1px solid #ebe5db;">
-          <strong>Viva Wellness Co.</strong> &nbsp;·&nbsp; 100% Telehealth &nbsp;·&nbsp; TX, CO, FL, IA<br/>
-          ${esc(canSpamAddress)}<br/>
-          <a href="https://vivawellnessco.com" style="color:#8a4d22;text-decoration:none;">vivawellnessco.com</a> &nbsp;·&nbsp;
-          <a href="tel:+17372107283" style="color:#8a4d22;text-decoration:none;">(737) 210-7283</a>
+      <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;background:#fffdf8;border-top:6px solid #f1a88d;padding:32px;">
+        <tr><td>
+          <h1 style="font-family:Georgia,serif;font-weight:400;font-size:30px;line-height:1.2;margin:0 0 16px;">We received your request.</h1>
+          <p style="font-size:16px;line-height:1.65;margin:0 0 16px;">Hi ${esc(first)}, a member of Viva Wellness Co. will follow up about the non-clinical topic you selected.</p>
+          <p style="font-size:15px;line-height:1.6;margin:0 0 22px;color:#526158;"><strong>This is not a clinical channel.</strong> Please do not reply with symptoms, lab results, diagnoses, or medication details. Clinical communication belongs in the secure patient portal.</p>
+          <p style="font-size:14px;line-height:1.6;margin:0;color:#526158;">Viva Wellness Co. · (737) 210-7283<br/>${esc(canSpamAddress)}</p>
         </td></tr>
       </table>
     </td></tr>
@@ -582,22 +544,16 @@ function buildReferrerConfirmEmail({ referrerName, referee, canSpamAddress }) {
   return { html, text };
 }
 
-// --- Nurture sequence ---
-// Four emails scheduled via Resend `scheduled_at` after the Day 0 send, each
-// fired at 8 AM America/Chicago so the cadence is predictable no matter when
-// the form was submitted:
-//   Day 1  · personal thank-you + first discovery-call offer (match-aware)
-//   Day 3  · match-tailored "three things people get wrong"
-//   Day 7  · the long-term-safety objection
-//   Day 14 · soft close + final discovery-call offer
-// Each one stands on its own · they don't reference prior emails, in case
-// any of them get filtered out or skimmed past.
-async function scheduleNurture(apiKey, { env, from, to, name, match, notifyEmail, discoveryUrl, unsubscribeUrl, canSpamAddress }) {
+// --- Opted-in educational sequence ---
+// Four general emails are scheduled at 8 AM America/Chicago. The sequence
+// never uses a visitor's guide answers, selected contact topic, or inferred
+// health interests to personalize medical messaging.
+async function scheduleNurture(apiKey, { env, from, to, name, notifyEmail, discoveryUrl, unsubscribeUrl, canSpamAddress }) {
   const now = Date.now();
 
   const sends = [
-    { day: 1, at: central8amAfterDays(now, 1), build: () => buildNurtureDay1({ name, match, discoveryUrl, unsubscribeUrl, canSpamAddress }) },
-    { day: 3, at: central8amAfterDays(now, 3), build: () => buildNurtureDay3({ name, match, unsubscribeUrl, canSpamAddress }) },
+    { day: 1, at: central8amAfterDays(now, 1), build: () => buildNurtureDay1({ name, discoveryUrl, unsubscribeUrl, canSpamAddress }) },
+    { day: 3, at: central8amAfterDays(now, 3), build: () => buildNurtureDay3({ name, unsubscribeUrl, canSpamAddress }) },
     { day: 7, at: central8amAfterDays(now, 7), build: () => buildNurtureDay7({ name, unsubscribeUrl, canSpamAddress }) },
     { day: 14, at: central8amAfterDays(now, 14), build: () => buildNurtureDay14({ name, discoveryUrl, unsubscribeUrl, canSpamAddress }) },
   ];
@@ -692,60 +648,25 @@ function tzOffsetMs(utcMs, tz) {
   return asUTC - utcMs;
 }
 
-// Day 1 · 8 AM Central, the morning after submission. A warm personal
-// thank-you and the first soft offer of a discovery call. Match-aware: when
-// the quiz produced a match we name it as a starting point and frame the call
-// as the way to confirm fit; raw contact leads get the generic "find the right
-// fit" framing. This is the early discovery touch · Day 14 is the final one.
-function buildNurtureDay1({ name, match, discoveryUrl, unsubscribeUrl, canSpamAddress }) {
+// Day 1 · a practical overview of the first-visit decision.
+function buildNurtureDay1({ name, discoveryUrl, unsubscribeUrl, canSpamAddress }) {
   const first = (name || '').split(/\s+/)[0] || 'there';
-  const subject = 'Thanks for your interest · let me help you find the right fit';
-
-  const matchHtml =
-    match && match.name
-      ? `Based on what you shared, <strong>${esc(match.name)}</strong>${
-          match.price ? ` (${esc(match.price)}/mo)` : ''
-        } looks like a strong starting point. The quiz gets you to the right neighborhood · a short call is how we make sure it is actually the right fit for your goals and your budget.`
-      : `The fastest way to find the right fit is a short call where I can hear your goals and point you to the protocol that actually matches them.`;
-
-  const matchText =
-    match && match.name
-      ? `Based on what you shared, ${match.name}${match.price ? ` (${match.price}/mo)` : ''} looks like a strong starting point. The quiz gets you to the right neighborhood. A short call is how we make sure it is actually the right fit for your goals and your budget.`
-      : `The fastest way to find the right fit is a short call where I can hear your goals and point you to the protocol that actually matches them.`;
-
-  // Quiz matches carry tailored peptide talking points (see src/lib/quiz.ts).
-  // Client-supplied, so filter and cap before rendering.
-  const topics = Array.isArray(match && match.discuss)
-    ? match.discuss.filter((t) => typeof t === 'string' && t.trim()).slice(0, 6).map((t) => t.slice(0, 200))
-    : [];
-
-  const topicsHtml = topics.length
-    ? `<p style="margin:0 0 8px 0;">Worth raising when we talk · a few things I would want to cover based on your answers:</p>
-    <ul style="margin:0 0 16px 0;padding-left:20px;color:#2a2420;">
-      ${topics.map((t) => `<li style="margin:0 0 6px 0;">${esc(t)}</li>`).join('')}
-    </ul>`
-    : '';
-
-  const topicsText = topics.length
-    ? ['Worth raising when we talk:', ...topics.map((t) => `  - ${t}`), ''].join('\n')
-    : '';
+  const subject = 'What to expect from a first Viva visit';
 
   const bodyHtml = `
     <p style="margin:0 0 16px 0;">Hi ${esc(first)},</p>
 
-    <p style="margin:0 0 16px 0;">Thank you for your interest in Viva Wellness Co. I wanted to follow up personally and offer to help you find the services that fit you best.</p>
+    <p style="margin:0 0 16px 0;">Thank you for asking to receive Viva's practice updates and new educational articles.</p>
 
-    <p style="margin:0 0 16px 0;">${matchHtml}</p>
+    <p style="margin:0 0 16px 0;">A first visit is a 45-minute clinical evaluation with Liliana. It costs $199, with a $50 deposit due at booking. The visit is separate from any membership.</p>
 
-    ${topicsHtml}
-
-    <p style="margin:0 0 24px 0;">There is no prescription and no pressure on a first call. I ask about your goals, your history, and what you have already tried. You ask me anything. By the end we both know whether there is a real fit and which path makes sense.</p>
+    <p style="margin:0 0 24px 0;">Bring your medication and supplement list and any recent labs you have. Liliana reviews your history, goals, available information, options, risks, costs, and next steps. Booking a visit does not guarantee a prescription or eligibility for a particular treatment.</p>
 
     <table role="presentation" cellpadding="0" cellspacing="0">
       <tr><td style="background:#c9783a;border-radius:2px;">
         <a href="${esc(discoveryUrl)}"
            style="display:inline-block;padding:14px 26px;font-family:Arial,sans-serif;font-size:13px;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:#0c0a09;text-decoration:none;">
-          Schedule a 30-min discovery call &nbsp;→
+          Review and book a first visit &nbsp;→
         </a>
       </td></tr>
     </table>
@@ -754,24 +675,23 @@ function buildNurtureDay1({ name, match, discoveryUrl, unsubscribeUrl, canSpamAd
       Or copy and paste: <a href="${esc(discoveryUrl)}" style="color:#8a4d22;">${esc(discoveryUrl)}</a>
     </p>
 
-    <p style="margin:0;">If a call is not the right format, just reply to this email with what you are trying to solve and I will point you in the right direction personally.</p>
+    <p style="margin:0;">Please do not reply with symptoms, lab results, diagnoses, or medication details. Current patients should use the secure patient portal for clinical communication.</p>
   `;
 
   const text = [
     `Hi ${first},`,
     ``,
-    `Thank you for your interest in Viva Wellness Co. I wanted to follow up personally and offer to help you find the services that fit you best.`,
+    `Thank you for asking to receive Viva's practice updates and new educational articles.`,
     ``,
-    matchText,
+    `A first visit is a 45-minute clinical evaluation with Liliana. It costs $199, with a $50 deposit due at booking. The visit is separate from any membership.`,
     ``,
-    topicsText,
-    `There is no prescription and no pressure on a first call. I ask about your goals, your history, and what you have already tried. You ask me anything. By the end we both know whether there is a real fit and which path makes sense.`,
+    `Bring your medication and supplement list and any recent labs you have. Liliana reviews your history, goals, available information, options, risks, costs, and next steps. Booking a visit does not guarantee a prescription or eligibility for a particular treatment.`,
     ``,
-    `When you are ready, here is the link to schedule a 30-minute discovery call:`,
+    `Review the first-visit details and book when you are ready:`,
     ``,
     `  ${discoveryUrl}`,
     ``,
-    `If a call is not the right format, just reply to this email with what you are trying to solve and I will point you in the right direction personally.`,
+    `Please do not reply with symptoms, lab results, diagnoses, or medication details. Current patients should use the secure patient portal for clinical communication.`,
     ``,
     `Talk soon,`,
     `Liliana Damron, APRN, FNP-BC`,
@@ -838,49 +758,16 @@ function nurtureWrap({ eyebrow, title, bodyHtml, canSpamAddress, unsubscribeUrl 
 </html>`.trim();
 }
 
-// Day 3 · match-tailored. Body switches on match.key. Raw contact leads with
-// no match fall through to the generic three-point opener.
-function buildNurtureDay3({ name, match, unsubscribeUrl, canSpamAddress }) {
+// Day 3 · general questions that improve an informed first-visit decision.
+function buildNurtureDay3({ name, unsubscribeUrl, canSpamAddress }) {
   const first = (name || '').split(/\s+/)[0] || 'there';
-  const key = match && match.key;
-
-  let subject;
-  let intro;
-  let items;
-
-  if (key === 'metabolic') {
-    subject = 'What most people get wrong about GLP-1';
-    intro = `You looked at Metabolic Core, so a few things to know before starting or restarting GLP-1 therapy.`;
-    items = [
-      ['Starting too high.', `Most of the side effects · nausea, fatigue, hitting a wall · come from jumping doses too fast. Slow titration is not being cautious. It is how the protocol works.`],
-      ['Treating GLP-1 like willpower in a vial.', `It quiets the food noise, which is real and measurable. It does not replace strength training or protein. Skip both and you lose muscle along with fat.`],
-      ['Stopping cold turkey.', `The taper matters as much as the ramp. I plan the exit at the start, not at the end.`],
-    ];
-  } else if (key === 'trt') {
-    subject = 'Three things I wish more people knew about hormone therapy';
-    intro = `You looked at hormone care. A few things I wish more people heard before they start, whether the question is testosterone, estradiol, or both.`;
-    items = [
-      ['Chasing a number instead of how you feel.', `Lab ranges are population averages. A man feeling great at 700 ng/dL beats one at 1200 with sleep apnea and acne. A woman with controlled symptoms on a modest estradiol dose beats one chasing a higher serum number. I tune to symptoms first.`],
-      ['Hormone therapy is more than one molecule.', `Most people picture TRT as testosterone alone, or HRT as estradiol alone. In practice there is a small toolkit · anastrozole, enclomiphene, progesterone, estradiol, HCG · that I add selectively based on labs and symptoms, not routinely. HCG sits in its own category · it shows up in aggressive fertility protocols and comes from a standard pharmacy rather than a compounder. The rest can be compounded through the pharmacies I work with. The right plan is the smallest protocol that gets you where you want to be, not the longest.`],
-      ['Outdated risk framing.', `"TRT is steroids" and "estradiol causes cancer" are two of the most common things I hear, and both are decades behind the current data. Modern protocols, modern dosing, modern monitoring · the risk profile looks nothing like what most people read about online.`],
-    ];
-  } else if (key === 'concierge') {
-    subject = 'How most people approach a provider · and what works better';
-    intro = `You looked at Concierge Access, the tier built for people who want provider expertise without a bundled monthly protocol. Three things that help the relationship work.`;
-    items = [
-      ['Use the messaging.', `The point of $99 per month is access. People who message me regularly get more out of it than people who wait for problems.`],
-      ['Tell me what is actually going on.', `Sleep, stress, what you tried last quarter, what your last doc said. The protocol decisions come from context, not from a label on a peptide vial.`],
-      ['Treat it like a partnership, not a vending machine.', `Concierge works when we are solving something together. It is slower than a la carte clinics, and that is the point.`],
-    ];
-  } else {
-    subject = 'Three things people get wrong when they start';
-    intro = `You reached out a few days ago, so I wanted to share three things that trip most people up at the start. These apply regardless of which protocol you are considering.`;
-    items = [
-      ['Doing too much at once.', `Hormones, peptides, GLP-1, supplements. Stack everything at the same time and you cannot tell what is working. I sequence intentionally.`],
-      ['Chasing numbers over symptoms.', `Lab ranges are population averages. Your numbers exist to inform how you feel, not to replace it.`],
-      ['Skipping the conversation.', `Most of what makes a protocol succeed is the part before the first prescription. The questions, the history, the goals. That happens on the first call.`],
-    ];
-  }
+  const subject = 'Three questions to ask before choosing telehealth care';
+  const intro = `A convenient visit still needs enough information, clear boundaries, and transparent costs. These questions can help you compare any telehealth practice.`;
+  const items = [
+    ['Who evaluates and follows me?', `Confirm the provider's name, credentials, licensed service area, and whether the same person remains involved after the first visit.`],
+    ['What is included in the published price?', `Ask which visits, labs, medications, supplies, shipping, and follow-up are included and which may be billed separately.`],
+    ['What happens if my preferred option is not appropriate?', `A credible practice should explain alternatives, when in-person or specialty care is needed, and that a visit does not guarantee a prescription.`],
+  ];
 
   const itemsHtml = items
     .map(
@@ -896,7 +783,7 @@ function buildNurtureDay3({ name, match, unsubscribeUrl, canSpamAddress }) {
     .map(([h, body], i) => `${i + 1}. ${h}\n   ${body}\n`)
     .join('\n');
 
-  const closing = `If any of this lands for what you have been doing on your own, that is exactly what the first consult is for. Hit reply with a question · I read these personally.`;
+  const closing = `Viva publishes provider, service-area, price, and first-visit details so you can compare before booking. Please keep replies non-clinical; current patients should use the secure portal.`;
 
   const bodyHtml = `
     <p style="margin:0 0 18px 0;">Hi ${esc(first)},</p>
@@ -922,47 +809,37 @@ function buildNurtureDay3({ name, match, unsubscribeUrl, canSpamAddress }) {
   return { subject, html, text };
 }
 
-// Day 7 · match-agnostic. The "is this safe long-term?" objection comes
-// up on every first call, so we address it head-on with three concrete
-// answers instead of generic reassurance.
+// Day 7 · how Viva handles safety questions without making blanket claims.
 function buildNurtureDay7({ name, unsubscribeUrl, canSpamAddress }) {
   const first = (name || '').split(/\s+/)[0] || 'there';
-  const subject = 'The question I get on every first call';
+  const subject = 'How to have a useful safety conversation';
 
   const bodyHtml = `
     <p style="margin:0 0 16px 0;">Hi ${esc(first)},</p>
 
-    <p style="margin:0 0 16px 0;">Almost every first consult starts with the same question, in some form: "is this safe long-term?"</p>
+    <p style="margin:0 0 16px 0;">A useful answer to “is this safe for me?” depends on the exact treatment, your history, other medications, monitoring needs, and the quality of the available evidence.</p>
 
-    <p style="margin:0 0 16px 0;">The honest answer has three parts.</p>
+    <p style="margin:0 0 16px 0;"><strong>Ask about product status.</strong> FDA-approved and compounded medications are not interchangeable labels. Compounded drugs are not FDA-approved, and FDA does not review them for safety, effectiveness, or quality before dispensing.</p>
 
-    <p style="margin:0 0 16px 0;"><strong>First, I do not do anything you cannot stop.</strong> Every protocol has an off-ramp planned in. I do not trap people on therapy they do not want.</p>
+    <p style="margin:0 0 16px 0;"><strong>Ask what information changes the decision.</strong> History, examination, labs when appropriate, contraindications, alternatives, and follow-up can matter differently for each person and treatment.</p>
 
-    <p style="margin:0 0 16px 0;"><strong>Second, the data is encouraging but not infinite.</strong> Bioidentical hormone replacement has good long-term safety data when done right. GLP-1 medications have five-plus years of population data and growing. Peptides like BPC-157 have decades of research behind them but less human trial volume. I tell you which bucket your protocol falls in before you start, not after.</p>
+    <p style="margin:0 0 16px 0;"><strong>Ask what remains uncertain.</strong> A clinician should be able to explain both what evidence supports and what it does not establish, without promising an outcome.</p>
 
-    <p style="margin:0 0 16px 0;"><strong>Third, the labs are the safety net.</strong> Biannual blood work catches trends early. If something needs to change, I change it. The plan is a starting point, not a contract.</p>
-
-    <p style="margin:0 0 16px 0;">The thing most people do not expect is how much of the first visit is spent listening, not prescribing. I want to know what you have tried, what did not work, and what you are hoping for. Before I have an opinion on what should change.</p>
-
-    <p style="margin:18px 0 0 0;">If you have a specific question, hit reply. I answer these personally.</p>
+    <p style="margin:18px 0 0 0;">Please keep email replies non-clinical. Current patients should use the secure portal for individual questions.</p>
   `;
 
   const text = [
     `Hi ${first},`,
     ``,
-    `Almost every first consult starts with the same question, in some form: "is this safe long-term?"`,
+    `A useful answer to “is this safe for me?” depends on the exact treatment, your history, other medications, monitoring needs, and the quality of the available evidence.`,
     ``,
-    `The honest answer has three parts.`,
+    `Ask about product status. FDA-approved and compounded medications are not interchangeable labels. Compounded drugs are not FDA-approved, and FDA does not review them for safety, effectiveness, or quality before dispensing.`,
     ``,
-    `First, I do not do anything you cannot stop. Every protocol has an off-ramp planned in. I do not trap people on therapy they do not want.`,
+    `Ask what information changes the decision. History, examination, labs when appropriate, contraindications, alternatives, and follow-up can matter differently for each person and treatment.`,
     ``,
-    `Second, the data is encouraging but not infinite. Bioidentical hormone replacement has good long-term safety data when done right. GLP-1 medications have five-plus years of population data and growing. Peptides like BPC-157 have decades of research behind them but less human trial volume. I tell you which bucket your protocol falls in before you start, not after.`,
+    `Ask what remains uncertain. A clinician should be able to explain both what evidence supports and what it does not establish, without promising an outcome.`,
     ``,
-    `Third, the labs are the safety net. Biannual blood work catches trends early. If something needs to change, I change it. The plan is a starting point, not a contract.`,
-    ``,
-    `The thing most people do not expect is how much of the first visit is spent listening, not prescribing. I want to know what you have tried, what did not work, and what you are hoping for. Before I have an opinion on what should change.`,
-    ``,
-    `If you have a specific question, hit reply. I answer these personally.`,
+    `Please keep email replies non-clinical. Current patients should use the secure portal for individual questions.`,
     ``,
     `Talk soon,`,
     `Liliana Damron, APRN, FNP-BC`,
@@ -985,15 +862,15 @@ function buildNurtureDay14({ name, discoveryUrl, unsubscribeUrl, canSpamAddress 
 
     <p style="margin:0 0 16px 0;">It has been a couple of weeks since you reached out, so I figured I would check in once more. Then I will get out of your inbox.</p>
 
-    <p style="margin:0 0 16px 0;">If anything in the eBook or the notes I have sent since landed for you, the next step is a 30-minute consult. It is exactly what it sounds like. I ask questions, you ask questions, we figure out if there is a real fit. No prescription is written on the first call.</p>
+    <p style="margin:0 0 16px 0;">If Viva may fit what you are looking for, the next step is the published 45-minute, $199 first visit. Review the process, price, service area, and what to bring before choosing a time.</p>
 
-    <p style="margin:0 0 24px 0;">If it is not the right time, that is fine too. The eBook is yours to keep.</p>
+    <p style="margin:0 0 24px 0;">If it is not the right time, that is fine too. No action is required.</p>
 
     <table role="presentation" cellpadding="0" cellspacing="0">
       <tr><td style="background:#c9783a;border-radius:2px;">
         <a href="${esc(discoveryUrl)}"
            style="display:inline-block;padding:14px 26px;font-family:Arial,sans-serif;font-size:13px;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:#0c0a09;text-decoration:none;">
-          Schedule a 30-min consult &nbsp;→
+          Review the first visit &nbsp;→
         </a>
       </td></tr>
     </table>
@@ -1002,7 +879,7 @@ function buildNurtureDay14({ name, discoveryUrl, unsubscribeUrl, canSpamAddress 
       Or copy and paste: <a href="${esc(discoveryUrl)}" style="color:#8a4d22;">${esc(discoveryUrl)}</a>
     </p>
 
-    <p style="margin:0;">If you have a specific question that does not fit on a call, reply to this email and I will answer personally. Either way · thank you for letting me into your inbox.</p>
+    <p style="margin:0;">For non-clinical questions, use Viva's contact page. Current patients should use the secure portal. Either way · thank you for letting me into your inbox.</p>
   `;
 
   const text = [
@@ -1010,13 +887,13 @@ function buildNurtureDay14({ name, discoveryUrl, unsubscribeUrl, canSpamAddress 
     ``,
     `It has been a couple of weeks since you reached out, so I figured I would check in once more. Then I will get out of your inbox.`,
     ``,
-    `If anything in the eBook or the notes I have sent since landed for you, the next step is a 30-minute consult. I ask questions, you ask questions, we figure out if there is a real fit. No prescription is written on the first call.`,
+    `If Viva may fit what you are looking for, the next step is the published 45-minute, $199 first visit. Review the process, price, service area, and what to bring before choosing a time.`,
     ``,
-    `If it is not the right time, that is fine too. The eBook is yours to keep. When you are ready, here is the link to schedule:`,
+    `If it is not the right time, that is fine too. No action is required. When you are ready, here is the link to review the first visit:`,
     ``,
     `  ${discoveryUrl}`,
     ``,
-    `If you have a specific question that does not fit on a call, reply to this email and I will answer personally.`,
+    `For non-clinical questions, use Viva's contact page. Current patients should use the secure portal.`,
     ``,
     `Either way, thank you for letting me into your inbox.`,
     ``,
@@ -1029,50 +906,21 @@ function buildNurtureDay14({ name, discoveryUrl, unsubscribeUrl, canSpamAddress 
   return { subject, html, text };
 }
 
-function buildNotifyEmail({ source, name, email, phone, message, quiz, match, utm, referrer, referee }) {
+function buildNotifyEmail({ source, name, email, phone, message, utm }) {
   const rows = [
     ['Source', source],
     ['Name', name],
     ['Email', email],
     ['Phone', phone || '(not provided)'],
   ];
-  if (referee) {
-    rows.push(['Referee name', referee.name]);
-    rows.push(['Referee email', referee.email]);
-  }
-  if (match) {
-    rows.push(['Matched protocol', `${match.name} · ${match.price}/mo`]);
-    if (Array.isArray(match.discuss) && match.discuss.length) {
-      const topics = match.discuss
-        .filter((t) => typeof t === 'string' && t.trim())
-        .slice(0, 6)
-        .map((t) => t.slice(0, 200));
-      rows.push(['Call topics', topics.map((t) => `· ${t}`).join('\n')]);
-    }
-  }
-  if (quiz) {
-    const labels = {
-      goal: 'Primary goal',
-      age: 'Age range',
-      sex: 'Sex',
-      activity: 'Activity level',
-      budget: 'Budget',
-    };
-    for (const [k, v] of Object.entries(quiz)) {
-      rows.push([labels[k] || k, String(v)]);
-    }
-  }
   if (message) {
-    rows.push([source === 'refer' ? 'Note from referrer' : 'Message', message]);
+    rows.push(['Topic', message]);
   }
   if (utm && typeof utm === 'object') {
-    const order = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
+    const order = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content'];
     for (const k of order) {
       if (utm[k]) rows.push([k, String(utm[k])]);
     }
-  }
-  if (referrer) {
-    rows.push(['Referrer', referrer]);
   }
   rows.push(['Submitted', new Date().toISOString()]);
 

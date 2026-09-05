@@ -8,7 +8,7 @@ import MobileStickyCta from '../components/MobileStickyCta.astro';
 
 const {
   title = 'Concierge Telehealth in Austin | Viva Wellness Co.',
-  description = 'Concierge peptide therapy, GLP-1 weight loss, hormone optimization, and recovery protocols delivered virtually from Austin, TX. Provider-led. Texas, Colorado, Florida, and Iowa.',
+  description = 'Provider-led concierge telehealth for weight management, hormone health, menopause, and recovery. Serving patients in Texas, Colorado, Florida, and Iowa.',
   ogImage = '/og-image.jpg',
   ogType = 'website',
   publishDate,
@@ -18,9 +18,11 @@ const {
   noindex = false,
 } = Astro.props;
 
-const normalizedPath = Astro.url.pathname === '/' ? '/' : Astro.url.pathname.replace(/\/$/, '');
-const canonicalURL = new URL(normalizedPath, Astro.site).href;
-const isHome = normalizedPath === '/';
+const pathKey = Astro.url.pathname === '/' ? '/' : Astro.url.pathname.replace(/\/+$/, '');
+const canonicalPath = pathKey === '/' ? '/' : `${pathKey}/`;
+const canonicalURL = new URL(canonicalPath, Astro.site).href;
+const isHome = pathKey === '/';
+const needsTurnstile = ['/contact', '/unsubscribe'].includes(pathKey);
 
 // Staging/feedback builds (set PUBLIC_DEPLOY_TARGET=feedback at build time) must
 // never be indexed: they mirror the live domain and canonicalize to it, so an
@@ -32,22 +34,22 @@ const isFeedbackBuild = import.meta.env.PUBLIC_DEPLOY_TARGET === 'feedback';
 // has its own PNG generated at build time by src/pages/og/[...route].png.ts.
 function ogForPath(p: string): string {
   if (p === '/') return '/og/home.png';
-  if (['/about', '/services', '/partners', '/contact', '/privacy', '/terms', '/blog', '/menu', '/menopause', '/start'].includes(p)) {
+  if (['/about', '/services', '/weight-management', '/testosterone', '/recovery', '/partners', '/contact', '/privacy', '/terms', '/blog', '/menopause', '/start'].includes(p)) {
     return `/og${p}.png`;
   }
   if (p.startsWith('/blog/')) return `/og${p}.png`;
   return '/og-image.jpg';
 }
-const resolvedOgImage = ogImage && ogImage !== '/og-image.jpg' ? ogImage : ogForPath(normalizedPath);
+const resolvedOgImage = ogImage && ogImage !== '/og-image.jpg' ? ogImage : ogForPath(pathKey);
 // Cache-buster: bump this when the OG image *design* changes so platforms
 // that already cached the preview for a shared URL (Slack, iMessage,
 // LinkedIn, etc.) refetch instead of serving the stale thumbnail.
 // v3 = state taglines include Iowa (June 2026).
 // v4 = Lights On visual refresh and photographic homepage treatment.
-// v5 = OG copy refresh to current positioning (peptides, GLP-1, TRT/HRT,
-//      perimenopause/menopause care).
+// v5 = OG copy refresh to earlier service positioning.
 // v6 = powder-blue Viva wordmark.
-const OG_CACHE_VERSION = '6';
+// v7 = audit remediation · forest/coral system and cropped wordmark.
+const OG_CACHE_VERSION = '7';
 const ogImageURL = new URL(`${resolvedOgImage}?v=${OG_CACHE_VERSION}`, Astro.site).href;
 const siteName = 'Viva Wellness Co.';
 
@@ -60,13 +62,13 @@ const orgSchema = {
       '@id': 'https://vivawellnessco.com/#organization',
       name: 'Viva Wellness Co.',
       alternateName: 'Viva Wellness',
-      url: 'https://vivawellnessco.com',
-      logo: 'https://vivawellnessco.com/viva-logo-ink.png',
-      image: 'https://vivawellnessco.com/viva-logo-ink.png',
-      description: 'Concierge telehealth practice delivering peptide therapy, hormone optimization, GLP-1 weight loss protocols, and recovery medicine. Austin, Texas.',
+      url: 'https://vivawellnessco.com/',
+      logo: 'https://vivawellnessco.com/viva-logo-ink-cropped.png',
+      image: 'https://vivawellnessco.com/liliana-founder-portrait-v2.webp',
+      description: 'Provider-led concierge telehealth for medical weight management, hormone health, menopause care, and recovery. Based in Austin, Texas.',
       founder: {
         '@type': 'Person',
-        '@id': 'https://vivawellnessco.com/about#liliana',
+        '@id': 'https://vivawellnessco.com/about/#liliana',
         name: 'Liliana Damron',
         honorificSuffix: 'APRN, FNP-BC',
         jobTitle: 'Family Nurse Practitioner, Founder',
@@ -86,11 +88,10 @@ const orgSchema = {
         { '@type': 'State', name: 'Iowa' },
       ],
       medicalSpecialty: [
-        'Peptide Therapy',
-        'Hormone Therapy',
         'Weight Management',
-        'Performance Medicine',
-        'Regenerative Medicine',
+        'Hormone Therapy',
+        'Menopause Care',
+        'Telehealth',
       ],
       priceRange: '$$$',
       telephone: '+1-737-210-7283',
@@ -106,9 +107,9 @@ const orgSchema = {
     {
       '@type': 'WebSite',
       '@id': 'https://vivawellnessco.com/#website',
-      url: 'https://vivawellnessco.com',
+      url: 'https://vivawellnessco.com/',
       name: siteName,
-      description: 'Concierge telehealth peptide therapy and hormone optimization.',
+      description: 'Provider-led concierge telehealth built around clear costs, ongoing care, and one named clinician.',
       publisher: { '@id': 'https://vivawellnessco.com/#organization' },
       inLanguage: 'en-US',
     },
@@ -162,16 +163,22 @@ const orgSchema = {
 
   {isHome && (
     <>
-      <link rel="preload" as="image" href="/liliana-founder-original-v1.jpg" fetchpriority="high" />
+      <link
+        rel="preload"
+        as="image"
+        href="/liliana-founder-portrait-v2.webp"
+        imagesrcset="/liliana-founder-portrait-sm.webp 640w, /liliana-founder-portrait-v2.webp 2048w"
+        imagesizes="(max-width: 800px) 100vw, 46vw"
+        fetchpriority="high"
+      />
     </>
   )}
 
   
 
-  {/* Preconnect to the booking destination + the Turnstile challenge host */}
-  <link rel="preconnect" href="https://vivawellnessco.glossgenius.com" crossorigin />
-  <link rel="dns-prefetch" href="https://vivawellnessco.glossgenius.com" />
-  <link rel="preconnect" href="https://challenges.cloudflare.com" crossorigin />
+  {/* Third-party booking resources load only after a visitor chooses a
+      GlossGenius link; the marketing site does not preconnect on arrival. */}
+  {needsTurnstile && <link rel="preconnect" href="https://challenges.cloudflare.com" crossorigin />}
 
   {/* RSS feed for the blog · power readers, news aggregators */}
   <link rel="alternate" type="application/rss+xml" title="Viva Wellness Co. Blog" href="/rss.xml" />
@@ -182,18 +189,16 @@ const orgSchema = {
   {/* Fonts · SELF-HOSTED (privacy/compliance + perf, no Google CDN). @font-face is in fonts.css; preload the critical cuts so the Fraunces headline + Geist body paint fast. */}
   <link rel="preload" href="/fonts/fraunces-normal-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="/fonts/geist-normal-latin.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="preload" href="/fonts/geistmono-normal-latin.woff2" as="font" type="font/woff2" crossorigin />
 
   <ClientRouter />
 
-  {/* Cloudflare Turnstile · loads once, persists across view transitions.
-      Widgets render explicitly in each form's init (see contact/index/refer). */}
-  <script is:inline async defer src="https://challenges.cloudflare.com/turnstile/v0/api.js"></script>
+  {/* Cloudflare Turnstile is loaded only where a public marketing form needs it. */}
+  {needsTurnstile && <script is:inline async defer src="https://challenges.cloudflare.com/turnstile/v0/api.js"></script>}
 
-  {/* Privacy-respecting analytics · loads only when PUBLIC_PLAUSIBLE_DOMAIN
-      is set in Cloudflare Pages env vars (e.g. "vivawellnessco.com"). No
-      cookies, no PII, no cookie banner needed. Tracks pageviews + the
-      built-in /api/lead form-submit event via the 404 / outbound plugins. */}
+  {/* Privacy-conscious analytics · loads only when PUBLIC_PLAUSIBLE_DOMAIN
+      is set in Cloudflare Pages env vars (e.g. "vivawellnessco.com"). This
+      configuration measures pageviews and outbound-link clicks only; it does
+      not send form fields, guide answers, or custom health-interest events. */}
   {import.meta.env.PUBLIC_PLAUSIBLE_DOMAIN && (
     <script
       defer

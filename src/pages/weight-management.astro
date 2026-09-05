@@ -1,0 +1,42 @@
+---
+import CareDetail from '../components/CareDetail.astro';
+---
+
+<CareDetail
+  path="/weight-management"
+  title="Medical Weight Management Austin | Viva Wellness Co."
+  description="Provider-led medical weight management with transparent self-pay pricing and virtual follow-up in Texas, Colorado, Florida, and Iowa."
+  eyebrow="Medical weight management"
+  headline="Weight care that starts"
+  accent="with the whole picture."
+  intro="When appetite, weight, sleep, stress, and a full schedule all overlap, the answer should not begin with a product menu. Liliana starts with your history, goals, prior approaches, and what you can realistically sustain."
+  decisionTitle="What you should understand before choosing a plan."
+  decisions={[
+    { title: 'Whether Viva fits', body: 'A first visit clarifies service-state eligibility, relevant history, and whether telehealth is an appropriate setting for the care you need.' },
+    { title: 'What each tier includes', body: 'Published pricing separates the first visit, monthly membership, included medication where listed, supplies, delivery, and follow-up.' },
+    { title: 'How medication is considered', body: 'Medication is one possible part of care. Selecting a tier or completing the guide does not establish eligibility or guarantee a prescription.' },
+  ]}
+  visitItems={[
+    { title: 'Your history and current care', body: 'Liliana reviews what has changed, what you have tried, current medications, and information relevant to safe decision-making.' },
+    { title: 'Goals that fit real life', body: 'The discussion covers the outcome you want and the schedule, family, work, nutrition, movement, and follow-up constraints around it.' },
+    { title: 'Options and tradeoffs', body: 'You discuss potential approaches, costs, important risks, alternatives, monitoring, and what happens if a requested option does not fit.' },
+    { title: 'A next step', body: 'If Viva is appropriate, Liliana explains the care plan and secure follow-up. If not, the visit should still leave you with a clearer direction.' },
+  ]}
+  safetyTitle="No quiz or price tier can prescribe for you."
+  safetyItems={[
+    'FDA-approved brand medications and compounded medications are different products.',
+    'Compounded medications are not FDA-approved, and FDA does not review them for safety, effectiveness, or quality before they are dispensed.',
+    'A compounded GLP-1 may be considered only when current law permits it and an identified patient-specific need is documented; it is not promised by a plan.',
+    'Individual results vary. The site does not promise a particular amount or speed of weight change.',
+  ]}
+  plans={[
+    { name: 'Metabolic Essential', price: '$249', href: '/services/#metabolic-essential', note: 'The lower-cost monthly medical weight-management tier.' },
+    { name: 'Metabolic Core', price: '$349', href: '/services/#metabolic-core', note: 'A more comprehensive monthly weight-management tier.' },
+    { name: 'Metabolic Advanced', price: '$499', href: '/services/#metabolic-advanced', note: 'The highest-priced tier with close monthly provider oversight.' },
+  ]}
+  sources={[
+    { label: 'FDA: concerns with unapproved GLP-1 drugs', href: 'https://www.fda.gov/drugs/drug-alerts-and-statements/fdas-concerns-unapproved-glp-1-drugs-used-weight-loss' },
+    { label: 'FDA: current GLP-1 compounding policy', href: 'https://www.fda.gov/drugs/drug-alerts-and-statements/fda-clarifies-policies-compounders-national-glp-1-supply-begins-stabilize' },
+    { label: 'FDA: compounding questions and answers', href: 'https://www.fda.gov/drugs/human-drug-compounding/compounding-and-fda-questions-and-answers' },
+  ]}
+/>

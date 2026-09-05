@@ -1,0 +1,237 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+type ContentItem = { title: string; body: string };
+type Plan = { name: string; price: string; href: string; note: string };
+type Source = { label: string; href: string };
+
+interface Props {
+  path: string;
+  title: string;
+  description: string;
+  eyebrow: string;
+  headline: string;
+  accent: string;
+  intro: string;
+  decisionTitle: string;
+  decisions: ContentItem[];
+  visitItems: ContentItem[];
+  safetyTitle: string;
+  safetyItems: string[];
+  plans: Plan[];
+  sources?: Source[];
+}
+
+const {
+  path,
+  title,
+  description,
+  eyebrow,
+  headline,
+  accent,
+  intro,
+  decisionTitle,
+  decisions,
+  visitItems,
+  safetyTitle,
+  safetyItems,
+  plans,
+  sources = [],
+} = Astro.props;
+
+const absolute = `https://vivawellnessco.com${path}/`;
+const schema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Service',
+      '@id': `${absolute}#service`,
+      name: headline,
+      description,
+      url: absolute,
+      provider: { '@id': 'https://vivawellnessco.com/#organization' },
+      areaServed: [
+        { '@type': 'State', name: 'Texas' },
+        { '@type': 'State', name: 'Colorado' },
+        { '@type': 'State', name: 'Florida' },
+        { '@type': 'State', name: 'Iowa' },
+      ],
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://vivawellnessco.com/' },
+        { '@type': 'ListItem', position: 2, name: 'Care and pricing', item: 'https://vivawellnessco.com/services/' },
+        { '@type': 'ListItem', position: 3, name: headline, item: absolute },
+      ],
+    },
+  ],
+};
+---
+
+<Layout title={title} description={description} schema={schema}>
+  <section class="care-hero">
+    <div class="container care-hero__inner">
+      <nav class="breadcrumbs" aria-label="Breadcrumb">
+        <a href="/">Home</a><span aria-hidden="true">/</span><a href="/services/">Care</a><span aria-hidden="true">/</span><span>{eyebrow}</span>
+      </nav>
+      <span class="eyebrow">{eyebrow}</span>
+      <h1>{headline}<br/><span class="italic-display">{accent}</span></h1>
+      <p class="care-hero__intro">{intro}</p>
+      <div class="care-hero__ctas">
+        <a href="/start/?utm_source=vivawellnessco&utm_medium=cta&utm_content=care_detail_hero" class="btn btn--bronze">Book your first visit</a>
+        <a href="/services/#plans" class="btn">Compare all pricing</a>
+      </div>
+      <p class="care-hero__boundary">A website cannot determine diagnosis, eligibility, or treatment. Those decisions require an individual visit with Liliana.</p>
+    </div>
+  </section>
+
+  <section class="section care-decisions">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Make a clear decision</span>
+        <h2>{decisionTitle}</h2>
+      </div>
+      <ul class="care-grid" role="list">
+        {decisions.map((item, index) => (
+          <li>
+            <span class="care-grid__num">{String(index + 1).padStart(2, '0')}</span>
+            <h3>{item.title}</h3>
+            <p>{item.body}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--paper">
+    <div class="container visit">
+      <div class="visit__head">
+        <span class="eyebrow">Your first visit</span>
+        <h2>What Liliana reviews with you.</h2>
+        <p>Bring questions and context. Keep clinical details in the secure intake and patient portal—not the public contact form or regular email.</p>
+      </div>
+      <ol class="visit__list">
+        {visitItems.map((item, index) => (
+          <li>
+            <span>{String(index + 1).padStart(2, '0')}</span>
+            <div><h3>{item.title}</h3><p>{item.body}</p></div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section care-safety">
+    <div class="container care-safety__inner">
+      <div>
+        <span class="eyebrow">Safety and eligibility</span>
+        <h2>{safetyTitle}</h2>
+      </div>
+      <ul>
+        {safetyItems.map((item) => <li>{item}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--paper">
+    <div class="container plan-links">
+      <div class="section-head">
+        <span class="eyebrow">Published pricing</span>
+        <h2>Know the price before you book.</h2>
+        <p class="lead">These are current monthly membership prices. The first visit is a separate $199 appointment with a $50 deposit due at booking.</p>
+      </div>
+      <ul role="list">
+        {plans.map((plan) => (
+          <li>
+            <div><h3>{plan.name}</h3><p>{plan.note}</p></div>
+            <strong>{plan.price}<small>/mo</small></strong>
+            <a href={plan.href}>See full inclusions <span aria-hidden="true">→</span></a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  {sources.length > 0 && (
+    <section class="sources">
+      <div class="container sources__inner">
+        <h2>Information sources</h2>
+        <p>These links support the general educational and regulatory information on this page. They do not replace individualized medical advice.</p>
+        <ul>
+          {sources.map((source) => <li><a href={source.href} target="_blank" rel="noopener">{source.label}</a></li>)}
+        </ul>
+      </div>
+    </section>
+  )}
+
+  <section class="care-end">
+    <div class="container care-end__inner">
+      <div><span class="eyebrow">One provider, one clear next step</span><h2>Start with a conversation, not a product.</h2></div>
+      <div class="care-end__action">
+        <p>Liliana reviews whether Viva fits, what information is needed, and what happens if a requested option is not appropriate.</p>
+        <a href="/start/?utm_source=vivawellnessco&utm_medium=cta&utm_content=care_detail_end" class="btn btn--bronze">Book your first visit</a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .care-hero { background: var(--evergreen); color: var(--cream-bright); border-bottom: 6px solid var(--ochre); padding: clamp(5.5rem, 12vw, 9rem) 0 clamp(4rem, 8vw, 6.5rem); --focus-ring: var(--ochre); }
+  .care-hero .eyebrow, .care-safety .eyebrow, .care-end .eyebrow { color: var(--ochre); }
+  .care-hero__inner { max-width: 1120px; display: flex; flex-direction: column; align-items: flex-start; gap: 1.25rem; }
+  .breadcrumbs { display: flex; flex-wrap: wrap; gap: 0.55rem; font-size: 0.82rem; color: rgba(255,253,248,.72); margin-bottom: 1rem; }
+  .breadcrumbs a { text-decoration: underline; text-underline-offset: 3px; }
+  .care-hero h1 { max-width: 16ch; }
+  .care-hero__intro { max-width: 62ch; color: rgba(255,253,248,.84); font-size: clamp(1.08rem, 1.7vw, 1.3rem); line-height: 1.6; }
+  .care-hero__ctas { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: .4rem; }
+  .care-hero .btn:not(.btn--bronze) { color: var(--cream-bright); border-color: var(--cream-bright); }
+  .care-hero .btn:not(.btn--bronze):hover { background: var(--cream-bright); color: var(--evergreen-deep); }
+  .care-hero__boundary { font-size: .86rem; color: rgba(255,253,248,.68); border-top: 1px solid rgba(255,253,248,.2); padding-top: 1rem; max-width: 70ch; }
+  .section-head { max-width: 760px; margin-bottom: clamp(2rem, 5vw, 3.5rem); }
+  .section-head h2 { margin-top: .65rem; }
+  .care-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--rule-strong); border: 1px solid var(--rule-strong); }
+  .care-grid li { background: var(--ink-2); padding: clamp(1.6rem, 3vw, 2.4rem); }
+  .care-grid__num { color: var(--evergreen); font-weight: 700; font-size: .84rem; }
+  .care-grid h3 { margin: 1.4rem 0 .6rem; }
+  .care-grid p, .visit p { color: var(--mute); line-height: 1.6; }
+  .visit { display: grid; grid-template-columns: 5fr 7fr; gap: clamp(2.5rem, 7vw, 7rem); }
+  .visit__head h2 { margin: .7rem 0 1rem; }
+  .visit__list { display: grid; gap: 0; }
+  .visit__list li { display: grid; grid-template-columns: 2.6rem 1fr; gap: 1rem; padding: 1.35rem 0; border-top: 1px solid var(--rule-strong); }
+  .visit__list > li > span { color: var(--evergreen); font-weight: 700; }
+  .visit__list h3 { font-size: 1.2rem; margin-bottom: .35rem; }
+  .care-safety { background: var(--evergreen-deep); color: var(--cream-bright); --focus-ring: var(--ochre); }
+  .care-safety__inner { display: grid; grid-template-columns: 5fr 7fr; gap: clamp(2.5rem, 7vw, 7rem); }
+  .care-safety h2 { margin-top: .7rem; max-width: 16ch; }
+  .care-safety ul { display: grid; gap: .9rem; }
+  .care-safety li { padding: 1rem 0 1rem 1.4rem; border-top: 1px solid rgba(255,253,248,.18); position: relative; color: rgba(255,253,248,.82); }
+  .care-safety li::before { content: ''; position: absolute; left: 0; top: 1.55rem; width: 7px; height: 7px; border-radius: 50%; background: var(--ochre); }
+  .plan-links > ul { display: grid; gap: .8rem; }
+  .plan-links > ul > li { display: grid; grid-template-columns: 1fr auto auto; gap: 1.5rem; align-items: center; background: var(--ink-2); border: 1px solid var(--rule-strong); padding: 1.4rem 1.6rem; border-radius: var(--radius-sm); }
+  .plan-links h3 { font-size: 1.25rem; }
+  .plan-links p { font-size: .92rem; color: var(--mute); }
+  .plan-links strong { font-family: var(--font-display); font-size: 2rem; }
+  .plan-links small { font-family: var(--font-body); font-size: .8rem; color: var(--mute); }
+  .plan-links a { font-weight: 650; text-decoration: underline; text-underline-offset: 4px; }
+  .sources { padding: 2.5rem 0; background: var(--ink-2); border-top: 1px solid var(--rule); }
+  .sources__inner { max-width: 960px; }
+  .sources h2 { font-size: 1.35rem; }
+  .sources p { color: var(--mute); margin: .7rem 0 1rem; }
+  .sources ul { display: flex; flex-wrap: wrap; gap: .7rem 1.5rem; }
+  .sources a { text-decoration: underline; text-underline-offset: 3px; }
+  .care-end { background: var(--evergreen); color: var(--cream-bright); border-top: 6px solid var(--ochre); padding: clamp(3.5rem, 8vw, 6rem) 0; --focus-ring: var(--ochre); }
+  .care-end__inner { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 7vw, 6rem); align-items: end; }
+  .care-end h2 { margin-top: .65rem; max-width: 16ch; }
+  .care-end__action p { color: rgba(255,253,248,.8); margin-bottom: 1.5rem; }
+  @media (max-width: 820px) {
+    .care-grid, .visit, .care-safety__inner, .care-end__inner { grid-template-columns: 1fr; }
+    .plan-links > ul > li { grid-template-columns: 1fr auto; }
+    .plan-links a { grid-column: 1 / -1; }
+  }
+  @media (max-width: 520px) {
+    .care-grid { grid-template-columns: 1fr; }
+    .plan-links > ul > li { grid-template-columns: 1fr; gap: .8rem; }
+    .plan-links a { grid-column: auto; }
+  }
+</style>

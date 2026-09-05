@@ -1,11 +1,14 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { TURNSTILE_SITEKEY } from '../lib/turnstile';
+
+const done = Astro.url.searchParams.get('done') === '1';
 ---
 
 <Layout
   title="Email preferences · Viva Wellness Co."
   description="Stop marketing follow-up emails from Viva Wellness Co."
+  noindex={true}
 >
   <section class="unsub-hero">
     <div class="container unsub-hero__inner">
@@ -20,7 +23,8 @@ import { TURNSTILE_SITEKEY } from '../lib/turnstile';
 
   <section class="unsub-body">
     <div class="container unsub-body__inner">
-      <form class="unsub-form" id="unsubscribe-form" novalidate>
+      <form class="unsub-form" id="unsubscribe-form" method="post" action="/api/unsubscribe">
+        {done && <p class="unsub-form__status is-success" role="status">Done. That address will not receive more Viva marketing follow-ups.</p>}
         <div class="field">
           <label for="u-email" class="field__label">Email address</label>
           <input
@@ -30,6 +34,7 @@ import { TURNSTILE_SITEKEY } from '../lib/turnstile';
             class="field__input"
             autocomplete="email"
             required
+            maxlength="254"
             placeholder="you@example.com"
           />
         </div>
