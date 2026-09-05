@@ -24,7 +24,9 @@ const FIRST_VISIT_CREDIT_NOTE =
 // destination, so attribution survives the /start intermediate page. Fall
 // back to a start_page default when the page is visited directly.
 const incoming = Astro.url.searchParams;
-const utmKeys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'] as const;
+// Deliberately exclude search terms: health-related query text can reveal
+// sensitive intent and is not needed to measure a CTA handoff.
+const utmKeys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content'] as const;
 const utmParts = utmKeys
   .map((k) => {
     const v = incoming.get(k);
@@ -57,7 +59,7 @@ const visitSteps = [
   {
     num: '03',
     title: 'You get a plan in plain English',
-    body: 'You leave with a written protocol recommendation, plus a clear breakdown of what is in it, what it costs, and what the first ninety days should feel like.',
+    body: 'Liliana explains the options that may fit, what they cost, what remains uncertain, and what the next step would be. If a requested treatment is not appropriate, she tells you that clearly.',
   },
   {
     num: '04',
@@ -67,39 +69,39 @@ const visitSteps = [
 ];
 
 // First ninety days · process-clarity timeline shown to prospects right
-// before the final Schedule CTA. Generic enough to apply across protocols
-// (TRT, HRT, GLP-1, peptides); Liliana can edit the clinical cadence as needed.
+// before the final Schedule CTA. Generic enough to apply across care paths;
+// Liliana can edit the clinical cadence as needed.
 const ninetyDays = [
   {
-    range: 'Days 0 to 3',
-    label: 'First few days',
-    title: 'Intake, script, medication ships',
-    body: 'Your first telehealth visit. Liliana goes through your history, writes your starting protocol, and sends it over to the 503A pharmacy. Compounded medication usually ships in 48 to 72 hours, and most patients have it in hand within the first week.',
+    range: 'Days 0 to 7',
+    label: 'First week',
+    title: 'Evaluation and next steps',
+    body: 'Liliana reviews your history, goals, current care, and available information. If labs or another evaluation are needed, she explains that. If medication is prescribed, pharmacy processing and delivery timing vary.',
   },
   {
     range: 'Days 3 to 30',
     label: 'Weeks 1 to 4',
-    title: 'Titration begins',
-    body: 'We start low and build up at your pace, based on how you tolerate it. Message me directly with any side-effect questions, no phone tree. If your labs are still pending, this is the window where they get drawn.',
+    title: 'Secure follow-up begins',
+    body: 'Complete any ordered labs or follow-up steps and use the secure patient portal for clinical questions. Medication changes, if any, are based on your individual plan and response.',
   },
   {
     range: 'Days 30 to 60',
     label: 'Weeks 5 to 8',
-    title: 'First dose-adjustment check-in',
-    body: 'We sit down again and tune the protocol around how your body is responding. Any changes come from your numbers and how you feel.',
+    title: 'Review progress and concerns',
+    body: 'Follow-up timing depends on your care plan. Liliana reviews how things are going, answers questions, and decides whether any change or additional information is appropriate.',
   },
   {
     range: 'Days 60 to 90',
     label: 'Weeks 9 to 12',
-    title: 'Labs re-pulled, results reviewed',
-    body: 'Follow-up labs tell us the protocol is doing what we hoped. Liliana walks you through every number until it makes sense to you. From here it is monthly maintenance with quarterly check-ins.',
+    title: 'Reassess the plan',
+    body: 'By the end of the initial membership period, you and Liliana review the plan, relevant results, next monitoring steps, and whether continuing, changing, or stopping makes sense.',
   },
 ];
 ---
 
 <Layout
-  title="Your first visit · Viva Wellness Co."
-  description="What to expect from your first telehealth visit with Viva Wellness Co. · duration, price, what to bring, and how Liliana works through your goals."
+  title="Book Your First Telehealth Visit | Viva Wellness Co."
+  description="See the duration, $199 first-visit price, $50 booking deposit, what to bring, and how to schedule a telehealth visit with Liliana Damron."
 >
 
   <section class="start-hero">
@@ -113,6 +115,10 @@ const ninetyDays = [
         what it costs, and what to bring. Concierge should mean you can see everything
         coming. Nothing hidden, no surprise bill in your inbox later.
       </p>
+      <div class="start-hero__ctas">
+        <a href={bookingHref} target="_blank" rel="noopener" class="btn btn--bronze">Schedule my first visit</a>
+        <a href="/services/#plans" class="btn">Compare care &amp; pricing</a>
+      </div>
     </div>
   </section>
 
@@ -151,11 +157,11 @@ const ninetyDays = [
         <a href={bookingHref} target="_blank" rel="noopener" class="btn btn--bronze">
           Schedule my first visit
         </a>
-        <a href="/contact" class="btn">Ask a question first</a>
+        <a href="/contact/" class="btn">Ask a question first</a>
       </div>
       <p class="start-cta__fine">
-        Texas, Colorado, Florida, and Iowa residents only at time of visit. Visit fee
-        is paid through GlossGenius (HIPAA-eligible payment processor).
+        You must be physically located in Texas, Colorado, Florida, or Iowa at the
+        time of the visit. Visit fee is paid through GlossGenius.
       </p>
     </div>
   </section>
@@ -197,11 +203,11 @@ const ninetyDays = [
         <div class="start-card start-card--quiet">
           <span class="eyebrow">Not ready to book?</span>
           <p>
-            Take the protocol-match quiz first. Five questions, about ninety seconds.
-            You'll land on the program tier that fits your goals and your budget, and
-            the eBook shows up in your inbox right away.
+            Use the anonymous care-path guide first. Three quick questions, and your
+            answers stay in your browser. The result is educational;
+            Liliana confirms clinical fit during a visit.
           </p>
-          <a href="/#quiz" class="start-link">Take the quiz →</a>
+          <a href="/#quiz" class="start-link">Use the anonymous guide →</a>
         </div>
       </aside>
     </div>
@@ -212,12 +218,12 @@ const ninetyDays = [
       <div class="ninety__head">
         <span class="eyebrow">After your first visit</span>
         <h2 class="ninety__title">
-          What the first ninety days look like.
+          A typical first twelve weeks.
         </h2>
         <p class="lead">
-          Here's the calendar itself. This rhythm holds across
-          hormone, metabolic, peptide, and recovery protocols, and I shift the timing
-          to match what your body is telling me along the way.
+          The exact schedule depends on your care plan, lab needs, pharmacy timing,
+          and response. These milestones show the kinds of decisions and follow-up
+          that may happen during the initial membership period.
         </p>
       </div>
 
@@ -254,7 +260,8 @@ const ninetyDays = [
   // GlossGenius links with the visitor's live utm_* params at page load.
   document.addEventListener('astro:page-load', () => {
     const qs = new URLSearchParams(location.search);
-    const utm = [...qs].filter(([k]) => k.startsWith('utm_'));
+    const allowed = new Set(['utm_source', 'utm_medium', 'utm_campaign', 'utm_content']);
+    const utm = [...qs].filter(([k, v]) => allowed.has(k) && v.length <= 120);
     if (!utm.length) return;
     document.querySelectorAll('a[href*="glossgenius.com"]').forEach((a) => {
       const u = new URL((a as HTMLAnchorElement).href);
@@ -286,6 +293,9 @@ const ninetyDays = [
     letter-spacing: -0.02em;
     margin: 1rem 0 1.5rem;
   }
+  .start-hero__ctas { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 1.7rem; }
+  .start-hero .btn:not(.btn--bronze) { color: var(--cream-bright); border-color: var(--cream-bright); }
+  .start-hero .btn:not(.btn--bronze):hover { background: var(--cream-bright); color: var(--evergreen-deep); }
 
   .start-headline {
     padding: 0 0 clamp(2rem, 5vw, 3.5rem);
@@ -409,7 +419,7 @@ const ninetyDays = [
   }
   .start-link {
     font-family: var(--font-mono);
-    font-size: 0.74rem;
+    font-size: 0.75rem;
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--bronze);
@@ -460,14 +470,14 @@ const ninetyDays = [
   }
   .ninety__phase-label {
     font-family: var(--font-mono);
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--bronze);
   }
   .ninety__phase-range {
     font-family: var(--font-mono);
-    font-size: 0.65rem;
+    font-size: 0.75rem;
     color: var(--mute);
     letter-spacing: 0.08em;
   }
@@ -544,7 +554,7 @@ const ninetyDays = [
   }
   .start-cta__fine {
     font-family: var(--font-mono);
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     letter-spacing: 0.08em;
     color: var(--mute);
     line-height: 1.55;

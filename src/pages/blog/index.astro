@@ -6,29 +6,37 @@ const posts = (await getCollection('blog'))
   .filter(p => !p.data.draft)
   .sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
 
+const heroSizes: Record<string, { width: number; height: number }> = {
+  '/blog/compare-real.webp': { width: 1600, height: 900 },
+  '/blog/glp1.webp': { width: 1024, height: 576 },
+  '/blog/perimenopause-starts-earlier.webp': { width: 1216, height: 640 },
+  '/blog/telehealth.webp': { width: 1024, height: 576 },
+  '/blog/the-parent-tax.webp': { width: 1216, height: 608 },
+};
+
 const blogSchema = {
   '@context': 'https://schema.org',
   '@graph': [
     {
       '@type': 'Blog',
-      '@id': 'https://vivawellnessco.com/blog#blog',
+      '@id': 'https://vivawellnessco.com/blog/#blog',
       name: 'Viva Wellness Co. Blog',
-      description: 'Educational articles on peptide therapy, GLP-1 weight loss, hormone optimization, and concierge telehealth.',
+      description: 'Source-led patient education on telehealth, weight management, menopause, and everyday health.',
       publisher: { '@id': 'https://vivawellnessco.com/#organization' },
       blogPost: posts.map((p) => ({
         '@type': 'BlogPosting',
         headline: p.data.title,
-        url: `https://vivawellnessco.com/blog/${p.id}`,
+        url: `https://vivawellnessco.com/blog/${p.id}/`,
         datePublished: p.data.publishDate.toISOString(),
         author: { '@type': 'Person', name: p.data.author },
       })),
     },
     {
       '@type': 'BreadcrumbList',
-      '@id': 'https://vivawellnessco.com/blog#breadcrumb',
+      '@id': 'https://vivawellnessco.com/blog/#breadcrumb',
       itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://vivawellnessco.com' },
-        { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://vivawellnessco.com/blog' },
+        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://vivawellnessco.com/' },
+        { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://vivawellnessco.com/blog/' },
       ],
     },
   ],
@@ -37,7 +45,7 @@ const blogSchema = {
 
 <Layout
   title="Patient Education | Viva Wellness Co. Blog"
-  description="Educational articles on peptide therapy, GLP-1 weight loss, tirzepatide vs semaglutide, concierge telehealth, and hormone optimization. Written from a clinical perspective."
+  description="Source-led patient education on concierge telehealth, medical weight management, menopause, medication safety, and realistic care for busy adults."
   schema={blogSchema}
 >
 
@@ -49,9 +57,9 @@ const blogSchema = {
         <span class="italic-display">written by a clinician.</span>
       </h1>
       <p class="lead">
-        Performance medicine is full of marketing dressed up as information.
-        These articles are the opposite. Educational, clinical, written so you
-        can make informed decisions about your own care.
+        Source-led guides to help you ask better questions about telehealth,
+        weight management, menopause, medication status, and everyday health.
+        General education only, not individualized medical advice.
       </p>
     </div>
   </section>
@@ -61,10 +69,19 @@ const blogSchema = {
       <ul class="post-list">
         {posts.map((post, i) => (
           <li class="post-card">
-            <a href={`/blog/${post.id}`} class="post-card__link">
+            <a href={`/blog/${post.id}/`} class="post-card__link">
               <span class="post-card__num">{String(i + 1).padStart(2, '0')}</span>
               <div class="post-card__thumb">
-                {post.data.heroImage && <img src={post.data.heroImage} alt="" loading="lazy" decoding="async" />}
+                {post.data.heroImage && (
+                  <img
+                    src={post.data.heroImage}
+                    alt=""
+                    width={heroSizes[post.data.heroImage]?.width}
+                    height={heroSizes[post.data.heroImage]?.height}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                )}
               </div>
               <div class="post-card__body">
                 <span class="post-card__cat">{post.data.category}</span>
@@ -145,7 +162,7 @@ const blogSchema = {
   }
   .post-card__cat {
     font-family: var(--font-mono);
-    font-size: 0.68rem;
+    font-size: 0.75rem;
     letter-spacing: 0.16em;
     text-transform: uppercase;
     color: var(--bronze);
@@ -174,7 +191,7 @@ const blogSchema = {
     gap: 1.5rem;
     flex-wrap: wrap;
     font-family: var(--font-mono);
-    font-size: 0.72rem;
+    font-size: 0.75rem;
     letter-spacing: 0.08em;
     color: var(--mute);
   }

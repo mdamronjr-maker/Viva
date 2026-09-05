@@ -2,8 +2,16 @@
 # Format: source destination [status]
 # 301 = permanent, 302 = temporary
 
+# Retired after the 2026-09-05 clinical-content audit. The former PDF made
+# unsupported claims about investigational and non-FDA-approved products.
+/viva-ebook.pdf /blog/ 301
+
 # /quiz folded into the home page quiz section after audit pass
 /quiz /#quiz 301
 
+# Retire the product-catalog framing in favor of care goals and clear pricing.
+/menu /services/ 301
+
 # /refer unpublished pending final reward confirmation; send traffic to contact
-/refer /contact 301
+/refer /contact/ 301
+/_refer /contact/ 301

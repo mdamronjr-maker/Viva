@@ -82,11 +82,11 @@ function page(title, body) {
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${title} · Viva Wellness Co.</title>
 <style>
-  body{margin:0;background:#b8d0de;color:#2e3438;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;display:flex;min-height:100vh;align-items:center;justify-content:center;}
-  .card{max-width:520px;margin:24px;padding:42px 34px;text-align:center;background:#fff8df;border-radius:18px;}
+  body{margin:0;background:#0c3323;color:#14251b;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;display:flex;min-height:100vh;align-items:center;justify-content:center;}
+  .card{max-width:520px;margin:24px;padding:42px 34px;text-align:center;background:#fffdf8;border-top:6px solid #f1a88d;border-radius:18px;}
   h1{font-size:28px;font-weight:600;margin:0 0 12px;letter-spacing:-0.02em;}
-  p{font-size:16px;line-height:1.6;color:#465057;margin:0 0 10px;}
-  a{color:#2e3438;text-decoration:underline;text-underline-offset:3px;}
+  p{font-size:16px;line-height:1.6;color:#526158;margin:0 0 10px;}
+  a{color:#174b33;text-decoration:underline;text-underline-offset:3px;}
 </style></head>
 <body><div class="card">${body}</div></body></html>`,
     { status: 200, headers: { 'Content-Type': 'text/html; charset=utf-8' } }
@@ -116,8 +116,22 @@ export async function onRequestPost(context) {
   }
 
   let payload;
+  let isNativeForm = false;
   try {
-    payload = await request.json();
+    const contentType = request.headers.get('content-type') || '';
+    if (contentType.includes('application/json')) {
+      payload = await request.json();
+    } else if (contentType.includes('application/x-www-form-urlencoded') || contentType.includes('multipart/form-data')) {
+      isNativeForm = true;
+      const data = await request.formData();
+      payload = {
+        email: String(data.get('email') || ''),
+        company: String(data.get('company') || ''),
+        turnstileToken: String(data.get('cf-turnstile-response') || ''),
+      };
+    } else {
+      return json({ ok: false, error: 'Unsupported form format.' }, { status: 415 });
+    }
   } catch {
     return json({ ok: false, error: 'Invalid request.' }, { status: 400 });
   }
@@ -126,7 +140,7 @@ export async function onRequestPost(context) {
   if (company) return json({ ok: true });
 
   const email = String(payload && payload.email || '').trim().toLowerCase();
-  if (!isEmail(email)) {
+  if (!isEmail(email) || email.length > 254) {
     return json({ ok: false, error: 'Enter a valid email address.' }, { status: 400 });
   }
 
@@ -156,6 +170,9 @@ export async function onRequestPost(context) {
   }
 
   await suppressAndCancel(env, env.RESEND_API_KEY, email, 'website-unsubscribe');
+  if (isNativeForm) {
+    return Response.redirect(new URL('/unsubscribe/?done=1', request.url), 303);
+  }
   return json({ ok: true });
 }
 

@@ -1,0 +1,39 @@
+---
+import CareDetail from '../components/CareDetail.astro';
+---
+
+<CareDetail
+  path="/recovery"
+  title="Recovery & Longevity Telehealth | Viva Wellness Co."
+  description="Evidence-aware concierge telehealth for active adults exploring recovery, performance, and long-term health goals with one named provider."
+  eyebrow="Recovery and longevity"
+  headline="Stay active without"
+  accent="buying into hype."
+  intro="Training, work, parenting, sleep, injury, and long-term health can pull in different directions. Viva begins by clarifying the problem, the evidence, and whether telehealth—or a different kind of care—is the right next step."
+  decisionTitle="Recovery care should begin with boundaries."
+  decisions={[
+    { title: 'What needs in-person care', body: 'Some pain, injury, or postoperative concerns require examination or another clinician. Telehealth should not pretend otherwise.' },
+    { title: 'What the evidence supports', body: 'Ask what is known, what remains uncertain, and whether a proposed option is FDA-approved, compounded, or not appropriate for your goal.' },
+    { title: 'How progress will be judged', body: 'Define practical goals and follow-up before starting. A persuasive product name is not a clinical outcome measure.' },
+  ]}
+  visitItems={[
+    { title: 'Clarify the actual problem', body: 'Liliana reviews what changed, when it began, current training or daily demands, prior evaluation, and what you have already tried.' },
+    { title: 'Set the care boundary', body: 'The visit identifies what Viva can reasonably address by telehealth and when in-person or specialist care is more appropriate.' },
+    { title: 'Review options honestly', body: 'Discuss evidence quality, limitations, cost, alternatives, monitoring, and the regulatory status of any proposed medication.' },
+    { title: 'Choose a sustainable next step', body: 'The goal is a clear care decision that fits your life—not the longest possible treatment list.' },
+  ]}
+  safetyTitle="Compounded does not mean FDA-approved."
+  safetyItems={[
+    'Product identity, FDA status, evidence, and uncertainty should be explained before any treatment decision.',
+    'Compounded drugs are not FDA-approved finished products and should not be presented as equivalent to FDA-approved products.',
+    'No peptide, medication, or recovery option is guaranteed to improve healing, performance, body composition, or longevity.',
+    'Urgent injuries, severe symptoms, and emergencies require appropriate in-person or emergency care.',
+  ]}
+  plans={[
+    { name: 'Viva Concierge Access', price: '$99', href: '/services/#viva-concierge-access', note: 'The flexible monthly entry point for provider access and discussion of eligible add-ons.' },
+  ]}
+  sources={[
+    { label: 'FDA: understanding risks of compounded drugs', href: 'https://www.fda.gov/drugs/human-drug-compounding/understanding-risks-compounded-drugs' },
+    { label: 'FTC: health-products compliance guidance', href: 'https://www.ftc.gov/business-guidance/resources/health-products-compliance-guidance' },
+  ]}
+/>

@@ -1,0 +1,39 @@
+---
+import CareDetail from '../components/CareDetail.astro';
+---
+
+<CareDetail
+  path="/testosterone"
+  title="Testosterone Telehealth in Austin | Viva Wellness Co."
+  description="Provider-led testosterone evaluation and ongoing telehealth care with published membership pricing in Texas, Colorado, Florida, and Iowa."
+  eyebrow="Testosterone care"
+  headline="Evaluation first."
+  accent="Treatment only when it fits."
+  intro="Fatigue, libido changes, strength changes, and poor recovery can have more than one explanation. Viva does not treat a symptom checklist as a diagnosis. Liliana reviews the broader picture before discussing treatment."
+  decisionTitle="A credible TRT decision needs more than a sales pitch."
+  decisions={[
+    { title: 'Confirm the concern', body: 'Symptoms are context, not proof. Liliana reviews history and the information needed to decide whether testosterone care should be considered.' },
+    { title: 'Understand monitoring', body: 'Before enrolling, you should know what the membership includes, when labs are performed, how follow-up works, and how concerns are handled.' },
+    { title: 'Know the full cost', body: 'Viva publishes the monthly membership price and lists medication, supplies, delivery, follow-up, and twice-yearly labs as included in the TRT plan.' },
+  ]}
+  visitItems={[
+    { title: 'Why you are considering care', body: 'Discuss the changes you have noticed, their timing, relevant history, current treatment, and what you want your health to support.' },
+    { title: 'What needs to be evaluated', body: 'Liliana explains which clinical information and laboratory data are relevant before treatment can be considered.' },
+    { title: 'Benefits, risks, and alternatives', body: 'The visit is the place to ask about uncertainty, ongoing monitoring, alternatives, and reasons treatment may not be appropriate.' },
+    { title: 'The follow-up plan', body: 'If treatment is appropriate, the membership includes ongoing management rather than a one-time prescription.' },
+  ]}
+  safetyTitle="Symptoms alone do not establish low testosterone."
+  safetyItems={[
+    'The first visit is an individual clinical evaluation, not an automatic approval for medication.',
+    'The TRT membership lists compounded testosterone when prescribed. Compounded drugs are not FDA-approved finished products.',
+    'Questions about risks, monitoring, other medications, and future goals belong in the visit and secure clinical intake.',
+    'The public contact form and regular email are not clinical channels.',
+  ]}
+  plans={[
+    { name: 'TRT All Inclusive', price: '$199', href: '/services/#trt-all-inclusive', note: 'Medication when prescribed, supplies, delivery, follow-up, and twice-yearly labs are listed as included.' },
+    { name: 'Viva Concierge Access', price: '$99', href: '/services/#viva-concierge-access', note: 'Provider access with eligible prescriptions, labs, and medication costs handled separately.' },
+  ]}
+  sources={[
+    { label: 'FDA: compounding questions and answers', href: 'https://www.fda.gov/drugs/human-drug-compounding/compounding-and-fda-questions-and-answers' },
+  ]}
+/>

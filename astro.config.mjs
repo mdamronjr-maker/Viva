@@ -3,7 +3,10 @@ import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
   site: 'https://vivawellnessco.com',
-  trailingSlash: 'ignore',
+  trailingSlash: 'always',
+  // Astro 7 defaults to JSX-style whitespace compression. Retain the
+  // previously verified HTML-aware behavior during this security upgrade.
+  compressHTML: true,
   // Prefetch nav targets on hover. Combined with <ClientRouter />, this makes
   // navigation feel near-instant on a five-page marketing site.
   prefetch: {
@@ -12,8 +15,8 @@ export default defineConfig({
   },
   integrations: [
     sitemap({
-      // /quiz is now a 301 redirect to /#quiz (see public/_redirects)
-      filter: (page) => !page.endsWith('/quiz/'),
+      // Utility and retired routes should not appear in the XML sitemap.
+      filter: (page) => !page.endsWith('/quiz/') && !page.endsWith('/unsubscribe/'),
     }),
   ],
 });

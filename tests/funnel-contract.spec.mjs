@@ -1,36 +1,53 @@
-// Funnel-contract and content-integrity suite.
-// Encodes the protected contracts from AGENTS.md against the static build:
-// form field names and source values that /api/lead reads, the #quiz anchor,
-// GlossGenius booking host, FAQPage JSON-LD, robots directives, sitemap,
-// price figures, and the single-use brand line.
-//
-// Everything runs against `astro preview` serving dist/ (see
-// playwright.config.mjs). No external network calls: request-level tests
-// never leave localhost, and page-level tests abort any non-localhost URL.
+// Production-safety, funnel, SEO, accessibility, and responsive contracts.
+// Runs against the built static site through `astro preview` and blocks all
+// third-party requests. It never submits a live form or opens the scheduler.
 import { test, expect } from '@playwright/test';
+import { onRequestPost as handleLead } from '../functions/api/lead.js';
+import { onRequestPost as handleUnsubscribe } from '../functions/api/unsubscribe.js';
 
-const ORIGIN = 'http://localhost:4173';
+const PUBLIC_PAGES = [
+  '/',
+  '/about/',
+  '/services/',
+  '/weight-management/',
+  '/testosterone/',
+  '/menopause/',
+  '/recovery/',
+  '/partners/',
+  '/blog/',
+  '/blog/concierge-telehealth-explained/',
+  '/blog/glp-1-weight-loss-austin/',
+  '/blog/perimenopause-starts-earlier/',
+  '/blog/the-parent-tax/',
+  '/blog/tirzepatide-vs-semaglutide/',
+  '/contact/',
+  '/start/',
+  '/privacy/',
+  '/terms/',
+  '/notice/',
+  '/accessibility/',
+];
 
-// Source values /api/lead meaningfully accepts (functions/api/lead.js
-// destructures `source` with default 'contact' and special-cases 'quiz'
-// and 'refer').
-const ACCEPTED_SOURCES = ['contact', 'quiz', 'refer'];
+const RESPONSIVE_PAGES = [
+  '/',
+  '/services/',
+  '/weight-management/',
+  '/menopause/',
+  '/about/',
+  '/contact/',
+  '/start/',
+  '/blog/the-parent-tax/',
+];
 
-// Abort every request that is not same-origin so a page test can never
-// reach a third-party host (Turnstile script, analytics, fonts CDNs).
 async function blockExternal(page) {
-  await page.route(/^(?!http:\/\/localhost:4173)/, (route) => route.abort());
+  await page.route(/^(?!http:\/\/(?:localhost|127\.0\.0\.1):4173)/, (route) => route.abort());
 }
 
-// Pull every JSON-LD block out of raw HTML and parse it. Throws (failing
-// the test) if any block is not valid JSON.
 function parseJsonLd(html) {
   const blocks = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)];
   return blocks.map((m) => JSON.parse(m[1]));
 }
 
-// Find FAQPage nodes anywhere in a parsed JSON-LD document (top level or
-// inside an @graph array).
 function faqPagesIn(docs) {
   const nodes = [];
   for (const doc of docs) {
@@ -42,351 +59,305 @@ function faqPagesIn(docs) {
   return nodes;
 }
 
-test.describe('funnel contracts', () => {
-  test('home responds 200', async ({ request }) => {
-    const res = await request.get('/');
-    expect(res.status()).toBe(200);
-  });
-
-  test('site uses the Founder Garden Viva favicon', async ({ page }) => {
+test.describe('brand and experience contracts', () => {
+  test('home responds and uses the aligned brand assets', async ({ page }) => {
     await blockExternal(page);
-    await page.goto('/');
+    const response = await page.goto('/');
+    expect(response?.status()).toBe(200);
     await expect(page.locator('link[rel="icon"]')).toHaveAttribute('href', '/favicon-viva-garden-v2.svg');
     await expect(page.locator('link[rel="apple-touch-icon"]')).toHaveAttribute('href', '/viva-icon-garden-v2.png');
-  });
-
-  test('home closing CTA and footer use the approved Viva wordmark lockups', async ({ page }) => {
-    await blockExternal(page);
-    await page.goto('/');
-    await expect(page.locator('[data-viva-wordmark="viva"] img')).toHaveAttribute('src', '/viva-logo-paper.png');
-    await expect(page.locator('[data-viva-wordmark="full"] img')).toHaveAttribute('src', '/viva-logo-paper.png');
+    await expect(page.locator('.brand__logo')).toHaveAttribute('src', '/viva-logo-paper-cropped.png');
+    await expect(page.locator('[data-viva-wordmark="viva"] img')).toHaveAttribute('src', '/viva-logo-paper-cropped.png');
+    await expect(page.locator('[data-viva-wordmark="full"] img')).toHaveAttribute('src', '/viva-logo-paper-cropped.png');
     await expect(page.locator('[data-viva-monogram]')).toHaveCount(0);
   });
 
-  test('home renders the #quiz section (public/_redirects 301s /quiz here)', async ({ page }) => {
+  test('home states care, provider, service area, and primary action', async ({ page }) => {
     await blockExternal(page);
     await page.goto('/');
-    await expect(page.locator('#quiz')).toHaveCount(1);
+    await expect(page.locator('.hero__eyebrows')).toContainText('Texas · Colorado · Florida · Iowa');
+    await expect(page.locator('.hero__eyebrow-secondary')).toHaveText('Austin-based · Virtual care');
+    await expect(page.locator('.hero__title')).toContainText('Medical weight and hormone care.');
+    await expect(page.locator('.hero__title .italic-display')).toHaveText('One provider who knows your plan.');
+    await expect(page.locator('.hero__lead')).toContainText('Liliana Damron, APRN, FNP-BC');
+    await expect(page.locator('.hero__ctas a').first()).toHaveText('Book your first visit');
+
+    const image = page.locator('.hero__media img');
+    await expect(image).toHaveAttribute('src', '/liliana-founder-portrait-v2.webp');
+    await expect(image).toHaveAttribute('width', '2048');
+    await expect(image).toHaveAttribute('height', '3072');
+    await expect(image).toHaveAttribute('srcset', /2048w/);
+
+    const rotation = page.locator('[data-tplaypause]');
+    await expect(rotation).toHaveAttribute('aria-label', 'Play automatic review rotation');
+    await expect(rotation).toHaveAttribute('aria-pressed', 'false');
+    await rotation.click();
+    await expect(rotation).toHaveAttribute('aria-label', 'Pause automatic review rotation');
+    await expect(rotation).toHaveAttribute('aria-pressed', 'true');
   });
 
-  test('home hero uses the approved copy and clean button treatments', async ({ page }) => {
+  test('key viewports have no horizontal overflow', async ({ page }) => {
     await blockExternal(page);
-    await page.goto('/');
-    await expect(page.locator('.hero__eyebrows')).toContainText('Concierge telehealth · TX · CO · FL · IA');
-    await expect(page.locator('.hero__eyebrow-secondary')).toHaveText('100% concierge care');
-    await expect(page.locator('.hero__title')).toContainText('You bring the goals.');
-    await expect(page.locator('.hero__title .italic-display')).toHaveText("I'll build the protocol.");
-    await expect(page.locator('.hero__media img')).toHaveAttribute('src', '/liliana-founder-original-v1.jpg');
-    await expect(page.locator('.hero__portrait')).toHaveCount(0);
-
-    const styles = await page.evaluate(() => {
-      const title = getComputedStyle(document.querySelector('.hero__title'));
-      const primary = getComputedStyle(document.querySelector('.hero__ctas .btn--bronze'));
-      const quiet = getComputedStyle(document.querySelector('.hero__btn-quiet'));
-      const header = getComputedStyle(document.querySelector('.site-header--home'));
-      return {
-        titleShadow: title.textShadow,
-        primaryBorder: primary.borderTopColor,
-        quietBorder: quiet.borderTopColor,
-        headerPosition: header.position,
-        forestAccent: getComputedStyle(document.documentElement).getPropertyValue('--bronze').trim(),
-        gardenGreen: getComputedStyle(document.documentElement).getPropertyValue('--evergreen').trim(),
-      };
-    });
-    expect(styles.titleShadow).toBe('none');
-    expect(styles.primaryBorder).toBe('rgba(0, 0, 0, 0)');
-    expect(styles.quietBorder).toBe('rgb(255, 253, 248)');
-    expect(styles.headerPosition).toBe('absolute');
-    expect(styles.forestAccent).toBe('#1d5137');
-    expect(styles.gardenGreen).toBe('#174b33');
-  });
-
-  test('interior page mastheads carry the Founder Garden green', async ({ page }) => {
-    await blockExternal(page);
-    for (const [route, selector] of [
-      ['/about/', '.about-hero'],
-      ['/services/', '.services-hero'],
-      ['/menopause/', '.meno-hero'],
-      ['/menu/', '.menu-hero'],
-      ['/partners/', '.partners-hero'],
-      ['/contact/', '.contact-hero'],
-      ['/start/', '.start-hero'],
-      ['/blog/', '.blog-hero'],
-    ]) {
-      await page.goto(route);
-      await expect(page.locator(selector)).toHaveCSS('background-color', 'rgb(23, 75, 51)');
-    }
-  });
-
-  test('sitewide founder photography uses the untouched original asset', async ({ page }) => {
-    await blockExternal(page);
-    for (const [route, selector] of [
-      ['/', '.hero__media img'],
-      ['/', '.provider-band__frame img'],
-      ['/about/', '.founder__frame img'],
-      ['/services/', '.provider-strip__media img'],
-      ['/blog/the-parent-tax/', '.post-author__media img'],
-    ]) {
-      await page.goto(route);
-      await expect(page.locator(selector)).toHaveAttribute('src', '/liliana-founder-original-v1.jpg');
-    }
-  });
-
-  test('sitewide conversion endcaps use the green, cream, and coral system', async ({ page }) => {
-    await blockExternal(page);
-    for (const [route, selector] of [
-      ['/about/', '.about-cta'],
-      ['/services/', '.services-cta'],
-      ['/menopause/', '.meno-cta'],
-      ['/menu/', '.menu-cta'],
-      ['/partners/', '.part-cta'],
-      ['/start/', '.start-final'],
-      ['/blog/the-parent-tax/', '.post-foot'],
-    ]) {
-      await page.goto(route);
-      await expect(page.locator(selector)).toHaveCSS('background-color', 'rgb(23, 75, 51)');
-      await expect(page.locator(selector)).toHaveCSS('border-top-color', 'rgb(200, 95, 70)');
-    }
-  });
-
-  test('home hero headline stays on its two intended lines at wide and compact viewports', async ({ page }) => {
-    await blockExternal(page);
-
     for (const viewport of [
-      { width: 2048, height: 573 },
-      { width: 1024, height: 768 },
       { width: 390, height: 844 },
+      { width: 768, height: 1024 },
+      { width: 1440, height: 1000 },
     ]) {
       await page.setViewportSize(viewport);
-      await page.goto('/');
-      const geometry = await page.locator('.hero__title').evaluate((title) => {
-        const copy = title.closest('.hero__copy');
-        const lines = Array.from(title.querySelectorAll('.hero__title-line'));
-        return {
-          copyWidth: copy?.getBoundingClientRect().width || 0,
-          titleScrollWidth: title.scrollWidth,
-          lineCount: lines.length,
-          lineHeights: lines.map((line) => line.getBoundingClientRect().height),
-          expectedLineHeight: Number.parseFloat(getComputedStyle(title).lineHeight),
-        };
-      });
-
-      expect(geometry.lineCount).toBe(2);
-      expect(geometry.titleScrollWidth).toBeLessThanOrEqual(geometry.copyWidth + 1);
-      for (const height of geometry.lineHeights) {
-        expect(height).toBeLessThanOrEqual(geometry.expectedLineHeight + 1);
+      for (const route of RESPONSIVE_PAGES) {
+        await page.goto(route);
+        const geometry = await page.evaluate(() => ({
+          client: document.documentElement.clientWidth,
+          scroll: document.documentElement.scrollWidth,
+        }));
+        expect(geometry.scroll, `${route} at ${viewport.width}px`).toBeLessThanOrEqual(geometry.client + 1);
       }
     }
   });
 
-  test('contact form carries the exact field names /api/lead reads', async ({ page }) => {
+  test('mobile navigation exposes its links and restores state', async ({ page }) => {
+    await blockExternal(page);
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto('/');
+    const toggle = page.locator('.nav-toggle');
+    const menu = page.locator('#site-mobile-nav');
+    await expect(toggle).toHaveAttribute('aria-expanded', 'false');
+    await expect(menu).toHaveAttribute('inert', '');
+    await toggle.click();
+    await expect(toggle).toHaveAttribute('aria-expanded', 'true');
+    await expect(menu).not.toHaveAttribute('inert', '');
+    await expect(menu.locator('a[href="/services/"]')).toHaveText('Care & pricing');
+    await page.keyboard.press('Escape');
+    await expect(toggle).toHaveAttribute('aria-expanded', 'false');
+    await expect(menu).toHaveAttribute('inert', '');
+  });
+});
+
+test.describe('privacy-conscious funnels', () => {
+  test('lead endpoint rejects retired sources, guide data, and arbitrary messages', async () => {
+    const post = (payload) => handleLead({
+      request: new Request('https://vivawellnessco.com/api/lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      }),
+      env: {},
+    });
+
+    expect((await post({ source: 'refer' })).status).toBe(400);
+    expect((await post({ source: 'contact', quiz: { goal: 'weight' } })).status).toBe(400);
+    expect((await post({
+      source: 'contact',
+      name: 'Test Person',
+      email: 'person@example.com',
+      message: 'Symptoms and medication details should not reach email',
+    })).status).toBe(400);
+
+    const validShape = await post({
+      source: 'contact',
+      name: 'Test Person',
+      email: 'person@example.com',
+      message: 'Scheduling or first-visit question',
+    });
+    expect(validShape.status).toBe(500); // passed validation; no Resend key in test env
+  });
+
+  test('public email endpoints reject oversized addresses before processing', async () => {
+    const oversizedEmail = `${'a'.repeat(250)}@example.com`;
+    const leadResponse = await handleLead({
+      request: new Request('https://vivawellnessco.com/api/lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          source: 'contact',
+          name: 'Test Person',
+          email: oversizedEmail,
+          message: 'Scheduling or first-visit question',
+        }),
+      }),
+      env: {},
+    });
+    const unsubscribeResponse = await handleUnsubscribe({
+      request: new Request('https://vivawellnessco.com/api/unsubscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: oversizedEmail }),
+      }),
+      env: {},
+    });
+
+    expect(leadResponse.status).toBe(400);
+    expect(unsubscribeResponse.status).toBe(400);
+  });
+
+  test('contact form is brief, progressive, non-clinical, and opt-in by choice', async ({ page }) => {
     await blockExternal(page);
     await page.goto('/contact/');
     const form = page.locator('form#contact-form');
-    await expect(form).toHaveCount(1);
+    await expect(form).toHaveAttribute('method', 'post');
+    await expect(form).toHaveAttribute('action', '/api/lead');
     await expect(form.locator('input[name="name"]')).toHaveCount(1);
     await expect(form.locator('input[name="email"]')).toHaveCount(1);
     await expect(form.locator('input[name="phone"]')).toHaveCount(1);
-    await expect(form.locator('textarea[name="message"]')).toHaveCount(1);
-    await expect(form.locator('input[name="company"]')).toHaveCount(1); // honeypot
+    await expect(form.locator('input[name="name"]')).toHaveAttribute('maxlength', '200');
+    await expect(form.locator('input[name="email"]')).toHaveAttribute('maxlength', '254');
+    await expect(form.locator('input[name="phone"]')).toHaveAttribute('maxlength', '40');
+    await expect(form.locator('select[name="message"]')).toHaveCount(1);
+    await expect(form.locator('textarea')).toHaveCount(0);
+    await expect(form.locator('input[name="marketing_consent"]')).not.toBeChecked();
+    await expect(form.locator('input[name="company"]')).toHaveCount(1);
+    await expect(page.locator('.phi-notice')).toContainText(/do not share/i);
   });
 
-  test('customers can reach the email-preferences form from the footer', async ({ page }) => {
+  test('email preferences are noindex and progressively enhanced', async ({ page }) => {
     await blockExternal(page);
     await page.goto('/unsubscribe/');
     const form = page.locator('form#unsubscribe-form');
-    await expect(form).toHaveCount(1);
+    await expect(form).toHaveAttribute('method', 'post');
+    await expect(form).toHaveAttribute('action', '/api/unsubscribe');
     await expect(form.locator('input[name="email"]')).toHaveCount(1);
+    await expect(form.locator('input[name="email"]')).toHaveAttribute('maxlength', '254');
     await expect(form.locator('input[name="company"]')).toHaveCount(1);
-    await expect(form.locator('.cf-turnstile')).toHaveCount(1);
+    await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /noindex/);
     await page.goto('/');
-    await expect(page.locator('.site-footer a[href="/unsubscribe"]')).toHaveText('Email Preferences');
+    await expect(page.locator('.site-footer a[href="/unsubscribe/"]')).toHaveText('Email Preferences');
   });
 
-  test('quiz gate form carries the exact field names /api/lead reads', async ({ page }) => {
+  test('care-path guide is anonymous, three-step, local-only, and non-diagnostic', async ({ page }) => {
     await blockExternal(page);
-    await page.goto('/');
-    const form = page.locator('form#qx-form');
-    await expect(form).toHaveCount(1);
-    await expect(form.locator('input[name="name"]')).toHaveCount(1);
-    await expect(form.locator('input[name="email"]')).toHaveCount(1);
-    await expect(form.locator('input[name="phone"]')).toHaveCount(1);
-    await expect(form.locator('input[name="company"]')).toHaveCount(1); // honeypot
-  });
-
-  test('lead submit scripts post only source values /api/lead accepts', async ({ request }) => {
-    // Gather every text that posts to /api/lead: the contact page (inline
-    // script) and the home page plus its bundled module scripts (the quiz
-    // submit lives in an external _astro chunk).
-    const texts = [];
-    const contactHtml = await (await request.get('/contact/')).text();
-    texts.push(contactHtml);
-    const homeHtml = await (await request.get('/')).text();
-    texts.push(homeHtml);
-    for (const m of homeHtml.matchAll(/src="(\/_astro\/[^"]+\.js)"/g)) {
-      texts.push(await (await request.get(m[1])).text());
-    }
-
-    const posters = texts.filter((t) => t.includes('/api/lead') || t.includes('api/lead'));
-    expect(posters.length, 'expected at least the contact and quiz submit scripts').toBeGreaterThanOrEqual(2);
-
-    const found = new Set();
-    for (const t of posters) {
-      for (const m of t.matchAll(/\bsource\s*:\s*["']([a-z]+)["']/g)) found.add(m[1]);
-    }
-    expect(found.has('contact'), 'contact form posts source:"contact"').toBe(true);
-    expect(found.has('quiz'), 'quiz form posts source:"quiz"').toBe(true);
-    for (const v of found) {
-      expect(ACCEPTED_SOURCES, `source "${v}" must be one lead.js accepts`).toContain(v);
-    }
-  });
-
-  test('every GlossGenius link points at vivawellnessco.glossgenius.com', async ({ request }) => {
-    const pages = ['/', '/services/', '/start/', '/contact/', '/menu/', '/menopause/'];
-    let total = 0;
-    for (const path of pages) {
-      const html = await (await request.get(path)).text();
-      for (const m of html.matchAll(/href="(https?:\/\/[^"]*glossgenius[^"]*)"/gi)) {
-        total += 1;
-        const url = new URL(m[1]);
-        expect(url.host, `GlossGenius link on ${path}`).toBe('vivawellnessco.glossgenius.com');
-      }
-    }
-    expect(total, 'at least one GlossGenius booking link must exist').toBeGreaterThan(0);
-  });
-});
-
-test.describe('content integrity', () => {
-  test('home JSON-LD parses and contains FAQPage question entries', async ({ request }) => {
-    const html = await (await request.get('/')).text();
-    const docs = parseJsonLd(html);
-    expect(docs.length).toBeGreaterThanOrEqual(2); // sitewide graph + FAQPage
-    const faqs = faqPagesIn(docs);
-    expect(faqs.length).toBe(1);
-    const questions = faqs[0].mainEntity;
-    expect(Array.isArray(questions)).toBe(true);
-    expect(questions.length).toBeGreaterThan(0);
-    for (const q of questions) {
-      expect(q['@type']).toBe('Question');
-      expect(typeof q.name).toBe('string');
-      expect(q.name.length).toBeGreaterThan(0);
-    }
-  });
-
-  test('/menopause/ JSON-LD parses and contains FAQPage question entries', async ({ request }) => {
-    const html = await (await request.get('/menopause/')).text();
-    const faqs = faqPagesIn(parseJsonLd(html));
-    expect(faqs.length).toBe(1);
-    const questions = faqs[0].mainEntity;
-    expect(Array.isArray(questions)).toBe(true);
-    expect(questions.length).toBeGreaterThan(0);
-    for (const q of questions) {
-      expect(q['@type']).toBe('Question');
-    }
-  });
-
-  test('/sitemap-index.xml responds 200 with a sitemap index', async ({ request }) => {
-    const res = await request.get('/sitemap-index.xml');
-    expect(res.status()).toBe(200);
-    expect(await res.text()).toContain('<sitemapindex');
-  });
-
-  test('home has no robots noindex meta', async ({ request }) => {
-    const html = await (await request.get('/')).text();
-    expect(html).not.toMatch(/<meta[^>]+name="robots"[^>]*noindex/i);
-  });
-
-  test('404 page is served with status 404 and a robots noindex meta', async ({ request }) => {
-    const res = await request.get('/this-page-does-not-exist/');
-    expect(res.status()).toBe(404);
-    const html = await res.text();
-    expect(html).toMatch(/<meta[^>]+name="robots"[^>]+content="[^"]*noindex[^"]*"/i);
-  });
-
-  test('/services/ shows the $99 and $199 tiers', async ({ request }) => {
-    const res = await request.get('/services/');
-    expect(res.status()).toBe(200);
-    const html = await res.text();
-    expect(html).toContain('$99');
-    expect(html).toContain('$199');
-  });
-
-  test('/start/ shows the $199 first visit and the $50 deposit', async ({ request }) => {
-    const res = await request.get('/start/');
-    expect(res.status()).toBe(200);
-    const html = await res.text();
-    expect(html).toContain('$199');
-    expect(html).toContain('$50 deposit');
-  });
-
-  test('/menu/ and /menopause/ respond 200 at their trailing-slash routes', async ({ request }) => {
-    for (const path of ['/menu/', '/menopause/']) {
-      const res = await request.get(path);
-      expect(res.status(), path).toBe(200);
-    }
-  });
-});
-
-test.describe('quiz submit resilience', () => {
-  test('failed POST keeps the lead, shows retry UI; retry resends and succeeds', async ({ page }) => {
-    await blockExternal(page);
-
-    // Mock /api/lead deterministically: first POST fails with a 500, later
-    // POSTs succeed. (Registered after blockExternal so it matches first;
-    // /api/lead is same-origin anyway.)
-    let failNext = true;
-    let posts = 0;
-    await page.route('**/api/lead', async (route) => {
-      posts += 1;
-      await route.fulfill({
-        status: failNext ? 500 : 200,
-        contentType: 'application/json',
-        body: JSON.stringify(failNext ? { ok: false } : { ok: true }),
-      });
+    let leadPosts = 0;
+    await page.route('**/api/lead', (route) => {
+      leadPosts += 1;
+      return route.fulfill({ status: 500, contentType: 'application/json', body: '{"ok":false}' });
     });
-
     await page.goto('/');
+    await expect(page.locator('#quiz')).toHaveCount(1);
+    await expect(page.locator('#qx-step-label')).toHaveText('Question 1 of 3');
+    await expect(page.locator('#quiz form, #quiz input, #quiz textarea')).toHaveCount(0);
 
-    // Walk the five questions with realistic answers. Each click advances a
-    // step; the selectors are unique per step so auto-waiting handles pacing.
-    const answers = [
-      ['goal', 'hormones'],
-      ['age', '45to54'],
-      ['sex', 'f'],
-      ['activity', 'moderate'],
-      ['budget', 'b199'],
-    ];
-    for (const [q, v] of answers) {
-      await page.click(`.qx__opt[data-q="${q}"][data-v="${v}"]`);
-    }
+    await page.click('.qx__opt[data-q="goal"][data-v="hormones"]');
+    await page.click('.qx__opt[data-q="path"][data-v="menopause"]');
+    await page.click('.qx__opt[data-q="budget"][data-v="b99"]');
 
-    // Gate step: fill the lead form. The Turnstile script is blocked by
-    // blockExternal, so the token is empty — the route is mocked anyway.
-    await page.fill('#qx-name', 'Test Lead');
-    await page.fill('#qx-email', 'lead@example.com');
-    await page.click('#qx-submit');
-
-    // Failure: inline error + retry button appear, the entered email is
-    // still in the form, and the submit control is re-enabled (no spinner
-    // dead-end, no lost answers).
-    const retry = page.locator('#qx-retry');
-    await expect(retry).toBeVisible();
-    await expect(page.locator('#qx-status')).toContainText('nothing was lost');
-    await expect(page.locator('#qx-email')).toHaveValue('lead@example.com');
-    await expect(page.locator('#qx-name')).toHaveValue('Test Lead');
-    await expect(page.locator('#qx-submit')).toBeEnabled();
-    expect(posts, 'exactly one POST so far (no double-post)').toBe(1);
-
-    // Server healthy again: the retry button resends the same payload and
-    // the result step renders.
-    failNext = false;
-    await retry.click();
-    await expect(page.locator('.qx__step[data-step="7"]')).toHaveClass(/is-active/);
-    await expect(page.locator('#qx-r-name')).toBeVisible();
+    await expect(page.locator('.qx__step[data-step="4"]')).toHaveClass(/is-active/);
+    await expect(page.locator('#qx-step-label')).toHaveText('Your starting point');
     await expect(page.locator('#qx-r-name')).toHaveText('Viva Concierge Access');
     await expect(page.locator('#qx-r-price')).toHaveText('$99');
-    await expect(page.locator('#qx-r-body')).toContainText('not included in the $99 membership fee');
-    await expect(retry).toBeHidden();
-    expect(posts, 'retry sent exactly one more POST').toBe(2);
+    await expect(page.locator('#qx-r-body')).toContainText('clinical');
+    await expect(page.locator('.qx__result-note')).toContainText(/eligibility/i);
+    expect(leadPosts).toBe(0);
+  });
+
+  test('only the contact script posts to the lead endpoint', async ({ request }) => {
+    const contactHtml = await (await request.get('/contact/')).text();
+    const homeHtml = await (await request.get('/')).text();
+    expect(contactHtml).toContain('/api/lead');
+    expect(contactHtml).toMatch(/source\s*:\s*['"`]contact['"`]/);
+    expect(homeHtml).not.toContain('/api/lead');
+  });
+});
+
+test.describe('SEO, content, and accessibility contracts', () => {
+  test('every public page has one h1, a title, description, and trailing-slash canonical', async ({ page }) => {
+    await blockExternal(page);
+    for (const route of PUBLIC_PAGES) {
+      const response = await page.goto(route);
+      expect(response?.status(), route).toBe(200);
+      await expect(page.locator('h1'), `${route} h1`).toHaveCount(1);
+      expect((await page.title()).trim(), `${route} title`).not.toBe('');
+      await expect(page.locator('meta[name="description"]'), `${route} description`).toHaveAttribute('content', /\S/);
+      await expect(page.locator('link[rel="canonical"]'), `${route} canonical`).toHaveAttribute(
+        'href',
+        route === '/' ? 'https://vivawellnessco.com/' : `https://vivawellnessco.com${route}`
+      );
+    }
+  });
+
+  test('content images expose alt text and intrinsic dimensions', async ({ page }) => {
+    await blockExternal(page);
+    for (const route of ['/', '/about/', '/services/', '/blog/', '/blog/the-parent-tax/']) {
+      await page.goto(route);
+      const images = page.locator('main img');
+      for (let i = 0; i < await images.count(); i += 1) {
+        const image = images.nth(i);
+        await expect(image, `${route} image ${i} alt`).toHaveAttribute('alt');
+        await expect(image, `${route} image ${i} width`).toHaveAttribute('width', /\d+/);
+        await expect(image, `${route} image ${i} height`).toHaveAttribute('height', /\d+/);
+      }
+    }
+  });
+
+  test('home and menopause FAQ structured data parse', async ({ request }) => {
+    for (const route of ['/', '/menopause/']) {
+      const docs = parseJsonLd(await (await request.get(route)).text());
+      const faqs = faqPagesIn(docs);
+      expect(faqs.length, route).toBe(1);
+      expect(faqs[0].mainEntity.length, route).toBeGreaterThan(0);
+      for (const question of faqs[0].mainEntity) {
+        expect(question['@type']).toBe('Question');
+        expect(question.acceptedAnswer?.['@type']).toBe('Answer');
+      }
+    }
+  });
+
+  test('sitemap is indexable and excludes utility or retired routes', async ({ request }) => {
+    const index = await request.get('/sitemap-index.xml');
+    expect(index.status()).toBe(200);
+    const indexXml = await index.text();
+    expect(indexXml).toContain('<sitemapindex');
+    const sitemapPath = indexXml.match(/https:\/\/vivawellnessco\.com(\/sitemap-[^<]+\.xml)/)?.[1];
+    expect(sitemapPath).toBeTruthy();
+    const sitemap = await (await request.get(sitemapPath)).text();
+    expect(sitemap).toContain('https://vivawellnessco.com/weight-management/');
+    expect(sitemap).toContain('https://vivawellnessco.com/testosterone/');
+    expect(sitemap).toContain('https://vivawellnessco.com/recovery/');
+    expect(sitemap).not.toContain('/quiz/');
+    expect(sitemap).not.toContain('/menu/');
+    expect(sitemap).not.toContain('/unsubscribe/');
+  });
+
+  test('404 is noindex and retired routes are absent from the build', async ({ request }) => {
+    for (const route of ['/this-page-does-not-exist/', '/menu/', '/_refer/']) {
+      const response = await request.get(route);
+      expect(response.status(), route).toBe(404);
+      expect(await response.text()).toMatch(/<meta[^>]+name="robots"[^>]+content="[^"]*noindex/i);
+    }
+  });
+
+  test('published prices and booking host remain visible and consistent', async ({ request }) => {
+    const services = await (await request.get('/services/')).text();
+    for (const price of ['$99', '$199', '$249', '$349', '$499']) expect(services).toContain(price);
+    const start = await (await request.get('/start/')).text();
+    expect(start).toContain('$199');
+    expect(start).toContain('$50 deposit');
+
+    let total = 0;
+    for (const route of ['/', '/services/', '/start/', '/contact/', '/menopause/']) {
+      const html = await (await request.get(route)).text();
+      for (const match of html.matchAll(/href="(https?:\/\/[^"]*glossgenius[^"]*)"/gi)) {
+        total += 1;
+        expect(new URL(match[1]).host, route).toBe('vivawellnessco.glossgenius.com');
+      }
+    }
+    expect(total).toBeGreaterThan(0);
+  });
+
+  test('internal links on every public page resolve', async ({ request }) => {
+    const internalTargets = new Set();
+    for (const route of PUBLIC_PAGES) {
+      const html = await (await request.get(route)).text();
+      for (const match of html.matchAll(/<a\b[^>]*\bhref=(["'])(.*?)\1/gi)) {
+        const href = match[2];
+        if (!href || href.startsWith('#') || /^(?:mailto:|tel:)/i.test(href)) continue;
+        const target = new URL(href, 'https://vivawellnessco.com');
+        if (target.origin !== 'https://vivawellnessco.com') continue;
+        internalTargets.add(`${target.pathname}${target.search}`);
+      }
+    }
+
+    for (const target of internalTargets) {
+      const response = await request.get(target);
+      expect(response.status(), target).toBeLessThan(400);
+    }
   });
 });

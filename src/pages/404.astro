@@ -9,7 +9,7 @@ const recent = (await getCollection('blog', ({ data }) => !data.draft))
 
 <Layout
   title="Page not found · Viva Wellness Co."
-  description="The page you were looking for isn't here. Find your protocol, book a visit, or head back home."
+  description="The page you were looking for isn't here. Explore care and pricing, book a visit, or head back home."
   noindex={true}
 >
 
@@ -32,15 +32,15 @@ const recent = (await getCollection('blog', ({ data }) => !data.draft))
         </a>
         <a class="nf-card nf-card--featured" href="/#quiz">
           <span class="nf-card__num">02</span>
-          <span class="nf-card__title">Find your protocol</span>
-          <span class="nf-card__desc">Five questions, ninety seconds.</span>
+          <span class="nf-card__title">Explore care options</span>
+          <span class="nf-card__desc">Three questions, about a minute.</span>
         </a>
-        <a class="nf-card" href="/services">
+        <a class="nf-card" href="/services/">
           <span class="nf-card__num">03</span>
           <span class="nf-card__title">See programs</span>
           <span class="nf-card__desc">All twelve, with pricing.</span>
         </a>
-        <a class="nf-card" href="/contact">
+        <a class="nf-card" href="/contact/">
           <span class="nf-card__num">04</span>
           <span class="nf-card__title">Get in touch</span>
           <span class="nf-card__desc">Call, message, or email.</span>
@@ -119,7 +119,7 @@ const recent = (await getCollection('blog', ({ data }) => !data.draft))
   }
   .nf-card__num {
     font-family: var(--font-mono);
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     letter-spacing: 0.14em;
     color: var(--bronze);
     margin-bottom: 0.4rem;
@@ -151,7 +151,7 @@ const recent = (await getCollection('blog', ({ data }) => !data.draft))
   .nf-recent__link:hover { background: rgba(23, 75, 51, 0.08); }
   .nf-recent__cat {
     font-family: var(--font-mono);
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--bronze);

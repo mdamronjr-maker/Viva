@@ -17,8 +17,8 @@ const blogPosts = await getCollection('blog', ({ data }) => !data.draft);
 // they render at 88px and need to breathe.
 const pages: Record<string, { title: string; tagline: string }> = {
   home: {
-    title: "You bring the goals. I'll build the protocol.",
-    tagline: 'Peptides · GLP-1 · TRT/HRT · Menopause · TX · CO · FL · IA',
+    title: 'Medical weight and hormone care. One provider who knows your plan.',
+    tagline: 'One provider · Weight · Hormones · Recovery · TX · CO · FL · IA',
   },
   about: {
     title: 'Meet your provider.',
@@ -28,13 +28,25 @@ const pages: Record<string, { title: string; tagline: string }> = {
     title: 'What I treat, and what it costs.',
     tagline: 'Concierge Memberships · $99–$499 / month · TX · CO · FL · IA',
   },
+  'weight-management': {
+    title: 'Weight care that starts with the whole picture.',
+    tagline: 'Medical Weight Management · Clear Pricing · Provider-Led',
+  },
+  testosterone: {
+    title: 'Evaluation first. Treatment only when it fits.',
+    tagline: 'Testosterone Care · Labs · Ongoing Monitoring',
+  },
+  recovery: {
+    title: 'Stay active without buying into hype.',
+    tagline: 'Recovery · Performance · Long-Term Health',
+  },
   partners: {
-    title: 'The Austin partners I trust with my patients.',
-    tagline: 'The Trusted Network · 11 hand-picked partners',
+    title: 'Austin resources beyond telehealth.',
+    tagline: 'Physical Therapy · Training · Fitness · Meal Prep',
   },
   contact: {
-    title: 'Get the eBook. Get a real reply.',
-    tagline: 'Start the Conversation · Same-day follow-up',
+    title: 'Questions before you book? Ask Viva.',
+    tagline: 'Scheduling · Pricing · Partnerships · Non-Clinical Contact',
   },
   privacy: {
     title: 'Your data, your control.',
@@ -45,12 +57,8 @@ const pages: Record<string, { title: string; tagline: string }> = {
     tagline: 'Terms of Service · Plain language',
   },
   blog: {
-    title: 'Real answers, written by a clinician.',
-    tagline: 'Patient Education · Peptide therapy, hormones, GLP-1',
-  },
-  menu: {
-    title: 'Stacks & protocols.',
-    tagline: 'The Full Menu · Peptides · GLP-1 · TRT/HRT',
+    title: 'Evidence-aware patient education.',
+    tagline: 'Telehealth · Weight Care · Hormones · Menopause',
   },
   menopause: {
     title: 'Your hormones changed. Your care should too.',
@@ -82,22 +90,16 @@ export const { getStaticPaths, GET } = await OGImageRoute({
     // canvaskit has no text-transform, so we uppercase here.
     description: page.tagline.toUpperCase(),
     logo: {
-      path: './public/viva-logo-powder-v2.png',
-      size: [280, 60],
+      path: './public/viva-logo-paper-cropped.png',
+      size: [320, 60],
     },
-    // Background: the light gouache Capitol art (public/og-bg.png), pre-washed
-    // with cream so charcoal type reads at full contrast.
+    // Forest, cream, and coral mirror the current provider-led site system.
     bgGradient: [
-      [247, 242, 233],
-      [239, 232, 218],
+      [12, 51, 35],
+      [23, 75, 51],
     ],
-    bgImage: {
-      path: './public/og-bg.png',
-      fit: 'cover',
-      position: 'center',
-    },
     border: {
-      color: [244, 226, 155],
+      color: [241, 168, 141],
       width: 14,
       side: 'inline-start',
     },
@@ -115,14 +117,14 @@ export const { getStaticPaths, GET } = await OGImageRoute({
         lineHeight: 1.02,
         families: ['Fraunces', 'Georgia', 'Times New Roman', 'serif'],
         weight: 'Medium',
-        color: [43, 37, 29],
+        color: [255, 253, 248],
       },
       description: {
         size: 26,
         lineHeight: 1.4,
         families: ['Geist Mono', 'Courier New', 'monospace'],
         weight: 'Medium',
-        color: [111, 84, 16],
+        color: [241, 168, 141],
       },
     },
   }),

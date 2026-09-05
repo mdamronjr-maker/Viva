@@ -1,92 +1,89 @@
 ---
 title: "What Concierge Telehealth Actually Means"
-description: "The word 'concierge' gets used a lot. Here's what it actually delivers, what it costs, and how it differs from the direct-to-consumer telehealth platforms that have flooded the market."
+description: "A practical guide to comparing concierge telehealth: provider continuity, access, pricing, privacy, medication status, and when in-person care is a better fit."
 heroImage: "/blog/telehealth.webp"
 publishDate: 2026-05-05
+modifiedDate: 2026-09-05
 category: "Practice"
-keywords: ["concierge telehealth", "concierge medicine Austin", "telehealth weight loss", "concierge vs DTC"]
+keywords: ["concierge telehealth", "concierge medicine Austin", "telehealth provider", "concierge care cost"]
 ---
 
-I keep a screenshot on my phone of a "concierge" weight loss ad. It promised a dedicated provider, white-glove care, the whole pitch. I clicked through out of curiosity. The intake was four questions and a credit card field. No video visit, no labs, no person. Just a vending machine wearing a nice coat.
+“Concierge” is a business model, not a clinical credential. The word can describe anything from a membership with one named clinician to a large online platform with a support queue. Before paying for either, look past the label and ask how the care actually works.
 
-That word gets stuck onto a lot of things now. Some earn it. A lot don't. It started as a real description of a real thing: a small set of practices that took fewer patients per provider, charged a membership fee, and gave you direct access to a doctor in return. It was specific. It meant something.
+This guide explains the differences that matter: who evaluates you, what the price includes, how follow-up works, where private health information goes, and what happens when telehealth is not enough.
 
-It still means something. But med-spas, subscription services, and direct-to-consumer telehealth companies have all borrowed the label, and most of them are doing something pretty different from the original idea. So if you're trying to figure out whether a "concierge" service is actually concierge, here's how I'd tell them apart.
+## Start with the relationship, not the app
 
-## Where the word came from
+A useful concierge model should make the care relationship easier to understand. You should be able to identify:
 
-Concierge medicine showed up in the late 1990s, and it was basically a revolt against the stopwatch. Insurance-based primary care had squeezed the average appointment down to about seven minutes. Doctors were seeing 25 to 35 patients a day. You can't have a real conversation in that. Nobody can.
+- The licensed clinician responsible for evaluation and prescribing
+- The states where that clinician may see you while you are physically present
+- Whether you will see the same clinician at follow-up
+- How non-urgent clinical questions are handled after a visit
+- When the practice will refer you to primary, urgent, emergency, or in-person specialty care
 
-So a handful of physicians offered something else: way fewer patients (think 200 to 600 per provider, instead of the 2,000 to 3,000 in a standard practice), longer visits, direct phone or text access, and a membership fee that paid for the smaller panel.
+Fast technology can improve access, but it does not substitute for clinical judgment. A questionnaire should not diagnose you, determine eligibility, or guarantee a prescription.
 
-The logic is almost boringly simple. Fewer patients means more time per patient. More time means better diagnosis, better plans, better outcomes. The membership is what makes the smaller panel possible.
+## Compare access in concrete terms
 
-That's the whole thing. Everything else people stack on top of it is decoration.
+“Direct access” can mean different things. Ask whether messages go to your clinician, a clinical team, or customer support. Ask what channel is used and what response window the practice actually commits to.
 
-## What it should actually deliver
+Clinical details should move through an appropriate patient system, not a public contact form or ordinary marketing email. A privacy-conscious practice should explain that boundary before you send anything sensitive.
 
-If a practice has earned the word, you'll see four things.
+Telehealth also has geographic limits. A clinician generally needs authority to practice where the patient is physically located at the time of the visit. Travel can therefore affect whether an appointment may proceed, even when your permanent address is in a supported state.
 
-First, you can reach your provider directly. When you have a question, you message the person who knows you. Not a triage nurse, not a chatbot, not a support inbox that answers in business days. Hours, not days.
+## Know what the price includes
 
-Second, the appointments are long enough to actually talk. First visits run about forty-five minutes. Follow-ups, twenty to thirty. Hold that up against a seven-minute visit and you start to see why concierge gets results that look out of proportion to the actual medication or procedure. The time is the medicine, a lot of the time.
+The monthly number alone rarely supports a fair comparison. For each plan, ask whether the listed fee includes:
 
-Third, continuity. Same provider, every visit. Your file, your history, where you're headed. I remember what you tried last month and what flopped back in 2023. That's rare anywhere in medicine, and it's basically impossible on a platform where you get whoever happens to be on shift.
+- The initial evaluation or only ongoing management
+- Follow-up visits and secure messaging
+- Medication, supplies, and delivery
+- Lab orders, lab fees, or review of outside results
+- Prior-authorization work for eligible retail prescriptions
+- A minimum term, renewal timing, and cancellation process
 
-Fourth, there's a plan, not just a transaction. The medication or procedure sits inside something bigger: monitoring, adjustment, the adjacent therapies, a clear way through the plateaus and the curveballs. Your provider is on the hook for the outcome, not just the next refill.
+At Viva, the first visit is $199, with a $50 deposit applied at booking. Ongoing memberships are listed at $99, $199, $249, $349, and $499 per month. Inclusions differ by plan. Medication, supplies, delivery, and labs are bundled only when the plan specifically says so. [Compare the published plans and terms](/services/).
 
-Lose even one of those and you've got something else. It might still be useful. It just isn't concierge.
+Selecting a plan does not establish medical eligibility or guarantee that a medication will be prescribed.
 
-## Where direct-to-consumer telehealth fits
+## Separate FDA-approved and compounded medication
 
-The DTC telehealth platforms (Hims, Ro, Henry Meds, Sesame, that whole crowd) are not concierge, even when they print the word on the homepage. They're pharmacy companies with a quick medical step bolted on to satisfy state prescribing rules.
+This question matters in weight and hormone care. FDA-approved drugs have been reviewed by FDA for the labeled product's safety, effectiveness, and quality. Compounded drugs are not FDA-approved, and FDA does not review them for safety, effectiveness, or quality before they are dispensed.
 
-And I don't say that as an insult. They do something real. If you're a healthy adult, you know what you want, and your situation is simple, DTC is faster, cheaper, and easier than dragging yourself to primary care. They've genuinely opened up access to medications that used to take several in-person visits and a stack of bills.
+A compounded preparation may be considered for an identified patient-specific need under applicable law. It should not be described as a generic, copy, or equivalent version of an FDA-approved drug. FDA also cautions consumers about telehealth marketing that blurs these distinctions. Read the agency's current [compounding questions and answers](https://www.fda.gov/drugs/human-drug-compounding/compounding-and-fda-questions-and-answers) and [telehealth promotion guidance](https://www.fda.gov/drugs/human-drug-compounding/fda-telehealth-companies-what-know-when-promoting-compounded-drugs).
 
-But the model has hard edges. Provider time is measured in minutes. Continuity is an accident, not a feature. The whole workflow is tuned to write the prescription quickly, not to solve a problem. So when something does go sideways (a side effect, a weird lab, a stall in your progress), the model doesn't have much to offer.
+Availability can change with law, supply, pharmacy operations, and the patient's documented need. A trustworthy practice will explain the status of the specific product being discussed at the time of care.
 
-Simple situation, you know what you need? DTC is fine. Honestly. But if things are complicated, or you're running a protocol over the long haul, or you want a provider who knows you as a person and not a chart, DTC will wear you down within a few months. I've inherited a lot of those patients.
+## Understand what telehealth cannot do
 
-## What concierge telehealth specifically delivers
+Virtual care can reduce travel and make follow-up easier. It cannot perform every physical examination, imaging study, procedure, or emergency assessment.
 
-Concierge telehealth is just those two ideas put together: the lower-volume, relationship-based model of traditional concierge, delivered 100% virtually.
+Telehealth may be a poor fit when symptoms require urgent evaluation, an in-person examination would change the decision, a complex condition belongs with a specialist, or the patient is outside the clinician's licensed service area. A good virtual practice should say that plainly and coordinate an appropriate next step.
 
-The telehealth half is the convenience. No driving to an office, no waiting room, no bending your day around a calendar slot. Visits happen on video from wherever you are. Labs get drawn at a Quest or LabCorp near you, and the results sync back electronically. Medications ship to your door.
+Call 911 or go to the nearest emergency department for an emergency. A website or routine patient message is not an emergency service.
 
-The concierge half is the relationship. Your provider is a specific human being who knows you. You message that person, not a portal queue. The plan is built around your goals, your history, your training, your actual life.
+## Questions to ask before enrolling
 
-Put them together and you get something that genuinely didn't exist before. It drops the geography problem of old-school concierge (you don't have to live in your provider's city) and the volume problem of standard telehealth (your provider isn't grinding through fifty people a day). For the right patient, it's about the most efficient setup in medicine right now.
+Use the same checklist with Viva or any other practice:
 
-## What it costs and what you're paying for
+1. Who is my named clinician, and will I see that person again?
+2. In which states may the clinician treat me?
+3. What happens during the first visit?
+4. What is included at this price, and what is billed separately?
+5. Is a medication FDA-approved or compounded, and why is that option being considered for me?
+6. Where do clinical messages and records live?
+7. How are side effects, monitoring, and referrals handled?
+8. What are the minimum term and cancellation rules?
 
-For performance medicine, hormone optimization, or weight management, concierge telehealth usually runs $200 to $700 a month, all-in. The lower tiers cover the simpler protocols (basic HRT, micro-dose metabolic). The higher ones cover the more involved, multi-medication work (recomposition, peak performance, regenerative medicine).
+Those answers are more useful than a luxury-sounding label.
 
-Here's the part that surprises people. A traditional concierge primary care membership runs $150 to $300 a month, and then all the actual medical care still goes through your insurance on top of that. At Viva, inclusions depend on the membership: all-inclusive TRT and metabolic tiers bundle the medications and services listed in the plan, while Viva Concierge Access keeps medication separate. Compounded estradiol and progesterone for HRT are clinician-selected add-ons and are not included in the $99 membership fee.
+## How Viva defines the model
 
-So in a practice that's built this honestly, here's where your money's going.
+Viva is an Austin-based telehealth practice led by Liliana Damron, APRN, FNP-BC. Liliana is the named provider, and the practice currently serves adults who are physically located in Texas, Colorado, Florida, or Iowa at the time of care.
 
-The medication and supplies. When a tier includes them, the product itself is a real chunk of the cost, but it is not the whole thing. With Viva Concierge Access, medication is handled separately so the membership stays focused on provider access and management.
+The public website is educational. The anonymous care-path guide does not submit answers, and the contact form is limited to non-clinical topics. Clinical evaluation and communication happen through the patient workflow after booking.
 
-Provider time. Real time. Forty-five minutes for a first visit. Direct messaging in between. Quarterly check-ins baked into the rhythm instead of billed Ã  la carte.
+If that structure sounds useful, [review the care paths and prices](/services/) before deciding whether to [book the first visit](/start/).
 
-Lab work. Baseline panels and periodic re-checks anchor the plan. Depending on the membership, they are either included or routed through insurance when eligible.
-
-Coordination. Me managing the moving parts: calling the pharmacy when it goes quiet, adjusting the protocol when something's off, keeping the whole picture coherent over months and years.
-
-Compare the per-month cost to what you'd pay per minute to buy that same provider time and coordination through regular channels, and concierge telehealth usually comes out cheaper. It just bills differently.
-
-## When it's the right fit, and when it isn't
-
-It's a good fit if you want a real relationship with one provider over months and years instead of a stranger every time. If you want a plan that bends to you instead of a one-size regimen handed to everybody. If you want your labs, medications, and adjacent therapies coordinated instead of scattered across a dozen places. If you want the convenience of telehealth without giving up the depth of an actual medical relationship.
-
-It's not the right fit if you just need a quick script for something uncomplicated and don't want a relationship at all. Or if you already have a primary care doctor you love and you only need a specialist for one specific thing. Or if you're in a complicated medical situation that really needs in-person specialty care, like some endocrine, cancer, or cardiac scenarios. I'll be the first to point you there if that's you.
-
-## How Viva does it
-
-Viva Wellness Co. is a concierge telehealth practice based in Austin, licensed in Texas, Colorado, Florida, and Iowa. I'm Liliana Damron, APRN, FNP-BC, and I lead every patient relationship directly. Not a rotating bench. Me.
-
-The protocols cover hormone optimization, GLP-1-based metabolic reset, recovery and regenerative therapy, body recomposition, and lifestyle medicine. Tiers run from $99 a month for guided HRT up to $499 a month for the most comprehensive metabolic protocol.
-
-Every tier includes provider access and personalized management. Medication, supplies, and home delivery are bundled only where a plan lists them. With Viva Concierge Access, medications such as compounded estradiol or progesterone are separate add-ons, so you know that before enrolling.
-
-If you're trying to work out whether the concierge model actually fits what you're looking for, [book a consultation](/services) and I'll spend forty-five minutes figuring out whether this is the right structure for where you are right now. And if it isn't, I'll tell you. That's the deal.
+*Educational content only. It does not establish a provider-patient relationship or replace individualized medical advice.*

@@ -8,21 +8,26 @@
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=(), interest-cohort=()
   X-DNS-Prefetch-Control: on
-  Content-Security-Policy-Report-Only: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; form-action 'self'; script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://api.resend.com; frame-src https://vivawellnessco.glossgenius.com https://challenges.cloudflare.com
+  Content-Security-Policy-Report-Only: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; form-action 'self'; script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com https://plausible.io; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://api.resend.com https://plausible.io; frame-src https://vivawellnessco.glossgenius.com https://challenges.cloudflare.com
 
 # Cache the immutable Astro-built assets aggressively. Astro fingerprints these.
 /_astro/*
   Cache-Control: public, max-age=31536000, immutable
 
-# PDFs cached but with reasonable revalidation
+# Retired educational PDF. Cloudflare applies the redirect even though the
+# recoverable source artifact remains in Git.
 /viva-ebook.pdf
-  Cache-Control: public, max-age=86400
+  Cache-Control: no-store, max-age=0
 
 # Logos and hero images cached aggressively. Bust by renaming when updating.
 /viva-logo-paper.png
   Cache-Control: public, max-age=2592000
 /viva-logo-ink.png
   Cache-Control: public, max-age=2592000
+/viva-logo-paper-cropped.png
+  Cache-Control: public, max-age=31536000, immutable
+/viva-logo-ink-cropped.png
+  Cache-Control: public, max-age=31536000, immutable
 /viva-logo-red.png
   Cache-Control: public, max-age=2592000
 /viva-logo-powder-v2.png

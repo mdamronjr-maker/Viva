@@ -1,5 +1,10 @@
 ---
 const year = new Date().getFullYear();
+const pathKey = Astro.url.pathname === '/' ? '/' : Astro.url.pathname.replace(/\/+$/, '');
+const onStart = pathKey === '/start';
+const bookingHref = onStart
+  ? 'https://vivawellnessco.glossgenius.com/services?utm_source=vivawellnessco&utm_medium=cta&utm_content=footer_start'
+  : '/start/?utm_source=vivawellnessco&utm_medium=cta&utm_content=footer';
 ---
 
 <footer class="site-footer">
@@ -8,43 +13,43 @@ const year = new Date().getFullYear();
       <div class="footer-col footer-col--brand">
         <a href="/" class="footer-brand" aria-label="Viva Wellness Co. · home" data-viva-wordmark="full">
           <img
-            src="/viva-logo-paper.png"
+            src="/viva-logo-paper-cropped.png"
             alt="Viva Wellness Co."
             class="footer-brand__logo"
-            width="1200"
-            height="258"
+            width="1130"
+            height="212"
           />
         </a>
         <p class="footer-brand__line">Health is personal.<br/>Your care should be, too.</p>
-        <a href="/start?utm_source=vivawellnessco&utm_medium=cta&utm_content=footer" class="btn btn--bronze">Book a visit</a>
+        <a href={bookingHref} target={onStart ? '_blank' : undefined} rel={onStart ? 'noopener' : undefined} class="btn btn--bronze">Book your first visit</a>
       </div>
 
       <div class="footer-col">
-        <h4 class="footer-h">Site</h4>
+        <h2 class="footer-h">Care</h2>
         <ul>
           <li><a href="/">Home</a></li>
-          <li><a href="/about">Provider</a></li>
-          <li><a href="/services">Services</a></li>
-          <li><a href="/menopause">Menopause Care</a></li>
-          <li><a href="/partners">Partners</a></li>
-          <li><a href="/blog">Blog</a></li>
-          <li><a href="/contact">Contact</a></li>
+          <li><a href="/services/">Care &amp; pricing</a></li>
+          <li><a href="/menopause/">Menopause Care</a></li>
+          <li><a href="/about/">About Liliana</a></li>
+          <li><a href="/partners/">Partners</a></li>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/contact/">Contact</a></li>
         </ul>
       </div>
 
       <div class="footer-col">
-        <h4 class="footer-h">Compliance</h4>
+        <h2 class="footer-h">Patient resources</h2>
         <ul>
-          <li><a href="/privacy">Privacy Policy</a></li>
-          <li><a href="/unsubscribe">Email Preferences</a></li>
-          <li><a href="/notice">Notice of Privacy Practices</a></li>
-          <li><a href="/accessibility">Accessibility</a></li>
-          <li><a href="/terms">Terms of Service</a></li>
+          <li><a href="/privacy/">Privacy Policy</a></li>
+          <li><a href="/unsubscribe/">Email Preferences</a></li>
+          <li><a href="/notice/">Notice of Privacy Practices</a></li>
+          <li><a href="/accessibility/">Accessibility</a></li>
+          <li><a href="/terms/">Terms of Service</a></li>
         </ul>
       </div>
 
       <div class="footer-col">
-        <h4 class="footer-h">Contact</h4>
+        <h2 class="footer-h">Contact</h2>
         <ul>
           <li><a href="tel:+17372107283">(737) 210-7283</a></li>
           <li><a href="mailto:info&#64;vivawellnessco.com">info&#64;vivawellnessco.com</a></li>
@@ -53,7 +58,7 @@ const year = new Date().getFullYear();
       </div>
 
       <div class="footer-col">
-        <h4 class="footer-h">Service Area</h4>
+        <h2 class="footer-h">Service area</h2>
         <ul class="footer-states">
           <li>Texas</li>
           <li>Colorado</li>
@@ -97,6 +102,7 @@ const year = new Date().getFullYear();
     border-top: 6px solid var(--terracotta);
     padding: clamp(3rem, 7vw, 5rem) 0 2rem;
     margin-top: 0;
+    --focus-ring: var(--ochre);
   }
   .footer-grid {
     display: grid;
@@ -135,7 +141,7 @@ const year = new Date().getFullYear();
   }
   .footer-h {
     font-family: var(--font-mono);
-    font-size: 0.7rem;
+    font-size: 0.8rem;
     letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--ochre);
@@ -149,6 +155,10 @@ const year = new Date().getFullYear();
     font-size: 0.95rem;
   }
   .footer-col a:hover { color: var(--ochre); }
+  .footer-col a.btn--bronze,
+  .footer-col a.btn--bronze:hover {
+    color: var(--evergreen-deep);
+  }
   .footer-states { color: rgba(255, 250, 241, 0.76); font-size: 0.95rem; }
   .footer-addr {
     color: rgba(255, 250, 241, 0.64);
@@ -164,7 +174,7 @@ const year = new Date().getFullYear();
     flex-wrap: wrap;
     gap: 1rem;
     font-family: var(--font-mono);
-    font-size: 0.7rem;
+    font-size: 0.78rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: rgba(255, 250, 241, 0.66);
@@ -181,7 +191,7 @@ const year = new Date().getFullYear();
     flex-direction: column;
     gap: 0.5rem;
     font-family: var(--font-mono);
-    font-size: 0.68rem;
+    font-size: 0.78rem;
     letter-spacing: 0.05em;
     color: rgba(255, 250, 241, 0.6);
     line-height: 1.6;

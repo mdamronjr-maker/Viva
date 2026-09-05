@@ -1,7 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 
-const lastUpdated = 'May 13, 2026';
+const lastUpdated = 'September 5, 2026';
 ---
 
 <Layout
@@ -29,9 +29,9 @@ const lastUpdated = 'May 13, 2026';
       <div class="legal-callout">
         <strong>The short version.</strong>
         This website is informational. Visiting it does not create a patient
-        relationship. To start care, you book a telehealth visit and complete
-        intake. Memberships have a twelve-week minimum and can be cancelled
-        any time after.
+        relationship. The first visit is $199 with a $50 booking deposit.
+        Ongoing memberships have a twelve-week minimum and may be cancelled
+        after that initial term under the policies below.
       </div>
 
       <h2 class="legal-h">By using this site, you agree</h2>
@@ -43,8 +43,8 @@ const lastUpdated = 'May 13, 2026';
 
       <h2 class="legal-h">This website is not medical advice</h2>
       <p>
-        Everything on this site, including the protocol-match quiz, the eBook,
-        and the blog, is educational. Reading or downloading any of it does
+        Everything on this site, including the anonymous care-path guide and
+        the blog, is educational. Reading any of it does
         <strong>not</strong> establish a doctor-patient or
         provider-patient relationship. It is not a substitute for individual
         clinical evaluation.
@@ -59,16 +59,16 @@ const lastUpdated = 'May 13, 2026';
       <h2 class="legal-h">Memberships</h2>
       <p>
         Membership tiers, what they include, and our cancellation policy are
-        listed in detail on the <a href="/services">programs</a> page. The key
+        listed in detail on the <a href="/services/">care and pricing</a> page. The key
         points:
       </p>
       <ul class="legal-list">
-        <li>All memberships require a twelve-week minimum. This gives the protocol enough runway to produce measurable results.</li>
+        <li>All memberships require a twelve-week minimum. This is a billing term, not a promise that a result will occur within twelve weeks.</li>
         <li>After the initial twelve weeks, you can cancel any time with no penalty.</li>
         <li>Memberships renew automatically every thirty days. You can update or remove your card on file at any point.</li>
-        <li>Medication, supplies, and shipments continue while your membership is active.</li>
+        <li>Medication, supplies, delivery, and labs are included only where the selected membership expressly lists them and only when clinically appropriate.</li>
         <li>We accept FSA and HSA. Insurance is not applied to membership fees but may apply to labs and non-compounded medications.</li>
-        <li>Every protocol requires provider review and approval. We do not dispense based on a checkbox.</li>
+        <li>Every treatment requires provider review and approval. We do not dispense based on a checkbox.</li>
       </ul>
 
       <h2 class="legal-h">Provider licensure and service area</h2>
@@ -82,16 +82,29 @@ const lastUpdated = 'May 13, 2026';
 
       <h2 class="legal-h">Medication sourcing</h2>
       <p>
-        Compounded medications dispensed for our patients come from
-        FDA-regulated 503A compounding pharmacies that perform third-party
-        testing for potency and sterility. We do not work with grey-market
-        peptide vendors. If a medication is not appropriate for you clinically,
-        the provider will not prescribe it, regardless of the membership tier.
+        When prescribed, compounded medications are dispensed by a pharmacy
+        operating under Section 503A of the Federal Food, Drug, and Cosmetic
+        Act. Compounded drugs are not FDA-approved, and FDA does not review
+        their safety, effectiveness, or quality before dispensing. FDA also
+        does not approve or license pharmacies. Patients should ask which pharmacy
+        would dispense a prescription and review available product-specific
+        information before deciding. A membership selection never guarantees a
+        prescription, and an FDA-approved option may be considered when available
+        and appropriate.
+      </p>
+
+      <h2 class="legal-h">Booking and payment</h2>
+      <p>
+        The first visit costs $199. A $50 deposit is collected when booking and
+        is applied to that visit. Appointment changes, late arrivals, refunds,
+        and payment processing may also be governed by the policies displayed
+        in the GlossGenius booking flow and the clinical or financial documents
+        presented during intake. Review those terms before completing payment.
       </p>
 
       <h2 class="legal-h">Intellectual property</h2>
       <p>
-        All content on this site, including text, images, the eBook, and the
+        All content on this site, including text, images, articles, and the
         Viva Wellness Co. wordmark, is our property or licensed to us. Personal
         reading and reasonable sharing is encouraged. Republishing without
         attribution or commercial use without written permission is not.
@@ -105,6 +118,11 @@ const lastUpdated = 'May 13, 2026';
         this website is limited to the amount you paid to access it, which for
         this website is zero. Clinical care under an active membership is
         separately governed by the documents you sign at intake.
+      </p>
+      <p>
+        This website is not monitored for urgent clinical needs. Call 911 or go
+        to the nearest emergency department for an emergency. Existing patients
+        should use the patient portal for non-emergency clinical communication.
       </p>
 
       <h2 class="legal-h">Changes to these terms</h2>
@@ -157,7 +175,7 @@ const lastUpdated = 'May 13, 2026';
   }
   .legal-hero__updated {
     font-family: var(--font-mono);
-    font-size: 0.72rem;
+    font-size: 0.75rem;
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--mute);
@@ -181,7 +199,7 @@ const lastUpdated = 'May 13, 2026';
   .legal-callout strong {
     display: block;
     font-family: var(--font-mono);
-    font-size: 0.72rem;
+    font-size: 0.75rem;
     letter-spacing: 0.16em;
     text-transform: uppercase;
     color: var(--bronze);

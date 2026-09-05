@@ -1,7 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 
-// Five memberships mirroring the live GlossGenius catalog. The quiz routes
+// Five memberships mirroring the live GlossGenius catalog. The care-path guide routes
 // prospects to a starting tier; the metabolic ladder (Essential → Core →
 // Advanced) lets the provider step a patient up or down inside the
 // metabolic track without a SKU change.
@@ -16,8 +16,8 @@ const programs = [
     name: 'Viva Concierge Access',
     price: 99,
     priceLabel: '$99',
-    tagline: 'Provider-led hormone management with medications handled separately.',
-    body: 'A membership for patients who want concierge provider attention while using insurance for eligible retail prescriptions and labs. Monthly evaluations, ongoing medication management, and a Prior Authorization service when your plan needs paperwork. Compounded estradiol and progesterone for HRT are clinician-selected add-ons and are not included in the $99 membership fee.',
+    tagline: 'Ongoing provider access with medications handled separately.',
+    body: 'A membership for patients who want concierge provider attention while using insurance for eligible retail prescriptions and labs. Monthly evaluations, ongoing medication management, and a Prior Authorization service when your plan needs paperwork. Compounded estradiol and progesterone may be considered as patient-specific add-ons when clinically appropriate and lawful; they are not included in the $99 membership fee.',
     includes: [
       'Monthly evaluation visit',
       'Dosing guidance',
@@ -27,7 +27,7 @@ const programs = [
       'One acute/sick visit credit per month',
     ],
     rightFor: [
-      'You want to use your insurance for hormones, prescriptions, and labs',
+      'You want to use insurance for eligible prescriptions and labs',
       'You want concierge-level provider attention without bundled medication costs',
       'You prefer monthly oversight to a one-off appointment',
     ],
@@ -40,8 +40,8 @@ const programs = [
     name: 'TRT All Inclusive',
     price: 199,
     priceLabel: '$199',
-    tagline: 'All-inclusive testosterone therapy: dosing, medication, labs, and delivery.',
-    body: 'All-inclusive, provider-led testosterone therapy with personalized topical or injectable dosing. Compounded testosterone, labs twice yearly, supplies, and home delivery are bundled in one monthly fee.',
+    tagline: 'Provider-led testosterone care with medication, labs, supplies, and delivery.',
+    body: 'This membership bundles provider-led testosterone care, compounded testosterone when clinically appropriate and lawfully prescribed, twice-yearly labs, supplies, and home delivery in one monthly fee. Symptoms alone do not establish low testosterone; treatment requires an individual clinical evaluation.',
     includes: [
       'Personalized dosing (topical or injectable)',
       'Compounded testosterone for TRT',
@@ -50,9 +50,9 @@ const programs = [
       'Fully managed, provider-led care',
     ],
     rightFor: [
-      'Testosterone optimization is your primary goal',
+      'You want a clinical evaluation for possible testosterone care',
       'You want compounded testosterone and labs included in a flat fee',
-      'You have known low-T symptoms',
+      'You want ongoing monitoring rather than a one-time prescription',
     ],
     notRightFor: [
       'You need perimenopause or menopause management (see Viva Concierge Access)',
@@ -65,24 +65,22 @@ const programs = [
     name: 'Metabolic Essential',
     price: 249,
     priceLabel: '$249',
-    tagline: 'Compounded semaglutide at any dose, or micro-dose tirzepatide.',
-    body: 'Provider-guided metabolic protocol using compounded semaglutide at any dose, or micro-dose tirzepatide under 2.5 mg per week. The on-ramp tier for patients who want appetite regulation, insulin support, and steady fat loss without going straight to higher-potency compounds.',
+    tagline: 'The lower-cost medical weight-management membership.',
+    body: 'This plan lists compounded semaglutide at any dose, or micro-dose tirzepatide under 2.5 mg per week, plus the follow-up, supplies, and delivery shown below. A compounded GLP-1 can be prescribed only when current law permits it and Liliana documents an identified patient-specific need after clinical evaluation.',
     includes: [
       'Compounded semaglutide (any dose) or micro-dose tirzepatide (<2.5 mg/week)',
-      'Appetite regulation support',
-      'Insulin sensitivity support',
-      'Fat loss support',
+      'Medication management and follow-up',
       'Supplies and home delivery',
       'Provider follow-ups',
       'One sick visit credit per quarter',
     ],
     rightFor: [
-      'You are starting a GLP-1 protocol and want the gentle on-ramp',
-      'You respond to semaglutide or low-dose tirzepatide',
+      'You want to discuss the lower-cost weight-management tier',
+      'You want medication decisions made with a provider',
       'You want a provider managing titration month to month',
     ],
     notRightFor: [
-      'You have outgrown low-dose protocols (see Metabolic Core or Advanced)',
+      'The medication or level of monitoring listed here is not clinically appropriate for you',
     ],
   },
   {
@@ -90,25 +88,23 @@ const programs = [
     name: 'Metabolic Core',
     price: 349,
     priceLabel: '$349',
-    tagline: 'Compounded tirzepatide at low-to-moderate dose, fully managed.',
-    body: 'Provider-guided metabolic care with compounded tirzepatide at low-to-moderate dose. The most-prescribed GLP-1 protocol: appetite control, improved insulin sensitivity, and steady fat loss, with monthly provider oversight of titration and side effects.',
+    tagline: 'A more comprehensive medical weight-management membership.',
+    body: 'This plan lists compounded tirzepatide at a low-to-moderate dose with monthly medication management and side-effect review. A compounded GLP-1 can be prescribed only when current law permits it and Liliana documents an identified patient-specific need after clinical evaluation.',
     includes: [
       'Compounded tirzepatide (low-to-moderate dose)',
-      'Appetite regulation support',
-      'Improved insulin sensitivity',
-      'Steady fat loss support',
+      'Medication management and side-effect review',
       'Supplies and home delivery',
       'Monthly provider follow-ups',
       'One acute Viva Concierge visit',
     ],
     rightFor: [
-      'Tirzepatide at standard dose is your protocol',
-      'You want monthly provider attention to titration and side effects',
-      'You are ready for sustained fat loss with consistent dosing',
+      'You want to discuss the Core weight-management tier',
+      'You want monthly provider attention to medication management and side effects',
+      'You understand that eligibility is determined during clinical evaluation',
     ],
     notRightFor: [
       'You want semaglutide or micro-dose tirzepatide (see Metabolic Essential)',
-      'You want the top-tier, highest-potency protocol (see Metabolic Advanced)',
+      'You need a different medication, dose, or level of monitoring',
     ],
   },
   {
@@ -116,25 +112,23 @@ const programs = [
     name: 'Metabolic Advanced',
     price: 499,
     priceLabel: '$499',
-    tagline: 'The top metabolic tier, fully managed and provider-titrated.',
-    body: 'The top metabolic tier, fully managed and provider-titrated for patients who have moved through standard dosing and need the most aggressive appetite control, fat loss, and lean-muscle support. Your specific medication is selected during your clinical evaluation. Monthly provider follow-ups.',
+    tagline: 'The highest-priced weight-management tier with close follow-up.',
+    body: 'A closely managed metabolic tier for patients whose clinical evaluation supports the medication and monitoring included at this level. Any compounded medication requires an identified patient-specific need and must be lawful and available at the time of prescribing.',
     includes: [
       'Provider-titrated compounded medication, selected at your evaluation',
-      'Appetite regulation support',
-      'Insulin sensitivity support',
-      'Fat loss support with lean muscle preservation',
+      'Medication management and side-effect review',
       'Supplies and home delivery',
       'Monthly provider follow-ups',
       'Viva Concierge access',
     ],
     rightFor: [
-      'You have outgrown lower-dose protocols and need more potency',
-      'You want the most aggressive appetite control and fat loss available',
-      'You want close provider oversight at higher doses',
+      'You want to discuss the Advanced tier after prior treatment',
+      'You want the listed medication and services bundled if clinically appropriate',
+      'You want close monthly provider oversight',
     ],
     notRightFor: [
-      'You are new to GLP-1 protocols (start with Essential or Core)',
-      'You want tirzepatide at standard dose (see Metabolic Core)',
+      'A lower-cost tier provides the medication and monitoring you need',
+      'The Advanced tier is not clinically appropriate for you',
     ],
   },
 ];
@@ -150,18 +144,18 @@ const ICON = {
   tag: '<path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/><circle cx="7.5" cy="7.5" r=".75" fill="currentColor" stroke="none"/>',
 };
 const includedAlways = [
-  { label: 'Monthly evaluation visit', icon: 'calendar' },
-  { label: 'Direct messaging access to your provider', icon: 'message' },
-  { label: 'Routine follow-ups and dose adjustments', icon: 'sliders' },
-  { label: 'Priority scheduling', icon: 'zap' },
-  { label: 'Member pricing on add-ons', icon: 'tag' },
+  { label: 'Named-provider oversight', icon: 'calendar' },
+  { label: 'Secure clinical messaging', icon: 'message' },
+  { label: 'Ongoing follow-up', icon: 'sliders' },
+  { label: 'Published plan inclusions', icon: 'zap' },
+  { label: 'No automatic prescribing', icon: 'tag' },
 ];
 
 const pillars = [
-  { cat: 'hormone', title: 'Energy, sleep, and hormones', body: 'For broken sleep, brain fog, mood or libido changes, low testosterone, perimenopause, or menopause.' },
-  { cat: 'metabolic', title: 'Weight and metabolism', body: 'For appetite or weight changes when the routines that used to work are no longer enough.' },
-  { cat: 'peptides', title: 'Recovery, strength, and performance', body: 'For training, surgery, or injury that is taking longer to recover from, plus strength and body composition goals.' },
-  { cat: 'longevity', title: 'Long-term health', body: 'For adults who want clear labs, regular follow-up, and a plan for staying strong and capable over time.' },
+  { href: '/menopause/', title: 'Menopause and perimenopause', body: 'For hot flashes, sleep disruption, concentration, mood, or other midlife concerns that deserve evaluation without assuming one cause.' },
+  { href: '/weight-management/', title: 'Medical weight management', body: 'For adults who want to review sustainable approaches, medication questions, costs, and safety in context.' },
+  { href: '/testosterone/', title: 'Testosterone care', body: 'For adults who want a clinical evaluation of possible low-testosterone symptoms, options, and monitoring.' },
+  { href: '/recovery/', title: 'Recovery and long-term health', body: 'For active adults who want an evidence-aware discussion about recovery, function, and when in-person care is needed.' },
 ];
 
 // Schema.org · each tier emits a Service node so Google can surface a specific
@@ -179,7 +173,7 @@ const servicesSchema = {
   '@context': 'https://schema.org',
   '@graph': [...programs.map((prog) => ({
     '@type': 'Service',
-    '@id': `https://vivawellnessco.com/services#${slugify(prog.name)}`,
+    '@id': `https://vivawellnessco.com/services/#${slugify(prog.name)}`,
     name: prog.name,
     description: prog.body,
     provider: { '@id': 'https://vivawellnessco.com/#organization' },
@@ -193,22 +187,21 @@ const servicesSchema = {
         priceCurrency: 'USD',
         unitText: 'MONTH',
       },
-      availability: 'https://schema.org/InStock',
       areaServed,
     },
   })), {
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://vivawellnessco.com/' },
-      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://vivawellnessco.com/services' },
+      { '@type': 'ListItem', position: 2, name: 'Care and pricing', item: 'https://vivawellnessco.com/services/' },
     ],
   }],
 };
 ---
 
 <Layout
-  title="Peptide Therapy, TRT, GLP-1 & Hormone Optimization in Austin | Viva Wellness Co."
-  description="Concierge peptide therapy in Austin, TX: BPC-157, TB-500, GHK-Cu, CJC-1295 / Ipamorelin, MOTS-c. Plus compounded GLP-1 weight loss, TRT, HRT, and total-body performance medicine. Memberships from $99 to $499 per month. Texas, Colorado, Florida, Iowa."
+  title="Telehealth Care & Membership Pricing | Viva Wellness Co."
+  description="Compare Viva memberships from $99 to $499 per month, with exact plan inclusions, terms, and medication boundaries."
   schema={servicesSchema}
 >
 
@@ -221,18 +214,20 @@ const servicesSchema = {
         <span class="italic-display">and what it costs.</span>
       </h1>
       <p class="lead">
-        You may be here because sleep changed, energy dropped, weight stopped
-        responding, or recovery takes longer. I start with the whole picture,
-        order the right labs, and help you choose a clear path.
+        You may be here because sleep, energy, weight, hormones, or recovery
+        changed. I start with your history and goals, decide what information
+        may help, and explain which options fall inside Viva's scope.
       </p>
       <p class="services-hero__detail">
-        Concierge peptide therapy, hormone optimization, and metabolic protocols
-        from one provider. All-inclusive TRT and metabolic tiers bundle the
-        medication and services listed in each plan. Viva Concierge Access keeps
-        medications separate, including clinician-selected estradiol and
-        progesterone add-ons for HRT. I ask for a 12-week minimum because that's
-        how long it takes to know if a protocol is really working.
+        All-inclusive testosterone and metabolic tiers bundle only the medication
+        and services listed in that plan. Viva Concierge Access keeps medications
+        separate. Every prescription requires an individual clinical evaluation,
+        and choosing a price tier does not establish eligibility.
       </p>
+      <div class="services-hero__ctas">
+        <a href="#plans" class="btn btn--bronze">Compare plans</a>
+        <a href="/start/?utm_source=vivawellnessco&utm_medium=cta&utm_content=services_hero" class="btn">Book your first visit</a>
+      </div>
     </div>
   </section>
 
@@ -254,7 +249,7 @@ const servicesSchema = {
       <ul class="pillars">
         {pillars.map((p) => (
           <li class="pillar">
-            <a class="pillar__link" href={`/menu#${p.cat}`}>
+            <a class="pillar__link" href={p.href}>
               <h3 class="pillar__title">{p.title}</h3>
               <p class="pillar__body">{p.body}</p>
               <span class="pillar__more">See care options →</span>
@@ -288,50 +283,51 @@ const servicesSchema = {
   <section class="quiz-banner">
     <div class="container quiz-banner__inner">
       <div class="quiz-banner__copy">
-        <span class="eyebrow">Five quick questions</span>
+        <span class="eyebrow">Three quick questions</span>
         <h2 class="quiz-banner__title">
           Find your starting point.
         </h2>
         <p>
-          Tell me your goal, age, activity, and monthly comfort. About ninety
-          seconds later you will have a practical place to begin.
+          Compare Viva's published care paths in about a minute. Your
+          answers stay in this browser and do not determine clinical eligibility.
         </p>
       </div>
-      <a href="/#quiz" class="btn btn--bronze">Find your starting point</a>
+      <a href="/#quiz" class="btn btn--bronze">Use the anonymous guide</a>
     </div>
   </section>
 
   {/* PROVIDER STRIP · a beat of warmth before the pricing grid */}
   <section class="section--paper provider-strip">
     <div class="container provider-strip__inner">
-      <a href="/about" class="provider-strip__media" transition:name="provider-photo" aria-label="About Liliana Damron">
-        <img src="/liliana-founder-original-v1.jpg" alt="Liliana Damron, APRN, FNP-BC" width="1024" height="1536" loading="lazy" decoding="async" />
-      </a>
+      <div class="provider-strip__credential" aria-label="Provider credentials">
+        <strong>Liliana Damron</strong>
+        <span>APRN, FNP-BC</span>
+      </div>
       <div class="provider-strip__copy">
-        <span class="eyebrow">Your provider for every protocol</span>
+        <span class="eyebrow">One named provider</span>
         <p class="provider-strip__line">
-          Every tier on this page is managed by me,
+          Every tier on this page is managed by
           <strong>Liliana Damron, APRN, FNP-BC</strong>.
-          The same face every visit. No handoffs to staff or junior clinicians.
+          Your first visit, follow-up decisions, and medication management stay
+          connected to the same provider.
         </p>
-        <a href="/about" class="provider-strip__link">Meet your provider →</a>
+        <a href="/about/" class="provider-strip__link">Meet your provider →</a>
       </div>
     </div>
   </section>
 
   {/* PROGRAMS · five memberships, mirrored from GlossGenius */}
-  <section class="section programs-section">
+  <section class="section programs-section" id="plans">
     <div class="container">
       <div class="section-head">
-        <span class="eyebrow">The programs</span>
+        <span class="eyebrow">Care and pricing</span>
         <h2 class="section-head__title">
           Start with one visit. I will help you choose.
         </h2>
         <p class="lead section-head__lead">
-          One flat monthly fee. Compounded medication, supplies, home delivery,
-          follow-ups, and access to me are included in every tier except Viva
-          Concierge Access (the insurance-routed entry point). The quiz points
-          you at a starting tier. I tune the details with you in your first visit.
+          The cards below show exactly what each membership lists as included.
+          Viva Concierge Access keeps medication separate. Other plans bundle
+          only the medication and services stated on the card, when clinically prescribed.
         </p>
       </div>
 
@@ -357,7 +353,7 @@ const servicesSchema = {
               <div class="prog-card__fit">
                 {p.rightFor && (
                   <div class="prog-card__fit-block">
-                    <span class="prog-card__fit-label prog-card__fit-label--yes">Right for you if</span>
+                    <span class="prog-card__fit-label prog-card__fit-label--yes">Worth discussing if</span>
                     <ul class="prog-card__fit-list">
                       {p.rightFor.map((item) => (<li>{item}</li>))}
                     </ul>
@@ -365,7 +361,7 @@ const servicesSchema = {
                 )}
                 {p.notRightFor && (
                   <div class="prog-card__fit-block">
-                    <span class="prog-card__fit-label prog-card__fit-label--no">Not this tier if</span>
+                    <span class="prog-card__fit-label prog-card__fit-label--no">Compare another path if</span>
                     <ul class="prog-card__fit-list prog-card__fit-list--no">
                       {p.notRightFor.map((item) => (<li>{item}</li>))}
                     </ul>
@@ -373,7 +369,7 @@ const servicesSchema = {
                 )}
               </div>
             )}
-            <a href={`/start?utm_source=vivawellnessco&utm_medium=cta&utm_content=services_tier_${slugify(p.name)}`} class="btn btn--bronze prog-card__cta">
+            <a href={`/start/?utm_source=vivawellnessco&utm_medium=cta&utm_content=services_tier_${slugify(p.name)}`} class="btn btn--bronze prog-card__cta">
               Book your first visit
             </a>
           </li>
@@ -384,7 +380,7 @@ const servicesSchema = {
 
   {/* PRICING NOTE + REVIEW PULLQUOTE */}
   <div class="container services-aside">
-    <p class="sidenote services-pricing-note">Prices mirror our booking system. If these ever differ, the booking page wins.</p>
+    <p class="sidenote services-pricing-note">These prices mirror Viva's current booking system. Review the final booking screen before purchase and contact Viva if anything appears inconsistent.</p>
     <figure class="services-quote">
       <blockquote class="pullquote">Most competent, caring provider. I get personalized care that's effective and timely. The proof is in the results and in how I feel. Just grateful everyday I found her.</blockquote>
       <figcaption class="caption">Tiffany Plaster · <a href="https://www.google.com/maps/place/Viva+Wellness+Co./@30.448506,-93.3099761,5366828m/data=!3m2!1e3!4b1!4m6!3m5!1s0x838a2a09b2fa0069:0x23603b7d6308b72a!8m2!3d30.448506!4d-93.309976!16s%2Fg%2F11x1q1jhw9" target="_blank" rel="noopener">verified Google review</a></figcaption>
@@ -400,12 +396,12 @@ const servicesSchema = {
       </div>
       <ul class="policies__list">
         <li>Provider review and approval required prior to initiating any therapy.</li>
-        <li>All programs require a 12-week minimum commitment to allow adequate time for measurable results.</li>
+        <li>All programs require a 12-week minimum commitment. Review the full membership terms before enrolling.</li>
         <li>Memberships renew automatically every 30 days. Cancel any time after the initial 12 weeks.</li>
         <li>A valid card on file is required. Payments are securely processed through GlossGenius.</li>
-        <li>Medication, supplies, and shipments are provided while membership remains active.</li>
+        <li>Medication, supplies, delivery, and labs are included only where the selected plan expressly lists them and only when clinically appropriate.</li>
         <li>FSA and HSA accepted. Insurance not accepted for memberships, but can be applied to labs and non-compounded medications.</li>
-        <li>Compounded medications (GLP-1, testosterone, estradiol, progesterone, peptides) are patient-specific preparations from FDA-regulated 503A pharmacies. They are not FDA-approved finished products. Each is prescribed individually after clinical evaluation, not selected from a menu.</li>
+        <li>Compounded medications are patient-specific preparations dispensed by 503A compounding pharmacies. They are not FDA-approved finished products, and FDA does not review them for safety, effectiveness, or quality before dispensing. They cannot be marketed as generic or equivalent versions of approved drugs. Each requires individual evaluation, an identified patient-specific need, current legal availability, and a prescription; selecting a membership does not guarantee one. <a href="https://www.fda.gov/drugs/drug-alerts-and-statements/fda-clarifies-policies-compounders-national-glp-1-supply-begins-stabilize" target="_blank" rel="noopener">Read FDA's current GLP-1 compounding update.</a></li>
       </ul>
     </div>
   </section>
@@ -417,13 +413,13 @@ const servicesSchema = {
         Not sure which tier? Start with a visit.
       </h2>
       <p class="lead">
-        Your first telehealth consult is the diagnostic step. I go through your
-        goals, your history, and your labs, then tell you the protocol I'd
-        recommend. You don't commit to a tier until you've talked to me.
+        Your first telehealth visit is where Liliana reviews your goals, history,
+        current care, and any relevant information available. She explains which
+        options may fit and what happens if a requested treatment is not appropriate.
       </p>
       <div class="services-cta__ctas">
-        <a href="/start?utm_source=vivawellnessco&utm_medium=cta&utm_content=services_cta" class="btn btn--bronze">Book your first visit</a>
-        <a href="/contact" class="btn">Ask a question</a>
+        <a href="/start/?utm_source=vivawellnessco&utm_medium=cta&utm_content=services_cta" class="btn btn--bronze">Book your first visit</a>
+        <a href="/contact/" class="btn">Ask a question</a>
       </div>
     </div>
   </section>
@@ -470,6 +466,7 @@ const servicesSchema = {
     font-size: 1rem;
     line-height: 1.65;
   }
+  .services-hero__ctas { display: flex; flex-wrap: wrap; gap: 0.8rem; }
 
   /* PILLARS */
   .pillars-section { padding: clamp(3rem, 7vw, 5rem) 0; }
@@ -574,28 +571,23 @@ const servicesSchema = {
   @media (max-width: 600px) {
     .provider-strip__inner { grid-template-columns: 1fr; text-align: center; gap: 1.2rem; }
   }
-  .provider-strip__media {
-    display: block;
-    width: clamp(96px, 14vw, 132px);
-    height: clamp(96px, 14vw, 132px);
-    border-radius: 50%;
-    overflow: hidden;
-    background: var(--ink);
-    text-decoration: none;
-    transition: transform 240ms var(--ease), box-shadow 240ms var(--ease);
+  .provider-strip__credential {
+    width: clamp(150px, 18vw, 210px);
+    min-height: 132px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.35rem;
+    padding: 1.3rem;
+    background: var(--evergreen-deep);
+    color: var(--cream-bright);
+    border-top: 5px solid var(--ochre);
+    border-radius: var(--radius-sm);
   }
+  .provider-strip__credential strong { font-family: var(--font-display); font-size: 1.25rem; line-height: 1.1; }
+  .provider-strip__credential span { color: var(--ochre); font-size: 0.82rem; font-weight: 650; }
   @media (max-width: 600px) {
-    .provider-strip__media { justify-self: center; }
-  }
-  .provider-strip__media:hover {
-    transform: scale(1.02);
-    box-shadow: 0 6px 20px rgba(28, 35, 27, 0.12);
-  }
-  .provider-strip__media img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
+    .provider-strip__credential { justify-self: center; width: min(100%, 280px); }
   }
   .provider-strip__copy {
     display: flex;
@@ -615,7 +607,7 @@ const servicesSchema = {
   .provider-strip__line strong { font-weight: 500; }
   .provider-strip__link {
     font-family: var(--font-mono);
-    font-size: 0.72rem;
+    font-size: 0.75rem;
     letter-spacing: 0.13em;
     text-transform: uppercase;
     color: var(--bronze);
@@ -669,7 +661,7 @@ const servicesSchema = {
   .prog-card__tier {
     grid-area: tier;
     font-family: var(--font-mono);
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     letter-spacing: 0.15em;
     text-transform: uppercase;
     color: var(--bronze);
@@ -749,7 +741,7 @@ const servicesSchema = {
   .prog-card__fit-block { display: flex; flex-direction: column; gap: 0.45rem; }
   .prog-card__fit-label {
     font-family: var(--font-mono);
-    font-size: 0.65rem;
+    font-size: 0.75rem;
     letter-spacing: 0.14em;
     text-transform: uppercase;
   }
@@ -822,7 +814,7 @@ const servicesSchema = {
     left: 0;
     top: 1rem;
     font-family: var(--font-mono);
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     color: var(--bronze);
     letter-spacing: 0.1em;
   }

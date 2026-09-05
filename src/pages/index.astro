@@ -1,12 +1,10 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import NoPhiNotice from '../components/NoPhiNotice.astro';
-import { TURNSTILE_SITEKEY } from '../lib/turnstile';
 
 const faqs = [
   {
     q: 'Is Viva Wellness Co. accepting new patients?',
-    a: "Yes. I'm licensed in Texas, Colorado, Florida, and Iowa and currently accepting new patients in all four states. New patient visits typically book within a week.",
+    a: "Yes. I'm licensed in Texas, Colorado, Florida, and Iowa and currently accepting new patients in all four states. The booking page shows current appointment availability.",
   },
   {
     q: 'Which states are you licensed in?',
@@ -18,32 +16,32 @@ const faqs = [
   },
   {
     q: 'Where are your medications sourced from?',
-    a: 'Every compounded medication I prescribe comes from FDA-regulated 503A compounding pharmacies that perform third-party testing for potency and sterility. I do not work with grey-market peptide vendors. Medications ship from the pharmacy directly to your home.',
+    a: 'When a compounded medication is prescribed, the prescription is sent to a 503A compounding pharmacy for an individually identified patient. Compounded medications are not FDA-approved finished products. Ask Liliana to identify the dispensing pharmacy and explain product status, alternatives, and current availability before you decide.',
   },
   {
-    q: 'Is your GLP-1 the same as Wegovy or Mounjaro?',
-    a: 'Not exactly. Wegovy (semaglutide) and Mounjaro and Zepbound (tirzepatide) are brand-name medications from Novo Nordisk and Eli Lilly. I prescribe compounded semaglutide and tirzepatide from FDA-regulated 503A pharmacies. Same active molecules, prepared patient-specifically under a different regulatory framework, prescribed only after my clinical evaluation. Typically far less expensive than the brand versions (which insurance rarely covers for weight loss), but they are not identical products. I will not prescribe what is not clinically appropriate for you, regardless of the tier you select.',
+    q: 'Are compounded GLP-1 medications the same as FDA-approved brands?',
+    a: 'No. FDA-approved brand medications and compounded medications are different products. Compounded drugs are not FDA-approved, and FDA does not review them for safety, effectiveness, or quality before they are dispensed. Whether any medication is available and appropriate depends on current law, supply, and an individual clinical evaluation. Liliana reviews the options, limitations, and costs with you before anything is prescribed.',
   },
   {
     q: 'Do you treat perimenopause and menopause?',
-    a: 'Yes, and it is one of the things I treat most. Hot flashes, disrupted sleep, brain fog, mood shifts, and weight that stopped responding are hormonal problems with real clinical answers. I manage perimenopause and menopause with compounded estradiol and progesterone, plus DHEA, low-dose testosterone, and thyroid support when labs say they belong in the plan. See the menopause care page at vivawellnessco.com/menopause for the full picture.',
-    aHtml: 'Yes, and it is one of the things I treat most. Hot flashes, disrupted sleep, brain fog, mood shifts, and weight that stopped responding are hormonal problems with real clinical answers. I manage perimenopause and menopause with compounded estradiol and progesterone, plus DHEA, low-dose testosterone, and thyroid support when labs say they belong in the plan. See the <a href="/menopause">menopause care page</a> for the full picture.',
+    a: 'Yes. Liliana evaluates perimenopause and menopause concerns including hot flashes, sleep disruption, concentration, mood, and weight changes without assuming they all have one cause. Treatment is individualized after clinical review and may include prescription or non-prescription options when appropriate.',
+    aHtml: 'Yes. Liliana evaluates perimenopause and menopause concerns including hot flashes, sleep disruption, concentration, mood, and weight changes without assuming they all have one cause. See the <a href="/menopause/">menopause care page</a> for the process, pricing, sources, and important limitations.',
   },
   {
-    q: 'How fast will I receive the eBook after submitting a form?',
-    a: 'The Precision Hormone & Peptide Therapy eBook is emailed automatically, usually within sixty seconds. If you do not see it, check your spam folder or email info@vivawellnessco.com and I will resend.',
+    q: 'Does the contact form sign me up for marketing?',
+    a: 'No. Viva replies to the non-clinical request you submit. Occasional practice updates and new educational articles are sent only when you select the separate optional email checkbox. Every marketing email includes an unsubscribe option.',
   },
   {
     q: 'Can I cancel my membership?',
-    a: 'Yes. Memberships require an initial twelve-week commitment so the protocol has enough runway to produce measurable results. After that, you can cancel any time with no penalty. Memberships renew automatically every thirty days until you cancel.',
+    a: 'Yes. Memberships require an initial twelve-week commitment. After that, you can cancel any time with no penalty. Memberships renew automatically every thirty days until you cancel.',
   },
   {
     q: 'What does Viva Concierge at $99 actually include?',
-    a: 'Two things. First, provider access: direct messaging with your provider, a monthly evaluation visit plus one acute/sick visit credit each month, lab orders routed through your insurance, and ongoing guidance across hormones, peptides, metabolic, and recovery. Second, member pricing: when you do want to add provider-selected compounded peptides, compounded GLP-1, or TRT or HRT medication add-ons, you get them at member rates instead of paying retail. Compounded estradiol and progesterone are not included in the $99 membership fee. It is the right tier when you want a provider thinking about you and the flexibility to pay a la carte for protocols, rather than committing to one of the all-inclusive bundles (TRT, Metabolic Essential, Metabolic Core).',
+    a: 'Viva Concierge includes direct provider messaging, a monthly evaluation visit, one acute or sick-visit credit each month, lab-order coordination, ongoing medication management, and member pricing on eligible add-ons. Medication is not included unless the plan says it is. Compounded estradiol and progesterone are not included in the $99 membership fee.',
   },
   {
     q: 'Is my health information private?',
-    a: "This website collects only the marketing details you choose to share: your name, email, phone, and quiz answers (goal, age range, sex assigned at birth, activity, and budget). I don't collect clinical records such as lab results or diagnoses here. Once you become a patient, all clinical communication moves into the HIPAA-compliant patient portal. Lab results, medication adjustments, and provider messaging happen there, not on this site or in regular email.",
+    a: "The care-path guide runs in your browser and does not send your answers to Viva. The contact form is for non-clinical questions only. Please do not submit symptoms, lab results, diagnoses, medication details, or other clinical information through this website or regular email. Once you become a patient, clinical communication moves into the HIPAA-compliant patient portal.",
   },
 ];
 
@@ -69,10 +67,10 @@ const PICON = {
   package: '<path d="m16.5 9.4-9-5.19"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.3 7 12 12l8.7-5"/><path d="M12 22V12"/>',
 };
 const programs = [
-  { tier: 'Entry', name: 'Viva Concierge', price: '$99', cadence: '/mo', icon: 'key', href: '/services#viva-concierge-access', body: 'Provider access plus member pricing on compounded peptides, GLP-1, and medication add-ons, including HRT. Pay a la carte for the protocols you want instead of a bundled monthly fee.' },
-  { tier: 'Foundational', name: 'TRT All Inclusive', price: '$199', cadence: '/mo', icon: 'pulse', href: '/services#trt-all-inclusive', body: 'Personalized testosterone optimization with compounded testosterone, supplies, home delivery, and biannual labs included.' },
-  { tier: 'Essential', name: 'Metabolic Essential', price: '$249', cadence: '/mo', icon: 'leaf', href: '/services#metabolic-essential', body: 'Compounded semaglutide, or micro-dose tirzepatide. Appetite regulation, insulin support, and steady fat loss. The GLP-1 on-ramp.' },
-  { tier: 'Core', name: 'Metabolic Core', price: '$349', cadence: '/mo', icon: 'flame', href: '/services#metabolic-core', body: 'Compounded tirzepatide, fully managed, for stronger appetite control and consistent fat loss.', featured: true },
+  { tier: 'Entry', name: 'Viva Concierge', price: '$99', cadence: '/mo', icon: 'key', href: '/services/#viva-concierge-access', body: 'Monthly provider access, care coordination, and member pricing. Medication is billed separately unless a plan specifically includes it.' },
+  { tier: 'Foundational', name: 'TRT All Inclusive', price: '$199', cadence: '/mo', icon: 'pulse', href: '/services/#trt-all-inclusive', body: 'Provider-led testosterone care with the listed medication, supplies, home delivery, follow-up, and twice-yearly labs included.' },
+  { tier: 'Essential', name: 'Metabolic Essential', price: '$249', cadence: '/mo', icon: 'leaf', href: '/services/#metabolic-essential', body: 'A lower-cost medical weight-management tier with ongoing provider oversight and the medication listed in the plan when prescribed.' },
+  { tier: 'Core', name: 'Metabolic Core', price: '$349', cadence: '/mo', icon: 'flame', href: '/services/#metabolic-core', body: 'A more comprehensive medical weight-management tier with ongoing evaluation, medication management, and follow-up.', featured: true },
 ];
 
 const testimonials = [
@@ -111,8 +109,8 @@ const testimonials = [
 ---
 
 <Layout
-  title="Concierge Peptide Therapy, GLP-1 & TRT in Austin | Viva Wellness Co."
-  description="Provider-led concierge telehealth for changes in energy, sleep, weight, hormones, and recovery. GLP-1, TRT, HRT, peptides, and menopause care in Texas, Colorado, Florida, and Iowa."
+  title="Concierge Weight & Hormone Telehealth | Viva Wellness Co."
+  description="One named provider for medical weight management, menopause, hormone health, and recovery. Virtual visits with clear self-pay pricing in TX, CO, FL, and IA."
   schema={faqSchema}
 >
 
@@ -121,32 +119,34 @@ const testimonials = [
     <div class="container hero__inner">
       <div class="hero__copy">
         <div class="hero__eyebrows">
-          <span class="eyebrow">Concierge telehealth · TX · CO · FL · IA</span>
-          <span class="hero__eyebrow-secondary">100% concierge care</span>
+          <span class="eyebrow">Concierge telehealth · Texas · Colorado · Florida · Iowa</span>
+          <span class="hero__eyebrow-secondary">Austin-based · Virtual care</span>
         </div>
 
         <h1 class="hero__title">
-          <span class="hero__title-line">You bring the goals.</span>
-          <span class="hero__title-line italic-display">I'll build the protocol.</span>
+          <span class="hero__title-line">Medical weight and hormone care.</span>
+          <span class="hero__title-line italic-display">One provider who knows your plan.</span>
         </h1>
 
         <div class="hero__foot">
           <p class="hero__lead">
-            I'm Liliana Damron, a nurse practitioner who would rather catch the
-            trouble early than treat it late. Tell me where you want to go, and
-            I'll run the labs, build the protocol, and adjust as you go.
+            I'm Liliana Damron, APRN, FNP-BC. I provide medical weight-management,
+            menopause, hormone, and recovery care through virtual visits, local
+            labs when appropriate, and clear self-pay plans.
           </p>
           <div class="hero__ctas">
-            <a href="/start?utm_source=vivawellnessco&utm_medium=cta&utm_content=home_hero" class="btn btn--bronze">Book a visit</a>
-            <a href="#quiz" class="btn hero__btn-quiet">Find your protocol</a>
+            <a href="/start/?utm_source=vivawellnessco&utm_medium=cta&utm_content=home_hero" class="btn btn--bronze">Book your first visit</a>
+            <a href="#quiz" class="btn hero__btn-quiet">Find your care path</a>
           </div>
         </div>
       </div>
       <picture class="hero__media">
         <img
-          src="/liliana-founder-original-v1.jpg"
-          width="1024"
-          height="1536"
+          src="/liliana-founder-portrait-v2.webp"
+          srcset="/liliana-founder-portrait-sm.webp 640w, /liliana-founder-portrait-v2.webp 2048w"
+          sizes="(max-width: 800px) 100vw, 46vw"
+          width="2048"
+          height="3072"
           alt="Liliana Damron, APRN, FNP-BC"
           fetchpriority="high"
         />
@@ -164,13 +164,13 @@ const testimonials = [
       </li>
       <li class="feature">
         <svg class="feature__ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={PICON.flask} />
-        <span class="feature__name">Data driven</span>
-        <p class="feature__body">We run the right labs and use real data to guide your plan.</p>
+        <span class="feature__name">Clinically guided</span>
+        <p class="feature__body">History, goals, and labs when appropriate guide the decisions you make with Liliana.</p>
       </li>
       <li class="feature">
         <svg class="feature__ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={PICON.clipboard} />
-        <span class="feature__name">Personalized protocols</span>
-        <p class="feature__body">Every plan is built around your goals, your body, and your lifestyle.</p>
+        <span class="feature__name">A plan that fits</span>
+        <p class="feature__body">Care is adjusted to your goals, response, schedule, and clinical needs.</p>
       </li>
       <li class="feature">
         <svg class="feature__ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={PICON.package} />
@@ -201,14 +201,14 @@ const testimonials = [
       <div class="wellness-story__copy">
         <span class="eyebrow">Whole-person wellness</span>
         <h2 id="wellness-story-title" class="wellness-story__title">
-          Optimize your health.<br />Elevate your life.
+          Care that makes room<br />for real life.
         </h2>
         <p class="wellness-story__lead">
-          From hormones and metabolism to performance and longevity, your plan
-          is built to help you look, feel, and perform at your best—without
-          making your life harder to manage.
+          Virtual visits can remove the commute and keep follow-up connected to
+          one provider. They do not replace the in-person, primary, urgent, or
+          specialty care you may need.
         </p>
-        <a href="/services" class="btn">Explore services</a>
+        <a href="/services/" class="btn">Explore care &amp; pricing</a>
       </div>
     </div>
   </section>
@@ -224,7 +224,8 @@ const testimonials = [
         <p class="lead audience__lead">
           Work, family, sleep, and recovery all pull on the same body. Bring me
           what changed, what you have tried, and what you need your health to
-          support. I will sort out which clinical path fits.
+          support. I will explain what Viva can reasonably evaluate and when a
+          different kind of care makes more sense.
         </p>
       </div>
 
@@ -232,54 +233,48 @@ const testimonials = [
         <li class="audience-card">
           <h3>Energy, sleep, and hormones</h3>
           <p>For broken sleep, brain fog, mood or libido changes, low testosterone, perimenopause, or menopause.</p>
-          <a href="/menu#hormone">Explore hormone care →</a>
+          <a href="/menopause/">Explore menopause care →</a>
         </li>
         <li class="audience-card">
           <h3>Weight and metabolism</h3>
           <p>For appetite or weight changes when the routines that used to work are no longer enough.</p>
-          <a href="/menu#metabolic">Explore metabolic care →</a>
+          <a href="/weight-management/">Explore weight care →</a>
         </li>
         <li class="audience-card">
           <h3>Recovery and strength</h3>
           <p>For training, surgery, or injury that is taking longer to recover from, and for protecting the muscle you have built.</p>
-          <a href="/menu#peptides">Explore recovery care →</a>
+          <a href="/recovery/">Explore recovery care →</a>
         </li>
         <li class="audience-card">
           <h3>Long-term health</h3>
           <p>For clear labs, regular follow-up, and a plan for staying strong and capable over time.</p>
-          <a href="/menu#longevity">Explore longevity care →</a>
+          <a href="/services/#viva-concierge-access">Explore concierge care →</a>
         </li>
       </ul>
 
-      <a class="audience__article" href="/blog/the-parent-tax">
+      <a class="audience__article" href="/blog/the-parent-tax/">
         <span>For parents and caregivers</span>
-        <strong>The Parent Tax: what running on empty does to your body</strong>
-        <span aria-hidden="true">Read Liliana's perspective →</span>
+        <strong>The Parent Tax: a realistic health reset for busy caregivers</strong>
+        <span aria-hidden="true">Read the practical guide →</span>
       </a>
     </div>
   </section>
 
-  <aside class="trust" aria-label="Practice credentials"><ul class="trust__grid container" role="list"><li class="trust__cell"><p class="trust__label">Board-certified nurse practitioner</p></li><li class="trust__cell"><p class="trust__label">Licensed in TX, CO, FL, IA</p></li><li class="trust__cell"><p class="trust__label">Meds from FDA-regulated 503A pharmacies, third-party tested</p></li><li class="trust__cell"><p class="trust__label">Provider-led, never algorithm-dispensed</p></li></ul></aside>
+  <aside class="trust" aria-label="Practice credentials"><ul class="trust__grid container" role="list"><li class="trust__cell"><p class="trust__label">Board-certified nurse practitioner</p></li><li class="trust__cell"><p class="trust__label">Licensed in TX, CO, FL, IA</p></li><li class="trust__cell"><p class="trust__label">Compounded medications are not FDA-approved</p></li><li class="trust__cell"><p class="trust__label">Every prescription requires clinical review</p></li></ul></aside>
 
   {/* ============ PROVIDER BAND · trust before the visitor chooses a path ============ */}
   <section class="provider-band section--paper">
     <div class="container provider-band__inner">
-      <figure class="provider-band__media">
-        <div class="provider-band__frame" transition:name="provider-photo">
-          <img
-            src="/liliana-founder-original-v1.jpg"
-            alt="Liliana Damron, APRN, FNP-BC"
-            width="1024"
-            height="1536"
-            loading="lazy"
-            decoding="async"
-          />
-        </div>
-        <figcaption class="provider-band__caption">
-          <span class="provider-band__name">Liliana Damron</span>
-          <span class="provider-band__creds">APRN, FNP-BC · Founder</span>
-        </figcaption>
-      </figure>
+      <div class="provider-band__facts" aria-label="Provider facts">
+        <span class="provider-band__facts-kicker">Liliana Damron</span>
+        <strong>APRN, FNP-BC</strong>
+        <ul>
+          <li>Board-certified family nurse practitioner</li>
+          <li>Licensed in Texas, Colorado, Florida, and Iowa</li>
+          <li>Telehealth visits with one named provider</li>
+          <li>Clinical communication in the secure patient portal</li>
+        </ul>
+      </div>
 
       <div class="provider-band__copy">
         <span class="eyebrow">Your provider</span>
@@ -287,10 +282,11 @@ const testimonials = [
           A real, named provider, every single visit.
         </h2>
         <p class="provider-band__voice">
-          &ldquo;Your first visit is with me, Liliana, not a chatbot. I read
-          your chart and approve your protocol myself.&rdquo;
+          Your first visit is with Liliana, not a chatbot. She reviews the
+          relevant history, explains the options and limitations, and remains
+          the named provider for ongoing Viva care.
         </p>
-        <a href="/about" class="btn btn--bronze provider-band__cta">Meet your provider</a>
+        <a href="/about/" class="btn btn--bronze provider-band__cta">Meet your provider</a>
       </div>
     </div>
   </section>
@@ -301,12 +297,12 @@ const testimonials = [
     <div class="container qx__inner">
 
       <div class="qx__head">
-        <span class="eyebrow">Five quick questions</span>
+        <span class="eyebrow">Private, in-browser guide</span>
         <h2 class="qx__title">
           Find your starting point.
         </h2>
         <div class="qx__meta">
-          <span class="eyebrow" id="qx-step-label" role="status" aria-live="polite" aria-atomic="true">Question 1 of 5</span>
+          <span class="eyebrow" id="qx-step-label" role="status" aria-live="polite" aria-atomic="true">Question 1 of 3</span>
           <div class="qx__progress" aria-hidden="true">
             <div class="qx__progress-bar" id="qx-bar"></div>
           </div>
@@ -325,70 +321,32 @@ const testimonials = [
         </div>
       </div>
 
-      {/* Step 2 */}
+      {/* Step 2 · preference, not a demographic or clinical intake question */}
       <div class="qx__step" data-step="2">
-        <p class="qx__q" id="qx-q2" role="heading" aria-level="3" tabindex="-1">What is your age range?</p>
+        <p class="qx__q" id="qx-q2" role="heading" aria-level="3" tabindex="-1">Which care path would you like to compare?</p>
         <div class="qx__options" role="group" aria-labelledby="qx-q2">
-          <button class="qx__opt" data-q="age" data-v="u35"><span class="qx__opt-label">Under 35</span><span class="qx__opt-arrow">→</span></button>
-          <button class="qx__opt" data-q="age" data-v="35to44"><span class="qx__opt-label">35 to 44</span><span class="qx__opt-arrow">→</span></button>
-          <button class="qx__opt" data-q="age" data-v="45to54"><span class="qx__opt-label">45 to 54</span><span class="qx__opt-arrow">→</span></button>
-          <button class="qx__opt" data-q="age" data-v="55plus"><span class="qx__opt-label">55 and up</span><span class="qx__opt-arrow">→</span></button>
+          <button class="qx__opt" data-q="path" data-v="menopause"><span class="qx__opt-label">Menopause or other hormone care</span><span class="qx__opt-arrow">→</span></button>
+          <button class="qx__opt" data-q="path" data-v="testosterone"><span class="qx__opt-label">Testosterone evaluation and follow-up</span><span class="qx__opt-arrow">→</span></button>
+          <button class="qx__opt" data-q="path" data-v="metabolic"><span class="qx__opt-label">Medical weight-management care</span><span class="qx__opt-arrow">→</span></button>
+          <button class="qx__opt" data-q="path" data-v="concierge"><span class="qx__opt-label">General concierge or recovery questions</span><span class="qx__opt-arrow">→</span></button>
+          <button class="qx__opt" data-q="path" data-v="unsure"><span class="qx__opt-label">I am not sure yet</span><span class="qx__opt-arrow">→</span></button>
         </div>
       </div>
 
       {/* Step 3 */}
       <div class="qx__step" data-step="3">
-        <p class="qx__q" id="qx-q3" role="heading" aria-level="3" tabindex="-1">For protocol routing, sex assigned at birth?</p>
+        <p class="qx__q" id="qx-q3" role="heading" aria-level="3" tabindex="-1">Which published monthly range would you like to compare?</p>
         <div class="qx__options" role="group" aria-labelledby="qx-q3">
-          <button class="qx__opt" data-q="sex" data-v="m"><span class="qx__opt-label">Male</span><span class="qx__opt-arrow">→</span></button>
-          <button class="qx__opt" data-q="sex" data-v="f"><span class="qx__opt-label">Female</span><span class="qx__opt-arrow">→</span></button>
-        </div>
-      </div>
-
-      {/* Step 4 */}
-      <div class="qx__step" data-step="4">
-        <p class="qx__q" id="qx-q4" role="heading" aria-level="3" tabindex="-1">What does movement look like in your week?</p>
-        <div class="qx__options" role="group" aria-labelledby="qx-q4">
-          <button class="qx__opt" data-q="activity" data-v="sedentary"><span class="qx__opt-label">I am not exercising consistently right now</span><span class="qx__opt-arrow">→</span></button>
-          <button class="qx__opt" data-q="activity" data-v="moderate"><span class="qx__opt-label">I fit in 2 to 4 workouts most weeks</span><span class="qx__opt-arrow">→</span></button>
-          <button class="qx__opt" data-q="activity" data-v="athlete"><span class="qx__opt-label">I train 5 or more times a week</span><span class="qx__opt-arrow">→</span></button>
-          <button class="qx__opt" data-q="activity" data-v="competitive"><span class="qx__opt-label">I train or compete at a high level</span><span class="qx__opt-arrow">→</span></button>
-        </div>
-      </div>
-
-      {/* Step 5 */}
-      <div class="qx__step" data-step="5">
-        <p class="qx__q" id="qx-q5" role="heading" aria-level="3" tabindex="-1">Which monthly level feels realistic for you?</p>
-        <div class="qx__options" role="group" aria-labelledby="qx-q5">
           <button class="qx__opt" data-q="budget" data-v="b99"><span class="qx__opt-label">Up to $99 a month</span><span class="qx__opt-arrow">→</span></button>
           <button class="qx__opt" data-q="budget" data-v="b199"><span class="qx__opt-label">Up to $199 a month</span><span class="qx__opt-arrow">→</span></button>
+          <button class="qx__opt" data-q="budget" data-v="b249"><span class="qx__opt-label">Up to $249 a month</span><span class="qx__opt-arrow">→</span></button>
           <button class="qx__opt" data-q="budget" data-v="b349"><span class="qx__opt-label">Up to $349 a month</span><span class="qx__opt-arrow">→</span></button>
-          <button class="qx__opt" data-q="budget" data-v="bmax"><span class="qx__opt-label">$349 and up, build me the plan</span><span class="qx__opt-arrow">→</span></button>
+          <button class="qx__opt" data-q="budget" data-v="bmax"><span class="qx__opt-label">Show me every published tier</span><span class="qx__opt-arrow">→</span></button>
         </div>
       </div>
 
-      {/* Step 6 · gate */}
-      <div class="qx__step" data-step="6">
-        <p class="qx__q" role="heading" aria-level="3" tabindex="-1">Almost done. Three details to see your starting point.</p>
-        <p class="qx__lede">
-          I'll email your recommended starting point plus the Precision Hormone &amp;
-          Peptide Therapy eBook. I follow up personally only if you want me to.
-        </p>
-        <NoPhiNotice />
-        <form class="qx__form" id="qx-form" novalidate>
-          <div class="field"><label for="qx-name" class="field__label">Your name</label><input id="qx-name" name="name" type="text" class="field__input" autocomplete="name" required placeholder="First and last" /></div>
-          <div class="field"><label for="qx-email" class="field__label">Email</label><input id="qx-email" name="email" type="email" class="field__input" autocomplete="email" required placeholder="you@example.com" /></div>
-          <div class="field"><label for="qx-phone" class="field__label">Phone</label><input id="qx-phone" name="phone" type="tel" class="field__input" autocomplete="tel" placeholder="(512) 555-0123" /><span class="field__hint">Optional. Only used if you ask me to call or text.</span></div>
-          <div class="hp" aria-hidden="true"><label>Leave empty<input name="company" type="text" tabindex="-1" autocomplete="off" /></label></div>
-          <div class="cf-turnstile" data-sitekey={TURNSTILE_SITEKEY} data-theme="light"></div>
-          <button type="submit" class="btn btn--bronze" id="qx-submit">See my starting point</button>
-          <div class="qx__status" id="qx-status" role="status" aria-live="polite"></div>
-          <button type="button" class="btn qx__retry" id="qx-retry" hidden>Try again</button>
-        </form>
-      </div>
-
-      {/* Step 7 · result */}
-      <div class="qx__step" data-step="7" tabindex="-1">
+      {/* Step 4 · anonymous result */}
+      <div class="qx__step" data-step="4" tabindex="-1">
         <span class="eyebrow">Your starting point</span>
         <h2 class="qx__result-title">
           A place to begin:<br/>
@@ -410,14 +368,13 @@ const testimonials = [
             <ul class="qx__result-list qx__result-list--discuss" id="qx-r-discuss"></ul>
           </div>
           <div class="qx__result-ctas">
-            <a href="/start?utm_source=vivawellnessco&utm_medium=cta&utm_content=home_quiz_result" class="btn btn--bronze">Book your first visit</a>
-            <a href="/services" class="btn">See all programs</a>
+            <a href="/start/?utm_source=vivawellnessco&utm_medium=cta&utm_content=home_quiz_result" class="btn btn--bronze">Book your first visit</a>
+            <a href="/services/" class="btn">Compare care &amp; pricing</a>
           </div>
           <p class="qx__result-note">
-            The eBook is on its way to your inbox. This recommendation is a starting point;
-            your final protocol is tailored during your consult. Compounded
-            medications, when included, are dispensed by FDA-regulated 503A
-            pharmacies only after clinical evaluation and provider approval.
+            Your answers stay in this browser and are not sent to Viva. This guide is
+            educational and does not determine eligibility, diagnosis, medication, or
+            treatment. Liliana confirms what is clinically appropriate during your visit.
           </p>
         </div>
       </div>
@@ -436,9 +393,9 @@ const testimonials = [
           Where most people start.
         </h2>
         <p class="lead section-head__lead">
-          From a $99 concierge entry point to a $349 fully-managed metabolic
-          plan. Every tier includes provider access and protocol adjustments.
-          Medication, supplies, and home delivery are bundled only where listed.
+          From a $99 concierge entry point to a $499 closely managed metabolic
+          plan. Every tier includes named-provider oversight and ongoing follow-up.
+          Medication, supplies, delivery, and labs are bundled only where listed.
         </p>
       </div>
 
@@ -460,11 +417,11 @@ const testimonials = [
 
       <p class="programs-terms">
         Individual results vary. Memberships include an initial 12-week commitment, then renew
-        automatically every 30 days; cancel anytime after the first 12 weeks · <a href="/terms">membership terms</a>.
+        automatically every 30 days; cancel anytime after the first 12 weeks · <a href="/terms/">membership terms</a>.
       </p>
 
       <div class="programs-foot">
-        <a href="/services" class="btn">See all programs</a>
+        <a href="/services/" class="btn">Compare all care &amp; pricing</a>
       </div>
     </div>
   </section>
@@ -475,15 +432,15 @@ const testimonials = [
       <div class="testimonials__head">
         <span class="eyebrow">In their words</span>
         <h2 class="testimonials__title">
-          Five stars. Eighty-six reviews.<br/>
-          Verified on Google.
+          Patient experiences.<br/>
+          Verifiable on Google.
         </h2>
         <a href="https://www.google.com/maps/place/Viva+Wellness+Co./@30.448506,-93.3099761,5366828m/data=!3m2!1e3!4b1!4m6!3m5!1s0x838a2a09b2fa0069:0x23603b7d6308b72a!8m2!3d30.448506!4d-93.309976!16s%2Fg%2F11x1q1jhw9" target="_blank" rel="noopener" class="testimonials__rating">
           <span class="testimonials__stars" aria-label="5 out of 5 stars">
             <span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span>
           </span>
           <span class="testimonials__rating-meta">
-            <strong>5.0</strong>
+            <strong>Google reviews</strong>
             <span class="testimonials__rating-link">Verify on Google →</span>
           </span>
         </a>
@@ -497,7 +454,7 @@ const testimonials = [
         <div class="t-rotator__track" data-trotator-track>
           {testimonials.map((t, i) => (
             <article class:list={["t-slide", i === 0 && 'is-active']} data-tslide aria-hidden={i === 0 ? 'false' : 'true'}>
-              <div class="t-slide__stars" aria-label="5 stars">
+              <div class="t-slide__stars" role="img" aria-label="5 stars">
                 <span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span>
               </div>
               <blockquote class="t-slide__quote">"{t.quote}"</blockquote>
@@ -517,7 +474,7 @@ const testimonials = [
             ))}
           </div>
           <button class="t-rotator__nav t-rotator__nav--next" data-tnext aria-label="Next review">→</button>
-          <button class="t-rotator__nav t-rotator__playpause" data-tplaypause aria-label="Play automatic review rotation" aria-pressed="true">▶</button>
+          <button class="t-rotator__nav t-rotator__playpause" data-tplaypause aria-label="Play automatic review rotation" aria-pressed="false">▶</button>
         </div>
       </div>
 
@@ -538,7 +495,8 @@ const testimonials = [
           The questions I get most.
         </h2>
         <p class="lead">
-          If yours is not here, ask. I reply personally inside a business day.
+          If yours is not here, send a non-clinical question or book a visit for
+          an individual clinical discussion.
         </p>
       </div>
 
@@ -557,7 +515,7 @@ const testimonials = [
       </ul>
 
       <div class="faq__foot">
-        <a href="/contact" class="btn">Ask a question</a>
+        <a href="/contact/" class="btn">Ask a non-clinical question</a>
       </div>
     </div>
   </section>
@@ -566,14 +524,14 @@ const testimonials = [
   <section class="cta">
     <div class="container cta__inner">
       <div class="cta__brand" aria-hidden="true" data-viva-wordmark="viva">
-        <img src="/viva-logo-paper.png" alt="" width="1200" height="258" />
+        <img src="/viva-logo-paper-cropped.png" alt="" width="1130" height="212" />
       </div>
       <div class="cta__copy">
         <h2 class="cta__title">Health is personal.<br />Your care should be, too.</h2>
         <p class="lead">One named provider, one clear plan, and follow-up that fits real life.</p>
       </div>
       <div class="cta__ctas">
-        <a href="/start?utm_source=vivawellnessco&utm_medium=cta&utm_content=home_cta" class="btn btn--bronze">Book a consult</a>
+        <a href="/start/?utm_source=vivawellnessco&utm_medium=cta&utm_content=home_cta" class="btn btn--bronze">Book your first visit</a>
       </div>
     </div>
   </section>
@@ -622,7 +580,9 @@ const testimonials = [
     function setPaused(p: boolean) {
       paused = p;
       if (playPause) {
-        playPause.setAttribute('aria-pressed', String(p));
+        // aria-pressed represents whether automatic rotation is active, so it
+        // is the inverse of the internal paused flag.
+        playPause.setAttribute('aria-pressed', String(!p));
         playPause.setAttribute('aria-label', p ? 'Play automatic review rotation' : 'Pause automatic review rotation');
         playPause.textContent = p ? '▶' : '⏸';
       }
@@ -664,7 +624,7 @@ const testimonials = [
   // Wrapped in an init function and rebound on every astro:page-load so
   // view transitions reset quiz state and rebind to the freshly-rendered DOM.
   function initQuiz() {
-  const TOTAL = 5;
+  const TOTAL = 3;
   const state = { step: 1, answers: {} as Answers };
 
   const stepEls = document.querySelectorAll('.qx__step') as NodeListOf<HTMLDivElement>;
@@ -684,10 +644,9 @@ const testimonials = [
     if (bar) bar.style.width = `${pct}%`;
     if (meta) {
       if (state.step <= TOTAL) meta.textContent = `Question ${state.step} of ${TOTAL}`;
-      else if (state.step === TOTAL + 1) meta.textContent = 'Almost there';
       else meta.textContent = 'Your starting point';
     }
-    if (back) back.hidden = state.step <= 1 || state.step > TOTAL + 1;
+    if (back) back.hidden = state.step <= 1 || state.step > TOTAL;
     // In focus mode the body is locked with overflow:hidden, so scrollIntoView
     // on the section is a no-op. The .qx element itself is the scroll container
     // there — reset its scrollTop so every new step starts at the top. Outside
@@ -703,7 +662,7 @@ const testimonials = [
     // screen readers voice the new question / result. render() only runs after
     // a user action, so this never steals focus on initial load.
     const activeStep = stepEls[state.step - 1] as HTMLElement | undefined;
-    if (state.step === TOTAL + 2) {
+    if (state.step === TOTAL + 1) {
       activeStep?.focus({ preventScroll: true });
     } else {
       (activeStep?.querySelector('.qx__q') as HTMLElement | null)?.focus({ preventScroll: true });
@@ -729,7 +688,17 @@ const testimonials = [
       const v = (btn as HTMLElement).dataset.v as string;
       if (!q || !v) return;
       state.answers[q] = v;
-      if (state.step < TOTAL + 1) state.step += 1;
+      if (state.step === TOTAL) {
+        const m = match(state.answers);
+        document.getElementById('qx-r-name')!.textContent = m.name;
+        document.getElementById('qx-r-price')!.textContent = m.price;
+        document.getElementById('qx-r-body')!.textContent = m.body;
+        document.getElementById('qx-r-list')!.innerHTML = m.bullets.map((b) => `<li>${b}</li>`).join('');
+        document.getElementById('qx-r-discuss')!.innerHTML = m.discuss.map((b) => `<li>${b}</li>`).join('');
+        state.step = TOTAL + 1;
+      } else {
+        state.step += 1;
+      }
       enterFocus();
       render();
     });
@@ -746,124 +715,6 @@ const testimonials = [
   };
   document.addEventListener('keydown', qxKeyHandler);
 
-  const form = document.getElementById('qx-form') as HTMLFormElement | null;
-  const status = document.getElementById('qx-status') as HTMLDivElement | null;
-  const submit = document.getElementById('qx-submit') as HTMLButtonElement | null;
-  const retry = document.getElementById('qx-retry') as HTMLButtonElement | null;
-
-  if (form && status && submit) {
-    const tsEl = form.querySelector('.cf-turnstile') as HTMLElement | null;
-    const ts = () => (window as any).turnstile;
-    if (tsEl && ts() && !tsEl.querySelector('iframe')) {
-      try { ts().render(tsEl, { sitekey: tsEl.getAttribute('data-sitekey') }); } catch (e) {}
-    }
-
-    // A failed POST parks the exact payload (and its computed match) here so
-    // "Try again" resends the same lead. Nothing is rebuilt, nothing is lost:
-    // state.answers stays in memory and the form keeps its values.
-    let pending: { payload: Record<string, unknown>; m: ReturnType<typeof match> } | null = null;
-
-    function setSending(sending: boolean) {
-      submit!.disabled = sending;
-      if (retry) retry.disabled = sending;
-      if (sending) {
-        submit!.setAttribute('aria-busy', 'true');
-        submit!.textContent = 'Sending';
-      } else {
-        submit!.removeAttribute('aria-busy');
-        submit!.textContent = 'See my starting point';
-      }
-    }
-
-    async function deliver(payload: Record<string, unknown>, m: ReturnType<typeof match>) {
-      status!.textContent = '';
-      status!.className = 'qx__status';
-      if (retry) retry.hidden = true;
-      setSending(true);
-      const res = await fetch('/api/lead', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      }).catch(() => null); // network error → same failure path as non-2xx
-      const json = res ? await res.json().catch(() => ({})) : {};
-      if (res && res.ok && json.ok) {
-        pending = null;
-        setSending(false);
-        document.getElementById('qx-r-name')!.textContent = m.name;
-        document.getElementById('qx-r-price')!.textContent = m.price;
-        document.getElementById('qx-r-body')!.textContent = m.body;
-        document.getElementById('qx-r-list')!.innerHTML = m.bullets.map((b) => `<li>${b}</li>`).join('');
-        document.getElementById('qx-r-discuss')!.innerHTML = m.discuss.map((b) => `<li>${b}</li>`).join('');
-        state.step = TOTAL + 2;
-        render();
-        return;
-      }
-      // Failure path: keep everything in memory and restore the controls so
-      // nothing dead-ends. A server message (rate limit, verification) leads
-      // when it exists; otherwise the generic reassurance.
-      pending = { payload, m };
-      const detail = typeof json.error === 'string' && json.error ? json.error + ' ' : '';
-      // A pure network failure is the one case where retrying may never work,
-      // so that branch also offers the email escape hatch.
-      const fallback = res ? '' : " If it keeps failing, email info@vivawellnessco.com.";
-      status!.textContent = `${detail}Your answers are safe, nothing was lost. Try again when you're ready.${fallback}`;
-      status!.classList.add('is-error');
-      if (retry) retry.hidden = false;
-      // Reset the widget per its existing wiring so it can mint a fresh
-      // token before the retry (the old one may be expired or consumed).
-      try { if (tsEl && ts()) ts().reset(tsEl); } catch (e) {}
-      setSending(false);
-    }
-
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      status.textContent = '';
-      status.className = 'qx__status';
-      const data = new FormData(form);
-      const name = String(data.get('name') || '').trim();
-      const email = String(data.get('email') || '').trim();
-      const phone = String(data.get('phone') || '').trim();
-      const company = String(data.get('company') || '').trim();
-      if (!name || !email) {
-        status.textContent = 'Name and email are required.';
-        status.classList.add('is-error');
-        return;
-      }
-      const m = match(state.answers);
-      const utm: Record<string, string> = {};
-      const params = new URLSearchParams(window.location.search);
-      for (const k of ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'] as const) {
-        const v = params.get(k);
-        if (v) utm[k] = v;
-      }
-      await deliver({
-        source: 'quiz',
-        name, email, phone, company,
-        turnstileToken: String(data.get('cf-turnstile-response') || ''),
-        quiz: state.answers,
-        match: { key: m.key, name: m.name, price: m.price, ebookPath: m.ebookPath, discuss: m.discuss },
-        utm,
-        referrer: document.referrer || '',
-      }, m);
-    });
-
-    retry?.addEventListener('click', async () => {
-      if (!pending || submit.disabled) return;
-      // Refresh the editable contact fields from the live form so a corrected
-      // typo actually reaches the server (a frozen payload would loop a 400
-      // validation failure forever). Quiz answers and the computed match stay
-      // parked exactly as delivered the first time.
-      const fd = new FormData(form);
-      for (const k of ['name', 'email', 'phone', 'company'] as const) {
-        pending.payload[k] = String(fd.get(k) || '').trim();
-      }
-      // If Turnstile re-ran after the failure reset, carry its fresh token;
-      // otherwise resend with the one we had.
-      const freshToken = String(fd.get('cf-turnstile-response') || '');
-      if (freshToken) pending.payload.turnstileToken = freshToken;
-      await deliver(pending.payload, pending.m);
-    });
-  }
   } // end initQuiz
 
   document.addEventListener('astro:page-load', initQuiz);
@@ -940,7 +791,7 @@ const testimonials = [
   .hero .eyebrow,
   .hero__eyebrow-secondary {
     font-family: var(--font-mono);
-    font-size: clamp(0.72rem, 1vw, 0.82rem);
+    font-size: clamp(0.75rem, 1vw, 0.82rem);
     font-weight: 600;
     line-height: 1.35;
     letter-spacing: 0.18em;
@@ -958,7 +809,11 @@ const testimonials = [
     letter-spacing: -0.04em;
     text-shadow: none;
   }
-  .hero__title-line { display: block; white-space: nowrap; }
+  .hero__title-line {
+    display: block;
+    white-space: normal;
+    text-wrap: balance;
+  }
   .hero__title .italic-display {
     margin-top: 0.14em;
     color: var(--cream-bright);
@@ -1009,11 +864,11 @@ const testimonials = [
       padding-top: 6.25rem;
       padding-bottom: 3rem;
     }
-    .hero__media { order: -1; width: min(100%, 31rem); justify-self: center; border-radius: 1rem 1rem 4.5rem 1rem; }
+    .hero__media { width: min(100%, 31rem); justify-self: center; border-radius: 1rem 1rem 4.5rem 1rem; }
     .hero__copy { width: 100%; gap: 1.15rem; }
     .hero__eyebrows { gap: 0.7rem; }
     .hero .eyebrow,
-    .hero__eyebrow-secondary { font-size: 0.66rem; letter-spacing: 0.13em; }
+    .hero__eyebrow-secondary { font-size: 0.75rem; letter-spacing: 0.11em; }
     .hero__title { font-size: clamp(2.05rem, 8.65vw, 2.55rem); }
     .hero__lead { max-width: 37ch; font-size: 0.98rem; line-height: 1.5; }
     .hero__ctas { display: grid; grid-template-columns: 1fr 1fr; }
@@ -1154,10 +1009,10 @@ const testimonials = [
     background: var(--terracotta);
     border: 1px solid var(--bronze-deep);
     border-radius: 1.2rem;
-    color: var(--cream-bright);
+    color: var(--evergreen-deep);
     transition: background 220ms var(--ease), transform 220ms var(--ease);
   }
-  .audience__article:hover { background: var(--bronze-deep); transform: translateY(-2px); }
+  .audience__article:hover { background: var(--bronze-deep); color: var(--cream-bright); transform: translateY(-2px); }
   .audience__article > span:first-child,
   .audience__article > span:last-child {
     font-family: var(--font-mono);
@@ -1318,7 +1173,7 @@ const testimonials = [
   }
   .qx__opt:hover .qx__opt-arrow { transform: translateX(4px); color: var(--bronze-bright); }
   .qx__opt-label { font-family: var(--font-body); font-size: clamp(1rem, 1.5vw, 1.15rem); font-weight: 500; letter-spacing: -0.01em; color: var(--paper); line-height: 1.4; }
-  .qx__opt-arrow { font-family: var(--font-body); font-size: 1.3rem; color: rgba(28, 35, 27, 0.6); transition: color 250ms var(--ease), transform 250ms var(--ease); }
+  .qx__opt-arrow { font-family: var(--font-body); font-size: 1.3rem; color: var(--evergreen-deep); transition: color 250ms var(--ease), transform 250ms var(--ease); }
 
   @media (max-width: 520px) {
     .qx__opt { gap: 0.9rem; padding: 1.25rem 1.15rem; }
@@ -1360,7 +1215,7 @@ const testimonials = [
   .qx__result-list--discuss :global(li)::before { content: '→'; }
   .qx__result-ctas { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
   .qx__result-note { font-size: 0.85rem; color: var(--mute); line-height: 1.55; padding-top: 1.2rem; border-top: 1px solid var(--rule); max-width: 60ch; }
-  .qx__back { display: inline-flex; align-items: center; margin-top: 2.5rem; font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mute); padding: 0.75rem 0; min-height: 44px; transition: color 200ms var(--ease); }
+  .qx__back { display: inline-flex; align-items: center; margin-top: 2.5rem; font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mute); padding: 0.75rem 0; min-height: 44px; transition: color 200ms var(--ease); }
   .qx__back:hover { color: var(--paper); }
 
   /* ============ QUIZ FOCUS MODE ============
@@ -1436,7 +1291,7 @@ const testimonials = [
   .provider__photo { aspect-ratio: 2/3; background: linear-gradient(135deg, var(--bronze-deep), var(--ink-3)); position: relative; overflow: hidden; }
   .provider__photo img { width: 100%; height: 100%; object-fit: cover; object-position: center center; display: block; position: relative; z-index: 2; }
   .provider__photo::before { content: ''; position: absolute; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E"); mix-blend-mode: overlay; opacity: 0.12; pointer-events: none; z-index: 3; }
-  .provider__caption { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink); line-height: 1.7; }
+  .provider__caption { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink); line-height: 1.7; }
   .provider__title { font-size: clamp(1.8rem, 4vw, 3rem); margin-bottom: 1.5rem; max-width: 22ch; }
   .provider__copy p { margin-bottom: 1.2rem; max-width: 60ch; }
   .provider__copy .btn { margin-top: 1rem; }
@@ -1449,7 +1304,7 @@ const testimonials = [
   .program:hover { background: var(--sage); border-color: var(--evergreen); transform: translateY(-3px); }
   .program--featured { background: var(--sage); border-color: var(--terracotta); box-shadow: inset 0 5px 0 var(--terracotta); }
   .program__ico { width: 26px; height: 26px; color: var(--bronze); margin-bottom: 0.5rem; }
-  .program__tier { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--bronze); }
+  .program__tier { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--bronze); }
   .program__name { font-size: 1.45rem; line-height: 1.1; }
   .program__price { display: flex; align-items: baseline; gap: 0.2rem; margin: 0.5rem 0 0.7rem; }
   .program__price-amt { font-family: var(--font-display); font-size: 2.6rem; color: var(--paper); letter-spacing: -0.022em; font-variation-settings: 'opsz' 96; font-feature-settings: 'tnum'; }
@@ -1476,12 +1331,12 @@ const testimonials = [
   .testimonials__rating-meta { display: flex; align-items: baseline; gap: 0.5rem; flex-wrap: wrap; }
   .testimonials__rating-meta strong { font-family: var(--font-display); font-size: 1.5rem; color: var(--paper); line-height: 1; letter-spacing: -0.015em; font-feature-settings: 'tnum'; }
   .testimonials__rating-meta > span:not(.testimonials__rating-link) { font-family: var(--font-mono); font-size: 0.78rem; letter-spacing: 0.06em; color: rgba(28, 35, 27, 0.75); }
-  .testimonials__rating-link { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--bronze); margin-left: 0.5rem; border-left: 1px solid var(--rule-strong); padding-left: 1rem; }
+  .testimonials__rating-link { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--bronze); margin-left: 0.5rem; border-left: 1px solid var(--rule-strong); padding-left: 1rem; }
   @media (max-width: 640px) { .testimonials__rating-link { border-left: 0; padding-left: 0; margin-left: 0; width: 100%; } }
   /* FTC Endorsement Guides · individual-results disclaimer beneath the rating
      block. Small, muted, doesn't fight for visual weight. */
   .testimonials__disclaimer {
-    font-size: 0.72rem;
+    font-size: 0.75rem;
     line-height: 1.5;
     color: rgba(28, 35, 27, 0.7);
     max-width: 56ch;
@@ -1549,7 +1404,7 @@ const testimonials = [
   }
   .t-slide__author span {
     font-family: var(--font-mono);
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--mute);
@@ -1565,8 +1420,11 @@ const testimonials = [
     background: transparent;
     border: 1px solid var(--rule-strong);
     color: var(--paper);
-    width: 44px;
-    height: 44px;
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    min-height: 48px;
+    flex: 0 0 48px;
     display: grid;
     place-items: center;
     cursor: pointer;
@@ -1703,45 +1561,37 @@ const testimonials = [
   .provider-band__inner { grid-template-columns: 1fr; align-items: start; }
 }
 
-.provider-band__media {
-  display: flex;
-  flex-direction: column;
-  gap: 1.2rem;
-  width: min(100%, 32rem);
+.provider-band__facts {
+  background: var(--evergreen-deep);
+  color: var(--cream-bright);
+  padding: clamp(2rem, 5vw, 3.5rem);
+  border-radius: 1.25rem 1.25rem 4rem 1.25rem;
+  border-top: 6px solid var(--ochre);
+  --focus-ring: var(--ochre);
 }
-/* Mirrors .founder__frame on the About page so the shared-element
-   transition:name="provider-photo" morph lands on a matching shape. */
-.provider-band__frame {
-  aspect-ratio: 2 / 3;
-  background: linear-gradient(135deg, var(--bronze-deep) 0%, var(--ink-3) 100%);
-  overflow: hidden;
-  border-radius: 1.25rem 1.25rem 5rem 1.25rem;
-  position: relative;
-}
-.provider-band__frame img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center top;
+.provider-band__facts-kicker {
   display: block;
-}
-.provider-band__caption {
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-}
-.provider-band__name {
   font-family: var(--font-display);
-  font-size: 1.05rem;
-  color: var(--paper);
-  line-height: 1.3;
+  font-size: clamp(1.7rem, 3vw, 2.4rem);
+  line-height: 1.1;
 }
-.provider-band__creds {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--bronze);
+.provider-band__facts > strong {
+  display: block;
+  margin-top: 0.4rem;
+  color: var(--ochre);
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+}
+.provider-band__facts ul {
+  display: grid;
+  gap: 0.85rem;
+  margin-top: 2rem;
+}
+.provider-band__facts li {
+  padding-top: 0.85rem;
+  border-top: 1px solid rgba(255, 253, 248, 0.18);
+  color: rgba(255, 253, 248, 0.82);
+  line-height: 1.45;
 }
 
 .provider-band__copy {
@@ -1771,16 +1621,6 @@ const testimonials = [
   margin: 0;
 }
 .provider-band__cta { margin-top: 0.4rem; }
-
-/* Scroll reveal: stagger the copy slightly behind the photo. The base
-   .to-reveal / .is-revealed pattern is defined in global.css and is applied
-   by the homepage IntersectionObserver on astro:page-load. Without JS the
-   elements stay visible (progressive enhancement). */
-.provider-band__copy.to-reveal { transition-delay: 90ms; }
-
-@media (max-width: 900px) {
-  .provider-band__media { max-width: 340px; }
-}
 
   /* ============ CTA ============ */
   .cta { padding: clamp(2.75rem, 6vw, 5rem) 0; background: var(--evergreen); color: var(--cream-bright); position: relative; overflow: hidden; border-top: 0; }
