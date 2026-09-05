@@ -3,7 +3,7 @@
 // duplicate the page's primary action.
 // Strip trailing slash for matching (Astro emits both /contact and /contact/)
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
-const hideOn = ['/privacy', '/terms'];
+const hideOn = ['/privacy', '/terms', '/unsubscribe'];
 const hide = hideOn.includes(path);
 // On /start the bar used to link back to /start (a loop). Send the primary
 // action straight to the scheduler there instead.
@@ -37,7 +37,7 @@ const primaryHref = onStart
     z-index: 80;
     padding: 0.7rem var(--gutter) calc(0.7rem + env(safe-area-inset-bottom));
     gap: 0.6rem;
-    background: rgba(251, 250, 247, 0.92);
+    background: rgba(246, 240, 228, 0.95);
     backdrop-filter: blur(14px) saturate(140%);
     border-top: 1px solid var(--rule-strong);
   }
@@ -64,18 +64,18 @@ const primaryHref = onStart
     transition: background 220ms var(--ease), color 220ms var(--ease);
   }
   .msc__btn--bronze {
-    background: var(--butter);
-    color: var(--paper);
-    border-color: var(--bronze-bright);
+    background: var(--terracotta);
+    color: var(--cream-bright);
+    border-color: transparent;
   }
   .msc__btn--ghost {
     background: transparent;
     color: var(--paper);
-    border-color: rgba(46, 52, 56, 0.55);
+    border-color: var(--evergreen);
   }
   /* Tap states */
-  .msc__btn--bronze:active { background: var(--butter-bright); border-color: var(--bronze-bright); }
-  .msc__btn--ghost:active { background: rgba(46, 52, 56, 0.08); }
+  .msc__btn--bronze:active { background: var(--bronze-deep); border-color: transparent; }
+  .msc__btn--ghost:active { background: rgba(23, 75, 51, 0.08); }
 
   /* Hide when mobile nav is open so it doesn't fight the menu */
   :global(body.menu-open) .msc { display: none; }

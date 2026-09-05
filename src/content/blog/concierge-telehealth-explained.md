@@ -61,15 +61,15 @@ Put them together and you get something that genuinely didn't exist before. It d
 
 For performance medicine, hormone optimization, or weight management, concierge telehealth usually runs $200 to $700 a month, all-in. The lower tiers cover the simpler protocols (basic HRT, micro-dose metabolic). The higher ones cover the more involved, multi-medication work (recomposition, peak performance, regenerative medicine).
 
-Here's the part that surprises people. A traditional concierge primary care membership runs $150 to $300 a month, and then all the actual medical care still goes through your insurance on top of that. So the numbers end up close. The difference is that with concierge telehealth, the medication and supplies are usually included, where in concierge primary care they're billed separately to insurance.
+Here's the part that surprises people. A traditional concierge primary care membership runs $150 to $300 a month, and then all the actual medical care still goes through your insurance on top of that. At Viva, inclusions depend on the membership: all-inclusive TRT and metabolic tiers bundle the medications and services listed in the plan, while Viva Concierge Access keeps medication separate. Compounded estradiol and progesterone for HRT are clinician-selected add-ons and are not included in the $99 membership fee.
 
 So in a practice that's built this honestly, here's where your money's going.
 
-The medication and supplies. The product itself is a real chunk of the cost, but it's not the whole thing, and any practice that pretends the meds are the only thing you're paying for is telling on itself.
+The medication and supplies. When a tier includes them, the product itself is a real chunk of the cost, but it is not the whole thing. With Viva Concierge Access, medication is handled separately so the membership stays focused on provider access and management.
 
 Provider time. Real time. Forty-five minutes for a first visit. Direct messaging in between. Quarterly check-ins baked into the rhythm instead of billed Ã  la carte.
 
-Lab work. Baseline panels and the periodic re-checks, included in the membership rather than tacked on.
+Lab work. Baseline panels and periodic re-checks anchor the plan. Depending on the membership, they are either included or routed through insurance when eligible.
 
 Coordination. Me managing the moving parts: calling the pharmacy when it goes quiet, adjusting the protocol when something's off, keeping the whole picture coherent over months and years.
 
@@ -87,6 +87,6 @@ Viva Wellness Co. is a concierge telehealth practice based in Austin, licensed i
 
 The protocols cover hormone optimization, GLP-1-based metabolic reset, recovery and regenerative therapy, body recomposition, and lifestyle medicine. Tiers run from $99 a month for guided HRT up to $499 a month for the most comprehensive metabolic protocol.
 
-Every tier includes provider access, home delivery, and the protocol itself. No hidden costs. I'd rather lose a sale than spring a fee on you later.
+Every tier includes provider access and personalized management. Medication, supplies, and home delivery are bundled only where a plan lists them. With Viva Concierge Access, medications such as compounded estradiol or progesterone are separate add-ons, so you know that before enrolling.
 
 If you're trying to work out whether the concierge model actually fits what you're looking for, [book a consultation](/services) and I'll spend forty-five minutes figuring out whether this is the right structure for where you are right now. And if it isn't, I'll tell you. That's the deal.

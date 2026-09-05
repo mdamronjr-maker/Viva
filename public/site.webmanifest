@@ -5,18 +5,18 @@
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
-  "background_color": "#fbfaf7",
-  "theme_color": "#b8d0de",
+  "background_color": "#f6f0e4",
+  "theme_color": "#174b33",
   "icons": [
     {
-      "src": "/favicon.svg",
+      "src": "/favicon-viva-garden-v1.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any"
     },
     {
-      "src": "/viva-logo-ink.png",
-      "sizes": "1200x258",
+      "src": "/viva-icon-garden-v1.png",
+      "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
     }

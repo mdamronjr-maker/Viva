@@ -77,48 +77,57 @@ export function match(a: Answers): Match {
     };
   }
 
-  // 2. Hormones + budget != $99 -> TRT & HRT All Inclusive
-  // Routes men (TRT) and women (HRT) to the same flat-fee hormone tier; the
-  // provider tailors the actual protocol in the first visit.
-  if (goal === 'hormones' && budget !== 'b99') {
+  // 2. Hormones -> Viva Concierge Access for women; TRT All Inclusive for
+  // men whose stated budget is above the $99 concierge tier. HRT medications
+  // are clinician-selected add-ons, not part of the concierge membership.
+  if (goal === 'hormones') {
     const isFemale = sex === 'f';
-    return {
-      key: 'trt',
-      name: 'TRT & HRT All Inclusive',
-      price: '$199',
-      body: isFemale
-        ? 'Personalized hormone optimization with compounded estradiol, progesterone, and adjunct protocols (DHEA, thyroid, low-dose testosterone) when clinically indicated. Supplies, biannual labs, and home delivery included.'
-        : 'Personalized testosterone optimization with compounded medication. Anastrozole, HCG, and thyroid adjuncts when clinically indicated. Supplies, biannual labs, and home delivery included.',
-      bullets: isFemale
-        ? [
-            'Compounded estradiol + progesterone (cream, troche, or pellet)',
-            'DHEA, low-dose testosterone, thyroid adjuncts when clinically indicated',
-            'Perimenopause and menopause symptom management',
-            'Biannual labs and dose adjustments',
-            'Direct provider access by message',
-          ]
-        : [
-            'Compounded testosterone (injection, cream, or gel)',
-            'Anastrozole, HCG, and thyroid adjuncts when clinically indicated',
-            'Biannual labs and dose adjustments',
-            'Supplies, sharps, and home delivery',
-            'Direct provider access by message',
-          ],
-      discuss: isFemale
-        ? [
-            'GHK-Cu · collagen, skin, and hair support alongside HRT',
-            'CJC-1295 / Ipamorelin · sleep architecture and recovery',
-            'Low-dose testosterone · whether it belongs in your protocol',
-            'BPC-157 · gut and joint support if either is a complaint',
-          ]
-        : [
-            'CJC-1295 / Ipamorelin · growth-hormone support that pairs well with TRT',
-            'BPC-157 · joint and gut support as training volume climbs',
-            'MOTS-c · metabolic and endurance support',
-            'Adjuncts · anastrozole, HCG, enclomiphene — what your labs say belongs in the plan',
-          ],
-      ebookPath: DEFAULT_EBOOK, // TODO: /ebooks/viva-trt-guide.pdf
-    };
+    if (isFemale) {
+      return {
+        key: 'trt',
+        name: 'Viva Concierge Access',
+        price: '$99',
+        body: 'Provider-led HRT management with monthly evaluation, dosing guidance, and direct provider access. Compounded estradiol and progesterone are available as clinician-selected add-ons and are not included in the $99 membership fee.',
+        bullets: [
+          'Monthly evaluation and ongoing medication management',
+          'Perimenopause and menopause symptom management',
+          'Compounded estradiol and progesterone available as add-ons',
+          'Insurance routing for eligible labs and retail prescriptions',
+          'Direct provider access by message',
+        ],
+        discuss: [
+          'Your HRT options · whether estradiol, progesterone, or another medication belongs in your plan',
+          'GHK-Cu · collagen, skin, and hair support alongside HRT',
+          'CJC-1295 / Ipamorelin · sleep architecture and recovery',
+          'Low-dose testosterone · whether it belongs in your protocol',
+          'BPC-157 · gut and joint support if either is a complaint',
+        ],
+        ebookPath: DEFAULT_EBOOK,
+      };
+    }
+
+    if (budget !== 'b99') {
+      return {
+        key: 'trt',
+        name: 'TRT All Inclusive',
+        price: '$199',
+        body: 'Personalized testosterone optimization with compounded testosterone, supplies, biannual labs, and home delivery included.',
+        bullets: [
+          'Compounded testosterone (injection, cream, or gel)',
+          'Personalized dosing and ongoing adjustments',
+          'Biannual labs',
+          'Supplies, sharps, and home delivery',
+          'Direct provider access by message',
+        ],
+        discuss: [
+          'CJC-1295 / Ipamorelin · growth-hormone support that pairs well with TRT',
+          'BPC-157 · joint and gut support as training volume climbs',
+          'MOTS-c · metabolic and endurance support',
+          'Adjuncts · anastrozole, HCG, enclomiphene. What your labs say belongs in the plan',
+        ],
+        ebookPath: DEFAULT_EBOOK, // TODO: /ebooks/viva-trt-guide.pdf
+      };
+    }
   }
 
   // 3. Recovery + budget >= $349 -> Metabolic Core (recovery emphasis)
@@ -173,11 +182,11 @@ export function match(a: Answers): Match {
     key: 'concierge',
     name: 'Viva Concierge',
     price: '$99',
-    body: 'Provider access plus member pricing on compounded peptides, GLP-1, and add-ons. Pay a la carte for the protocols you want instead of committing to an all-inclusive monthly fee. The right tier when you want flexibility and provider expertise without a bundled price.',
+    body: 'Provider access plus member pricing on compounded peptides, GLP-1, and medication add-ons, including HRT. Pay a la carte for the protocols you want instead of committing to an all-inclusive monthly fee. The right tier when you want flexibility and provider expertise without a bundled price.',
     bullets: [
       'Direct messaging access to your provider',
       'Monthly evaluation visit + one acute/sick visit credit per month',
-      'Member pricing on compounded peptides, GLP-1, and TRT add-ons',
+      'Member pricing on compounded peptides, GLP-1, and hormone add-ons',
       'Lab orders + standard prescriptions routed through your insurance',
       'Guidance across hormones, peptides, metabolic, and recovery',
     ],

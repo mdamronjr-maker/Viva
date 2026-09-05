@@ -23,7 +23,7 @@ const standards = [
         jobTitle: 'Family Nurse Practitioner, Founder',
         description: 'Founder and lead provider of Viva Wellness Co., a concierge telehealth practice delivering peptide therapy, hormone optimization, and GLP-1 weight loss from Austin, Texas.',
         worksFor: { '@id': 'https://vivawellnessco.com/#organization' },
-        image: 'https://vivawellnessco.com/liliana.webp',
+        image: 'https://vivawellnessco.com/liliana-founder-portrait.webp',
         url: 'https://vivawellnessco.com/about',
         knowsAbout: ['Peptide Therapy', 'Hormone Replacement Therapy', 'GLP-1 Weight Loss', 'Performance Medicine', 'Geriatric Medicine'],
       },
@@ -60,7 +60,7 @@ const standards = [
     <div class="container founder">
       <div class="founder__media">
         <div class="founder__frame" transition:name="provider-photo">
-          <img src="/liliana-new.webp" alt="Liliana Damron, APRN, FNP-BC" loading="lazy" />
+          <img src="/liliana-founder-portrait.webp" alt="Liliana Damron, APRN, FNP-BC" loading="lazy" />
         </div>
         <div class="founder__caption">
           <div>Liliana Damron</div>
@@ -248,7 +248,8 @@ const standards = [
     place-items: center;
     position: relative;
     overflow: hidden;
-    border-radius: 2px;
+    border-radius: 1.25rem 1.25rem 6rem 1.25rem;
+    border-left: 8px solid var(--terracotta);
   }
   .founder__frame img {
     width: 100%;
@@ -278,7 +279,7 @@ const standards = [
   .founder__caption {
     font-family: var(--font-display);
     font-size: 1.05rem;
-    color: var(--ink);
+    color: var(--paper);
     line-height: 1.4;
   }
   .founder__creds {
@@ -286,7 +287,7 @@ const standards = [
     font-size: 0.7rem;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: var(--butter); /* readable on the charcoal band */
+    color: var(--bronze);
     margin-top: 0.4rem;
   }
   .founder__title {
@@ -324,7 +325,7 @@ const standards = [
     line-height: 1.1;
   }
   .standard__body {
-    color: rgba(46, 52, 56, 0.75);
+    color: rgba(28, 35, 27, 0.75);
     max-width: 60ch;
     font-size: 1.05rem;
   }
@@ -418,10 +419,11 @@ const standards = [
   .about-cta {
     padding: clamp(5rem, 10vw, 9rem) 0;
     text-align: center;
-    background: var(--ink);
+    background: var(--evergreen);
+    color: var(--cream-bright);
     position: relative;
     overflow: hidden;
-    border-top: 1px solid var(--rule);
+    border-top: 6px solid var(--terracotta);
   }
   .about-cta::before {
     content: '';
@@ -439,6 +441,8 @@ const standards = [
     margin-right: auto;
   }
   .about-cta__ctas { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+  .about-cta .btn:not(.btn--bronze) { color: var(--cream-bright); border-color: var(--cream-bright); }
+  .about-cta .btn:not(.btn--bronze):hover { background: var(--cream-bright); color: var(--evergreen-deep); }
 </style>
 
 <script>

@@ -7,7 +7,7 @@ const isActive = (p: string) => path === p || (p !== '/' && path.startsWith(p));
   <div class="container site-header__inner">
     <a href="/" class="brand" aria-label="Viva Wellness Co. · home">
       <img
-        src="/viva-logo-ink.png"
+        src={path === '/' ? '/viva-logo-paper.png' : '/viva-logo-ink.png'}
         alt="Viva Wellness Co."
         class="brand__logo"
         width="1200"
@@ -41,36 +41,39 @@ const isActive = (p: string) => path === p || (p !== '/' && path.startsWith(p));
     position: sticky;
     top: 0;
     z-index: 100;
-    backdrop-filter: blur(18px) saturate(140%);
-    background: rgba(251, 250, 247, 0.86);
+    backdrop-filter: blur(18px) saturate(125%);
+    background: rgba(246, 240, 228, 0.94);
     border-bottom: 1px solid var(--rule);
   }
   .site-header--home {
     position: absolute;
     left: 0;
     right: 0;
-    color: #fff;
-    background: rgba(184, 208, 222, 0.82);
-    border-bottom-color: rgba(255, 255, 255, 0.42);
-  }
-  .site-header--home .brand__logo {
-    filter: brightness(0) invert(1);
+    color: var(--cream-bright);
+    background: linear-gradient(180deg, rgba(8, 34, 23, 0.48), rgba(8, 34, 23, 0));
+    border-bottom-color: transparent;
+    backdrop-filter: none;
   }
   .site-header--home .nav__link {
-    color: #fff;
-    text-shadow: 0 1px 9px rgba(29, 72, 98, 0.72);
+    color: var(--cream-bright);
   }
-  .site-header--home .nav__link::after { background: var(--butter); }
+  .site-header--home .nav__link::after { background: var(--ochre); }
   .site-header--home .nav__link:hover,
-  .site-header--home .nav__link.is-active { color: #fff; }
-  .site-header--home .nav-toggle span { background: #fff; }
+  .site-header--home .nav__link.is-active { color: var(--ochre); }
+  .site-header--home .nav-toggle span { background: var(--cream-bright); }
+  .site-header--home .nav__cta {
+    color: var(--evergreen-deep);
+    background: var(--ochre);
+    border-color: transparent;
+  }
+  .site-header--home .nav__cta:hover { background: var(--butter-bright); }
   .site-header__inner {
     display: grid;
     grid-template-columns: auto 1fr auto auto;
     align-items: center;
     gap: 2rem;
-    padding-top: 0.9rem;
-    padding-bottom: 0.9rem;
+    padding-top: 0.8rem;
+    padding-bottom: 0.8rem;
   }
   .brand {
     display: inline-flex;
@@ -78,7 +81,7 @@ const isActive = (p: string) => path === p || (p !== '/' && path.startsWith(p));
     line-height: 0;
   }
   .brand__logo {
-    height: 44px;
+    height: 40px;
     width: auto;
     display: block;
     -webkit-backface-visibility: hidden;
@@ -93,10 +96,11 @@ const isActive = (p: string) => path === p || (p !== '/' && path.startsWith(p));
     justify-content: center;
   }
   .nav__link {
-    font-family: var(--font-body);
-    font-size: 0.84rem;
-    letter-spacing: 0.02em;
-    font-weight: 500;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+    font-weight: 600;
     color: var(--paper);
     white-space: nowrap;
     padding: 0.4rem 0;
@@ -110,15 +114,15 @@ const isActive = (p: string) => path === p || (p !== '/' && path.startsWith(p));
     bottom: 0;
     width: 100%;
     height: 1px;
-    background: var(--bronze);
+    background: var(--terracotta);
     transform: scaleX(0);
     transform-origin: left;
     transition: transform 280ms var(--ease);
   }
-  .nav__link:hover { color: var(--bronze); }
+  .nav__link:hover { color: var(--terracotta); }
   .nav__link:hover::after,
   .nav__link.is-active::after { transform: scaleX(1); }
-  .nav__link.is-active { color: var(--paper); }
+  .nav__link.is-active { color: var(--evergreen); }
   .nav__cta { padding: 0.75rem 1.1rem; white-space: nowrap; letter-spacing: 0.08em; }
 
   .nav-toggle { display: none; }
@@ -168,14 +172,15 @@ const isActive = (p: string) => path === p || (p !== '/' && path.startsWith(p));
     position: fixed;
     inset: 76px 0 0 0;
     z-index: 90;
-    background: var(--ink);
+    background: var(--evergreen-deep);
+    color: var(--cream-bright);
     transform: translateY(-110%);
     transition: transform 360ms var(--ease);
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
     padding: 2.5rem var(--gutter);
-    border-bottom: 1px solid var(--rule);
+    border-bottom: 1px solid rgba(255, 250, 241, 0.18);
     /* Scroll when the links + CTA are taller than the viewport (short/landscape
        phones), so the bottom links and the Start CTA stay reachable. */
     overflow-y: auto;
@@ -187,11 +192,11 @@ const isActive = (p: string) => path === p || (p !== '/' && path.startsWith(p));
     font-size: 1.9rem;
     letter-spacing: -0.018em;
     padding: 0.6rem 0;
-    border-bottom: 1px solid var(--rule);
+    border-bottom: 1px solid rgba(255, 250, 241, 0.14);
   }
   .mobile-cta {
     margin-top: 1.5rem;
-    color: var(--bronze);
+    color: var(--ochre);
     font-family: var(--font-display-italic) !important;
     font-style: italic;
     text-transform: none !important;

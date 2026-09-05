@@ -17,16 +17,16 @@ const blogPosts = await getCollection('blog', ({ data }) => !data.draft);
 // they render at 88px and need to breathe.
 const pages: Record<string, { title: string; tagline: string }> = {
   home: {
-    title: 'Peptide therapy, engineered for the body you train.',
-    tagline: 'Concierge Telehealth · Austin · TX · CO · FL · IA',
+    title: "You bring the goals. I'll build the protocol.",
+    tagline: 'Peptides · GLP-1 · TRT/HRT · Menopause · TX · CO · FL · IA',
   },
   about: {
-    title: 'I treat health like training.',
-    tagline: 'The Story · Liliana Damron, APRN, FNP-BC',
+    title: 'Meet your provider.',
+    tagline: 'The Founder · Liliana Damron, APRN, FNP-BC',
   },
   services: {
-    title: 'Peptide therapy. TRT. GLP-1. Hormone optimization.',
-    tagline: 'Concierge Memberships · From $99 / month · TX · CO · FL · IA',
+    title: 'What I treat, and what it costs.',
+    tagline: 'Concierge Memberships · $99–$499 / month · TX · CO · FL · IA',
   },
   partners: {
     title: 'The Austin partners I trust with my patients.',
@@ -82,7 +82,7 @@ export const { getStaticPaths, GET } = await OGImageRoute({
     // canvaskit has no text-transform, so we uppercase here.
     description: page.tagline.toUpperCase(),
     logo: {
-      path: './public/viva-logo-ink.png',
+      path: './public/viva-logo-powder-v2.png',
       size: [280, 60],
     },
     // Background: the light gouache Capitol art (public/og-bg.png), pre-washed
@@ -102,13 +102,12 @@ export const { getStaticPaths, GET } = await OGImageRoute({
       side: 'inline-start',
     },
     padding: 80,
-    // Brand display fonts loaded from Fontsource at build time. Fraunces
-    // italic carries the editorial voice; Geist Mono handles the tagline.
-    // Only loading italic Fraunces faces so the family always renders italic.
+    // Use the same self-hosted brand fonts as the site. Keeping OG generation
+    // local makes Cloudflare builds deterministic and avoids a third-party
+    // font download during every deployment.
     fonts: [
-      'https://api.fontsource.org/v1/fonts/fraunces/latin-600-italic.ttf',
-      'https://api.fontsource.org/v1/fonts/fraunces/latin-500-italic.ttf',
-      'https://api.fontsource.org/v1/fonts/geist-mono/latin-500-normal.ttf',
+      './public/fonts/fraunces-italic-latin.woff2',
+      './public/fonts/geistmono-normal-latin.woff2',
     ],
     font: {
       title: {

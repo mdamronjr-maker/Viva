@@ -21,14 +21,52 @@
 # Logos and hero images cached aggressively. Bust by renaming when updating.
 /viva-logo-paper.png
   Cache-Control: public, max-age=2592000
+/viva-logo-ink.png
+  Cache-Control: public, max-age=2592000
 /viva-logo-red.png
   Cache-Control: public, max-age=2592000
-/viva-runner-hero.webp
+/viva-logo-powder-v2.png
   Cache-Control: public, max-age=2592000
-/viva-runner-hero-sm.webp
+/viva-logo-duotone-dark-v3.png
+  Cache-Control: public, max-age=31536000, immutable
+/viva-logo-duotone-light-v3.png
+  Cache-Control: public, max-age=31536000, immutable
+/viva-logo-white-needle-dark-v4.png
+  Cache-Control: public, max-age=31536000, immutable
+/viva-logo-white-needle-light-v4.png
+  Cache-Control: public, max-age=31536000, immutable
+/viva-logo-white-keyline-light-v5.png
+  Cache-Control: public, max-age=31536000, immutable
+/favicon-powder-v2.svg
   Cache-Control: public, max-age=2592000
-/viva-runner-hero-mobile.webp
+/viva-icon-powder-v2.png
   Cache-Control: public, max-age=2592000
+/favicon-viva-v3.svg
+  Cache-Control: public, max-age=31536000, immutable
+/viva-icon-v3.png
+  Cache-Control: public, max-age=31536000, immutable
+/favicon-viva-garden-v1.svg
+  Cache-Control: public, max-age=31536000, immutable
+/viva-icon-garden-v1.png
+  Cache-Control: public, max-age=31536000, immutable
+/liliana-founder-portrait.webp
+  Cache-Control: public, max-age=31536000, immutable
+/liliana-founder-portrait-sm.webp
+  Cache-Control: public, max-age=31536000, immutable
+/liliana-founder-hero-v3-1280.webp
+  Cache-Control: public, max-age=31536000, immutable
+/liliana-founder-hero-v3-1920.webp
+  Cache-Control: public, max-age=31536000, immutable
+/liliana-founder-hero-v3-3840.webp
+  Cache-Control: public, max-age=31536000, immutable
+/liliana-founder-portrait-v2.webp
+  Cache-Control: public, max-age=31536000, immutable
+/liliana-founder-hero-v4-1920.webp
+  Cache-Control: public, max-age=31536000, immutable
+/liliana-founder-hero-v4-3840.webp
+  Cache-Control: public, max-age=31536000, immutable
+/liliana-founder-original-v1.jpg
+  Cache-Control: public, max-age=31536000, immutable
 /viva-runner-hero-v2.webp
   Cache-Control: public, max-age=2592000
 /viva-runner-hero-v2-sm.webp
@@ -41,6 +79,14 @@
   Cache-Control: public, max-age=2592000
 # Legacy image tombstone. Keep the retired URL out of edge caches.
 /matt-johnson-hd.jpg
+  Cache-Control: no-store, max-age=0
+# Retired v1 runner-hero set (live 2026-09-02 to 2026-09-03 at max-age=2592000).
+# Superseded by the -v2 files; keep the retired URLs out of edge caches.
+/viva-runner-hero.webp
+  Cache-Control: no-store, max-age=0
+/viva-runner-hero-sm.webp
+  Cache-Control: no-store, max-age=0
+/viva-runner-hero-mobile.webp
   Cache-Control: no-store, max-age=0
 /liliana-new.webp
   Cache-Control: public, max-age=2592000

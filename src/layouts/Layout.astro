@@ -32,7 +32,7 @@ const isFeedbackBuild = import.meta.env.PUBLIC_DEPLOY_TARGET === 'feedback';
 // has its own PNG generated at build time by src/pages/og/[...route].png.ts.
 function ogForPath(p: string): string {
   if (p === '/') return '/og/home.png';
-  if (['/about', '/services', '/partners', '/contact', '/privacy', '/terms', '/blog', '/menu', '/start'].includes(p)) {
+  if (['/about', '/services', '/partners', '/contact', '/privacy', '/terms', '/blog', '/menu', '/menopause', '/start'].includes(p)) {
     return `/og${p}.png`;
   }
   if (p.startsWith('/blog/')) return `/og${p}.png`;
@@ -44,7 +44,10 @@ const resolvedOgImage = ogImage && ogImage !== '/og-image.jpg' ? ogImage : ogFor
 // LinkedIn, etc.) refetch instead of serving the stale thumbnail.
 // v3 = state taglines include Iowa (June 2026).
 // v4 = Lights On visual refresh and photographic homepage treatment.
-const OG_CACHE_VERSION = '4';
+// v5 = OG copy refresh to current positioning (peptides, GLP-1, TRT/HRT,
+//      perimenopause/menopause care).
+// v6 = powder-blue Viva wordmark.
+const OG_CACHE_VERSION = '6';
 const ogImageURL = new URL(`${resolvedOgImage}?v=${OG_CACHE_VERSION}`, Astro.site).href;
 const siteName = 'Viva Wellness Co.';
 
@@ -58,8 +61,8 @@ const orgSchema = {
       name: 'Viva Wellness Co.',
       alternateName: 'Viva Wellness',
       url: 'https://vivawellnessco.com',
-      logo: 'https://vivawellnessco.com/viva-logo-paper.png',
-      image: 'https://vivawellnessco.com/viva-logo-paper.png',
+      logo: 'https://vivawellnessco.com/viva-logo-ink.png',
+      image: 'https://vivawellnessco.com/viva-logo-ink.png',
       description: 'Concierge telehealth practice delivering peptide therapy, hormone optimization, GLP-1 weight loss protocols, and recovery medicine. Austin, Texas.',
       founder: {
         '@type': 'Person',
@@ -118,8 +121,9 @@ const orgSchema = {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#fbfaf7" />
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta name="theme-color" content="#174b33" />
+  <link rel="icon" type="image/svg+xml" href="/favicon-viva-garden-v1.svg" />
+  <link rel="apple-touch-icon" href="/viva-icon-garden-v1.png" />
 
   <title>{title}</title>
   <meta name="description" content={description} />
@@ -158,8 +162,7 @@ const orgSchema = {
 
   {isHome && (
     <>
-      <link rel="preload" as="image" href="/viva-runner-hero-v2-mobile.webp" media="(max-width: 700px)" fetchpriority="high" />
-      <link rel="preload" as="image" href="/viva-runner-hero-v2.webp" imagesrcset="/viva-runner-hero-v2-sm.webp 1920w, /viva-runner-hero-v2.webp 3840w" imagesizes="100vw" media="(min-width: 701px)" fetchpriority="high" />
+      <link rel="preload" as="image" href="/liliana-founder-original-v1.jpg" fetchpriority="high" />
     </>
   )}
 
