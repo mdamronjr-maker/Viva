@@ -223,19 +223,11 @@ const partnersSchema = {
 <style>
   /* HERO */
   .partners-hero {
-    background: var(--sky);
-    border-bottom: 1px solid var(--rule);
-    padding: clamp(4.5rem, 14vw, 10rem) 0 clamp(2.5rem, 6vw, 5rem);
+    background: var(--surface-subtle);
+    border-bottom: 1px solid var(--border-subtle);
+    padding: var(--section-pad) 0 3rem;
     position: relative;
     overflow: hidden;
-  }
-  .partners-hero::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    background: none; /* bronze glow removed in p2 */
-    pointer-events: none;
   }
   .partners-hero__inner {
     position: relative;
@@ -246,17 +238,17 @@ const partnersSchema = {
     max-width: 1100px;
   }
   .partners-hero__title {
-    font-size: clamp(2.7rem, 9.5vw, 4.8rem);
-    line-height: 1.02;
+    font-size: var(--text-h1);
+    line-height: 1.1;
     letter-spacing: -0.028em;
   }
   .partners-hero__meta { margin-top: 0.4rem; }
 
   /* HOW STRIP */
   .how-strip {
-    border-top: 1px solid var(--rule);
-    border-bottom: 1px solid var(--rule);
-    background: var(--ink-2);
+    border-top: 1px solid var(--border-subtle);
+    border-bottom: 1px solid var(--border-subtle);
+    background: var(--surface-card);
     padding: clamp(2rem, 4vw, 3rem) 0;
   }
   .how-strip__inner {
@@ -275,25 +267,25 @@ const partnersSchema = {
   @media (max-width: 800px) {
     .how-strip__col {
       padding: 1.4rem 0;
-      border-bottom: 1px solid var(--rule);
+      border-bottom: 1px solid var(--border-subtle);
     }
     .how-strip__col:first-child { padding-top: 0.2rem; }
     .how-strip__col:last-child { padding-bottom: 0.2rem; border-bottom: 0; }
   }
   .how-strip__num {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    letter-spacing: 0.15em;
-    color: var(--bronze);
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    letter-spacing: 0;
+    color: var(--text-primary);
   }
   .how-strip__title {
     font-size: 1.05rem;
     line-height: 1.25;
-    color: var(--paper);
+    color: var(--text-primary);
     letter-spacing: -0.01em;
   }
   .how-strip__body {
-    color: rgba(28, 35, 27, 0.75);
+    color: var(--text-secondary);
     font-size: 0.9rem;
     line-height: 1.55;
     max-width: 38ch;
@@ -302,7 +294,7 @@ const partnersSchema = {
   /* PARTNER SECTION */
   .part-section {
     padding: clamp(3rem, 7vw, 5rem) 0;
-    border-bottom: 1px solid var(--rule);
+    border-bottom: 1px solid var(--border-subtle);
   }
   .part-section:last-of-type { border-bottom: 0; }
   .part-section__head {
@@ -310,8 +302,8 @@ const partnersSchema = {
     max-width: 800px;
   }
   .part-section__title {
-    font-size: clamp(1.8rem, 4vw, 2.8rem);
-    line-height: 1.05;
+    font-size: var(--text-h2);
+    line-height: 1.15;
     letter-spacing: -0.02em;
     margin: 0.7rem 0 0;
   }
@@ -319,19 +311,19 @@ const partnersSchema = {
   /* PARTNER GRID · 2-up, expanded cards with description visible */
   .part-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.9rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem;
   }
   @media (max-width: 760px) { .part-grid { grid-template-columns: 1fr; } }
 
   .part-card {
-    background: var(--ink);
-    border: 1px solid var(--rule-strong);
+    background: var(--surface-card);
+    border: 1px solid var(--border-subtle);
     border-radius: var(--radius);
     overflow: hidden;
     transition: background 240ms var(--ease), border-color 240ms var(--ease);
   }
-  .part-card:hover { background: var(--ink-2); border-color: var(--butter-deep); }
+  .part-card:hover { background: var(--surface-card); border-color: var(--border-control); }
 
   .part-card__link {
     display: flex;
@@ -363,32 +355,32 @@ const partnersSchema = {
     min-width: 0;
   }
   .part-card__cat {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--bronze);
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--text-primary);
   }
   .part-card__name {
-    font-family: var(--font-display-italic);
-    font-style: italic;
-    font-size: 1.32rem;
+    font-family: var(--font-heading);
+    font-style: normal;
+    font-size: 1.375rem;
     line-height: 1.18;
-    color: var(--paper);
+    color: var(--text-primary);
     letter-spacing: -0.01em;
     margin: 0.05rem 0;
   }
   @media (max-width: 540px) {
-    .part-card__name { font-size: 1.18rem; }
+    .part-card__name { font-size: 1.375rem; }
   }
   .part-card__operator {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    letter-spacing: 0.04em;
-    color: var(--mute);
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    letter-spacing: 0;
+    color: var(--text-secondary);
   }
   .part-card__body {
-    color: rgba(28, 35, 27, 0.78);
+    color: var(--text-secondary);
     font-size: 0.95rem;
     line-height: 1.6;
     margin: 0;
@@ -406,18 +398,18 @@ const partnersSchema = {
     list-style: none;
   }
   .part-card__links li {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    letter-spacing: 0.06em;
-    color: rgba(28, 35, 27, 0.7);
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    letter-spacing: 0;
+    color: var(--text-secondary);
     padding-left: 0;
   }
   .part-card__links li::before { content: none; }
 
   .part-card__arrow {
-    font-family: var(--font-display);
+    font-family: var(--font-heading);
     font-size: 1.05rem;
-    color: var(--bronze);
+    color: var(--text-primary);
     opacity: 0.55;
     transition: opacity 220ms var(--ease), transform 220ms var(--ease);
     align-self: start;
@@ -430,7 +422,7 @@ const partnersSchema = {
 
   /* VIVA PERKS */
   .perks-lead {
-    color: rgba(28, 35, 27, 0.75);
+    color: var(--text-secondary);
     font-size: 0.95rem;
     line-height: 1.6;
     max-width: 52ch;
@@ -442,24 +434,24 @@ const partnersSchema = {
   .perk-offer {
     margin: 0;
     padding: 0.8rem 0.9rem;
-    border-left: 3px solid var(--terracotta);
-    background: var(--sky);
-    color: var(--paper);
-    font-size: 0.88rem;
+    border-left: 3px solid var(--action-primary);
+    background: var(--surface-subtle);
+    color: var(--text-primary);
+    font-size: 0.9375rem;
     line-height: 1.5;
   }
   .perk-code {
     align-self: flex-start;
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--bronze-bright, var(--bronze));
-    border: 1px solid var(--butter-deep);
-    border-radius: 2px;
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--text-primary);
+    border: 1px solid var(--border-control);
+    border-radius: var(--radius-sm);
     padding: 0.35rem 0.7rem;
   }
-  .perk-code strong { letter-spacing: 0.16em; }
+  .perk-code strong { font-weight: 600; }
   .perk-card__actions {
     display: flex;
     flex-wrap: wrap;
@@ -473,58 +465,52 @@ const partnersSchema = {
     justify-content: center;
     min-height: 48px;
     padding: 0.7rem 1rem;
-    border: 1px solid var(--paper);
+    border: 1px solid var(--text-primary);
     border-radius: var(--radius-pill);
-    color: var(--paper);
-    font-size: 0.86rem;
-    font-weight: 560;
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-weight: 600;
     line-height: 1.25;
     transition: background 180ms var(--ease), color 180ms var(--ease), border-color 180ms var(--ease);
   }
   .perk-link:hover {
-    background: var(--paper);
-    color: var(--cream-bright);
+    background: var(--text-primary);
+    color: var(--text-inverse);
   }
   .perk-link--primary {
-    background: var(--evergreen);
-    border-color: var(--evergreen);
-    color: var(--cream-bright);
+    background: var(--surface-inverse);
+    border-color: var(--surface-inverse);
+    color: var(--text-inverse);
   }
   .perk-link--primary:hover {
-    background: var(--evergreen-deep);
-    border-color: var(--evergreen-deep);
+    background: var(--surface-inverse-hover);
+    border-color: var(--surface-inverse-hover);
   }
   .perk-disclosure {
     margin: 0;
-    color: var(--mute);
-    font-size: 0.78rem;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
     line-height: 1.45;
     max-width: 62ch;
   }
   .perks-note {
     margin: 1.1rem 0 0;
-    color: var(--mute);
-    font-size: 0.8rem;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
     line-height: 1.5;
     max-width: 72ch;
   }
 
   /* CTA */
   .part-cta {
-    padding: clamp(4rem, 9vw, 8rem) 0;
+    padding: var(--section-pad) 0;
     text-align: center;
-    background: var(--evergreen);
-    color: var(--cream-bright);
+    background: var(--surface-inverse);
+    color: var(--text-inverse);
     position: relative;
     overflow: hidden;
-    border-top: 6px solid var(--terracotta);
-  }
-  .part-cta::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: none; /* bronze glow removed in p2 */
-    pointer-events: none;
+    border-top: 1px solid var(--border-control);
+    --focus-ring: var(--action-primary);
   }
   .part-cta__inner {
     position: relative;
@@ -533,11 +519,11 @@ const partnersSchema = {
     align-items: center;
     gap: 1rem;
   }
-  .part-cta__inner .lead { text-align: center; max-width: 56ch; color: rgba(255, 253, 248, 0.82); }
-  .part-cta .eyebrow { color: var(--ochre); }
+  .part-cta__inner .lead { text-align: center; max-width: 56ch; color: var(--text-inverse); }
+  .part-cta .eyebrow { color: var(--action-primary); }
   .part-cta__title {
-    font-size: clamp(1.9rem, 4.8vw, 3.4rem);
-    line-height: 1.05;
+    font-size: var(--text-h2);
+    line-height: 1.15;
     letter-spacing: -0.02em;
     max-width: 22ch;
     margin: 0.4rem 0 0.4rem;
@@ -550,9 +536,9 @@ const partnersSchema = {
     margin-top: 0.8rem;
   }
   @media (max-width: 720px) {
-    .partners-hero { padding: 3.75rem 0 2.75rem; }
+    .partners-hero { padding: 3rem 0 2.5rem; }
     .partners-hero__inner { gap: 1.25rem; }
-    .partners-hero__title { font-size: clamp(2.25rem, 10.5vw, 2.8rem); }
+    .partners-hero__title { font-size: var(--text-h1); }
     .how-strip { padding: 1.75rem 0; }
     .how-strip__col { padding: 1.1rem 0; }
     .part-section { padding: 2.75rem 0; }
@@ -560,6 +546,6 @@ const partnersSchema = {
     .perk-card__actions { display: grid; grid-template-columns: 1fr; }
     .perk-card__actions li,
     .perk-link { width: 100%; }
-    .part-cta { padding: 4rem 0; }
+    .part-cta { padding: 3rem 0; }
   }
 </style>

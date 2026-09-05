@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { attachScreenshot } from './helpers/visual-evidence.mjs';
 
 const PUBLIC_PAGES = [
   '/', '/about/', '/services/', '/weight-management/', '/testosterone/',
@@ -13,8 +14,69 @@ async function blockExternal(page) {
   await page.route(/^(?!http:\/\/(?:localhost|127\.0\.0\.1):4173)/, (route) => route.abort());
 }
 
+// Choose an actual reading viewport with no usable booking link and no footer.
+// Its position comes from settled content geometry, independent of the sticky
+// controller, so a broken controller cannot make the test choose an easier pass.
+async function scrollToReadingRegion(page, route = '/') {
+  await expect(page.locator('.site-header')).toHaveAttribute('data-menu-ready', 'true');
+  await expect(page.locator('.msc')).toHaveAttribute('data-sticky-ready', 'true');
+  await page.evaluate(async () => {
+    await document.fonts.ready;
+    await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+  });
+  const selectors = {
+    '/': '.care-paths',
+    '/services/': '#plans',
+    '/blog/': '.post-list',
+    '/start/': '.start-steps',
+  };
+  const region = page.locator(selectors[route]).first();
+  const selection = await region.evaluate((element) => {
+    const regionBox = element.getBoundingClientRect();
+    const height = window.visualViewport?.height ?? window.innerHeight;
+    const headerHeight = document.querySelector('.site-header').getBoundingClientRect().height;
+    const footerTop = document.querySelector('.site-footer').getBoundingClientRect().top + window.scrollY;
+    const links = [...document.querySelectorAll('main a[href]')].filter((link) => {
+      const url = new URL(link.href);
+      return (url.origin === location.origin && /^\/start\/?$/.test(url.pathname)) || url.hostname === 'vivawellnessco.glossgenius.com';
+    }).flatMap((link) => {
+      const box = link.getBoundingClientRect();
+      if (!box.width || !box.height || getComputedStyle(link).visibility === 'hidden' || link.closest('[hidden]')) return [];
+      return [{ label: link.textContent.trim(), top: box.top + scrollY, bottom: box.bottom + scrollY }];
+    });
+    const first = Math.max(600, regionBox.top + scrollY - headerHeight - 24);
+    const last = Math.min(regionBox.bottom + scrollY - headerHeight - 80, footerTop - height - 96);
+    let target = null;
+    for (let candidate = first; candidate <= last; candidate += 80) {
+      if (!links.some((link) => link.top >= candidate + headerHeight && link.bottom <= candidate + height)) {
+        target = candidate;
+        break;
+      }
+    }
+    if (target !== null) window.scrollTo({ top: target, behavior: 'instant' });
+    return { target, first, last, footerTop, height, headerHeight, links };
+  });
+  expect(selection.target, `${route}: no uncontested reading viewport: ${JSON.stringify(selection)}`).not.toBeNull();
+  await expect.poll(async () => Math.abs(await page.evaluate(() => window.scrollY) - selection.target), { message: `${route}: selected reading position (≤1 CSS pixel rounding)` }).toBeLessThanOrEqual(1);
+  await expect(region).toBeVisible();
+  return `${route}: ${JSON.stringify(selection)}`;
+}
+
+async function stickyDiagnostics(page) {
+  return page.evaluate(() => ({
+    url: location.pathname,
+    scrollY,
+    viewport: { width: innerWidth, height: innerHeight, visualHeight: visualViewport?.height, offsetTop: visualViewport?.offsetTop },
+    bodyClass: document.body.className,
+    focused: document.activeElement?.tagName,
+    modal: document.querySelector('dialog[open], [aria-modal="true"]:not([hidden]):not([aria-hidden="true"])')?.outerHTML.slice(0, 300),
+    footer: document.querySelector('.site-footer')?.getBoundingClientRect().toJSON(),
+    actions: [...document.querySelectorAll('main a[href]')].filter((link) => link.href.includes('/start/') || link.href.includes('glossgenius.com')).map((link) => ({ text: link.textContent.trim(), rect: link.getBoundingClientRect().toJSON(), visibility: getComputedStyle(link).visibility })),
+  }));
+}
+
 test.describe('mobile experience contracts', () => {
-  test('every public page fits the narrowest supported phone', async ({ page }) => {
+  test('every public page fits the narrowest supported phone', async ({ page }, testInfo) => {
     test.setTimeout(180_000);
     await blockExternal(page);
 
@@ -38,6 +100,13 @@ test.describe('mobile experience contracts', () => {
         }));
         expect(geometry.scrollWidth, `${route} at ${viewport.width}px; ${geometry.overflow.join(', ')}`).toBeLessThanOrEqual(geometry.clientWidth + 1);
         expect(geometry.h1Right, `${route} h1 at ${viewport.width}px`).toBeLessThanOrEqual(geometry.clientWidth + 1);
+        if (['/', '/services/', '/weight-management/', '/start/', '/blog/the-parent-tax/'].includes(route)) {
+          const label = route === '/' ? 'home' : route.replace(/^\/|\/$/g, '').replaceAll('/', '-');
+          await attachScreenshot(page, testInfo, `${label}-${viewport.width}x${viewport.height}-full`, { fullPage: true });
+          await page.locator('.site-footer').evaluate((element) => element.scrollIntoView({ block: 'start', behavior: 'instant' }));
+          if (await page.locator('.msc').count()) await expect(page.locator('.msc')).toHaveAttribute('aria-hidden', 'true');
+          await attachScreenshot(page, testInfo, `${label}-${viewport.width}x${viewport.height}-footer`);
+        }
       }
     }
   });
@@ -52,8 +121,8 @@ test.describe('mobile experience contracts', () => {
       await expect(bar).toHaveAttribute('aria-hidden', 'true');
       await expect(bar).toHaveAttribute('inert', '');
 
-      await page.evaluate(() => window.scrollTo(0, 650));
-      await expect(bar).toHaveClass(/is-visible/);
+      const readingPosition = await scrollToReadingRegion(page, route);
+      await expect(bar, `${readingPosition}; actual=${JSON.stringify(await stickyDiagnostics(page))}`).toHaveClass(/is-visible/);
       await expect(bar).toHaveAttribute('aria-hidden', 'false');
       await expect(bar).not.toHaveAttribute('inert', '');
 
@@ -75,7 +144,7 @@ test.describe('mobile experience contracts', () => {
 
     await page.goto('/');
     const bar = page.locator('.msc');
-    await page.evaluate(() => window.scrollTo(0, 650));
+    await scrollToReadingRegion(page);
     await expect(bar).toHaveClass(/is-visible/);
     await page.locator('.nav-toggle').click();
     await expect(bar).toHaveAttribute('aria-hidden', 'true');
@@ -99,14 +168,14 @@ test.describe('mobile experience contracts', () => {
       await expect(drawer).toHaveAttribute('inert', '');
       await expect(drawer).toHaveCSS('visibility', 'hidden');
 
-      await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+      await page.evaluate(() => window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'instant' }));
       await expect(sticky).toHaveAttribute('aria-hidden', 'true');
 
       // Leave the footer so the legitimate bottom action can return, then
       // continue to the top exactly as reported on iOS Safari.
-      await page.evaluate(() => window.scrollTo(0, 650));
+      await scrollToReadingRegion(page);
       await expect(sticky).toHaveClass(/is-visible/);
-      await page.evaluate(() => window.scrollTo(0, 0));
+      await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
       await expect(sticky).not.toHaveClass(/is-visible/);
       await expect(sticky).toHaveAttribute('aria-hidden', 'true');
 
@@ -127,13 +196,14 @@ test.describe('mobile experience contracts', () => {
     }
   });
 
-  test('homepage hero stays compact and the collapsed header never leaks its desktop CTA', async ({ page }) => {
+  test('homepage hero stays compact and the collapsed header never leaks its desktop CTA', async ({ page }, testInfo) => {
     await blockExternal(page);
 
     for (const viewport of [
       { width: 390, height: 844 },
       { width: 600, height: 900 },
       { width: 900, height: 700 },
+      { width: 844, height: 390 },
       { width: 1120, height: 800 },
     ]) {
       await page.setViewportSize(viewport);
@@ -143,6 +213,11 @@ test.describe('mobile experience contracts', () => {
       const desktopCtaDisplay = await page.locator('.nav__cta').evaluate((el) => getComputedStyle(el).display);
       expect(toggleDisplay, `${viewport.width}px menu toggle`).not.toBe('none');
       expect(desktopCtaDisplay, `${viewport.width}px desktop header CTA`).toBe('none');
+      if (viewport.width === 844 || viewport.width === 1120) {
+        const width = await page.evaluate(() => ({ client: document.documentElement.clientWidth, scroll: document.documentElement.scrollWidth }));
+        expect(width.scroll, `${viewport.width}x${viewport.height} page width`).toBeLessThanOrEqual(width.client + 1);
+        await attachScreenshot(page, testInfo, `home-${viewport.width}x${viewport.height}-header`);
+      }
 
       // The compact hero contract applies to phone layouts. Wider collapsed
       // headers are included above solely to enforce the CTA/hamburger

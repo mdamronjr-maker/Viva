@@ -20,23 +20,9 @@ const FIRST_VISIT_DEPOSIT_USD = 50;
 const FIRST_VISIT_CREDIT_NOTE =
   `One-time fee, separate from any membership. $${FIRST_VISIT_DEPOSIT_USD} deposit due at booking, balance billed at the visit.`;
 
-// Pass any UTM params from the inbound link straight through to the booking
-// destination, so attribution survives the /start intermediate page. Fall
-// back to a start_page default when the page is visited directly.
-const incoming = Astro.url.searchParams;
-// Deliberately exclude search terms: health-related query text can reveal
-// sensitive intent and is not needed to measure a CTA handoff.
-const utmKeys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content'] as const;
-const utmParts = utmKeys
-  .map((k) => {
-    const v = incoming.get(k);
-    return v ? `${k}=${encodeURIComponent(v)}` : null;
-  })
-  .filter(Boolean);
-const utmQuery = utmParts.length
-  ? utmParts.join('&')
-  : 'utm_source=vivawellnessco&utm_medium=cta&utm_content=start_page';
-const bookingHref = `https://vivawellnessco.glossgenius.com/services?${utmQuery}`;
+// Keep the existing fixed handoff identifier. Never forward visitor-supplied
+// query values: campaign names and search text can disclose health interests.
+const bookingHref = 'https://vivawellnessco.glossgenius.com/services?utm_source=vivawellnessco&utm_medium=cta&utm_content=start_page';
 
 const whatToBring = [
   'Any labs from the last twelve months, even the ones that came back out of range',
@@ -108,17 +94,21 @@ const ninetyDays = [
     <div class="container start-hero__inner">
       <span class="eyebrow">Your first visit</span>
       <h1 class="start-hero__title">
-        Forty-five minutes <span class="italic-display">with Liliana.</span>
+        Your first telehealth visit.
       </h1>
       <p class="lead">
-        Before you book, I want you to know exactly what the first visit looks like,
-        what it costs, and what to bring. Concierge should mean you can see everything
-        coming. Nothing hidden, no surprise bill in your inbox later.
+        See the first-visit fee, what to bring, and how the visit works.
+        Your first visit is separate from any ongoing membership you choose.
       </p>
       <div class="start-hero__ctas">
-        <a href={bookingHref} target="_blank" rel="noopener" class="btn btn--bronze">Schedule my first visit</a>
+        <a href={bookingHref} target="_blank" rel="noopener noreferrer" class="btn btn--bronze">Continue to scheduling</a>
         <a href="/services/#plans" class="btn">Compare care &amp; pricing</a>
       </div>
+      <p class="start-cta__fine">
+        You must be physically located in Texas, Colorado, Florida, or Iowa at the
+        time of the visit. Visit fee is paid through GlossGenius.
+      </p>
+      <p class="start-questions">Questions before booking? <a href="/contact/">Contact Viva</a> for non-clinical help.</p>
     </div>
   </section>
 
@@ -141,28 +131,6 @@ const ninetyDays = [
           <span class="start-headline__note">Founder. Your first visit is with me, every time, not someone I handed you off to.</span>
         </li>
       </ul>
-    </div>
-  </section>
-
-  <section class="start-cta">
-    <div class="container start-cta__inner">
-      <h2 class="start-cta__title">
-        Ready when you are.
-      </h2>
-      <p class="lead">
-        Booking takes about a minute. You pick a time, fill out a short intake form,
-        and I'll send your video link the day before we meet.
-      </p>
-      <div class="start-cta__ctas">
-        <a href={bookingHref} target="_blank" rel="noopener" class="btn btn--bronze">
-          Schedule my first visit
-        </a>
-        <a href="/contact/" class="btn">Ask a question first</a>
-      </div>
-      <p class="start-cta__fine">
-        You must be physically located in Texas, Colorado, Florida, or Iowa at the
-        time of the visit. Visit fee is paid through GlossGenius.
-      </p>
     </div>
   </section>
 
@@ -244,10 +212,13 @@ const ninetyDays = [
 
   {/* CLOSING CTA · the page used to end after the ninety-day timeline with
       no action left on screen */}
-  <section class="start-final">
+  <section class="start-final" data-final-cta>
     <div class="container start-final__inner">
-      <p class="start-final__line">That is the whole plan. The only step left is picking a time.</p>
-      <a href={bookingHref} target="_blank" rel="noopener" class="btn btn--bronze">Schedule my first visit</a>
+      <div>
+        <h2 class="start-final__line">Ready to choose a time?</h2>
+        <p class="start-final__note">Continue to Viva's GlossGenius scheduler to review available appointments and booking details.</p>
+      </div>
+      <a href={bookingHref} target="_blank" rel="noopener noreferrer" class="btn btn--bronze">Continue to scheduling</a>
     </div>
   </section>
 
@@ -255,27 +226,11 @@ const ninetyDays = [
 
 </Layout>
 
-<script>
-  // The build-time UTM passthrough is dead in a static build; rewrite the
-  // GlossGenius links with the visitor's live utm_* params at page load.
-  document.addEventListener('astro:page-load', () => {
-    const qs = new URLSearchParams(location.search);
-    const allowed = new Set(['utm_source', 'utm_medium', 'utm_campaign', 'utm_content']);
-    const utm = [...qs].filter(([k, v]) => allowed.has(k) && v.length <= 120);
-    if (!utm.length) return;
-    document.querySelectorAll('a[href*="glossgenius.com"]').forEach((a) => {
-      const u = new URL((a as HTMLAnchorElement).href);
-      utm.forEach(([k, v]) => u.searchParams.set(k, v));
-      (a as HTMLAnchorElement).href = u.toString();
-    });
-  });
-</script>
-
 <style>
   .start-hero {
-    background: var(--sky);
-    border-bottom: 1px solid var(--rule);
-    padding: clamp(5rem, 11vw, 9rem) 0 clamp(2rem, 5vw, 3rem);
+    background: var(--surface-page);
+    border-bottom: 1px solid var(--border-subtle);
+    padding: var(--section-pad) 0 2rem;
     position: relative;
     overflow: hidden;
   }
@@ -288,14 +243,12 @@ const ninetyDays = [
   }
   .start-hero__inner { position: relative; max-width: 60ch; }
   .start-hero__title {
-    font-size: clamp(2.6rem, 6vw, 4.5rem);
-    line-height: 1.0;
+    font-size: var(--text-h1);
+    line-height: 1.1;
     letter-spacing: -0.02em;
     margin: 1rem 0 1.5rem;
   }
   .start-hero__ctas { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 1.7rem; }
-  .start-hero .btn:not(.btn--bronze) { color: var(--cream-bright); border-color: var(--cream-bright); }
-  .start-hero .btn:not(.btn--bronze):hover { background: var(--cream-bright); color: var(--evergreen-deep); }
 
   .start-headline {
     padding: 0 0 clamp(2rem, 5vw, 3.5rem);
@@ -305,29 +258,30 @@ const ninetyDays = [
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 0;
-    border: 1px solid var(--rule-strong);
-    border-radius: 2px;
-    background: var(--rule-strong);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius);
+    background: var(--border-subtle);
+    overflow: hidden;
   }
   @media (max-width: 760px) { .start-headline__grid { grid-template-columns: 1fr; } }
   .start-headline__grid li {
-    background: var(--ink-2);
+    background: var(--surface-card);
     padding: 1.5rem 1.7rem;
     display: flex;
     flex-direction: column;
     gap: 0.4rem;
   }
   .start-headline__grid strong {
-    font-family: var(--font-display);
-    font-size: 2.4rem;
-    font-weight: 460;
+    font-family: var(--font-heading);
+    font-size: clamp(1.5rem, 2.5vw, 2.25rem);
+    font-weight: 600;
     line-height: 1;
-    color: var(--paper);
+    color: var(--text-primary);
     letter-spacing: -0.015em;
   }
   .start-headline__note {
-    color: rgba(28, 35, 27, 0.75);
-    font-size: 0.92rem;
+    color: var(--text-secondary);
+    font-size: 0.9375rem;
     line-height: 1.5;
     max-width: 32ch;
   }
@@ -341,46 +295,47 @@ const ninetyDays = [
   @media (max-width: 900px) { .start-grid { grid-template-columns: 1fr; } }
 
   .start-h2 {
-    font-size: clamp(2rem, 4.5vw, 3rem);
+    font-size: var(--text-h2);
     margin: 0.6rem 0 2rem;
     max-width: 18ch;
-    line-height: 1.05;
+    line-height: 1.1;
   }
 
-  .start-steps { display: flex; flex-direction: column; border-top: 1px solid var(--rule-strong); }
+  .start-steps { display: flex; flex-direction: column; border-top: 1px solid var(--border-subtle); }
   .start-step {
     display: grid;
     grid-template-columns: 60px 1fr;
     gap: 1.2rem;
     padding: 1.6rem 0;
-    border-bottom: 1px solid var(--rule);
+    border-bottom: 1px solid var(--border-subtle);
     align-items: start;
   }
   .start-step__num {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    color: var(--bronze);
-    letter-spacing: 0.12em;
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    color: var(--text-secondary);
+    letter-spacing: 0;
     padding-top: 0.4rem;
   }
   .start-step__title {
     font-size: 1.25rem;
     margin-bottom: 0.4rem;
-    color: var(--paper);
+    color: var(--text-primary);
   }
   .start-step__body {
-    color: rgba(28, 35, 27, 0.78);
+    color: var(--text-secondary);
     font-size: 0.98rem;
     line-height: 1.6;
     max-width: 56ch;
   }
 
   .start-card {
-    background: var(--ink-2);
-    border: 1px solid var(--rule);
-    border-left: 2px solid var(--bronze);
+    background: var(--surface-card);
+    border: 1px solid var(--border-subtle);
+    border-left: 2px solid var(--text-primary);
     padding: 1.6rem 1.7rem;
     margin-bottom: 1.4rem;
+    border-radius: var(--radius);
   }
   .start-card .eyebrow { display: block; margin-bottom: 1rem; }
   .start-bring {
@@ -392,7 +347,7 @@ const ninetyDays = [
   .start-bring li {
     padding-left: 1.2rem;
     position: relative;
-    color: rgba(28, 35, 27, 0.85);
+    color: var(--text-secondary);
     font-size: 0.95rem;
     line-height: 1.55;
   }
@@ -400,57 +355,58 @@ const ninetyDays = [
     content: '·';
     position: absolute;
     left: 0;
-    color: var(--bronze);
-    font-weight: 700;
+    color: var(--text-secondary);
+    font-weight: 600;
   }
   .start-card__note {
-    color: rgba(28, 35, 27, 0.7);
-    font-size: 0.85rem;
+    color: var(--text-secondary);
+    font-size: 0.9375rem;
     line-height: 1.55;
     padding-top: 1rem;
-    border-top: 1px solid var(--rule);
+    border-top: 1px solid var(--border-subtle);
   }
-  .start-card--quiet { border-left-color: var(--rule-strong); }
+  .start-card--quiet { border-left-color: var(--border-subtle); }
   .start-card--quiet p {
-    color: rgba(28, 35, 27, 0.78);
+    color: var(--text-secondary);
     font-size: 0.95rem;
     line-height: 1.55;
     margin-bottom: 0.8rem;
   }
   .start-link {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--bronze);
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--text-secondary);
     transition: color 200ms var(--ease);
   }
-  .start-link:hover { color: var(--bronze-bright); }
+  .start-link:hover { color: var(--text-primary); }
 
   /* ============ FIRST NINETY DAYS ============ */
   .ninety {
     padding: clamp(3rem, 6vw, 5rem) 0;
-    border-top: 1px solid var(--rule);
+    border-top: 1px solid var(--border-subtle);
   }
   .ninety__head { max-width: 800px; margin-bottom: clamp(2rem, 4vw, 3rem); }
   .ninety__title {
-    font-size: clamp(2rem, 4.5vw, 3rem);
+    font-size: var(--text-h2);
     margin: 0.6rem 0 1.2rem;
     max-width: 22ch;
-    line-height: 1.05;
+    line-height: 1.1;
   }
   .ninety__list {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 1px;
-    background: var(--rule-strong);
-    border: 1px solid var(--rule-strong);
-    border-radius: 2px;
+    background: var(--border-subtle);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius);
+    overflow: hidden;
   }
   @media (max-width: 900px) { .ninety__list { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 540px) { .ninety__list { grid-template-columns: 1fr; } }
   .ninety__phase {
-    background: var(--ink);
+    background: var(--surface-page);
     padding: clamp(1.4rem, 3vw, 2rem);
     display: flex;
     flex-direction: column;
@@ -458,38 +414,38 @@ const ninetyDays = [
     position: relative;
     transition: background 240ms var(--ease);
   }
-  .ninety__phase:hover { background: var(--ink-2); }
+  .ninety__phase:hover { background: var(--surface-card); }
   .ninety__phase-head {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
     gap: 0.8rem;
     padding-bottom: 0.8rem;
-    border-bottom: 1px solid var(--rule);
+    border-bottom: 1px solid var(--border-subtle);
     margin-bottom: 0.4rem;
   }
   .ninety__phase-label {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--bronze);
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--text-secondary);
   }
   .ninety__phase-range {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    color: var(--mute);
-    letter-spacing: 0.08em;
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    color: var(--text-secondary);
+    letter-spacing: 0;
   }
   .ninety__phase-title {
     font-size: 1.15rem;
     line-height: 1.2;
-    color: var(--paper);
+    color: var(--text-primary);
     margin: 0;
   }
   .ninety__phase-body {
-    color: rgba(28, 35, 27, 0.78);
-    font-size: 0.92rem;
+    color: var(--text-secondary);
+    font-size: 0.9375rem;
     line-height: 1.55;
     margin: 0;
     max-width: none;
@@ -497,10 +453,10 @@ const ninetyDays = [
 
   .start-final {
     padding: clamp(2.5rem, 5vw, 4rem) 0;
-    border-top: 1px solid var(--rule);
-    background: var(--evergreen);
-    color: var(--cream-bright);
-    border-top: 6px solid var(--terracotta);
+    border-top: 1px solid var(--border-subtle);
+    background: var(--surface-inverse);
+    color: var(--text-inverse);
+    --focus-ring: var(--action-primary);
   }
   .start-final__inner {
     display: flex;
@@ -510,68 +466,33 @@ const ninetyDays = [
     flex-wrap: wrap;
   }
   .start-final__line {
-    font-family: var(--font-display-italic);
-    font-style: italic;
-    font-size: clamp(1.15rem, 2vw, 1.4rem);
+    font-family: var(--font-body);
+    font-size: var(--text-h3);
     margin: 0;
     max-width: 30ch;
   }
-  .start-cta {
-    padding: clamp(4rem, 8vw, 7rem) 0;
-    background: var(--ink);
-    border-top: 1px solid var(--rule);
-    position: relative;
-    overflow: hidden;
-  }
-  .start-cta::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: none; /* bronze glow removed in p2 */
-    pointer-events: none;
-  }
-  .start-cta__inner {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 1rem;
-    max-width: 60ch;
-    margin: 0 auto;
-  }
-  .start-cta__title {
-    font-size: clamp(2rem, 5vw, 3.6rem);
-    margin: 0.4rem 0;
-    line-height: 1.05;
-  }
-  .start-cta__ctas {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-top: 0.8rem;
-  }
+  .start-final__note { margin: 0.75rem 0 0; max-width: 52ch; color: inherit; }
+  .start-questions { margin-top: 0.75rem; font-size: 0.9375rem; color: var(--text-secondary); }
+  .start-questions a { text-decoration: underline; text-underline-offset: 0.2em; }
   .start-cta__fine {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    letter-spacing: 0.08em;
-    color: var(--mute);
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    letter-spacing: 0;
+    color: var(--text-secondary);
     line-height: 1.55;
     margin-top: 1.5rem;
   }
   @media (max-width: 720px) {
-    .start-hero { padding: 3.75rem 0 2.25rem; }
-    .start-hero__title { font-size: clamp(2.25rem, 10.5vw, 2.8rem); margin: 0.75rem 0 1.15rem; }
-    .start-hero__ctas,
-    .start-cta__ctas { display: grid; grid-template-columns: 1fr; width: 100%; }
-    .start-hero__ctas .btn,
-    .start-cta__ctas .btn { width: 100%; justify-content: center; }
+    .start-hero { padding: 2.75rem 0 2rem; }
+    .start-hero__title { margin: 0.75rem 0 1.15rem; }
+    .start-hero__ctas { display: grid; grid-template-columns: 1fr; width: 100%; }
+    .start-hero__ctas .btn { width: 100%; justify-content: center; }
     .start-headline__grid li { padding: 1.25rem; }
     .start-step { grid-template-columns: 44px 1fr; gap: 0.8rem; padding: 1.2rem 0; }
     .start-card { padding: 1.35rem 1.25rem; }
     .ninety { padding: 2.75rem 0; }
     .ninety__phase { padding: 1.25rem; }
-    .start-cta { padding: 3.75rem 0; }
+    .start-final__inner { align-items: flex-start; }
+    .start-final .btn { width: 100%; }
   }
 </style>

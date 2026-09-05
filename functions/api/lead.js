@@ -136,7 +136,6 @@ export async function onRequestPost(context) {
     phone = '',
     message = '',
     company = '',   // honeypot
-    utm = null,
     marketingConsent = false,
   } = payload || {};
 
@@ -236,13 +235,9 @@ export async function onRequestPost(context) {
   const cleanPhone = String(phone || '').trim();
   const cleanMsg = String(message || '').trim();
   const wantsMarketing = marketingConsent === true || marketingConsent === 'yes';
-  const cleanUtm = {};
-  if (utm && typeof utm === 'object') {
-    for (const key of ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content']) {
-      const value = typeof utm[key] === 'string' ? utm[key].trim().slice(0, 120) : '';
-      if (value) cleanUtm[key] = value;
-    }
-  }
+  // Attribution supplied by a visitor is deliberately discarded. An allowlist
+  // of UTM keys or a character limit cannot make health-related values safe.
+  // Only the validated, fixed form source belongs in this non-clinical flow.
 
   // --- Build emails ---
   const leadEmail = wantsMarketing
@@ -254,23 +249,37 @@ export async function onRequestPost(context) {
     email: cleanEmail,
     phone: cleanPhone,
     message: cleanMsg,
-    utm: cleanUtm,
   });
 
-  // Subject suffix from UTM content/source for fast triage in the inbox
-  const utmTag =
-    cleanUtm.utm_content || cleanUtm.utm_source
-      ? ` [${String(cleanUtm.utm_content || cleanUtm.utm_source).replace(/[\r\n\0]/g, '').slice(0, 80)}]`
-      : '';
-
-  const notifySubject = `New contact request: ${cleanName}${utmTag}`;
+  const notifySubject = 'New non-clinical contact request';
 
   const notifyTo = [notifyEmail];
 
-  // --- Send emails in parallel ---
-  // Send a transactional confirmation (or the opted-in email confirmation)
-  // plus the internal non-clinical notification.
-  const results = await Promise.allSettled([
+  // Confirm receipt only after the practice notification is accepted. A
+  // visitor acknowledgment alone must never create a false success state.
+  let notification;
+  try {
+    notification = await sendEmail(apiKey, {
+      from: fromEmail,
+      to: notifyTo,
+      subject: notifySubject,
+      html: notifyEmailBody.html,
+      text: notifyEmailBody.text,
+      reply_to: cleanEmail,
+    });
+  } catch {
+    await logEmailEvent(env, {
+      to: notifyEmail,
+      status: 'send_failed',
+      kind: 'notify',
+    });
+    return json(
+      { ok: false, error: 'Email send failed. Please email info@vivawellnessco.com directly.' },
+      { status: 502 }
+    );
+  }
+
+  const [leadResult] = await Promise.allSettled([
     sendEmail(apiKey, {
       from: fromEmail,
       to: [cleanEmail],
@@ -282,55 +291,42 @@ export async function onRequestPost(context) {
       text: leadEmail.text,
       reply_to: notifyEmail,
     }),
-    sendEmail(apiKey, {
-      from: fromEmail,
-      to: notifyTo,
-      subject: notifySubject,
-      html: notifyEmailBody.html,
-      text: notifyEmailBody.text,
-      reply_to: cleanEmail,
-    }),
   ]);
 
-  // If the lead email failed outright, surface an error. Log the failure first
-  // so it shows up on the delivery dashboard rather than vanishing.
-  const leadResult = results[0];
-  if (leadResult.status === 'rejected') {
-    await logEmailEvent(env, {
-      to: cleanEmail,
-      status: 'send_failed',
-      kind: 'lead',
-    });
-    return json(
-      { ok: false, error: 'Email send failed. Please email info@vivawellnessco.com directly.' },
-      { status: 502 }
-    );
-  }
-
   // --- Audit log: record the Day-0 sends (best-effort) ---
+  // Once the practice has the request, a failed acknowledgment must not ask
+  // the visitor to submit it again and create duplicate practice requests.
   await Promise.allSettled([
     logEmailEvent(env, {
-      id: leadResult.value && leadResult.value.id,
+      id: leadResult.status === 'fulfilled' ? leadResult.value?.id : null,
       to: cleanEmail,
-      status: 'sent',
+      status: leadResult.status === 'fulfilled' ? 'sent' : 'send_failed',
       kind: 'lead',
     }),
     logEmailEvent(env, {
-      id: results[1].status === 'fulfilled' && results[1].value ? results[1].value.id : null,
+      id: notification?.id,
       to: notifyEmail,
-      status: results[1].status === 'fulfilled' ? 'sent' : 'send_failed',
+      status: 'sent',
       kind: 'notify',
     }),
   ]);
 
-  // Has this lead previously unsubscribed / been flagged for spam or bounce?
-  // If so we honor that: no drip, and the Audience add is marked unsubscribed.
-  // (The Day 0 confirmation above still went because it records the request
-  // they just made; no follow-up sequence is sent.)
-  const suppressed = await isSuppressed(env, cleanEmail);
+  // Suppression is relevant only to optional marketing. If its store is
+  // unavailable, skip all marketing work while preserving receipt of the
+  // contact request already accepted above. Unknown does not mean subscribed.
+  let suppressionKnown = false;
+  let suppressed = true;
+  if (wantsMarketing) {
+    try {
+      suppressed = await isSuppressed(env, cleanEmail);
+      suppressionKnown = true;
+    } catch {
+      // Fail closed for marketing; do not turn a received request into a 500.
+    }
+  }
 
   // --- Add to Audience (best-effort, non-blocking failure) ---
-  if (audienceId && wantsMarketing) {
+  if (audienceId && wantsMarketing && suppressionKnown) {
     try {
       const [firstName, ...rest] = cleanName.split(/\s+/);
       const lastName = rest.join(' ');
@@ -358,7 +354,7 @@ export async function onRequestPost(context) {
   // The educational sequence is sent only after explicit opt-in and never
   // incorporates contact-topic or health-intent data. Suppressed contacts
   // are skipped entirely.
-  if (wantsMarketing && !suppressed) {
+  if (wantsMarketing && suppressionKnown && !suppressed) {
     // One-click unsubscribe link (RFC 8058). Null when UNSUB_SECRET is unset,
     // in which case the drip falls back to a mailto/reply-"stop" unsubscribe.
     const unsubscribeUrl = await makeUnsubscribeUrl(origin, env.UNSUB_SECRET, cleanEmail);
@@ -375,7 +371,7 @@ export async function onRequestPost(context) {
   }
 
   if (isNativeForm) {
-    return Response.redirect(new URL('/contact/?sent=1', request.url), 303);
+    return Response.redirect(new URL('/contact/received/', request.url), 303);
   }
   return json({ ok: true });
 }
@@ -906,7 +902,7 @@ function buildNurtureDay14({ name, discoveryUrl, unsubscribeUrl, canSpamAddress 
   return { subject, html, text };
 }
 
-function buildNotifyEmail({ source, name, email, phone, message, utm }) {
+function buildNotifyEmail({ source, name, email, phone, message }) {
   const rows = [
     ['Source', source],
     ['Name', name],
@@ -915,12 +911,6 @@ function buildNotifyEmail({ source, name, email, phone, message, utm }) {
   ];
   if (message) {
     rows.push(['Topic', message]);
-  }
-  if (utm && typeof utm === 'object') {
-    const order = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content'];
-    for (const k of order) {
-      if (utm[k]) rows.push([k, String(utm[k])]);
-    }
   }
   rows.push(['Submitted', new Date().toISOString()]);
 

@@ -50,7 +50,8 @@ const resolvedOgImage = ogImage && ogImage !== '/og-image.jpg' ? ogImage : ogFor
 // v6 = powder-blue Viva wordmark.
 // v7 = audit remediation · forest/coral system and cropped wordmark.
 // v8 = peptide-therapy search destination and updated service positioning.
-const OG_CACHE_VERSION = '8';
+// v9 = Direction B · deep teal, warm white, and Geist.
+const OG_CACHE_VERSION = '9';
 const ogImageURL = new URL(`${resolvedOgImage}?v=${OG_CACHE_VERSION}`, Astro.site).href;
 const siteName = 'Viva Wellness Co.';
 
@@ -65,7 +66,7 @@ const orgSchema = {
       alternateName: 'Viva Wellness',
       url: 'https://vivawellnessco.com/',
       logo: 'https://vivawellnessco.com/viva-logo-ink-cropped.png',
-      image: 'https://vivawellnessco.com/liliana-founder-portrait-v2.webp',
+      image: 'https://vivawellnessco.com/liliana-founder-portrait.webp',
       description: 'Provider-led concierge telehealth for medical weight management, hormone health, menopause care, peptide therapy consultations, and recovery. Based in Austin, Texas.',
       founder: {
         '@type': 'Person',
@@ -88,22 +89,14 @@ const orgSchema = {
         { '@type': 'State', name: 'Florida' },
         { '@type': 'State', name: 'Iowa' },
       ],
-      medicalSpecialty: [
-        'Weight Management',
-        'Hormone Therapy',
-        'Menopause Care',
-        'Telehealth',
-      ],
       priceRange: '$$$',
       telephone: '+1-737-210-7283',
       email: 'info@vivawellnessco.com',
       sameAs: [
         'https://www.instagram.com/vivawellnessatx',
       ],
-      // aggregateRating intentionally omitted. Google requires schema ratings
-      // to be verifiable and current; hardcoded counts drift and can cost the
-      // entire structured-result eligibility. Wire a Worker to Places API on a
-      // schedule if you want this back in.
+      // Self-serving LocalBusiness ratings do not qualify for Google review
+      // snippets. Preserve authentic visible reviews without rating markup.
     },
     {
       '@type': 'WebSite',
@@ -112,6 +105,16 @@ const orgSchema = {
       name: siteName,
       description: 'Provider-led concierge telehealth built around clear costs, ongoing care, and one named clinician.',
       publisher: { '@id': 'https://vivawellnessco.com/#organization' },
+      inLanguage: 'en-US',
+    },
+    {
+      '@type': 'WebPage',
+      '@id': canonicalURL,
+      url: canonicalURL,
+      name: title,
+      description,
+      isPartOf: { '@id': 'https://vivawellnessco.com/#website' },
+      about: { '@id': 'https://vivawellnessco.com/#organization' },
       inLanguage: 'en-US',
     },
   ],
@@ -123,7 +126,7 @@ const orgSchema = {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#174b33" />
+  <meta name="theme-color" content="#123B3A" />
   <link rel="icon" type="image/svg+xml" href="/favicon-viva-garden-v2.svg" />
   <link rel="apple-touch-icon" href="/viva-icon-garden-v2.png" />
 
@@ -167,9 +170,9 @@ const orgSchema = {
       <link
         rel="preload"
         as="image"
-        href="/liliana-founder-portrait-v2.webp"
-        imagesrcset="/liliana-founder-portrait-sm.webp 640w, /liliana-founder-portrait-v2.webp 2048w"
-        imagesizes="(max-width: 800px) 100vw, 46vw"
+        href="/liliana-founder-portrait.webp"
+        imagesrcset="/liliana-founder-portrait-sm.webp 640w, /liliana-founder-portrait.webp 1023w"
+        imagesizes="(max-width: 720px) calc(100vw - 2.5rem), (max-width: 1280px) 40vw, 480px"
         fetchpriority="high"
       />
     </>
@@ -187,8 +190,7 @@ const orgSchema = {
   {/* PWA manifest */}
   <link rel="manifest" href="/site.webmanifest" />
 
-  {/* Fonts · SELF-HOSTED (privacy/compliance + perf, no Google CDN). @font-face is in fonts.css; preload the critical cuts so the Fraunces headline + Geist body paint fast. */}
-  <link rel="preload" href="/fonts/fraunces-normal-latin.woff2" as="font" type="font/woff2" crossorigin />
+  {/* One self-hosted font family for headings, body, and controls. */}
   <link rel="preload" href="/fonts/geist-normal-latin.woff2" as="font" type="font/woff2" crossorigin />
 
   <ClientRouter />
@@ -217,61 +219,5 @@ const orgSchema = {
   <Footer />
   <MobileStickyCta />
 
-  <script>
-    // Scroll-reveal system removed in the Lights On redesign: content
-    // renders immediately. The motion budget goes to one or two deliberate
-    // moments instead of ambient choreography.
-
-    // Booking links (GlossGenius) navigate directly — they carry
-    // target="_blank" rel="noopener", so they open the scheduler in a fresh tab.
-    // No window.open popup: a cramped ~480px popup window read as spammy, got
-    // caught by popup blockers, and felt anything but "direct."
-
-    // Subtle parallax on the Vega backdrop images — adds depth/motion.
-    function initParallax() {
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-      const sel = '.qx__bg, .section__bg, .testimonials__bg, .cta__bg, .services-hero__bg, .partners-hero__bg, .about-hero__bg';
-      const imgs = Array.from(document.querySelectorAll(sel));
-      if (!imgs.length) return;
-      imgs.forEach((img) => { img.style.height = '128%'; img.style.top = '-14%'; img.style.willChange = 'transform'; });
-      function update() {
-        const vh = window.innerHeight;
-        for (const img of imgs) {
-          const host = img.parentElement;
-          if (!host) continue;
-          const r = host.getBoundingClientRect();
-          if (r.bottom < -240 || r.top > vh + 240) continue;
-          const move = Math.max(-70, Math.min(70, (r.top + r.height / 2 - vh / 2) * -0.07));
-          img.style.transform = 'translate3d(0,' + move.toFixed(1) + 'px,0)';
-        }
-      }
-      let ticking = false;
-      function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(() => { update(); ticking = false; }); } }
-      if (window.__pxScroll) { window.removeEventListener('scroll', window.__pxScroll); window.removeEventListener('resize', window.__pxScroll); }
-      window.__pxScroll = onScroll;
-      window.addEventListener('scroll', onScroll, { passive: true });
-      window.addEventListener('resize', onScroll);
-      update();
-    }
-    document.addEventListener('astro:page-load', initParallax);
-
-    // Subtle magnetic pull on buttons (hover-capable, fine-pointer devices only).
-    function initMagnetic() {
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-      if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
-      document.querySelectorAll('.btn').forEach((btn) => {
-        if (btn.dataset.magBound) return;
-        btn.dataset.magBound = '1';
-        btn.addEventListener('pointermove', (e) => {
-          const r = btn.getBoundingClientRect();
-          const x = Math.max(-6, Math.min(6, (e.clientX - (r.left + r.width / 2)) * 0.25));
-          const y = Math.max(-6, Math.min(6, (e.clientY - (r.top + r.height / 2)) * 0.25));
-          btn.style.transform = `translate(${x.toFixed(1)}px, ${(y - 1).toFixed(1)}px)`;
-        });
-        btn.addEventListener('pointerleave', () => { btn.style.transform = ''; });
-      });
-    }
-    document.addEventListener('astro:page-load', initMagnetic);
-  </script>
 </body>
 </html>

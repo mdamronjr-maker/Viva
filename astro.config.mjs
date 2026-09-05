@@ -16,7 +16,7 @@ export default defineConfig({
   integrations: [
     sitemap({
       // Utility and retired routes should not appear in the XML sitemap.
-      filter: (page) => !page.endsWith('/quiz/') && !page.endsWith('/unsubscribe/'),
+      filter: (page) => !page.endsWith('/quiz/') && !page.endsWith('/unsubscribe/') && !page.endsWith('/contact/received/'),
     }),
   ],
 });

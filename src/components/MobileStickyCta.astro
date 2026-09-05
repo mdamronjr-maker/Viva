@@ -1,12 +1,7 @@
 ---
-// Mobile-only sticky bottom CTA. Hides on routes where it would
-// duplicate the page's primary action.
-// Strip trailing slash for matching (Astro emits both /contact and /contact/)
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
-const hideOn = ['/contact', '/privacy', '/terms', '/unsubscribe'];
-const hide = hideOn.includes(path);
-// On /start the bar used to link back to /start (a loop). Send the primary
-// action straight to the scheduler there instead.
+const hideOn = ['/contact', '/privacy', '/terms', '/notice', '/accessibility', '/unsubscribe', '/404'];
+const hide = hideOn.some((route) => path === route || path.startsWith(`${route}/`));
 const onStart = path === '/start';
 const primaryHref = onStart
   ? 'https://vivawellnessco.glossgenius.com/services?utm_source=vivawellnessco&utm_medium=cta&utm_content=mobile_sticky_start'
@@ -14,148 +9,103 @@ const primaryHref = onStart
 ---
 
 {!hide && (
-  <div class="msc" aria-label="Quick actions" aria-hidden="true" inert>
-    <a
-      href={primaryHref}
-      target={onStart ? '_blank' : undefined}
-      rel={onStart ? 'noopener' : undefined}
-      class="msc__btn msc__btn--bronze"
-    >
-      {onStart ? 'Schedule now' : 'Book first visit'}
+  <div class="msc" role="region" aria-label="Book a visit" aria-hidden="true" inert>
+    <a href={primaryHref} target={onStart ? '_blank' : undefined} rel={onStart ? 'noopener' : undefined} class="msc__btn msc__btn--bronze">
+      {onStart ? 'Schedule my visit' : 'Book a visit'}
     </a>
-    <a href="/services/" class="msc__btn msc__btn--ghost">Explore care</a>
   </div>
 )}
 
 <style>
   .msc {
-    display: none;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 80;
-    padding: 0.45rem var(--gutter) calc(0.45rem + env(safe-area-inset-bottom));
-    gap: 0.5rem;
-    background: rgba(248, 246, 240, 0.96);
-    backdrop-filter: blur(14px) saturate(140%);
-    border-top: 1px solid var(--rule-strong);
-    box-shadow: 0 -10px 32px rgba(12, 51, 35, 0.09);
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-    transform: translateY(calc(100% + env(safe-area-inset-bottom)));
-    transition:
-      opacity 220ms var(--ease),
-      transform 280ms var(--ease),
-      visibility 0s linear 280ms;
+    display: none; position: fixed; bottom: 0; left: 0; right: 0; z-index: 80;
+    padding: 0.5rem var(--gutter) calc(0.5rem + env(safe-area-inset-bottom, 0px));
+    background: var(--surface-page); color: var(--text-primary);
+    border-top: 1px solid var(--border-control);
+    visibility: hidden; opacity: 0; pointer-events: none;
+    /* Hidden controls never paint or participate in hit testing. Avoid a
+       translated offscreen panel that can surface beneath Safari chrome. */
   }
   @media (max-width: 720px) {
     .msc { display: flex; }
-    .msc.is-visible {
-      opacity: 1;
-      visibility: visible;
-      pointer-events: auto;
-      transform: translateY(0);
-      transition-delay: 0s;
-    }
+    .msc.is-visible { opacity: 1; visibility: visible; pointer-events: auto; }
   }
   .msc__btn {
-    flex: 1;
-    text-align: center;
-    min-height: 48px;
-    padding: 0.68rem 0.5rem;
-    font-family: var(--font-body);
-    font-size: 0.86rem;
-    letter-spacing: 0.01em;
-    font-weight: 500;
-    border: 1px solid currentColor;
-    transition: background 220ms var(--ease), color 220ms var(--ease);
+    flex: 1; display: flex; align-items: center; justify-content: center;
+    min-height: 48px; padding: 0.75rem 1rem; text-align: center;
+    font-family: var(--font-body); font-size: 1rem; line-height: 1.4;
+    letter-spacing: 0; font-weight: 600; border: 1px solid transparent;
+    border-radius: var(--radius-pill, 999px); background: var(--action-primary); color: var(--text-primary);
   }
-  .msc__btn--bronze {
-    background: var(--ochre);
-    color: var(--evergreen-deep);
-    border-color: transparent;
-  }
-  .msc__btn--ghost {
-    background: transparent;
-    color: var(--paper);
-    border-color: var(--evergreen);
-  }
-  /* Tap states */
-  .msc__btn--bronze:active { background: var(--bronze-deep); border-color: transparent; }
-  .msc__btn--ghost:active { background: rgba(23, 75, 51, 0.08); }
-
-  /* Menu state is also enforced in JS so the hidden links leave the focus
-     order. This selector prevents a one-frame flash during menu animation. */
-  :global(body.menu-open) .msc {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-    transform: translateY(calc(100% + env(safe-area-inset-bottom)));
-  }
+  .msc__btn:hover, .msc__btn:active { background: var(--action-hover); }
+  :global(body.menu-open) .msc, :global(body.quiz-focus) .msc { visibility: hidden; opacity: 0; pointer-events: none; }
+  :global(html) { scroll-padding-bottom: 5rem; }
 </style>
 
 <script>
-  // The mobile bar is a continuation action, not part of the opening hero.
-  // It appears only after meaningful scroll, leaves the focus tree while
-  // hidden, and clears the footer and full-screen navigation.
+  let cleanupSticky: (() => void) | undefined;
+
   function initMobileStickyCta() {
-    const previousCleanup = (window as any).__vivaStickyCtaCleanup;
-    if (typeof previousCleanup === 'function') previousCleanup();
-
-    const bar = document.querySelector('.msc') as HTMLElement | null;
+    cleanupSticky?.();
+    const bar = document.querySelector<HTMLElement>('.msc');
     if (!bar) return;
-
     const media = window.matchMedia('(max-width: 720px)');
-    const footer = document.querySelector('.site-footer');
-    let footerNear = false;
+    const footer = document.querySelector<HTMLElement>('.site-footer');
+    const header = document.querySelector<HTMLElement>('.site-header');
+    const inlineActions = [...document.querySelectorAll<HTMLAnchorElement>('main a[href]')].filter((link) => {
+      const url = new URL(link.href, window.location.href);
+      return (url.origin === window.location.origin && /^\/start\/?$/.test(url.pathname)
+        || url.hostname === 'vivawellnessco.glossgenius.com')
+        && (link.classList.contains('btn') || link.hasAttribute('data-booking-action') || Boolean(link.closest('[data-final-cta]')));
+    });
+    const controller = new AbortController();
+    const { signal } = controller;
     let frame = 0;
-
-    const setVisible = (visible: boolean) => {
-      bar.classList.toggle('is-visible', visible);
-      bar.setAttribute('aria-hidden', visible ? 'false' : 'true');
-      if (visible) bar.removeAttribute('inert');
-      else bar.setAttribute('inert', '');
-    };
 
     const update = () => {
       frame = 0;
-      const threshold = Math.min(540, window.innerHeight * 0.65);
-      const visible = media.matches
-        && window.scrollY >= threshold
-        && !footerNear
-        && !document.body.classList.contains('menu-open');
-      setVisible(visible);
+      const viewport = window.visualViewport;
+      const top = viewport?.offsetTop ?? 0;
+      const height = viewport?.height ?? window.innerHeight;
+      const bottom = top + height;
+      const headerRect = header?.getBoundingClientRect();
+      const contentTop = headerRect && headerRect.bottom > top && headerRect.top <= top
+        ? headerRect.bottom : top;
+      const inlineUsable = inlineActions.find((link) => {
+        const rect = link.getBoundingClientRect();
+        const style = getComputedStyle(link);
+        return style.display !== 'none' && style.visibility !== 'hidden' && !link.closest('[inert], [hidden]')
+          && rect.width > 0 && rect.height >= 40 && rect.top >= contentTop
+          && rect.bottom <= bottom && rect.left >= 0 && rect.right <= window.innerWidth;
+      });
+      const footerRect = footer?.getBoundingClientRect();
+      const footerNear = Boolean(footerRect && footerRect.top <= bottom + 72 && footerRect.bottom > top);
+      const activeElement = document.activeElement;
+      const inputFocused = activeElement instanceof HTMLElement && activeElement.matches('input, textarea, select, [contenteditable="true"]');
+      const interacting = document.body.classList.contains('menu-open') || document.body.classList.contains('quiz-focus')
+        || Boolean(document.querySelector('dialog[open], [aria-modal="true"]:not([hidden]):not([aria-hidden="true"])'));
+      const threshold = Math.min(540, height * 0.65);
+      const visible = media.matches && window.scrollY >= threshold && !footerNear && !inlineUsable && !interacting && !inputFocused;
+      if (!visible && bar.contains(activeElement) && inlineUsable) inlineUsable.focus({ preventScroll: true });
+      bar.classList.toggle('is-visible', visible);
+      bar.setAttribute('aria-hidden', String(!visible));
+      bar.inert = !visible;
     };
-
-    const scheduleUpdate = () => {
-      if (!frame) frame = window.requestAnimationFrame(update);
-    };
-
-    const footerObserver = footer
-      ? new IntersectionObserver(([entry]) => {
-          footerNear = entry.isIntersecting;
-          scheduleUpdate();
-        }, { rootMargin: '0px 0px 72px 0px' })
-      : null;
-    if (footer && footerObserver) footerObserver.observe(footer);
-
+    const scheduleUpdate = () => { if (!frame) frame = window.requestAnimationFrame(update); };
     const bodyObserver = new MutationObserver(scheduleUpdate);
     bodyObserver.observe(document.body, { attributes: true, attributeFilter: ['class'] });
-    window.addEventListener('scroll', scheduleUpdate, { passive: true });
-    window.addEventListener('resize', scheduleUpdate, { passive: true });
-    media.addEventListener('change', scheduleUpdate);
+    window.addEventListener('scroll', scheduleUpdate, { passive: true, signal });
+    window.addEventListener('resize', scheduleUpdate, { passive: true, signal });
+    window.addEventListener('pageshow', scheduleUpdate, { signal });
+    document.addEventListener('focusin', scheduleUpdate, { signal });
+    document.addEventListener('focusout', scheduleUpdate, { signal });
+    media.addEventListener('change', scheduleUpdate, { signal });
+    window.visualViewport?.addEventListener('resize', scheduleUpdate, { passive: true, signal });
+    window.visualViewport?.addEventListener('scroll', scheduleUpdate, { passive: true, signal });
+    document.addEventListener('astro:before-swap', () => { bar.inert = true; bar.setAttribute('aria-hidden', 'true'); bar.classList.remove('is-visible'); }, { signal });
     update();
-
-    (window as any).__vivaStickyCtaCleanup = () => {
-      if (frame) window.cancelAnimationFrame(frame);
-      footerObserver?.disconnect();
-      bodyObserver.disconnect();
-      window.removeEventListener('scroll', scheduleUpdate);
-      window.removeEventListener('resize', scheduleUpdate);
-      media.removeEventListener('change', scheduleUpdate);
-    };
+    bar.dataset.stickyReady = 'true';
+    cleanupSticky = () => { if (frame) window.cancelAnimationFrame(frame); bodyObserver.disconnect(); controller.abort(); delete bar.dataset.stickyReady; };
   }
 
   document.addEventListener('astro:page-load', initMobileStickyCta);

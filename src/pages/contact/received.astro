@@ -1,0 +1,26 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import NoPhiNotice from '../../components/NoPhiNotice.astro';
+---
+
+<Layout
+  title="Contact Request Received | Viva Wellness Co."
+  description="Your non-clinical contact request has been sent to Viva Wellness Co."
+  noindex={true}
+>
+  <section class="section">
+    <div class="container received">
+      <span class="eyebrow">Contact request</span>
+      <h1>Your request has been sent.</h1>
+      <p class="lead">Viva received your contact details and selected non-clinical topic.</p>
+      <NoPhiNotice />
+      <a href="/" class="btn btn--bronze">Return to Viva</a>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .received { max-width: 44rem; }
+  .received h1 { font-size: var(--text-h1); line-height: 1.1; margin: 1rem 0 1.25rem; }
+  .received .btn { margin-top: 1.5rem; }
+</style>

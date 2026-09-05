@@ -31,44 +31,45 @@
 
 <style>
   .phi-notice {
-    background: var(--ink-2);
-    border: 1px solid var(--rule);
-    border-left: 2px solid var(--bronze);
+    background: var(--surface-subtle);
+    border: 1px solid var(--border-subtle);
+    border-left: 2px solid var(--text-primary);
     padding: 0.9rem 1.1rem;
     margin-bottom: 1.6rem;
-    border-radius: 2px;
+    border-radius: var(--radius-sm);
     display: grid;
-    grid-template-columns: auto 1fr;
+    grid-template-columns: 1fr;
     gap: 0.9rem;
     align-items: start;
-    max-width: 560px;
+    width: 100%;
   }
   .phi-notice__label {
-    font-family: var(--font-mono);
-    font-size: 0.78rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--bronze);
-    padding: 0.25rem 0.5rem;
-    border: 1px solid var(--bronze);
-    border-radius: 2px;
-    line-height: 1;
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--text-primary);
+    padding: 0;
+    border: 0;
+    border-radius: var(--radius-sm);
+    line-height: 1.4;
+    font-weight: 600;
     align-self: center;
   }
   .phi-notice__body p {
-    color: rgba(28, 35, 27, 0.85);
+    color: var(--text-secondary);
     font-size: 0.95rem;
     line-height: 1.55;
     margin: 0 0 0.5rem;
     max-width: none;
   }
   .phi-notice__body p:last-child { margin-bottom: 0; }
-  .phi-notice strong { color: var(--paper); }
-  .phi-notice__er strong { color: #8b2f2f; }
+  .phi-notice strong { color: var(--text-primary); }
+  .phi-notice__er strong { color: var(--text-error); }
   .phi-notice a {
-    color: var(--bronze);
-    border-bottom: 1px solid var(--butter-deep);
+    color: var(--text-primary);
+    border-bottom: 1px solid var(--border-control);
     transition: color 200ms var(--ease);
   }
-  .phi-notice a:hover { color: var(--bronze-bright); }
+  .phi-notice a:hover { color: var(--surface-inverse-hover); }
 </style>

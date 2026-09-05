@@ -4,13 +4,14 @@ import CareDetail from '../components/CareDetail.astro';
 
 <CareDetail
   path="/testosterone"
+  serviceName="Testosterone evaluation and ongoing care"
   title="Testosterone Telehealth in Austin | Viva Wellness Co."
   description="Provider-led testosterone evaluation and ongoing telehealth care with published membership pricing in Texas, Colorado, Florida, and Iowa."
   eyebrow="Testosterone care"
-  headline="Evaluation first."
-  accent="Treatment only when it fits."
+  headline="Testosterone evaluation and ongoing care"
+  accent="Start with the full picture."
   intro="Fatigue, libido changes, strength changes, and poor recovery can have more than one explanation. Viva does not treat a symptom checklist as a diagnosis. Liliana reviews the broader picture before discussing treatment."
-  decisionTitle="A credible TRT decision needs more than a sales pitch."
+  decisionTitle="Understand the evaluation, follow-up, and cost."
   decisions={[
     { title: 'Confirm the concern', body: 'Symptoms are context, not proof. Liliana reviews history and the information needed to decide whether testosterone care should be considered.' },
     { title: 'Understand monitoring', body: 'Before enrolling, you should know what the membership includes, when labs are performed, how follow-up works, and how concerns are handled.' },
@@ -35,5 +36,9 @@ import CareDetail from '../components/CareDetail.astro';
   ]}
   sources={[
     { label: 'FDA: compounding questions and answers', href: 'https://www.fda.gov/drugs/human-drug-compounding/compounding-and-fda-questions-and-answers' },
+  ]}
+  relatedResources={[
+    { title: 'How concierge telehealth works', href: '/blog/concierge-telehealth-explained/', description: 'Understand the first visit and how ongoing care works at Viva.' },
+    { title: 'Care for an active life', href: '/recovery/', description: 'Explore the recovery care path and its telehealth limits.' },
   ]}
 />
