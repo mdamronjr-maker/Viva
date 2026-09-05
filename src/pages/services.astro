@@ -305,7 +305,7 @@ const servicesSchema = {
   <section class="section--paper provider-strip">
     <div class="container provider-strip__inner">
       <a href="/about" class="provider-strip__media" transition:name="provider-photo" aria-label="About Liliana Damron">
-        <img src="/liliana-founder-portrait-sm.webp" alt="Liliana Damron, APRN, FNP-BC" loading="lazy" />
+        <img src="/liliana-founder-original-v1.jpg" alt="Liliana Damron, APRN, FNP-BC" width="1024" height="1536" loading="lazy" decoding="async" />
       </a>
       <div class="provider-strip__copy">
         <span class="eyebrow">Your provider for every protocol</span>
@@ -832,10 +832,11 @@ const servicesSchema = {
   .services-cta {
     padding: clamp(5rem, 10vw, 9rem) 0;
     text-align: center;
-    background: var(--ink);
+    background: var(--evergreen);
+    color: var(--cream-bright);
     position: relative;
     overflow: hidden;
-    border-top: 1px solid var(--rule);
+    border-top: 6px solid var(--terracotta);
   }
   .services-cta::before {
     content: '';
@@ -851,10 +852,12 @@ const servicesSchema = {
     align-items: center;
     gap: 1.2rem;
   }
-  .services-cta__inner .lead { text-align: center; }
+  .services-cta__inner .lead { text-align: center; color: rgba(255, 253, 248, 0.82); }
   .services-cta__title {
     font-size: clamp(2rem, 5vw, 3.6rem);
     max-width: 22ch;
   }
   .services-cta__ctas { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; margin-top: 0.8rem; }
+  .services-cta .btn:not(.btn--bronze) { color: var(--cream-bright); border-color: var(--cream-bright); }
+  .services-cta .btn:not(.btn--bronze):hover { color: var(--evergreen-deep); background: var(--cream-bright); }
 </style>

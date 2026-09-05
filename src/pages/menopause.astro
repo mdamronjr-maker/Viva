@@ -487,12 +487,13 @@ const faqSchema = {
 
   /* CTA */
   .meno-cta {
-    background: var(--sky);
+    background: var(--evergreen);
+    color: var(--cream-bright);
     padding: clamp(4rem, 9vw, 8rem) 0;
     text-align: center;
     position: relative;
     overflow: hidden;
-    border-top: 1px solid var(--rule);
+    border-top: 6px solid var(--terracotta);
   }
   .meno-cta::before {
     content: '';
@@ -508,7 +509,8 @@ const faqSchema = {
     align-items: center;
     gap: 1rem;
   }
-  .meno-cta__inner .lead { text-align: center; max-width: 56ch; }
+  .meno-cta__inner .lead { text-align: center; max-width: 56ch; color: rgba(255, 253, 248, 0.82); }
+  .meno-cta .eyebrow { color: var(--ochre); }
   .meno-cta__title {
     font-size: clamp(1.9rem, 4.8vw, 3.4rem);
     line-height: 1.05;

@@ -203,7 +203,7 @@ p { max-width: 62ch; }
   color: var(--bronze);
 }
 
-/* Buttons · warm yellow is the primary conversion signal; quiet actions
+/* Buttons · warm coral is the primary conversion signal; quiet actions
    use a simple keyline instead of a competing fill. */
 .btn {
   display: inline-flex;
@@ -274,7 +274,7 @@ p { max-width: 62ch; }
 .rule { height: 1px; background: var(--rule-strong); border: 0; }
 
 /* Page-load reveal system and the marquee were REMOVED in the Lights On
-   redesign: content simply appears, and the butter feature band replaced
+   redesign: content simply appears, and the feature band replaced
    the marquee slot on the home page. */
 
 /* Accessibility */

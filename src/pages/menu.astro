@@ -243,10 +243,13 @@ const menuSchema = {
   .menu-note-section { padding: clamp(2.5rem, 6vw, 4rem) 0; }
   .menu-note { max-width: 76ch; color: var(--mute); font-size: 0.82rem; line-height: 1.6; }
 
-  .menu-cta { padding: clamp(3rem, 8vw, 6rem) 0; text-align: center; }
+  .menu-cta { padding: clamp(3rem, 8vw, 6rem) 0; text-align: center; background: var(--evergreen); color: var(--cream-bright); border-top: 6px solid var(--terracotta); }
   .menu-cta__inner { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; gap: 1.2rem; align-items: center; }
   .menu-cta__title { font-size: clamp(2rem, 5vw, 3.4rem); letter-spacing: -0.02em; }
   .menu-cta__ctas { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; margin-top: 0.4rem; }
+  .menu-cta .lead { color: rgba(255, 253, 248, 0.82); }
+  .menu-cta .btn:not(.btn--bronze) { color: var(--cream-bright); border-color: var(--cream-bright); }
+  .menu-cta .btn:not(.btn--bronze):hover { color: var(--evergreen-deep); background: var(--cream-bright); }
 
   @media (max-width: 800px) {
     .menu-cat__inner { grid-template-columns: 1fr; }
