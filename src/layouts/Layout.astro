@@ -34,7 +34,7 @@ const isFeedbackBuild = import.meta.env.PUBLIC_DEPLOY_TARGET === 'feedback';
 // has its own PNG generated at build time by src/pages/og/[...route].png.ts.
 function ogForPath(p: string): string {
   if (p === '/') return '/og/home.png';
-  if (['/about', '/services', '/weight-management', '/testosterone', '/recovery', '/partners', '/contact', '/privacy', '/terms', '/blog', '/menopause', '/start'].includes(p)) {
+  if (['/about', '/services', '/weight-management', '/testosterone', '/peptide-therapy', '/recovery', '/partners', '/contact', '/privacy', '/terms', '/blog', '/menopause', '/start'].includes(p)) {
     return `/og${p}.png`;
   }
   if (p.startsWith('/blog/')) return `/og${p}.png`;
@@ -49,7 +49,8 @@ const resolvedOgImage = ogImage && ogImage !== '/og-image.jpg' ? ogImage : ogFor
 // v5 = OG copy refresh to earlier service positioning.
 // v6 = powder-blue Viva wordmark.
 // v7 = audit remediation · forest/coral system and cropped wordmark.
-const OG_CACHE_VERSION = '7';
+// v8 = peptide-therapy search destination and updated service positioning.
+const OG_CACHE_VERSION = '8';
 const ogImageURL = new URL(`${resolvedOgImage}?v=${OG_CACHE_VERSION}`, Astro.site).href;
 const siteName = 'Viva Wellness Co.';
 
@@ -65,7 +66,7 @@ const orgSchema = {
       url: 'https://vivawellnessco.com/',
       logo: 'https://vivawellnessco.com/viva-logo-ink-cropped.png',
       image: 'https://vivawellnessco.com/liliana-founder-portrait-v2.webp',
-      description: 'Provider-led concierge telehealth for medical weight management, hormone health, menopause care, and recovery. Based in Austin, Texas.',
+      description: 'Provider-led concierge telehealth for medical weight management, hormone health, menopause care, peptide therapy consultations, and recovery. Based in Austin, Texas.',
       founder: {
         '@type': 'Person',
         '@id': 'https://vivawellnessco.com/about/#liliana',

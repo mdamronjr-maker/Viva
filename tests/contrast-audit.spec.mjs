@@ -5,7 +5,7 @@ test('every public page meets WCAG AA rendered text contrast', async ({ page }) 
   const failures = [];
   const routes = [
     '/', '/about/', '/services/', '/weight-management/', '/testosterone/',
-    '/menopause/', '/recovery/', '/partners/', '/blog/',
+    '/menopause/', '/peptide-therapy/', '/recovery/', '/partners/', '/blog/',
     '/blog/concierge-telehealth-explained/', '/blog/glp-1-weight-loss-austin/',
     '/blog/perimenopause-starts-earlier/', '/blog/the-parent-tax/',
     '/blog/tirzepatide-vs-semaglutide/', '/contact/', '/start/', '/privacy/',

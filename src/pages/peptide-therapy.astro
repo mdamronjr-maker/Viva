@@ -1,0 +1,72 @@
+---
+import CareDetail from '../components/CareDetail.astro';
+
+const faqs = [
+  {
+    q: 'What does “peptide therapy” mean?',
+    a: 'It is a broad phrase used for many different products, not one treatment. The exact product, intended use, route, evidence, regulatory status, and alternatives all matter. Viva reviews those details instead of treating the category name as a diagnosis or a promise.',
+  },
+  {
+    q: 'Are compounded peptides FDA-approved?',
+    a: 'No. Compounded drugs are not FDA-approved finished products, and FDA does not review their safety, effectiveness, or quality before they are dispensed. A compounded preparation and an FDA-approved drug are not interchangeable terms.',
+  },
+  {
+    q: 'Can I receive peptide therapy through telehealth?',
+    a: 'A telehealth visit can be used to review your history, goals, available evidence, and whether Viva is an appropriate setting for the question. A prescription is never automatic. Labs, an in-person examination, another clinician, or a different treatment may be the appropriate next step.',
+  },
+  {
+    q: 'Which peptides does Viva prescribe?',
+    a: 'Viva does not publish a guaranteed product menu. Product status and lawful availability can change, and a website cannot determine what is appropriate for an individual patient. Liliana discusses the exact option, evidence, alternatives, and current availability during a clinical evaluation.',
+  },
+  {
+    q: 'Where is Viva peptide therapy available?',
+    a: 'Viva is an Austin-based telehealth practice serving adults who are physically located in Texas, Colorado, Florida, or Iowa at the time of the visit. Viva does not provide walk-in or in-person clinic visits.',
+  },
+  {
+    q: 'What does a peptide therapy consultation cost?',
+    a: 'The first visit is $199, with a $50 deposit due at booking. Viva Concierge Access is $99 per month if ongoing care is appropriate; medication and other costs are separate unless a published plan specifically says they are included.',
+  },
+];
+---
+
+<CareDetail
+  path="/peptide-therapy"
+  serviceName="Peptide therapy consultation"
+  title="Peptide Therapy in Austin, TX | Viva Wellness Co."
+  description="Provider-led peptide therapy consultations by telehealth, with clear evidence and medication-status context for adults in Austin and across TX, CO, FL, and IA."
+  eyebrow="Peptide therapy · Austin-based telehealth"
+  headline="Peptide therapy,"
+  accent="with the hard questions first."
+  intro="Searching for peptide therapy in Austin should lead to more than a list of product names. Liliana starts with what you want to change, your history, the evidence for the exact option, and whether telehealth is an appropriate next step. Visits are available to adults physically located in Texas, Colorado, Florida, or Iowa."
+  decisionTitle="Before considering a peptide, know exactly what is being discussed."
+  decisions={[
+    { title: 'The exact product and status', body: 'Peptide therapy is a broad category. Ask whether the option is an FDA-approved drug or a patient-specific compounded preparation, what its current regulatory status is, and why it is being considered.' },
+    { title: 'The evidence for your goal', body: 'Evidence differs by the specific product, route, dose, and intended use. Marketing language about recovery, body composition, performance, or longevity is not proof that an option will help you.' },
+    { title: 'What happens when it does not fit', body: 'A credible consultation includes alternatives, reasons not to prescribe, and when an in-person examination or another clinician is the safer next step.' },
+  ]}
+  visitItems={[
+    { title: 'Clarify the goal and history', body: 'Liliana reviews what changed, what you have already tried, relevant health history and current care, and what you need your health to support.' },
+    { title: 'Name the exact option', body: 'If a medication is discussed, the visit should identify the product, intended use, FDA or compounded status, current availability, and why it is being considered for you.' },
+    { title: 'Review evidence and uncertainty', body: 'Ask about the quality of evidence, known risks, important unknowns, alternatives, and circumstances in which the option should not be used.' },
+    { title: 'Define cost and follow-up', body: 'Before deciding, understand what is included, what is billed separately, what monitoring may be needed, and how Liliana will reassess whether the plan still makes sense.' },
+  ]}
+  safetyTitle="Compounded is not the same as FDA-approved."
+  safetyItems={[
+    'Compounded drugs are not FDA-approved finished products. FDA does not verify their safety, effectiveness, or quality before they are dispensed.',
+    'A 503A compounded prescription is prepared for an individually identified patient after clinical evaluation; choosing a page or membership does not guarantee one.',
+    'Regulatory status and lawful availability can change. Viva does not assume that a substance promoted online is currently appropriate or available for prescribing.',
+    'No peptide or medication is guaranteed to improve healing, performance, body composition, recovery, or longevity.',
+  ]}
+  plans={[
+    { name: 'Viva Concierge Access', price: '$99', href: '/services/#viva-concierge-access', note: 'Provider access and discussion of eligible care options. Medication and other costs remain separate unless a published plan specifically includes them.' },
+  ]}
+  sources={[
+    { label: 'FDA: compounding questions and answers', href: 'https://www.fda.gov/drugs/human-drug-compounding/compounding-and-fda-questions-and-answers' },
+    { label: 'FDA: bulk drug substances under section 503A', href: 'https://www.fda.gov/drugs/human-drug-compounding/bulk-drug-substances-used-compounding-under-section-503a-fdc-act' },
+    { label: 'FDA: substances that may present significant safety risks', href: 'https://www.fda.gov/drugs/human-drug-compounding/certain-bulk-drug-substances-use-compounding-may-present-significant-safety-risks' },
+    { label: 'FTC: health products compliance guidance', href: 'https://www.ftc.gov/business-guidance/resources/health-products-compliance-guidance' },
+  ]}
+  faqEyebrow="Peptide therapy FAQ"
+  faqTitle="What patients ask before booking."
+  faqs={faqs}
+/>
